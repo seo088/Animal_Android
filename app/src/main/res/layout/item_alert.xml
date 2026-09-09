@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/spacing_sm"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:rippleColor="@color/color_primary_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
             android:id="@+id/iv_alert_image"
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
+            android:background="@drawable/bg_image_rounded"
             android:contentDescription="@string/cd_animal_photo"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +43,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_sm"
-            android:layout_marginTop="@dimen/spacing_xs"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_alert_type"
@@ -64,6 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginTop="@dimen/spacing_xs"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             app:layout_constraintEnd_toStartOf="@id/tv_status"
             app:layout_constraintStart_toEndOf="@id/iv_alert_image"
@@ -75,13 +77,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             android:textColor="@color/color_primary"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/tv_occurred_at"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_occurred_at" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_detail"
-            style="@style/Widget.AnimalLoo.Button.Outlined"
+            style="@style/Widget.AnimalLoo.Button.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"

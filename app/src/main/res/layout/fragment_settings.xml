@@ -57,24 +57,30 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switch_rescue_alert"
+                    style="@style/Widget.AnimalLoo.Switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
                     android:minHeight="@dimen/min_touch_target"
+                    android:showText="false"
                     android:text="@string/settings_rescue_alert" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switch_lost_alert"
+                    style="@style/Widget.AnimalLoo.Switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/min_touch_target"
+                    android:showText="false"
                     android:text="@string/settings_lost_alert" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switch_location_alert"
+                    style="@style/Widget.AnimalLoo.Switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/min_touch_target"
+                    android:showText="false"
                     android:text="@string/settings_location_alert" />
 
             </LinearLayout>
@@ -110,7 +116,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_test_rescue_notification"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.AnimalLoo.Button.Outlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
@@ -118,7 +124,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_test_lost_notification"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.AnimalLoo.Button.Outlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
@@ -157,7 +163,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_clear_photo_cache"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.AnimalLoo.Button.Outlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"

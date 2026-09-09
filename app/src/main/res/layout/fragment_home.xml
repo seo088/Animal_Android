@@ -10,49 +10,82 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_md">
+            android:paddingBottom="@dimen/spacing_lg">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hero_height"
+                android:layout_marginHorizontal="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:background="@drawable/bg_hero_home">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/spacing_lg"
+                    android:paddingVertical="@dimen/spacing_md">
+
+                    <TextView
+                        android:id="@+id/tv_home_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/cd_app_logo"
+                        android:text="@string/home_title"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Display"
+                        android:textColor="@color/color_on_primary" />
+
+                    <TextView
+                        android:id="@+id/tv_home_tagline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:text="@string/app_tagline"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                        android:textColor="#E8F6EF" />
+
+                </LinearLayout>
+
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/tv_home_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_app_logo"
-                android:text="@string/home_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                android:textColor="@color/color_primary" />
-
-            <TextView
-                android:id="@+id/tv_home_tagline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xs"
-                android:text="@string/app_tagline"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/home_stats_title"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
 
             <GridLayout
                 android:id="@+id/grid_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginHorizontal="@dimen/spacing_sm"
+                android:layout_marginTop="@dimen/spacing_sm"
                 android:columnCount="2">
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card"
+                    style="@style/Widget.AnimalLoo.Card.Flat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@color/color_primary_light">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_protected"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_md">
 
@@ -74,16 +107,18 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card"
+                    style="@style/Widget.AnimalLoo.Card.Flat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@color/color_primary_light">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_rescued"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_md">
 
@@ -93,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_primary" />
+                            android:textColor="@color/color_badge_info" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -105,16 +140,18 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card"
+                    style="@style/Widget.AnimalLoo.Card.Flat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@color/color_primary_light">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_lost"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_md">
 
@@ -124,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_primary" />
+                            android:textColor="@color/color_secondary" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -136,16 +173,18 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card"
+                    style="@style/Widget.AnimalLoo.Card.Flat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@color/color_primary_light">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_facility"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_md">
 
@@ -155,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_primary" />
+                            android:textColor="#7C5CC4" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -172,19 +211,22 @@
                 android:id="@+id/stats_state_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_md"
                 android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:text="@string/home_shortcuts_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
 
             <GridLayout
                 android:id="@+id/grid_shortcuts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_sm"
                 android:layout_marginTop="@dimen/spacing_sm"
                 android:columnCount="3">
 
@@ -228,20 +270,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:text="@string/home_alerts_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
 
             <FrameLayout
                 android:id="@+id/alerts_state_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_sm" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_alerts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_xs"
                 android:nestedScrollingEnabled="false"
                 android:visibility="gone"
                 tools:listitem="@layout/item_alert" />

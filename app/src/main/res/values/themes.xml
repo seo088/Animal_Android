@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme -->
-    <style name="Theme.AnimalLoo" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.AnimalLoo" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
-        <item name="colorSecondary">@color/color_primary</item>
-        <item name="colorOnSecondary">@color/color_on_primary</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/color_on_primary_container</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/color_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/color_on_secondary_container</item>
         <item name="android:colorBackground">@color/color_background</item>
         <item name="colorSurface">@color/color_surface</item>
         <item name="colorOnSurface">@color/color_on_surface</item>
-        <item name="android:statusBarColor">@color/color_primary</item>
-        <item name="android:navigationBarColor">@color/color_background</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorSurfaceVariant">@color/color_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/color_on_surface_variant</item>
+        <item name="colorOutline">@color/color_outline</item>
+        <item name="android:statusBarColor">@color/color_background</item>
+        <item name="android:navigationBarColor">@color/color_surface</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="materialCardViewStyle">@style/Widget.AnimalLoo.Card</item>
+        <item name="materialButtonStyle">@style/Widget.AnimalLoo.Button</item>
+        <item name="switchStyle">@style/Widget.AnimalLoo.Switch</item>
     </style>
 
-    <!-- Splash screen theme (no action bar, full screen green) -->
     <style name="Theme.AnimalLoo.Splash" parent="Theme.AnimalLoo">
-        <item name="android:windowBackground">@color/color_splash_background</item>
+        <item name="android:windowBackground">@drawable/bg_splash_gradient</item>
         <item name="android:statusBarColor">@color/color_splash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>

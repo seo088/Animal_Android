@@ -94,11 +94,11 @@ public class MoreFragment extends BaseFragment implements MoreHost {
     }
 
     private void setupMenuItems() {
-        setupMenuItem(binding.menuPetFriendly, R.drawable.ic_more, R.string.more_pet_friendly,
+        setupMenuItem(binding.menuPetFriendly, R.drawable.ic_pet_friendly, R.string.more_pet_friendly,
                 R.string.more_pet_friendly_desc, () -> openSection(SECTION_PET_FRIENDLY));
-        setupMenuItem(binding.menuSettings, R.drawable.ic_more, R.string.more_settings,
+        setupMenuItem(binding.menuSettings, R.drawable.ic_settings, R.string.more_settings,
                 R.string.more_settings_desc, () -> openSection(SECTION_SETTINGS));
-        setupMenuItem(binding.menuDataSource, R.drawable.ic_more, R.string.more_data_source,
+        setupMenuItem(binding.menuDataSource, R.drawable.ic_data_source, R.string.more_data_source,
                 R.string.more_data_source_desc, () -> openSection(SECTION_DATA_SOURCE));
     }
 

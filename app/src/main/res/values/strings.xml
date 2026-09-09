@@ -12,6 +12,7 @@
 
     <!-- Home -->
     <string name="home_title">AnimalLoo</string>
+    <string name="home_stats_title">오늘의 현황</string>
     <string name="home_stats_protected">보호 중 동물</string>
     <string name="home_stats_rescued_today">오늘 구조</string>
     <string name="home_stats_lost_report">실종 신고</string>
@@ -130,6 +131,8 @@
     <string name="filter_no">아니오</string>
 
     <!-- Settings -->
+    <string name="settings_switch_on">켜짐</string>
+    <string name="settings_switch_off">꺼짐</string>
     <string name="settings_rescue_alert">구조동물 알림</string>
     <string name="settings_lost_alert">분실동물 알림</string>
     <string name="settings_location_alert">위치 기반 알림</string>

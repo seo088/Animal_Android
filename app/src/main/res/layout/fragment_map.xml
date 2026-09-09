@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
+    android:paddingBottom="@dimen/spacing_sm"
     tools:context=".ui.map.MapFragment">
 
     <HorizontalScrollView
@@ -113,7 +114,7 @@
             android:id="@+id/tv_map_fallback_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_primary_light"
+            android:background="@drawable/bg_stat_rescued"
             android:padding="@dimen/spacing_md"
             android:text="@string/map_no_api_key"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Body"

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.AnimalLoo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorOnPrimary">@color/color_on_primary</item>
-        <item name="android:colorBackground">@color/color_background</item>
-        <item name="colorSurface">@color/color_surface</item>
-        <item name="android:statusBarColor">@color/color_primary</item>
+    <style name="Theme.AnimalLoo" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#4CC38A</item>
+        <item name="colorOnPrimary">#0A2E1C</item>
+        <item name="colorPrimaryContainer">#1A4D35</item>
+        <item name="colorOnPrimaryContainer">#D4EDE2</item>
+        <item name="android:colorBackground">#121820</item>
+        <item name="colorSurface">#1B2430</item>
+        <item name="colorOnSurface">#E8EDF3</item>
+        <item name="colorSurfaceVariant">#2A3442</item>
+        <item name="colorOnSurfaceVariant">#A8B4C4</item>
+        <item name="android:statusBarColor">#121820</item>
+        <item name="android:navigationBarColor">#1B2430</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
 </resources>

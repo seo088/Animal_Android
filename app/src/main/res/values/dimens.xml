@@ -13,6 +13,7 @@
     <dimen name="corner_radius_md">12dp</dimen>
     <dimen name="corner_radius_lg">16dp</dimen>
     <dimen name="corner_radius_xl">24dp</dimen>
+    <dimen name="corner_radius_full">999dp</dimen>
 
     <!-- Card -->
     <dimen name="card_elevation">2dp</dimen>
@@ -27,14 +28,17 @@
     <dimen name="text_size_display">32sp</dimen>
 
     <!-- Component Sizes -->
-    <dimen name="bottom_nav_height">56dp</dimen>
-    <dimen name="toolbar_height">56dp</dimen>
-    <dimen name="icon_size_sm">24dp</dimen>
-    <dimen name="icon_size_md">32dp</dimen>
-    <dimen name="icon_size_lg">48dp</dimen>
-    <dimen name="thumbnail_size">72dp</dimen>
-    <dimen name="splash_logo_size">160dp</dimen>
+    <dimen name="bottom_nav_height">72dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="icon_size_sm">20dp</dimen>
+    <dimen name="icon_size_md">28dp</dimen>
+    <dimen name="icon_size_lg">40dp</dimen>
+    <dimen name="shortcut_icon_container">52dp</dimen>
+    <dimen name="thumbnail_size">80dp</dimen>
+    <dimen name="splash_logo_size">180dp</dimen>
     <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="hero_height">148dp</dimen>
 
     <!-- Chip -->
     <dimen name="chip_height">36dp</dimen>

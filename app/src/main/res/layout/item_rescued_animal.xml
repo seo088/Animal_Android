@@ -17,6 +17,7 @@
             android:id="@+id/iv_animal_image"
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
+            android:background="@drawable/bg_image_rounded"
             android:contentDescription="@string/cd_animal_photo"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +79,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_detail"
-            style="@style/Widget.AnimalLoo.Button.Outlined"
+            style="@style/Widget.AnimalLoo.Button.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
