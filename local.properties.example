@@ -1,0 +1,6 @@
+## SDK Path
+# Copy this file to local.properties and set your Android SDK path.
+# sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
+
+## Google Maps API Key (optional for Phase 2)
+# MAPS_API_KEY=YOUR_MAPS_API_KEY_HERE

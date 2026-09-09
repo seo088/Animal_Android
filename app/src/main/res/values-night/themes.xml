@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AnimalLoo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="android:statusBarColor">@color/color_primary</item>
+    </style>
+
+</resources>

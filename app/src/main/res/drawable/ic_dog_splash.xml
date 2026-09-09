@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Simple dog silhouette placeholder for splash -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,20 C45,20 35,30 35,42 C35,48 38,52 40,55 L35,70 L45,65 L50,80 C52,85 55,88 60,88 C65,88 68,85 70,80 L75,65 L85,70 L80,55 C82,52 85,48 85,42 C85,30 75,20 60,20 Z" />
+
+    <!-- Ear left -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,35 C32,28 28,32 30,42 C32,48 36,46 38,42 Z" />
+
+    <!-- Ear right -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M82,35 C88,28 92,32 90,42 C88,48 84,46 82,42 Z" />
+
+    <!-- Eye left -->
+    <path
+        android:fillColor="#05AA64"
+        android:pathData="M50,48 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+
+    <!-- Eye right -->
+    <path
+        android:fillColor="#05AA64"
+        android:pathData="M70,48 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+
+    <!-- Nose -->
+    <path
+        android:fillColor="#048A52"
+        android:pathData="M60,58 m-5,0 a5,4 0 1,0 10,0 a5,4 0 1,0 -10,0" />
+
+</vector>

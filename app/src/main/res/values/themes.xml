@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme -->
+    <style name="Theme.AnimalLoo" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorSecondary">@color/color_primary</item>
+        <item name="colorOnSecondary">@color/color_on_primary</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="android:statusBarColor">@color/color_primary</item>
+        <item name="android:navigationBarColor">@color/color_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <!-- Splash screen theme (no action bar, full screen green) -->
+    <style name="Theme.AnimalLoo.Splash" parent="Theme.AnimalLoo">
+        <item name="android:windowBackground">@color/color_splash_background</item>
+        <item name="android:statusBarColor">@color/color_splash_background</item>
+    </style>
+
+</resources>
