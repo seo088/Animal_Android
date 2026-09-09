@@ -136,6 +136,37 @@
     <string name="settings_notification_section">알림 설정</string>
     <string name="settings_saved">설정이 저장되었습니다.</string>
     <string name="settings_app_version_format">버전 %1$s</string>
+    <string name="settings_fcm_section">FCM / 알림 테스트</string>
+    <string name="settings_fcm_configured">Firebase가 설정되어 FCM 토큰을 사용할 수 있습니다.</string>
+    <string name="settings_fcm_not_configured">Firebase 미설정: app/google-services.json 파일을 로컬에 추가하세요.</string>
+    <string name="settings_test_rescue_notification">구조 알림 테스트</string>
+    <string name="settings_test_lost_notification">분실 알림 테스트</string>
+    <string name="settings_test_rescue_title">[테스트] 구조동물 알림</string>
+    <string name="settings_test_rescue_body">서울 송파구에서 말티즈 구조 알림이 도착했습니다. (Mock)</string>
+    <string name="settings_test_lost_title">[테스트] 분실동물 알림</string>
+    <string name="settings_test_lost_body">서울 강남구에서 푸들 분실 신고 알림이 도착했습니다. (Mock)</string>
+    <string name="settings_test_notification_sent">테스트 알림을 표시했습니다.</string>
+    <string name="settings_cache_section">분실 신고 사진 캐시</string>
+    <string name="settings_cache_size_format">분실 신고 사진 캐시: %1$s</string>
+    <string name="settings_clear_photo_cache">사진 캐시 삭제</string>
+    <string name="settings_cache_cleared_format">%1$d개의 캐시 파일을 삭제했습니다.</string>
+
+    <!-- FCM -->
+    <string name="fcm_token_updated">FCM 토큰이 갱신되었습니다.</string>
+    <string name="fcm_default_body">AnimalLoo 알림이 도착했습니다.</string>
+    <string name="notification_channel_rescue">구조동물 알림</string>
+    <string name="notification_channel_rescue_desc">구조동물 관련 실시간 알림</string>
+    <string name="notification_channel_lost">분실동물 알림</string>
+    <string name="notification_channel_lost_desc">분실동물 관련 실시간 알림</string>
+    <string name="notification_channel_general">일반 알림</string>
+    <string name="notification_channel_general_desc">위치 기반 및 기타 AnimalLoo 알림</string>
+
+    <!-- Network Demo -->
+    <string name="network_demo_section">공공데이터 네트워크 데모</string>
+    <string name="network_demo_description">Retrofit enqueue로 데모 API를 호출합니다. 실제 AnimalLoo 백엔드 연동 전 네트워크 구조 시연용입니다.</string>
+    <string name="network_demo_fetch">데모 API 호출</string>
+    <string name="network_demo_source_format">출처: %1$s</string>
+    <string name="network_demo_fetched_at_format">조회 시각: %1$s</string>
 
     <!-- Data Source -->
     <string name="data_source_title">데이터 출처 안내</string>
@@ -152,6 +183,27 @@
     <string name="detail_hours">운영시간</string>
     <string name="detail_distance">거리</string>
     <string name="detail_category">카테고리</string>
+    <string name="detail_description">설명</string>
+    <string name="detail_species">동물 종류</string>
+    <string name="detail_breed">품종</string>
+    <string name="detail_gender">성별</string>
+    <string name="detail_region">지역</string>
+    <string name="detail_rescued_date">구조일</string>
+    <string name="detail_protection_status">보호 상태</string>
+    <string name="detail_lost_region">실종 지역</string>
+    <string name="detail_lost_date">실종 날짜</string>
+    <string name="detail_contact">연락 정보</string>
+    <string name="detail_alert_type">알림 유형</string>
+    <string name="detail_occurred_at">발생 시각</string>
+    <string name="detail_status">상태</string>
+    <string name="detail_open_status">운영 상태</string>
+    <string name="detail_pet_type">동반 가능</string>
+    <string name="detail_size_limit">크기 제한</string>
+    <string name="detail_indoor_allowed">실내 가능</string>
+    <string name="detail_carrier_required">이동장 필요</string>
+    <string name="detail_leash_required">목줄 필요</string>
+    <string name="detail_related_item">관련 상세보기</string>
+    <string name="detail_alert_title_format">%1$s %2$s 알림</string>
 
     <!-- Common UI States -->
     <string name="loading">불러오는 중…</string>
@@ -171,6 +223,8 @@
     <string name="permission_notification_rationale">구조/분실 알림을 받으려면 알림 권한이 필요합니다.</string>
     <string name="permission_location_rationale">인근 시설을 찾으려면 위치 권한이 필요합니다.</string>
     <string name="permission_denied">권한이 거부되었습니다. 설정에서 권한을 허용해 주세요.</string>
+    <string name="map_location_enabled">현재 위치가 지도에 표시됩니다.</string>
+    <string name="map_location_denied">위치 권한 없이 기본 지도를 표시합니다.</string>
 
     <!-- Validation -->
     <string name="validation_required">필수 항목을 입력해 주세요.</string>

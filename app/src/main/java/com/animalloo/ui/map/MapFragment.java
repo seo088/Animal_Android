@@ -1,11 +1,14 @@
 package com.animalloo.ui.map;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +22,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMapBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.util.MapsAvailabilityChecker;
+import com.animalloo.util.PermissionHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,8 +35,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Map;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
@@ -45,8 +51,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
     private boolean mapFragmentAdded;
+    private ActivityResultLauncher<String[]> locationPermissionLauncher;
+    private boolean locationPromptShown;
 
-    @Nullable
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        locationPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                this::handleLocationPermissionResult);
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -240,6 +254,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             return false;
         });
 
+        enableMyLocationIfPossible();
+
         UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();
         if (currentState != null && currentState.isSuccess() && currentState.getData() != null) {
             updateMapMarkers(currentState.getData());
@@ -300,6 +316,54 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private void showFacilityBottomSheet(String facilityId) {
         FacilityBottomSheetFragment bottomSheet = FacilityBottomSheetFragment.newInstance(facilityId);
         bottomSheet.show(getChildFragmentManager(), "facility_bottom_sheet");
+    }
+
+    private void handleLocationPermissionResult(Map<String, Boolean> result) {
+        Boolean fineGranted = result.get(Manifest.permission.ACCESS_FINE_LOCATION);
+        Boolean coarseGranted = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (Boolean.TRUE.equals(fineGranted) || Boolean.TRUE.equals(coarseGranted)
+                || PermissionHelper.hasLocationPermission(requireContext())) {
+            enableMyLocationLayer();
+        } else if (binding != null) {
+            Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void enableMyLocationIfPossible() {
+        if (googleMap == null || !mapsAvailable || binding == null) {
+            return;
+        }
+
+        if (PermissionHelper.hasLocationPermission(requireContext())) {
+            enableMyLocationLayer();
+            return;
+        }
+
+        if (!locationPromptShown) {
+            locationPromptShown = true;
+            Snackbar.make(binding.getRoot(), R.string.permission_location_rationale, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, v -> requestLocationPermission())
+                    .show();
+        }
+    }
+
+    private void requestLocationPermission() {
+        locationPermissionLauncher.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+    }
+
+    private void enableMyLocationLayer() {
+        if (googleMap == null || binding == null) {
+            return;
+        }
+        try {
+            googleMap.setMyLocationEnabled(true);
+            Snackbar.make(binding.getRoot(), R.string.map_location_enabled, Snackbar.LENGTH_SHORT).show();
+        } catch (SecurityException exception) {
+            Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private void showOverlayState(ViewGroup container, int layoutRes, StateViewSetup setup) {

@@ -96,6 +96,92 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/settings_fcm_section"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
+
+                <TextView
+                    android:id="@+id/tv_fcm_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary"
+                    tools:text="Firebase 미설정" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_test_rescue_notification"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/settings_test_rescue_notification" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_test_lost_notification"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:text="@string/settings_test_lost_notification" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.AnimalLoo.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_md">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_cache_section"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
+
+                <TextView
+                    android:id="@+id/tv_cache_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary"
+                    tools:text="분실 신고 사진 캐시: 0 B" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_photo_cache"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/settings_clear_photo_cache" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.AnimalLoo.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_md">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/more_app_info"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
 

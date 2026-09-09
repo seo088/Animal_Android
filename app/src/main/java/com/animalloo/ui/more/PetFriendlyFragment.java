@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.animalloo.R;
 import com.animalloo.adapter.PetFriendlyFacilityAdapter;
 import com.animalloo.data.model.Facility;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.FacilityCategory;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentPetFriendlyBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.map.FacilityBottomSheetFragment;
 import com.animalloo.util.MapsAvailabilityChecker;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -131,7 +133,12 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         facilityAdapter = new PetFriendlyFacilityAdapter();
         binding.rvPetFriendlyList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvPetFriendlyList.setAdapter(facilityAdapter);
-        facilityAdapter.setOnFacilityClickListener(this::showFacilityBottomSheet);
+        facilityAdapter.setOnFacilityClickListener(facility -> {
+            if (requireActivity() instanceof DetailNavigator) {
+                ((DetailNavigator) requireActivity()).navigateToDetail(
+                        DetailType.FACILITY, facility.getId());
+            }
+        });
     }
 
     private void setupMapContainer() {

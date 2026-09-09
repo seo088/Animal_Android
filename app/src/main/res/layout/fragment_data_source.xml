@@ -82,6 +82,94 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.AnimalLoo.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_md">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/network_demo_section"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:text="@string/network_demo_description"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_fetch_public_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/network_demo_fetch" />
+
+                <FrameLayout
+                    android:id="@+id/network_state_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layout_network_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tv_network_source"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                        android:textColor="@color/color_primary"
+                        tools:text="출처: JSONPlaceholder" />
+
+                    <TextView
+                        android:id="@+id/tv_network_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
+                        tools:text="데모 응답 제목" />
+
+                    <TextView
+                        android:id="@+id/tv_network_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                        android:textColor="@color/color_text_secondary"
+                        tools:text="데모 응답 본문" />
+
+                    <TextView
+                        android:id="@+id/tv_network_fetched_at"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                        tools:text="조회 시각" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

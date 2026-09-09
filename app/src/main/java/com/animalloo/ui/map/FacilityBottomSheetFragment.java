@@ -10,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.animalloo.R;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.Facility;
 import com.animalloo.data.repository.FacilityRepository;
 import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.databinding.BottomSheetFacilityBinding;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.util.RepositoryProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.snackbar.Snackbar;
 
 public class FacilityBottomSheetFragment extends BottomSheetDialogFragment {
 
@@ -24,6 +25,7 @@ public class FacilityBottomSheetFragment extends BottomSheetDialogFragment {
 
     private BottomSheetFacilityBinding binding;
     private FacilityRepository facilityRepository;
+    private String facilityId;
 
     public static FacilityBottomSheetFragment newInstance(String facilityId) {
         FacilityBottomSheetFragment fragment = new FacilityBottomSheetFragment();
@@ -57,20 +59,24 @@ public class FacilityBottomSheetFragment extends BottomSheetDialogFragment {
             return;
         }
 
-        String facilityId = arguments.getString(ARG_FACILITY_ID);
+        facilityId = arguments.getString(ARG_FACILITY_ID);
         if (facilityId == null) {
             dismiss();
             return;
         }
 
-        binding.btnSheetDetail.setOnClickListener(v ->
-                Snackbar.make(binding.getRoot(), R.string.map_detail_prepare, Snackbar.LENGTH_SHORT).show());
+        binding.btnSheetDetail.setOnClickListener(v -> {
+            if (getActivity() instanceof DetailNavigator) {
+                ((DetailNavigator) getActivity()).navigateToDetail(DetailType.FACILITY, facilityId);
+            }
+            dismiss();
+        });
 
         loadFacility(facilityId);
     }
 
-    private void loadFacility(String facilityId) {
-        facilityRepository.getFacilityById(facilityId, new RepositoryCallback<Facility>() {
+    private void loadFacility(String id) {
+        facilityRepository.getFacilityById(id, new RepositoryCallback<Facility>() {
             @Override
             public void onSuccess(Facility facility) {
                 if (binding == null || facility == null) {

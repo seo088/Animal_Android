@@ -17,11 +17,13 @@ import com.animalloo.R;
 import com.animalloo.adapter.DiagnosisResultAdapter;
 import com.animalloo.adapter.HospitalAdapter;
 import com.animalloo.data.model.DiagnosisResult;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.Hospital;
 import com.animalloo.data.model.Symptom;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentDiagnosisBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,6 +37,17 @@ public class DiagnosisFragment extends BaseFragment {
     private DiagnosisViewModel viewModel;
     private DiagnosisResultAdapter diagnosisResultAdapter;
     private HospitalAdapter hospitalAdapter;
+    private DetailNavigator detailNavigator;
+
+    @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        if (context instanceof DetailNavigator) {
+            detailNavigator = (DetailNavigator) context;
+        } else {
+            throw new IllegalStateException("Host Activity must implement DetailNavigator");
+        }
+    }
 
     @Nullable
     @Override
@@ -67,7 +80,7 @@ public class DiagnosisFragment extends BaseFragment {
         binding.rvHospitals.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvHospitals.setAdapter(hospitalAdapter);
         hospitalAdapter.setOnHospitalClickListener(hospital ->
-                Snackbar.make(binding.getRoot(), R.string.diagnosis_hospital_detail_prepare, Snackbar.LENGTH_SHORT).show());
+                detailNavigator.navigateToDetail(DetailType.HOSPITAL, hospital.getId()));
     }
 
     private void setupButtons() {

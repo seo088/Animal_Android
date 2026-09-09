@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
 import com.animalloo.adapter.MatchResultAdapter;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.MatchResult;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMatchingResultBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -27,6 +28,17 @@ public class MatchingResultFragment extends BaseFragment {
     private FragmentMatchingResultBinding binding;
     private LostReportViewModel viewModel;
     private MatchResultAdapter matchResultAdapter;
+    private DetailNavigator detailNavigator;
+
+    @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        if (context instanceof DetailNavigator) {
+            detailNavigator = (DetailNavigator) context;
+        } else {
+            throw new IllegalStateException("Host Activity must implement DetailNavigator");
+        }
+    }
 
     @Nullable
     @Override
@@ -56,7 +68,7 @@ public class MatchingResultFragment extends BaseFragment {
         matchResultAdapter.setOnMatchClickListener(new MatchResultAdapter.OnMatchClickListener() {
             @Override
             public void onMatchClick(MatchResult result) {
-                Snackbar.make(binding.getRoot(), R.string.rescued_detail_prepare, Snackbar.LENGTH_SHORT).show();
+                detailNavigator.navigateToDetail(DetailType.RESCUED_ANIMAL, result.getRescuedAnimalId());
             }
 
             @Override

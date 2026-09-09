@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
 import com.animalloo.adapter.RescuedAnimalAdapter;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.RescuedAnimal;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentRescuedAnimalBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,6 +33,17 @@ public class RescuedAnimalFragment extends BaseFragment {
     private RescuedAnimalViewModel viewModel;
     private RescuedAnimalAdapter rescuedAnimalAdapter;
     private RescuedAnimal contextMenuAnimal;
+    private DetailNavigator detailNavigator;
+
+    @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        if (context instanceof DetailNavigator) {
+            detailNavigator = (DetailNavigator) context;
+        } else {
+            throw new IllegalStateException("Host Activity must implement DetailNavigator");
+        }
+    }
 
     @Nullable
     @Override
@@ -87,7 +100,7 @@ public class RescuedAnimalFragment extends BaseFragment {
         rescuedAnimalAdapter.setOnAnimalClickListener(new RescuedAnimalAdapter.OnAnimalClickListener() {
             @Override
             public void onAnimalClick(RescuedAnimal animal) {
-                Snackbar.make(binding.getRoot(), R.string.rescued_detail_prepare, Snackbar.LENGTH_SHORT).show();
+                detailNavigator.navigateToDetail(DetailType.RESCUED_ANIMAL, animal.getId());
             }
 
             @Override
@@ -99,6 +112,7 @@ public class RescuedAnimalFragment extends BaseFragment {
 
     private void showAnimalContextMenu(RescuedAnimal animal, View anchorView) {
         contextMenuAnimal = animal;
+        registerForContextMenu(anchorView);
         anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) ->
                 requireActivity().getMenuInflater().inflate(R.menu.context_menu_rescued_animal, menu));
         anchorView.showContextMenu();

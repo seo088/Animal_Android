@@ -10,6 +10,8 @@ import com.animalloo.data.mock.MockFacilityRepository;
 import com.animalloo.data.mock.MockHomeRepository;
 import com.animalloo.data.mock.MockHospitalRepository;
 import com.animalloo.data.mock.MockLostAnimalRepository;
+import com.animalloo.data.remote.RetrofitPublicDataRepository;
+import com.animalloo.data.repository.PublicDataRepository;
 import com.animalloo.data.repository.AlertRepository;
 import com.animalloo.data.repository.AnimalRepository;
 import com.animalloo.data.repository.DiagnosisRepository;
@@ -33,8 +35,11 @@ public final class RepositoryProvider {
     private final DiagnosisRepository diagnosisRepository;
     private final AlertRepository alertRepository;
     private final HomeRepository homeRepository;
+    private final PublicDataRepository publicDataRepository;
+    private final Application application;
 
     private RepositoryProvider(Application application) {
+        this.application = application;
         facilityRepository = new MockFacilityRepository();
         hospitalRepository = new MockHospitalRepository();
         animalRepository = new MockAnimalRepository();
@@ -42,6 +47,7 @@ public final class RepositoryProvider {
         diagnosisRepository = new MockDiagnosisRepository();
         alertRepository = new MockAlertRepository();
         homeRepository = new MockHomeRepository();
+        publicDataRepository = new RetrofitPublicDataRepository();
     }
 
     public static void init(Application application) {
@@ -83,6 +89,14 @@ public final class RepositoryProvider {
 
     public HomeRepository getHomeRepository() {
         return homeRepository;
+    }
+
+    public PublicDataRepository getPublicDataRepository() {
+        return publicDataRepository;
+    }
+
+    public android.content.Context getApplicationContext() {
+        return application.getApplicationContext();
     }
 
     public static void shutdownIfInitialized() {

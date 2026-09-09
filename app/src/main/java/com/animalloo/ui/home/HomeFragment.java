@@ -1,7 +1,6 @@
 package com.animalloo.ui.home;
 
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.animalloo.R;
 import com.animalloo.adapter.AlertAdapter;
 import com.animalloo.data.model.AlertNotification;
+import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentHomeBinding;
 import com.animalloo.databinding.ItemHomeShortcutBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.main.MainNavigator;
 import com.animalloo.ui.more.MoreFragment;
 import com.google.android.material.button.MaterialButton;
@@ -37,6 +38,7 @@ public class HomeFragment extends BaseFragment {
     private HomeViewModel viewModel;
     private AlertAdapter alertAdapter;
     private MainNavigator mainNavigator;
+    private DetailNavigator detailNavigator;
     private AlertNotification contextMenuAlert;
 
     @Override
@@ -46,6 +48,11 @@ public class HomeFragment extends BaseFragment {
             mainNavigator = (MainNavigator) context;
         } else {
             throw new IllegalStateException("Host Activity must implement MainNavigator");
+        }
+        if (context instanceof DetailNavigator) {
+            detailNavigator = (DetailNavigator) context;
+        } else {
+            throw new IllegalStateException("Host Activity must implement DetailNavigator");
         }
     }
 
@@ -103,7 +110,7 @@ public class HomeFragment extends BaseFragment {
         alertAdapter.setOnAlertClickListener(new AlertAdapter.OnAlertClickListener() {
             @Override
             public void onAlertClick(AlertNotification alert) {
-                Snackbar.make(binding.getRoot(), R.string.home_alert_detail_prepare, Snackbar.LENGTH_SHORT).show();
+                detailNavigator.navigateToDetail(DetailType.ALERT, alert.getId());
             }
 
             @Override
@@ -115,6 +122,7 @@ public class HomeFragment extends BaseFragment {
 
     private void showAlertContextMenu(AlertNotification alert, View anchorView) {
         contextMenuAlert = alert;
+        registerForContextMenu(anchorView);
         anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) -> {
             requireActivity().getMenuInflater().inflate(R.menu.context_menu_alert, menu);
         });

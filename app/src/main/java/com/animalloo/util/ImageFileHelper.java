@@ -53,4 +53,44 @@ public final class ImageFileHelper {
             file.delete();
         }
     }
+
+    public static int clearLostReportCache(Context context) {
+        File cacheDir = new File(context.getCacheDir(), LOST_REPORT_DIR);
+        if (!cacheDir.exists()) {
+            return 0;
+        }
+
+        File[] files = cacheDir.listFiles();
+        if (files == null) {
+            return 0;
+        }
+
+        int deletedCount = 0;
+        for (File file : files) {
+            if (file.isFile() && file.delete()) {
+                deletedCount++;
+            }
+        }
+        return deletedCount;
+    }
+
+    public static long getLostReportCacheSize(Context context) {
+        File cacheDir = new File(context.getCacheDir(), LOST_REPORT_DIR);
+        if (!cacheDir.exists()) {
+            return 0L;
+        }
+
+        File[] files = cacheDir.listFiles();
+        if (files == null) {
+            return 0L;
+        }
+
+        long total = 0L;
+        for (File file : files) {
+            if (file.isFile()) {
+                total += file.length();
+            }
+        }
+        return total;
+    }
 }
