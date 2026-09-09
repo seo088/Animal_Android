@@ -1,6 +1,8 @@
 package com.animalloo.ui.main;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +19,7 @@ import com.animalloo.ui.more.MoreFragment;
 import com.animalloo.ui.rescue.RescueFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainNavigator {
 
     private static final String TAG_HOME = "tag_home";
     private static final String TAG_MAP = "tag_map";
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private MoreFragment moreFragment;
 
     private Fragment activeFragment;
+    private int pendingRescueTabIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             diagnosisFragment = (DiagnosisFragment) fragmentManager.findFragmentByTag(TAG_DIAGNOSIS);
             rescueFragment = (RescueFragment) fragmentManager.findFragmentByTag(TAG_RESCUE);
             moreFragment = (MoreFragment) fragmentManager.findFragmentByTag(TAG_MORE);
+            pendingRescueTabIndex = savedInstanceState.getInt("pending_rescue_tab", -1);
 
             int selectedItemId = savedInstanceState.getInt("selected_nav_item", R.id.nav_home);
             binding.bottomNavigation.setSelectedItemId(selectedItemId);
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupBottomNavigation() {
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
                     switchFragment(homeFragment, R.string.nav_home);
@@ -101,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.nav_rescue) {
                     switchFragment(rescueFragment, R.string.nav_rescue);
+                    applyPendingRescueTabIfNeeded();
                     return true;
                 } else if (itemId == R.id.nav_more) {
                     switchFragment(moreFragment, R.string.nav_more);
@@ -109,6 +114,30 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void navigateToTab(int bottomNavItemId) {
+        switchToTabProgrammatically(bottomNavItemId);
+    }
+
+    @Override
+    public void navigateToRescueWithTab(int rescueTabIndex) {
+        pendingRescueTabIndex = rescueTabIndex;
+        if (activeFragment == rescueFragment) {
+            rescueFragment.selectTab(rescueTabIndex);
+            pendingRescueTabIndex = -1;
+            binding.bottomNavigation.setSelectedItemId(R.id.nav_rescue);
+        } else {
+            switchToTabProgrammatically(R.id.nav_rescue);
+        }
+    }
+
+    private void applyPendingRescueTabIfNeeded() {
+        if (pendingRescueTabIndex >= 0 && rescueFragment != null) {
+            rescueFragment.selectTab(pendingRescueTabIndex);
+            pendingRescueTabIndex = -1;
+        }
     }
 
     private void switchFragment(Fragment targetFragment, int titleRes) {
@@ -125,6 +154,23 @@ public class MainActivity extends AppCompatActivity {
 
         activeFragment = targetFragment;
         updateToolbarTitle(titleRes);
+    }
+
+    public void switchToTabProgrammatically(int bottomNavItemId) {
+        if (bottomNavItemId == R.id.nav_map) {
+            switchFragment(mapFragment, R.string.nav_map);
+        } else if (bottomNavItemId == R.id.nav_diagnosis) {
+            switchFragment(diagnosisFragment, R.string.nav_diagnosis);
+        } else if (bottomNavItemId == R.id.nav_rescue) {
+            switchFragment(rescueFragment, R.string.nav_rescue);
+            applyPendingRescueTabIfNeeded();
+        } else if (bottomNavItemId == R.id.nav_more) {
+            switchFragment(moreFragment, R.string.nav_more);
+        } else {
+            switchFragment(homeFragment, R.string.nav_home);
+            bottomNavItemId = R.id.nav_home;
+        }
+        binding.bottomNavigation.setSelectedItemId(bottomNavItemId);
     }
 
     private void updateToolbarTitle(int titleRes) {
@@ -162,9 +208,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_refresh) {
+            if (homeFragment != null && activeFragment == homeFragment) {
+                homeFragment.refreshHomeData();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("selected_nav_item", binding.bottomNavigation.getSelectedItemId());
+        outState.putInt("pending_rescue_tab", pendingRescueTabIndex);
     }
 
     @Override

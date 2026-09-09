@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_lg">
+
+    <TextView
+        android:id="@+id/tv_sheet_facility_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+
+    <TextView
+        android:id="@+id/tv_sheet_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:background="@drawable/bg_badge"
+        android:paddingHorizontal="@dimen/spacing_sm"
+        android:paddingVertical="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/detail_address"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary" />
+
+    <TextView
+        android:id="@+id/tv_sheet_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/detail_distance"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary" />
+
+    <TextView
+        android:id="@+id/tv_sheet_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/detail_phone"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary" />
+
+    <TextView
+        android:id="@+id/tv_sheet_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/detail_hours"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary" />
+
+    <TextView
+        android:id="@+id/tv_sheet_hours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sheet_detail"
+        style="@style/Widget.AnimalLoo.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_lg"
+        android:text="@string/detail_view_more" />
+
+</LinearLayout>
