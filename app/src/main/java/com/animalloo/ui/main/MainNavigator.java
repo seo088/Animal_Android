@@ -8,4 +8,6 @@ public interface MainNavigator {
     void navigateToTab(int bottomNavItemId);
 
     void navigateToRescueWithTab(int rescueTabIndex);
+
+    void navigateToMoreSection(int section);
 }

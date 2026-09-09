@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
 
     private Fragment activeFragment;
     private int pendingRescueTabIndex = -1;
+    private int pendingMoreSection = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
             rescueFragment = (RescueFragment) fragmentManager.findFragmentByTag(TAG_RESCUE);
             moreFragment = (MoreFragment) fragmentManager.findFragmentByTag(TAG_MORE);
             pendingRescueTabIndex = savedInstanceState.getInt("pending_rescue_tab", -1);
+            pendingMoreSection = savedInstanceState.getInt("pending_more_section", -1);
 
             int selectedItemId = savedInstanceState.getInt("selected_nav_item", R.id.nav_home);
             binding.bottomNavigation.setSelectedItemId(selectedItemId);
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
                     return true;
                 } else if (itemId == R.id.nav_more) {
                     switchFragment(moreFragment, R.string.nav_more);
+                    applyPendingMoreSectionIfNeeded();
                     return true;
                 }
                 return false;
@@ -130,6 +133,25 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
             binding.bottomNavigation.setSelectedItemId(R.id.nav_rescue);
         } else {
             switchToTabProgrammatically(R.id.nav_rescue);
+        }
+    }
+
+    @Override
+    public void navigateToMoreSection(int section) {
+        pendingMoreSection = section;
+        if (activeFragment == moreFragment) {
+            moreFragment.openSection(section);
+            pendingMoreSection = -1;
+            binding.bottomNavigation.setSelectedItemId(R.id.nav_more);
+        } else {
+            switchToTabProgrammatically(R.id.nav_more);
+        }
+    }
+
+    private void applyPendingMoreSectionIfNeeded() {
+        if (pendingMoreSection >= 0 && moreFragment != null) {
+            moreFragment.openSection(pendingMoreSection);
+            pendingMoreSection = -1;
         }
     }
 
@@ -166,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
             applyPendingRescueTabIfNeeded();
         } else if (bottomNavItemId == R.id.nav_more) {
             switchFragment(moreFragment, R.string.nav_more);
+            applyPendingMoreSectionIfNeeded();
         } else {
             switchFragment(homeFragment, R.string.nav_home);
             bottomNavItemId = R.id.nav_home;
@@ -229,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator {
         super.onSaveInstanceState(outState);
         outState.putInt("selected_nav_item", binding.bottomNavigation.getSelectedItemId());
         outState.putInt("pending_rescue_tab", pendingRescueTabIndex);
+        outState.putInt("pending_more_section", pendingMoreSection);
     }
 
     @Override

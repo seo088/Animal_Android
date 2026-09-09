@@ -22,6 +22,7 @@ import com.animalloo.databinding.FragmentHomeBinding;
 import com.animalloo.databinding.ItemHomeShortcutBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.main.MainNavigator;
+import com.animalloo.ui.more.MoreFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -83,7 +84,7 @@ public class HomeFragment extends BaseFragment {
         setupShortcut(binding.shortcutRescued, R.drawable.ic_rescue, R.string.shortcut_rescued,
                 () -> mainNavigator.navigateToRescueWithTab(RESCUE_TAB_RESCUED));
         setupShortcut(binding.shortcutPetFriendly, R.drawable.ic_more, R.string.shortcut_pet_friendly,
-                () -> mainNavigator.navigateToTab(R.id.nav_more));
+                () -> mainNavigator.navigateToMoreSection(MoreFragment.SECTION_PET_FRIENDLY));
     }
 
     private void setupShortcut(ItemHomeShortcutBinding shortcutBinding, int iconRes, int labelRes,

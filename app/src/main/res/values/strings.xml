@@ -52,6 +52,14 @@
     <string name="diagnosis_disclaimer">※ 본 결과는 Mock 추론 데이터이며, 실제 의료 진단이 아닙니다.</string>
     <string name="diagnosis_button">진단하기</string>
     <string name="diagnosis_retry">다시 진단</string>
+    <string name="diagnosis_symptom_guide">반려동물의 증상을 선택해 주세요. (복수 선택 가능)</string>
+    <string name="diagnosis_probability_format">가능성 %1$d%%</string>
+    <string name="diagnosis_related_symptoms">관련 증상: %1$s</string>
+    <string name="diagnosis_caution_label">주의사항</string>
+    <string name="diagnosis_find_hospitals">인근 병원 보기</string>
+    <string name="hospital_open">운영 중</string>
+    <string name="hospital_closed">운영 종료</string>
+    <string name="diagnosis_hospital_detail_prepare">병원 상세 화면은 곧 연결됩니다.</string>
 
     <!-- Rescue -->
     <string name="rescue_title">구조/분실</string>
@@ -74,6 +82,9 @@
 
     <!-- Matching -->
     <string name="matching_title">매칭 결과</string>
+    <string name="matching_description">Mock 유사도 기반 매칭 결과입니다. 실제 AI 매칭이 아닙니다.</string>
+    <string name="matching_similarity_format">유사도 %1$d%%</string>
+    <string name="matching_back_to_report">신고 화면으로</string>
     <string name="matching_grade_a">A 등급 — 매우 유사</string>
     <string name="matching_grade_b">B 등급 — 유사</string>
     <string name="matching_grade_c">C 등급 — 일부 일치</string>
@@ -83,22 +94,55 @@
     <string name="rescued_filter_breed">품종</string>
     <string name="rescued_filter_region">지역</string>
     <string name="rescued_filter_gender">성별</string>
+    <string name="filter_all">전체</string>
+    <string name="gender_male">수컷</string>
+    <string name="gender_female">암컷</string>
+    <string name="rescued_detail_prepare">구조동물 상세 화면은 곧 연결됩니다.</string>
+    <string name="rescued_shared">구조동물 정보를 공유했습니다.</string>
+    <string name="lost_report_submitting">신고 처리 중…</string>
 
     <!-- More -->
     <string name="more_title">더보기</string>
+    <string name="more_subtitle">동반시설, 알림 설정, 데이터 출처를 확인하세요.</string>
     <string name="more_pet_friendly">동반시설</string>
+    <string name="more_pet_friendly_desc">반려동물 동반 가능 시설을 필터링해 조회합니다.</string>
     <string name="more_settings">설정</string>
+    <string name="more_settings_desc">구조/분실/위치 알림 및 앱 정보를 관리합니다.</string>
     <string name="more_data_source">데이터 출처</string>
+    <string name="more_data_source_desc">공공데이터 기반 서비스 안내를 확인합니다.</string>
     <string name="more_app_info">앱 정보</string>
+    <string name="more_back">뒤로</string>
+
+    <!-- Pet Friendly -->
+    <string name="pet_friendly_filter_pet_type">동물 종류</string>
+    <string name="pet_friendly_filter_size">크기 제한</string>
+    <string name="pet_friendly_filter_indoor">실내 가능</string>
+    <string name="pet_friendly_filter_carrier">이동장 필요</string>
+    <string name="pet_friendly_filter_leash">목줄 필요</string>
+    <string name="pet_friendly_view_map">지도 보기</string>
+    <string name="pet_friendly_view_list">리스트 보기</string>
+    <string name="pet_friendly_pet_type_format">동반 가능: %1$s</string>
+    <string name="pet_friendly_size_format">크기 제한: %1$s</string>
+    <string name="pet_friendly_badge_indoor">실내 가능</string>
+    <string name="pet_friendly_badge_carrier">이동장 필요</string>
+    <string name="pet_friendly_badge_leash">목줄 필요</string>
+    <string name="filter_yes">예</string>
+    <string name="filter_no">아니오</string>
 
     <!-- Settings -->
     <string name="settings_rescue_alert">구조동물 알림</string>
     <string name="settings_lost_alert">분실동물 알림</string>
     <string name="settings_location_alert">위치 기반 알림</string>
+    <string name="settings_notification_section">알림 설정</string>
+    <string name="settings_saved">설정이 저장되었습니다.</string>
+    <string name="settings_app_version_format">버전 %1$s</string>
 
     <!-- Data Source -->
     <string name="data_source_title">데이터 출처 안내</string>
-    <string name="data_source_description">AnimalLoo는 공공데이터 기반 반려동물 통합 지식그래프 플랫폼입니다.\n현재 버전은 Mock 데이터를 사용하며, 향후 백엔드 API와 연동될 예정입니다.</string>
+    <string name="data_source_description">AnimalLoo는 공공데이터 기반 반려동물 통합 지식그래프 플랫폼입니다.</string>
+    <string name="data_source_mock_notice">현재 버전은 Mock 데이터를 사용하며, 향후 백엔드 API와 연동될 예정입니다. 실제 공공데이터 API 호출 여부를 과장해서 표시하지 않습니다.</string>
+    <string name="data_source_list_title">활용 예정 공공데이터</string>
+    <string name="data_source_list_body">• 농림축산식품부 동물보호 관련 공공데이터\n• 지자체 유기동물 보호/입양 정보\n• 반려동물 동반 가능 시설 정보\n• 동물병원 및 약국 위치 정보\n\n※ 위 항목은 서비스 기획 기준이며, 현재 앱에서는 Mock Repository로 대체됩니다.</string>
 
     <!-- Detail -->
     <string name="detail_title">상세 정보</string>
@@ -139,4 +183,5 @@
     <string name="cd_splash_dog">스플래시 강아지 이미지</string>
     <string name="cd_animal_photo">동물 사진</string>
     <string name="cd_facility_image">시설 이미지</string>
+    <string name="cd_menu_icon">메뉴 아이콘</string>
 </resources>

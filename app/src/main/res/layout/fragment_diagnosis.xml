@@ -1,18 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/spacing_lg"
+    android:fillViewport="true"
     tools:context=".ui.diagnosis.DiagnosisFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/diagnosis_title"
-        android:textAppearance="@style/TextAppearance.AnimalLoo.Headline" />
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_md">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/diagnosis_title"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline" />
+
+        <LinearLayout
+            android:id="@+id/layout_step_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_step_symptom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/diagnosis_step_symptom"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_primary" />
+
+            <TextView
+                android:id="@+id/tv_step_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/diagnosis_step_result"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_step_hospital"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/diagnosis_step_hospital"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_text_secondary" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:background="@color/color_error_background"
+            android:padding="@dimen/spacing_md"
+            android:text="@string/diagnosis_disclaimer"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+            android:textColor="@color/color_error_text"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/layout_step_symptom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnosis_symptom_guide"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+            <FrameLayout
+                android:id="@+id/symptom_state_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_symptoms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                app:singleSelection="false" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_diagnose"
+                style="@style/Widget.AnimalLoo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/diagnosis_button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_step_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <FrameLayout
+                android:id="@+id/result_state_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_diagnosis_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"
+                tools:listitem="@layout/item_diagnosis_result" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_find_hospitals"
+                style="@style/Widget.AnimalLoo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:text="@string/diagnosis_find_hospitals"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry_diagnosis"
+                style="@style/Widget.AnimalLoo.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/diagnosis_retry" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_step_hospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:id="@+id/hospital_state_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_hospitals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"
+                tools:listitem="@layout/item_hospital" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry_from_hospital"
+                style="@style/Widget.AnimalLoo.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/diagnosis_retry" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
