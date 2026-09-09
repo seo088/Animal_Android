@@ -116,7 +116,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         facilityListAdapter = new FacilityListAdapter();
         binding.rvFacilityList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvFacilityList.setAdapter(facilityListAdapter);
-        facilityListAdapter.setOnFacilityClickListener(this::showFacilityBottomSheet);
+        facilityListAdapter.setOnFacilityClickListener(
+                facility -> showFacilityBottomSheet(facility.getId()));
     }
 
     private void setupChipGroup() {

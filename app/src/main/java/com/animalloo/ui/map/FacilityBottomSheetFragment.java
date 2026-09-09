@@ -18,6 +18,7 @@ import com.animalloo.databinding.BottomSheetFacilityBinding;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.util.RepositoryProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 public class FacilityBottomSheetFragment extends BottomSheetDialogFragment {
 
