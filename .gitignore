@@ -55,3 +55,6 @@ apikeys.properties
 
 # Local agent instructions (do not commit)
 AGENTS.md
+
+# Local git hook scripts (not for repository)
+scripts/
