@@ -11,6 +11,7 @@ import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.RescuedAnimal;
 import com.animalloo.data.model.Symptom;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -273,54 +274,55 @@ public final class MockDataProvider {
     }
 
     private List<RescuedAnimal> createRescuedAnimals() {
+        LocalDate today = LocalDate.now();
         List<RescuedAnimal> list = new ArrayList<>();
         list.add(createRescued("res_001", "초코", "개", "말티즈", "수컷", "서울 송파구",
-                "2026-09-01", "보호 중", "https://picsum.photos/seed/res001/300/300",
+                today.minusDays(10).toString(), "보호 중", "https://picsum.photos/seed/res001/300/300",
                 "흰색 털, 빨간 목줄 착용 흔적", 37.5050, 127.1100));
         list.add(createRescued("res_002", "루이", "개", "푸들", "암컷", "서울 강남구",
-                "2026-09-02", "보호 중", "https://picsum.photos/seed/res002/300/300",
+                today.minusDays(9).toString(), "보호 중", "https://picsum.photos/seed/res002/300/300",
                 "갈색 곱슬 털, 귀 끝 하얀색", 37.5000, 127.0400));
         list.add(createRescued("res_003", "바다", "개", "진돗개", "수컷", "경기 성남시",
-                "2026-08-28", "입양 대기", "https://picsum.photos/seed/res003/300/300",
+                today.minusDays(8).toString(), "입양 대기", "https://picsum.photos/seed/res003/300/300",
                 "황갈색 털, 꼬리 끝 흰색", 37.3600, 127.1100));
         list.add(createRescued("res_004", "모찌", "고양이", "코리안숏헤어", "암컷", "서울 마포구",
-                "2026-09-03", "보호 중", "https://picsum.photos/seed/res004/300/300",
+                today.minusDays(7).toString(), "보호 중", "https://picsum.photos/seed/res004/300/300",
                 "치즈 태비, 왼쪽 귀 접힘", 37.5650, 126.9000));
         list.add(createRescued("res_005", "별이", "개", "시바견", "암컷", "서울 송파구",
-                "2026-08-30", "보호 중", "https://picsum.photos/seed/res005/300/300",
+                today.minusDays(6).toString(), "보호 중", "https://picsum.photos/seed/res005/300/300",
                 "적갈색 털, 꼬리 말림", 37.5100, 127.1050));
         list.add(createRescued("res_006", "몽이", "개", "믹스견", "수컷", "경기 수원시",
-                "2026-08-25", "입양 대기", "https://picsum.photos/seed/res006/300/300",
+                today.minusDays(5).toString(), "입양 대기", "https://picsum.photos/seed/res006/300/300",
                 "검정·흰색 반반 털", 37.2900, 127.0500));
         list.add(createRescued("res_007", "하늘", "개", "골든 리트리버", "수컷", "서울 강남구",
-                "2026-09-04", "보호 중", "https://picsum.photos/seed/res007/300/300",
+                today.minusDays(4).toString(), "보호 중", "https://picsum.photos/seed/res007/300/300",
                 "금색 긴 털, 왼쪽 앞발 흰 반점", 37.5020, 127.0350));
         list.add(createRescued("res_008", "두부", "고양이", "Russian Blue", "수컷", "인천 연수구",
-                "2026-08-27", "보호 중", "https://picsum.photos/seed/res008/300/300",
+                today.minusDays(4).toString(), "보호 중", "https://picsum.photos/seed/res008/300/300",
                 "회색 털, 초록 눈", 37.3890, 126.6600));
         list.add(createRescued("res_009", "콩이", "개", "말티즈", "암컷", "서울 송파구",
-                "2026-09-05", "보호 중", "https://picsum.photos/seed/res009/300/300",
+                today.minusDays(3).toString(), "보호 중", "https://picsum.photos/seed/res009/300/300",
                 "크림색 털, 분홍 리본 흔적", 37.5080, 127.1120));
         list.add(createRescued("res_010", "마루", "개", "진돗개", "수컷", "경기 성남시",
-                "2026-08-22", "입양 진행 중", "https://picsum.photos/seed/res010/300/300",
+                today.minusDays(3).toString(), "입양 진행 중", "https://picsum.photos/seed/res010/300/300",
                 "진한 갈색, 귀 세움", 37.3650, 127.1080));
         list.add(createRescued("res_011", "나비", "고양이", "페르시안", "암컷", "서울 마포구",
-                "2026-09-06", "보호 중", "https://picsum.photos/seed/res011/300/300",
+                today.minusDays(2).toString(), "보호 중", "https://picsum.photos/seed/res011/300/300",
                 "흰색 긴 털, flat face", 37.5620, 126.9200));
         list.add(createRescued("res_012", "밤톨", "개", "푸들", "수컷", "서울 강남구",
-                "2026-08-29", "보호 중", "https://picsum.photos/seed/res012/300/300",
+                today.minusDays(2).toString(), "보호 중", "https://picsum.photos/seed/res012/300/300",
                 "검은색 푸들, 토끼 컷", 37.4980, 127.0420));
         list.add(createRescued("res_013", "해피", "개", "믹스견", "암컷", "서울 송파구",
-                "2026-09-07", "보호 중", "https://picsum.photos/seed/res013/300/300",
+                today.minusDays(1).toString(), "보호 중", "https://picsum.photos/seed/res013/300/300",
                 "갈색 중형견, 꼬리 짧음", 37.5060, 127.1080));
         list.add(createRescued("res_014", "구름", "고양이", "코리안숏헤어", "수컷", "경기 수원시",
-                "2026-08-24", "입양 대기", "https://picsum.photos/seed/res014/300/300",
+                today.minusDays(1).toString(), "입양 대기", "https://picsum.photos/seed/res014/300/300",
                 "흰색·회색 줄무늬", 37.2850, 127.0480));
         list.add(createRescued("res_015", "달이", "개", "시바견", "수컷", "서울 강남구",
-                "2026-09-08", "보호 중", "https://picsum.photos/seed/res015/300/300",
+                today.toString(), "보호 중", "https://picsum.photos/seed/res015/300/300",
                 "적색, 가슴 흰색", 37.5030, 127.0380));
         list.add(createRescued("res_016", "솜이", "개", "말티즈", "암컷", "인천 연수구",
-                "2026-09-04", "보호 중", "https://picsum.photos/seed/res016/300/300",
+                today.toString(), "보호 중", "https://picsum.photos/seed/res016/300/300",
                 "순백색, 눈가 갈색 반점", 37.3870, 126.6630));
         return list;
     }

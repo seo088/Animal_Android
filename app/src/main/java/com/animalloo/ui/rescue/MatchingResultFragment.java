@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.animalloo.R;
 import com.animalloo.adapter.MatchResultAdapter;
 import com.animalloo.data.model.DetailType;
+import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.MatchResult;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMatchingResultBinding;
@@ -54,11 +55,11 @@ public class MatchingResultFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(requireParentFragment()).get(LostReportViewModel.class);
         setupRecyclerView();
-        binding.btnBackToReport.setOnClickListener(v -> {
-            viewModel.resetSubmissionState();
-            requireParentFragment().getChildFragmentManager().popBackStack();
-        });
+        binding.btnBackToReport.setOnClickListener(v -> backToReport());
+        binding.btnViewReport.setOnClickListener(v -> openSubmittedReportDetail());
+        binding.btnRetryMatching.setOnClickListener(v -> viewModel.retryMatching());
         observeViewModel();
+        renderSubmitBanner(viewModel.getSubmitState().getValue());
     }
 
     private void setupRecyclerView() {
@@ -73,19 +74,28 @@ public class MatchingResultFragment extends BaseFragment {
 
             @Override
             public void onMatchLongClick(MatchResult result, View anchorView) {
-                // Context menu optional for match results
+                // Long-press reserved for future actions.
             }
         });
     }
 
     private void observeViewModel() {
+        viewModel.getSubmitState().observe(getViewLifecycleOwner(), this::renderSubmitBanner);
         viewModel.getMatchResultsState().observe(getViewLifecycleOwner(), this::renderMatchState);
+    }
+
+    private void renderSubmitBanner(UiState<LostAnimalReport> state) {
+        boolean submitted = state != null && state.isSuccess() && state.getData() != null;
+        binding.tvSubmitSuccess.setVisibility(submitted ? View.VISIBLE : View.GONE);
+        binding.btnViewReport.setVisibility(submitted ? View.VISIBLE : View.GONE);
     }
 
     private void renderMatchState(UiState<List<MatchResult>> state) {
         if (state == null) {
             return;
         }
+
+        binding.btnRetryMatching.setVisibility(View.GONE);
 
         if (state.isLoading()) {
             binding.rvMatchResults.setVisibility(View.GONE);
@@ -97,6 +107,7 @@ public class MatchingResultFragment extends BaseFragment {
 
         if (state.isError()) {
             binding.rvMatchResults.setVisibility(View.GONE);
+            binding.btnRetryMatching.setVisibility(View.VISIBLE);
             showStateView(R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
                 MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
@@ -108,7 +119,9 @@ public class MatchingResultFragment extends BaseFragment {
 
         if (state.isEmpty()) {
             binding.rvMatchResults.setVisibility(View.GONE);
-            showStateView(R.layout.layout_empty, null);
+            showStateView(R.layout.layout_matching_empty, stateView ->
+                    stateView.findViewById(R.id.btn_back_to_report_empty)
+                            .setOnClickListener(v -> backToReport()));
             return;
         }
 
@@ -116,6 +129,18 @@ public class MatchingResultFragment extends BaseFragment {
             binding.rvMatchResults.setVisibility(View.VISIBLE);
             matchResultAdapter.setItems(state.getData());
         }
+    }
+
+    private void openSubmittedReportDetail() {
+        LostAnimalReport report = viewModel.getLastSubmittedReport();
+        if (report != null) {
+            detailNavigator.navigateToDetail(DetailType.LOST_ANIMAL, report.getId());
+        }
+    }
+
+    private void backToReport() {
+        viewModel.resetSubmissionState();
+        requireParentFragment().getChildFragmentManager().popBackStack();
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {

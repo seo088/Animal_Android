@@ -89,12 +89,17 @@
     <string name="lost_report_photo">사진</string>
     <string name="lost_report_select_photo">사진 선택</string>
     <string name="lost_report_submit">신고하기</string>
+    <string name="lost_report_submit_success">분실 신고가 저장되었습니다.</string>
+    <string name="lost_report_view_detail">신고 상세 보기</string>
+    <string name="lost_report_photo_copy_failed">사진을 저장하지 못했습니다. 다시 선택해 주세요.</string>
 
     <!-- Matching -->
     <string name="matching_title">매칭 결과</string>
     <string name="matching_description">Mock 유사도 기반 매칭 결과입니다. 실제 AI 매칭이 아닙니다.</string>
     <string name="matching_similarity_format">유사도 %1$d%%</string>
     <string name="matching_back_to_report">신고 화면으로</string>
+    <string name="matching_retry">매칭 다시 시도</string>
+    <string name="matching_empty">조건에 맞는 구조동물 후보가 없습니다.</string>
     <string name="matching_grade_a">A 등급 — 매우 유사</string>
     <string name="matching_grade_b">B 등급 — 유사</string>
     <string name="matching_grade_c">C 등급 — 일부 일치</string>

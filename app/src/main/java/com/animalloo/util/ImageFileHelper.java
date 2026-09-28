@@ -15,6 +15,7 @@ import java.io.OutputStream;
 public final class ImageFileHelper {
 
     private static final String LOST_REPORT_DIR = "lost_reports";
+    private static final String SUBMITTED_LOST_REPORT_DIR = "submitted_lost_reports";
 
     private ImageFileHelper() {
     }
@@ -44,6 +45,35 @@ public final class ImageFileHelper {
         return destination;
     }
 
+    public static File persistSubmittedReportPhoto(Context context, String sourcePath, String reportId)
+            throws IOException {
+        if (sourcePath == null || sourcePath.trim().isEmpty()) {
+            throw new IOException("사진 경로가 비어 있습니다.");
+        }
+
+        File source = new File(sourcePath);
+        if (!source.exists()) {
+            throw new IOException("선택한 사진을 찾을 수 없습니다.");
+        }
+
+        File destinationDir = new File(context.getFilesDir(), SUBMITTED_LOST_REPORT_DIR);
+        if (!destinationDir.exists() && !destinationDir.mkdirs()) {
+            throw new IOException("신고 사진 저장 경로를 생성할 수 없습니다.");
+        }
+
+        File destination = new File(destinationDir, reportId + ".jpg");
+        try (InputStream in = new java.io.FileInputStream(source);
+             OutputStream out = new FileOutputStream(destination)) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+        }
+
+        return destination;
+    }
+
     public static void deleteCachedFile(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
             return;
@@ -52,6 +82,26 @@ public final class ImageFileHelper {
         if (file.exists()) {
             file.delete();
         }
+    }
+
+    public static int clearSubmittedReportPhotos(Context context) {
+        File submittedDir = new File(context.getFilesDir(), SUBMITTED_LOST_REPORT_DIR);
+        if (!submittedDir.exists()) {
+            return 0;
+        }
+
+        File[] files = submittedDir.listFiles();
+        if (files == null) {
+            return 0;
+        }
+
+        int deletedCount = 0;
+        for (File file : files) {
+            if (file.isFile() && file.delete()) {
+                deletedCount++;
+            }
+        }
+        return deletedCount;
     }
 
     public static int clearLostReportCache(Context context) {

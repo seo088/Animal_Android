@@ -49,7 +49,7 @@ public final class RepositoryProvider {
         facilityRepository = new MockFacilityRepository();
         hospitalRepository = new MockHospitalRepository();
         animalRepository = new MockAnimalRepository();
-        lostAnimalRepository = new MockLostAnimalRepository();
+        lostAnimalRepository = new MockLostAnimalRepository(application);
         diagnosisRepository = new MockDiagnosisRepository();
         alertRepository = new MockAlertRepository();
         homeRepository = new MockHomeRepository();

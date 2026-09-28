@@ -29,6 +29,20 @@
         <item>기타</item>
     </string-array>
 
+    <!-- Spinner: Breed (Cat) -->
+    <string-array name="cat_breeds">
+        <item>전체</item>
+        <item>코리안숏헤어</item>
+        <item>Russian Blue</item>
+        <item>페르시안</item>
+        <item>기타</item>
+    </string-array>
+
+    <!-- Spinner: Breed (Other species) -->
+    <string-array name="other_breeds">
+        <item>기타</item>
+    </string-array>
+
     <!-- Spinner: Breed (Dog) -->
     <string-array name="dog_breeds">
         <item>전체</item>

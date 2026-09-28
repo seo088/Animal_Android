@@ -131,6 +131,9 @@ public class RescueFragment extends BaseFragment implements RescueHost {
         if (lostReportFragment == null) {
             return;
         }
+        if (getChildFragmentManager().findFragmentByTag(TAG_MATCHING) != null) {
+            return;
+        }
 
         MatchingResultFragment matchingResultFragment = new MatchingResultFragment();
         getChildFragmentManager().beginTransaction()

@@ -7,6 +7,13 @@ import com.animalloo.data.model.RescuedAnimal;
 import com.animalloo.data.repository.LostAnimalRepository;
 import com.animalloo.data.repository.RepositoryCallback;
 
+import android.content.Context;
+
+import com.animalloo.util.ImageFileHelper;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,19 +24,24 @@ import java.util.UUID;
 
 public class MockLostAnimalRepository implements LostAnimalRepository {
 
+    private final Context appContext;
     private final MockDataProvider dataProvider;
     private final MockAsyncHelper asyncHelper;
     private final Map<String, LostAnimalReport> submittedReports = new HashMap<>();
 
-    public MockLostAnimalRepository() {
+    public MockLostAnimalRepository(Context context) {
+        appContext = context.getApplicationContext();
         dataProvider = MockDataProvider.getInstance();
         asyncHelper = MockAsyncHelper.getInstance();
+        ImageFileHelper.clearSubmittedReportPhotos(appContext);
     }
 
     @Override
     public void submitReport(LostAnimalReport report, RepositoryCallback<LostAnimalReport> callback) {
         asyncHelper.execute(() -> {
             String id = report.getId() != null ? report.getId() : "lost_" + UUID.randomUUID().toString().substring(0, 8);
+            String persistedPhotoPath = ImageFileHelper.persistSubmittedReportPhoto(
+                    appContext, report.getPhotoPath(), id).getAbsolutePath();
             LostAnimalReport saved = new LostAnimalReport(
                     id,
                     report.getName(),
@@ -40,7 +52,7 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
                     report.getLostDate(),
                     report.getFeatures(),
                     report.getContactInfo(),
-                    report.getPhotoPath(),
+                    persistedPhotoPath,
                     System.currentTimeMillis()
             );
             submittedReports.put(id, saved);
@@ -54,6 +66,13 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
             List<MatchResult> matches = new ArrayList<>();
 
             for (RescuedAnimal animal : dataProvider.getRescuedAnimals()) {
+                if (!isCompatibleSpecies(report, animal)) {
+                    continue;
+                }
+                if (!isRescuedOnOrAfterLostDate(report.getLostDate(), animal.getRescuedDate())) {
+                    continue;
+                }
+
                 int score = calculateSimilarity(report, animal);
                 if (score < 40) {
                     continue;
@@ -102,6 +121,23 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
         }, callback);
     }
 
+    private boolean isCompatibleSpecies(LostAnimalReport report, RescuedAnimal animal) {
+        if (report.getSpecies() == null || animal.getSpecies() == null) {
+            return false;
+        }
+        return report.getSpecies().equals(animal.getSpecies());
+    }
+
+    private boolean isRescuedOnOrAfterLostDate(String lostDate, String rescuedDate) {
+        try {
+            LocalDate lost = LocalDate.parse(lostDate);
+            LocalDate rescued = LocalDate.parse(rescuedDate);
+            return !rescued.isBefore(lost);
+        } catch (DateTimeParseException exception) {
+            return true;
+        }
+    }
+
     private int calculateSimilarity(LostAnimalReport report, RescuedAnimal animal) {
         int score = 30;
 
@@ -110,9 +146,11 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
         }
         if (report.getGender() != null && report.getGender().equals(animal.getGender())) {
             score += 10;
+        } else if ("미상".equals(report.getGender()) || "미상".equals(animal.getGender())) {
+            score += 4;
         }
         if (report.getRegion() != null && animal.getRegion() != null
-                && animal.getRegion().contains(report.getRegion().replace("전체", ""))) {
+                && regionsOverlap(report.getRegion(), animal.getRegion())) {
             score += 20;
         }
         if (report.getSpecies() != null && report.getSpecies().equals(animal.getSpecies())) {
@@ -124,6 +162,13 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
         }
 
         return Math.min(score, 95);
+    }
+
+    private boolean regionsOverlap(String reportRegion, String animalRegion) {
+        String normalizedReport = reportRegion.trim();
+        String normalizedAnimal = animalRegion.trim();
+        return normalizedAnimal.contains(normalizedReport)
+                || normalizedReport.contains(normalizedAnimal);
     }
 
     private boolean hasCommonKeyword(String a, String b) {

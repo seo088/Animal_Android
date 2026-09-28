@@ -22,6 +22,25 @@
         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
         android:textColor="@color/color_text_secondary" />
 
+    <TextView
+        android:id="@+id/tv_submit_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:background="@color/color_primary_light"
+        android:padding="@dimen/spacing_md"
+        android:text="@string/lost_report_submit_success"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_view_report"
+        style="@style/Widget.AnimalLoo.Button.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lost_report_view_detail"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/matching_state_container"
         android:layout_width="match_parent"
@@ -36,6 +55,15 @@
         android:layout_weight="1"
         android:visibility="gone"
         tools:listitem="@layout/item_match_result" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_retry_matching"
+        style="@style/Widget.AnimalLoo.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:text="@string/matching_retry"
+        android:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_back_to_report"
