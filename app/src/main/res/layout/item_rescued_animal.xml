@@ -24,12 +24,27 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_favorite_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge"
+            android:paddingHorizontal="@dimen/spacing_sm"
+            android:paddingVertical="@dimen/spacing_xs"
+            android:text="@string/home_alert_favorite_badge"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+            android:textColor="@color/color_primary"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tv_breed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_favorite_badge"
             app:layout_constraintStart_toEndOf="@id/iv_animal_image"
             app:layout_constraintTop_toTopOf="parent" />
 

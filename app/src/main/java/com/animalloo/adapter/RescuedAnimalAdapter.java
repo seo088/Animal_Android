@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdapter.AnimalViewHolder> {
 
@@ -25,12 +27,21 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
     }
 
     private final List<RescuedAnimal> items = new ArrayList<>();
+    private final Set<String> favoriteAnimalIds = new HashSet<>();
     private OnAnimalClickListener listener;
 
     public void setItems(List<RescuedAnimal> animals) {
         items.clear();
         if (animals != null) {
             items.addAll(animals);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setFavoriteAnimalIds(Set<String> favoriteIds) {
+        favoriteAnimalIds.clear();
+        if (favoriteIds != null) {
+            favoriteAnimalIds.addAll(favoriteIds);
         }
         notifyDataSetChanged();
     }
@@ -72,6 +83,8 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
             binding.tvRegion.setText(animal.getRegion());
             binding.tvRescuedDate.setText(animal.getRescuedDate());
             binding.tvProtectionStatus.setText(animal.getProtectionStatus());
+            binding.tvFavoriteBadge.setVisibility(
+                    favoriteAnimalIds.contains(animal.getId()) ? View.VISIBLE : View.GONE);
 
             Glide.with(binding.ivAnimalImage.getContext())
                     .load(animal.getImageUrl())

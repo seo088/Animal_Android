@@ -14,6 +14,21 @@
         <item>미상</item>
     </string-array>
 
+    <!-- Spinner: Rescued animal breeds (dog + cat) -->
+    <string-array name="rescued_animal_breeds">
+        <item>전체</item>
+        <item>말티즈</item>
+        <item>푸들</item>
+        <item>진돗개</item>
+        <item>시바견</item>
+        <item>골든 리트리버</item>
+        <item>믹스견</item>
+        <item>코리안숏헤어</item>
+        <item>Russian Blue</item>
+        <item>페르시안</item>
+        <item>기타</item>
+    </string-array>
+
     <!-- Spinner: Breed (Dog) -->
     <string-array name="dog_breeds">
         <item>전체</item>

@@ -8,9 +8,14 @@ import java.util.Set;
 public interface FavoriteRepository {
 
     String PREFIX_ALERT = "alert:";
+    String PREFIX_RESCUED_ANIMAL = "rescued:";
 
     static String keyForAlert(String alertId) {
         return PREFIX_ALERT + alertId;
+    }
+
+    static String keyForRescuedAnimal(String animalId) {
+        return PREFIX_RESCUED_ANIMAL + animalId;
     }
 
     boolean isFavorite(String key);

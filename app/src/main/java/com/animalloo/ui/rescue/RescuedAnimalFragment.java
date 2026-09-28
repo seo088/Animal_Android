@@ -1,5 +1,6 @@
 package com.animalloo.ui.rescue;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Set;
 
 public class RescuedAnimalFragment extends BaseFragment {
 
@@ -61,21 +63,39 @@ public class RescuedAnimalFragment extends BaseFragment {
         setupFilters();
         setupRecyclerView();
         observeViewModel();
-        viewModel.loadAnimals();
+
+        UiState<List<RescuedAnimal>> currentState = viewModel.getAnimalsState().getValue();
+        if (currentState == null) {
+            viewModel.loadAnimals();
+        }
     }
 
     private void setupFilters() {
         ArrayAdapter<CharSequence> breedAdapter = ArrayAdapter.createFromResource(
-                requireContext(), R.array.dog_breeds, android.R.layout.simple_spinner_dropdown_item);
+                requireContext(), R.array.rescued_animal_breeds,
+                android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerFilterBreed.setAdapter(breedAdapter);
+        binding.spinnerFilterBreed.setSelection(
+                Math.max(0, breedAdapter.getPosition(viewModel.getSelectedBreed().getValue())));
         binding.spinnerFilterBreed.setOnItemSelectedListener(new SimpleItemSelectedListener(value ->
                 viewModel.setBreedFilter(value)));
 
         ArrayAdapter<CharSequence> regionAdapter = ArrayAdapter.createFromResource(
                 requireContext(), R.array.regions, android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerFilterRegion.setAdapter(regionAdapter);
+        binding.spinnerFilterRegion.setSelection(
+                Math.max(0, regionAdapter.getPosition(viewModel.getSelectedRegion().getValue())));
         binding.spinnerFilterRegion.setOnItemSelectedListener(new SimpleItemSelectedListener(value ->
                 viewModel.setRegionFilter(value)));
+
+        String gender = viewModel.getSelectedGender().getValue();
+        if (getString(R.string.gender_male).equals(gender)) {
+            binding.chipGroupGender.check(R.id.chip_gender_male);
+        } else if (getString(R.string.gender_female).equals(gender)) {
+            binding.chipGroupGender.check(R.id.chip_gender_female);
+        } else {
+            binding.chipGroupGender.check(R.id.chip_gender_all);
+        }
 
         binding.chipGroupGender.setOnCheckedStateChangeListener(
                 (ChipGroup group, List<Integer> checkedIds) -> {
@@ -112,9 +132,16 @@ public class RescuedAnimalFragment extends BaseFragment {
 
     private void showAnimalContextMenu(RescuedAnimal animal, View anchorView) {
         contextMenuAnimal = animal;
-        registerForContextMenu(anchorView);
-        anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) ->
-                requireActivity().getMenuInflater().inflate(R.menu.context_menu_rescued_animal, menu));
+        anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) -> {
+            requireActivity().getMenuInflater().inflate(R.menu.context_menu_rescued_animal, menu);
+            MenuItem favoriteItem = menu.findItem(R.id.context_favorite);
+            if (favoriteItem != null) {
+                boolean isFavorite = viewModel.isAnimalFavorite(animal.getId());
+                favoriteItem.setTitle(isFavorite
+                        ? R.string.context_unfavorite
+                        : R.string.context_favorite);
+            }
+        });
         anchorView.showContextMenu();
     }
 
@@ -126,19 +153,41 @@ public class RescuedAnimalFragment extends BaseFragment {
 
         int itemId = item.getItemId();
         if (itemId == R.id.context_share) {
-            Snackbar.make(binding.getRoot(),
-                    getString(R.string.rescued_shared) + " (" + contextMenuAnimal.getBreed() + ")",
-                    Snackbar.LENGTH_SHORT).show();
+            shareAnimal(contextMenuAnimal);
             return true;
         } else if (itemId == R.id.context_favorite) {
-            Snackbar.make(binding.getRoot(), R.string.home_alert_favorited, Snackbar.LENGTH_SHORT).show();
+            boolean wasFavorite = viewModel.isAnimalFavorite(contextMenuAnimal.getId());
+            viewModel.toggleAnimalFavorite(contextMenuAnimal.getId());
+            Snackbar.make(binding.getRoot(),
+                    wasFavorite ? R.string.rescued_unfavorited : R.string.rescued_favorited,
+                    Snackbar.LENGTH_SHORT).show();
             return true;
         }
         return super.onContextItemSelected(item);
     }
 
+    private void shareAnimal(RescuedAnimal animal) {
+        String shareText = getString(
+                R.string.rescued_share_format,
+                animal.getName(),
+                animal.getSpecies(),
+                animal.getBreed(),
+                animal.getRegion(),
+                animal.getRescuedDate(),
+                animal.getProtectionStatus(),
+                animal.getFeatures());
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.rescued_share_subject));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.context_share)));
+    }
+
     private void observeViewModel() {
         viewModel.getAnimalsState().observe(getViewLifecycleOwner(), this::renderAnimalsState);
+        viewModel.getFavoriteAnimalIds().observe(getViewLifecycleOwner(),
+                rescuedAnimalAdapter::setFavoriteAnimalIds);
     }
 
     private void renderAnimalsState(UiState<List<RescuedAnimal>> state) {
@@ -167,7 +216,11 @@ public class RescuedAnimalFragment extends BaseFragment {
 
         if (state.isEmpty()) {
             binding.rvRescuedAnimals.setVisibility(View.GONE);
-            showStateView(R.layout.layout_empty, null);
+            showStateView(R.layout.layout_rescued_empty, stateView ->
+                    stateView.findViewById(R.id.btn_reset_filters).setOnClickListener(v -> {
+                        viewModel.resetFilters();
+                        resetFilterUi();
+                    }));
             return;
         }
 
@@ -175,6 +228,12 @@ public class RescuedAnimalFragment extends BaseFragment {
             binding.rvRescuedAnimals.setVisibility(View.VISIBLE);
             rescuedAnimalAdapter.setItems(state.getData());
         }
+    }
+
+    private void resetFilterUi() {
+        binding.spinnerFilterBreed.setSelection(0);
+        binding.spinnerFilterRegion.setSelection(0);
+        binding.chipGroupGender.check(R.id.chip_gender_all);
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {
@@ -203,7 +262,6 @@ public class RescuedAnimalFragment extends BaseFragment {
         }
 
         private final SelectionCallback callback;
-        private boolean firstSelection = true;
 
         SimpleItemSelectedListener(SelectionCallback callback) {
             this.callback = callback;
@@ -211,11 +269,10 @@ public class RescuedAnimalFragment extends BaseFragment {
 
         @Override
         public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-            if (firstSelection) {
-                firstSelection = false;
-                return;
+            Object item = parent.getItemAtPosition(position);
+            if (item != null) {
+                callback.onSelected(item.toString());
             }
-            callback.onSelected(parent.getItemAtPosition(position).toString());
         }
 
         @Override

@@ -107,8 +107,12 @@
     <string name="filter_all">전체</string>
     <string name="gender_male">수컷</string>
     <string name="gender_female">암컷</string>
-    <string name="rescued_detail_prepare">구조동물 상세 화면은 곧 연결됩니다.</string>
-    <string name="rescued_shared">구조동물 정보를 공유했습니다.</string>
+    <string name="rescued_empty">조건에 맞는 구조동물이 없습니다.</string>
+    <string name="rescued_reset_filters">필터 초기화</string>
+    <string name="rescued_favorited">관심 구조동물로 등록했습니다.</string>
+    <string name="rescued_unfavorited">관심 구조동물을 해제했습니다.</string>
+    <string name="rescued_share_subject">구조동물 정보</string>
+    <string name="rescued_share_format">이름: %1$s\n종: %2$s / 품종: %3$s\n지역: %4$s\n구조일: %5$s\n상태: %6$s\n특징: %7$s</string>
     <string name="lost_report_submitting">신고 처리 중…</string>
 
     <!-- More -->
