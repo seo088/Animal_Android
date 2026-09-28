@@ -37,7 +37,6 @@
     <string name="map_title">시설 지도</string>
     <string name="map_category_all">전체</string>
     <string name="map_distance_format">%.1fkm</string>
-    <string name="map_detail_prepare">시설 상세 화면은 곧 연결됩니다.</string>
     <string name="map_category_hospital">동물병원</string>
     <string name="map_category_pharmacy">약국</string>
     <string name="map_category_shelter">보호소</string>
@@ -45,7 +44,7 @@
     <string name="map_category_cafe">동반카페</string>
     <string name="map_category_hotel">동반숙소</string>
     <string name="map_category_tourism">동반관광지</string>
-    <string name="map_no_api_key">Google Maps API Key가 설정되지 않았습니다.\nlocal.properties에 MAPS_API_KEY를 추가해 주세요.</string>
+    <string name="map_no_api_key">지도를 사용할 수 없어 시설 목록을 표시합니다.</string>
     <string name="map_view_list">리스트 보기</string>
 
     <!-- Diagnosis -->
@@ -125,6 +124,12 @@
     <string name="pet_friendly_filter_leash">목줄 필요</string>
     <string name="pet_friendly_view_map">지도 보기</string>
     <string name="pet_friendly_view_list">리스트 보기</string>
+    <string name="pet_friendly_empty">조건에 맞는 동반시설이 없습니다.</string>
+    <string name="pet_friendly_reset_filters">필터 초기화</string>
+    <string name="facility_call">전화</string>
+    <string name="facility_directions">길찾기</string>
+    <string name="facility_action_unavailable">이 작업을 열 수 있는 앱이 없습니다.</string>
+    <string name="facility_phone_unavailable">전화번호가 없습니다.</string>
     <string name="pet_friendly_pet_type_format">동반 가능: %1$s</string>
     <string name="pet_friendly_size_format">크기 제한: %1$s</string>
     <string name="pet_friendly_badge_indoor">실내 가능</string>

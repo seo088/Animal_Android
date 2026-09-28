@@ -125,6 +125,24 @@
                 tools:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_facility_call"
+                style="@style/Widget.AnimalLoo.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/facility_call"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_facility_directions"
+                style="@style/Widget.AnimalLoo.Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/facility_directions"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_related_detail"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"

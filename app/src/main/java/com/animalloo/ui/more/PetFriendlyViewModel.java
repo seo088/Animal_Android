@@ -25,6 +25,7 @@ public class PetFriendlyViewModel extends ViewModel {
     private Boolean indoorAllowed;
     private Boolean carrierRequired;
     private Boolean leashRequired;
+    private int requestGeneration;
 
     public PetFriendlyViewModel() {
         facilityRepository = RepositoryProvider.getInstance().getFacilityRepository();
@@ -38,27 +39,50 @@ public class PetFriendlyViewModel extends ViewModel {
         return mapViewMode;
     }
 
+    public PetFriendlyFilter getFilter() {
+        return new PetFriendlyFilter(petType, sizeLimit, indoorAllowed, carrierRequired, leashRequired);
+    }
+
+    public void restoreFilters(PetFriendlyFilter filter, boolean mapMode) {
+        petType = filter.getPetType();
+        sizeLimit = filter.getSizeLimit();
+        indoorAllowed = filter.getIndoorAllowed();
+        carrierRequired = filter.getCarrierRequired();
+        leashRequired = filter.getLeashRequired();
+        mapViewMode.setValue(mapMode);
+    }
+
+    public void resetFilters() {
+        restoreFilters(PetFriendlyFilter.empty(), Boolean.TRUE.equals(mapViewMode.getValue()));
+        loadFacilities();
+    }
+
     public void setPetTypeFilter(String petType) {
+        if (this.petType.equals(petType)) return;
         this.petType = petType;
         loadFacilities();
     }
 
     public void setSizeLimitFilter(String sizeLimit) {
+        if (this.sizeLimit.equals(sizeLimit)) return;
         this.sizeLimit = sizeLimit;
         loadFacilities();
     }
 
     public void setIndoorAllowedFilter(Boolean indoorAllowed) {
+        if (java.util.Objects.equals(this.indoorAllowed, indoorAllowed)) return;
         this.indoorAllowed = indoorAllowed;
         loadFacilities();
     }
 
     public void setCarrierRequiredFilter(Boolean carrierRequired) {
+        if (java.util.Objects.equals(this.carrierRequired, carrierRequired)) return;
         this.carrierRequired = carrierRequired;
         loadFacilities();
     }
 
     public void setLeashRequiredFilter(Boolean leashRequired) {
+        if (java.util.Objects.equals(this.leashRequired, leashRequired)) return;
         this.leashRequired = leashRequired;
         loadFacilities();
     }
@@ -68,14 +92,19 @@ public class PetFriendlyViewModel extends ViewModel {
         mapViewMode.setValue(current == null || !current);
     }
 
+    public void setMapViewMode(boolean mapMode) {
+        mapViewMode.setValue(mapMode);
+    }
+
     public void loadFacilities() {
         facilitiesState.setValue(UiState.loading());
-        PetFriendlyFilter filter = new PetFriendlyFilter(
-                petType, sizeLimit, indoorAllowed, carrierRequired, leashRequired);
+        PetFriendlyFilter filter = getFilter();
+        int generation = ++requestGeneration;
 
         facilityRepository.getPetFriendlyFacilities(filter, new RepositoryCallback<List<Facility>>() {
             @Override
             public void onSuccess(List<Facility> data) {
+                if (generation != requestGeneration) return;
                 if (data == null || data.isEmpty()) {
                     facilitiesState.setValue(UiState.empty());
                 } else {
@@ -85,6 +114,7 @@ public class PetFriendlyViewModel extends ViewModel {
 
             @Override
             public void onError(String message) {
+                if (generation != requestGeneration) return;
                 facilitiesState.setValue(UiState.error(message));
             }
         });

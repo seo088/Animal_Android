@@ -19,6 +19,7 @@ public class MapViewModel extends ViewModel {
 
     private final MutableLiveData<UiState<List<Facility>>> facilitiesState = new MutableLiveData<>();
     private final MutableLiveData<FacilityCategory> selectedCategory = new MutableLiveData<>();
+    private int requestGeneration;
 
     public MapViewModel() {
         facilityRepository = RepositoryProvider.getInstance().getFacilityRepository();
@@ -35,11 +36,13 @@ public class MapViewModel extends ViewModel {
     public void loadFacilities(FacilityCategory category) {
         selectedCategory.setValue(category);
         facilitiesState.setValue(UiState.loading());
+        int generation = ++requestGeneration;
 
         if (category == null) {
             facilityRepository.getAllFacilities(new RepositoryCallback<List<Facility>>() {
                 @Override
                 public void onSuccess(List<Facility> data) {
+                    if (generation != requestGeneration) return;
                     if (data == null || data.isEmpty()) {
                         facilitiesState.setValue(UiState.empty());
                     } else {
@@ -49,6 +52,7 @@ public class MapViewModel extends ViewModel {
 
                 @Override
                 public void onError(String message) {
+                    if (generation != requestGeneration) return;
                     facilitiesState.setValue(UiState.error(message));
                 }
             });
@@ -56,6 +60,7 @@ public class MapViewModel extends ViewModel {
             facilityRepository.getFacilitiesByCategory(category, new RepositoryCallback<List<Facility>>() {
                 @Override
                 public void onSuccess(List<Facility> data) {
+                    if (generation != requestGeneration) return;
                     if (data == null || data.isEmpty()) {
                         facilitiesState.setValue(UiState.empty());
                     } else {
@@ -65,6 +70,7 @@ public class MapViewModel extends ViewModel {
 
                 @Override
                 public void onError(String message) {
+                    if (generation != requestGeneration) return;
                     facilitiesState.setValue(UiState.error(message));
                 }
             });

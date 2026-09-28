@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/spacing_lg">
+
+    <FrameLayout
+        android:id="@+id/sheet_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/sheet_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
     <TextView
         android:id="@+id/tv_sheet_facility_name"
@@ -83,11 +100,31 @@
         android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sheet_call"
+        style="@style/Widget.AnimalLoo.Button.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_lg"
+        android:text="@string/facility_call" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sheet_directions"
+        style="@style/Widget.AnimalLoo.Button.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:text="@string/facility_directions" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_sheet_detail"
         style="@style/Widget.AnimalLoo.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_lg"
+        android:layout_marginTop="@dimen/spacing_sm"
         android:text="@string/detail_view_more" />
 
+    </LinearLayout>
+
 </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

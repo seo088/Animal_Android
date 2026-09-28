@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_empty_state"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_lg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/pet_friendly_empty"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:textColor="@color/color_text_secondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_reset_filters"
+        style="@style/Widget.AnimalLoo.Button.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:text="@string/pet_friendly_reset_filters" />
+</LinearLayout>

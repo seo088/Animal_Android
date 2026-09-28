@@ -17,6 +17,7 @@ import com.animalloo.adapter.PetFriendlyFacilityAdapter;
 import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.FacilityCategory;
+import com.animalloo.data.model.PetFriendlyFilter;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentPetFriendlyBinding;
 import com.animalloo.ui.common.BaseFragment;
@@ -47,7 +48,6 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     private PetFriendlyFacilityAdapter facilityAdapter;
     private GoogleMap googleMap;
     private boolean mapsAvailable;
-    private boolean mapFragmentAdded;
 
     @Nullable
     @Override
@@ -63,6 +63,16 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
         viewModel = new ViewModelProvider(this).get(PetFriendlyViewModel.class);
         mapsAvailable = MapsAvailabilityChecker.isMapsAvailable(requireContext());
+        if (savedInstanceState != null) {
+            viewModel.restoreFilters(new PetFriendlyFilter(
+                    savedInstanceState.getString("pet_type", "전체"),
+                    savedInstanceState.getString("size_limit", "전체"),
+                    readNullableBoolean(savedInstanceState, "indoor"),
+                    readNullableBoolean(savedInstanceState, "carrier"),
+                    readNullableBoolean(savedInstanceState, "leash")),
+                    savedInstanceState.getBoolean("map_mode", false));
+        }
+        if (!mapsAvailable) viewModel.setMapViewMode(false);
 
         setupToolbar();
         setupFilters();
@@ -71,11 +81,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         setupViewToggle();
         observeViewModel();
 
-        if (savedInstanceState == null) {
-            viewModel.loadFacilities();
-        } else {
-            viewModel.refresh();
-        }
+        viewModel.loadFacilities();
     }
 
     private void setupToolbar() {
@@ -90,14 +96,24 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         ArrayAdapter<CharSequence> petTypeAdapter = ArrayAdapter.createFromResource(
                 requireContext(), R.array.pet_types, android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPetType.setAdapter(petTypeAdapter);
+        PetFriendlyFilter filter = viewModel.getFilter();
+        binding.spinnerPetType.setSelection(Math.max(0, petTypeAdapter.getPosition(filter.getPetType())));
         binding.spinnerPetType.setOnItemSelectedListener(new SimpleItemSelectedListener(value ->
                 viewModel.setPetTypeFilter(value)));
 
         ArrayAdapter<CharSequence> sizeAdapter = ArrayAdapter.createFromResource(
                 requireContext(), R.array.size_limits, android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerSizeLimit.setAdapter(sizeAdapter);
+        binding.spinnerSizeLimit.setSelection(Math.max(0, sizeAdapter.getPosition(filter.getSizeLimit())));
         binding.spinnerSizeLimit.setOnItemSelectedListener(new SimpleItemSelectedListener(value ->
                 viewModel.setSizeLimitFilter(value)));
+
+        selectTriState(binding.chipGroupIndoor, filter.getIndoorAllowed(),
+                R.id.chip_indoor_all, R.id.chip_indoor_yes, R.id.chip_indoor_no);
+        selectTriState(binding.chipGroupCarrier, filter.getCarrierRequired(),
+                R.id.chip_carrier_all, R.id.chip_carrier_yes, R.id.chip_carrier_no);
+        selectTriState(binding.chipGroupLeash, filter.getLeashRequired(),
+                R.id.chip_leash_all, R.id.chip_leash_yes, R.id.chip_leash_no);
 
         binding.chipGroupIndoor.setOnCheckedStateChangeListener(
                 (ChipGroup group, List<Integer> checkedIds) ->
@@ -113,6 +129,15 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
                 (ChipGroup group, List<Integer> checkedIds) ->
                         viewModel.setLeashRequiredFilter(mapTriStateFilter(checkedIds,
                                 R.id.chip_leash_all, R.id.chip_leash_yes, R.id.chip_leash_no)));
+    }
+
+    private void selectTriState(ChipGroup group, Boolean value, int allId, int yesId, int noId) {
+        group.check(value == null ? allId : value ? yesId : noId);
+    }
+
+    @Nullable
+    private Boolean readNullableBoolean(Bundle state, String key) {
+        return state.containsKey(key) ? state.getBoolean(key) : null;
     }
 
     @Nullable
@@ -147,19 +172,18 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
                     (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_container);
             if (existingMapFragment != null) {
                 existingMapFragment.getMapAsync(this);
-                mapFragmentAdded = true;
-            } else if (!mapFragmentAdded) {
+            } else {
                 SupportMapFragment mapFragment = SupportMapFragment.newInstance();
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.map_container, mapFragment)
                         .commit();
                 mapFragment.getMapAsync(this);
-                mapFragmentAdded = true;
             }
         }
     }
 
     private void setupViewToggle() {
+        binding.btnToggleView.setEnabled(mapsAvailable);
         binding.btnToggleView.setOnClickListener(v -> viewModel.toggleViewMode());
     }
 
@@ -175,9 +199,9 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
         if (Boolean.TRUE.equals(mapMode) && !mapsAvailable) {
             binding.tvMapFallbackMessage.setVisibility(View.VISIBLE);
-            binding.btnToggleView.setText(R.string.pet_friendly_view_list);
+            binding.btnToggleView.setText(R.string.pet_friendly_view_map);
         } else {
-            binding.tvMapFallbackMessage.setVisibility(View.GONE);
+            binding.tvMapFallbackMessage.setVisibility(mapsAvailable ? View.GONE : View.VISIBLE);
             binding.btnToggleView.setText(showMap
                     ? R.string.pet_friendly_view_list
                     : R.string.pet_friendly_view_map);
@@ -210,6 +234,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         hideOverlayState(binding.stateContainer);
 
         if (state.isError()) {
+            if (googleMap != null) googleMap.clear();
             facilityAdapter.setItems(null);
             showOverlayState(binding.stateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
@@ -225,7 +250,15 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
                 googleMap.clear();
             }
             facilityAdapter.setItems(null);
-            showOverlayState(binding.stateContainer, R.layout.layout_empty, null);
+            showOverlayState(binding.stateContainer, R.layout.layout_pet_friendly_empty, stateView ->
+                    stateView.findViewById(R.id.btn_reset_filters).setOnClickListener(v -> {
+                        viewModel.resetFilters();
+                        binding.spinnerPetType.setSelection(0);
+                        binding.spinnerSizeLimit.setSelection(0);
+                        binding.chipGroupIndoor.check(R.id.chip_indoor_all);
+                        binding.chipGroupCarrier.check(R.id.chip_carrier_all);
+                        binding.chipGroupLeash.check(R.id.chip_leash_all);
+                    }));
             return;
         }
 
@@ -242,6 +275,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
+        if (binding == null) return;
         googleMap = map;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
@@ -250,7 +284,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
             if (tag instanceof String) {
                 showFacilityBottomSheet((String) tag);
             }
-            return false;
+            return true;
         });
 
         UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();
@@ -313,8 +347,21 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void showFacilityBottomSheet(String facilityId) {
+        if (getParentFragmentManager().findFragmentByTag("pet_friendly_bottom_sheet") != null) return;
         FacilityBottomSheetFragment bottomSheet = FacilityBottomSheetFragment.newInstance(facilityId);
-        bottomSheet.show(getParentFragmentManager(), "pet_friendly_bottom_sheet");
+        bottomSheet.showNow(getParentFragmentManager(), "pet_friendly_bottom_sheet");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PetFriendlyFilter filter = viewModel.getFilter();
+        outState.putString("pet_type", filter.getPetType());
+        outState.putString("size_limit", filter.getSizeLimit());
+        if (filter.getIndoorAllowed() != null) outState.putBoolean("indoor", filter.getIndoorAllowed());
+        if (filter.getCarrierRequired() != null) outState.putBoolean("carrier", filter.getCarrierRequired());
+        if (filter.getLeashRequired() != null) outState.putBoolean("leash", filter.getLeashRequired());
+        outState.putBoolean("map_mode", Boolean.TRUE.equals(viewModel.getMapViewMode().getValue()));
     }
 
     private void showOverlayState(ViewGroup container, int layoutRes, StateViewSetup setup) {

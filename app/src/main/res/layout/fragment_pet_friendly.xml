@@ -44,19 +44,19 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/filter_scroll"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:layout_height="200dp"
+        android:fillViewport="true"
         android:paddingHorizontal="@dimen/spacing_md"
-        android:scrollbars="none"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_header">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="@dimen/spacing_sm">
@@ -120,7 +120,7 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_indoor"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:selectionRequired="true"
                 app:singleSelection="true">
@@ -158,7 +158,7 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_carrier"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:selectionRequired="true"
                 app:singleSelection="true">
@@ -196,7 +196,7 @@
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_leash"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:selectionRequired="true"
                 app:singleSelection="true">
@@ -227,7 +227,7 @@
 
         </LinearLayout>
 
-    </HorizontalScrollView>
+    </ScrollView>
 
     <TextView
         android:id="@+id/tv_map_fallback_message"

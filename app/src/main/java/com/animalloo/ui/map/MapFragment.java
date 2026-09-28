@@ -50,7 +50,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
-    private boolean mapFragmentAdded;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
     private boolean locationPromptShown;
 
@@ -75,17 +74,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         viewModel = new ViewModelProvider(this).get(MapViewModel.class);
         mapsAvailable = MapsAvailabilityChecker.isMapsAvailable(requireContext());
 
+        FacilityCategory category = viewModel.getSelectedCategory().getValue();
+        if (savedInstanceState != null) {
+            String savedCategory = savedInstanceState.getString("selected_category");
+            category = savedCategory == null ? null : FacilityCategory.valueOf(savedCategory);
+        }
+        restoreChipSelection(category);
         setupChipGroup();
         setupFallbackList();
         setupMapContainer();
         observeViewModel();
 
-        if (savedInstanceState == null) {
-            viewModel.loadFacilities(null);
-        } else {
-            restoreChipSelection(viewModel.getSelectedCategory().getValue());
-            viewModel.refresh();
-        }
+        viewModel.loadFacilities(category);
     }
 
     private void setupMapContainer() {
@@ -97,14 +97,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                     (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_container);
             if (existingMapFragment != null) {
                 existingMapFragment.getMapAsync(this);
-                mapFragmentAdded = true;
-            } else if (!mapFragmentAdded) {
+            } else {
                 SupportMapFragment mapFragment = SupportMapFragment.newInstance();
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.map_container, mapFragment)
                         .commit();
                 mapFragment.getMapAsync(this);
-                mapFragmentAdded = true;
             }
         } else {
             binding.mapContainer.setVisibility(View.GONE);
@@ -209,6 +207,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         hideOverlayState(stateContainer);
 
         if (state.isError()) {
+            if (mapsAvailable && googleMap != null) {
+                googleMap.clear();
+            }
             if (!mapsAvailable) {
                 facilityListAdapter.setItems(null);
             }
@@ -244,6 +245,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
+        if (binding == null) return;
         googleMap = map;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
@@ -252,7 +254,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             if (tag instanceof String) {
                 showFacilityBottomSheet((String) tag);
             }
-            return false;
+            return true;
         });
 
         enableMyLocationIfPossible();
@@ -315,8 +317,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     }
 
     private void showFacilityBottomSheet(String facilityId) {
+        if (getChildFragmentManager().findFragmentByTag("facility_bottom_sheet") != null) return;
         FacilityBottomSheetFragment bottomSheet = FacilityBottomSheetFragment.newInstance(facilityId);
-        bottomSheet.show(getChildFragmentManager(), "facility_bottom_sheet");
+        bottomSheet.showNow(getChildFragmentManager(), "facility_bottom_sheet");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        FacilityCategory category = viewModel.getSelectedCategory().getValue();
+        outState.putString("selected_category", category == null ? null : category.name());
     }
 
     private void handleLocationPermissionResult(Map<String, Boolean> result) {

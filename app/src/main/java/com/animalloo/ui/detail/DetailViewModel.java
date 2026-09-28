@@ -32,6 +32,11 @@ public class DetailViewModel extends ViewModel {
     private final LostAnimalRepository lostAnimalRepository;
 
     private final MutableLiveData<UiState<DetailUiModel>> detailState = new MutableLiveData<>();
+    private Facility currentFacility;
+
+    public Facility getCurrentFacility() {
+        return currentFacility;
+    }
 
     public DetailViewModel() {
         RepositoryProvider provider = RepositoryProvider.getInstance();
@@ -48,6 +53,7 @@ public class DetailViewModel extends ViewModel {
     }
 
     public void loadDetail(DetailType type, String itemId) {
+        currentFacility = null;
         detailState.setValue(UiState.loading());
 
         if (type == DetailType.FACILITY) {
@@ -69,6 +75,7 @@ public class DetailViewModel extends ViewModel {
         facilityRepository.getFacilityById(itemId, new RepositoryCallback<Facility>() {
             @Override
             public void onSuccess(Facility data) {
+                currentFacility = data;
                 detailState.setValue(UiState.success(DetailUiMapper.fromFacility(appContext, data)));
             }
 
