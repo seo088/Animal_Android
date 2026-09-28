@@ -15,6 +15,7 @@
         android:tint="@color/color_text_hint" />
 
     <TextView
+        android:id="@+id/tv_empty_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_md"

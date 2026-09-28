@@ -64,6 +64,15 @@
                     tools:text="demo@animalloo.app" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_retry_account"
+                    style="@style/Widget.AnimalLoo.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/settings_retry_account"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_logout"
                     style="@style/Widget.AnimalLoo.Button.Outlined"
                     android:layout_width="match_parent"
@@ -94,6 +103,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settings_notification_section"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
+
+                <TextView
+                    android:id="@+id/tv_notification_permission_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary"
+                    tools:text="알림 권한: 허용됨" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_notification_settings"
+                    style="@style/Widget.AnimalLoo.Button.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:text="@string/settings_open_notification_settings" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switch_rescue_alert"
@@ -154,6 +180,14 @@
                     android:textColor="@color/color_text_secondary"
                     tools:text="Firebase 미설정" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:text="@string/settings_test_notification_note"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_test_rescue_notification"
                     style="@style/Widget.AnimalLoo.Button.Outlined"
@@ -169,6 +203,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
                     android:text="@string/settings_test_lost_notification" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_test_location_notification"
+                    style="@style/Widget.AnimalLoo.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:text="@string/settings_test_location_notification" />
 
             </LinearLayout>
 
@@ -200,6 +242,14 @@
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary"
                     tools:text="분실 신고 사진 캐시: 0 B" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:text="@string/settings_cache_note"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_clear_photo_cache"

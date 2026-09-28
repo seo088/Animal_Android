@@ -131,6 +131,7 @@
     <string name="more_data_source_desc">공공데이터 기반 서비스 안내를 확인합니다.</string>
     <string name="more_app_info">앱 정보</string>
     <string name="more_back">뒤로</string>
+    <string name="more_open_settings">설정 열기</string>
 
     <!-- Pet Friendly -->
     <string name="pet_friendly_filter_pet_type">동물 종류</string>
@@ -167,23 +168,38 @@
     <string name="settings_logout_confirm_positive">로그아웃</string>
     <string name="settings_logout_confirm_negative">취소</string>
     <string name="settings_account_unavailable">계정 정보를 불러올 수 없습니다.</string>
+    <string name="settings_retry_account">다시 불러오기</string>
     <string name="settings_notification_section">알림 설정</string>
     <string name="settings_saved">설정이 저장되었습니다.</string>
     <string name="settings_app_version_format">버전 %1$s</string>
     <string name="settings_fcm_section">FCM / 알림 테스트</string>
     <string name="settings_fcm_configured">Firebase가 설정되어 FCM 토큰을 사용할 수 있습니다.</string>
     <string name="settings_fcm_not_configured">Firebase 미설정: app/google-services.json 파일을 로컬에 추가하세요.</string>
+    <string name="settings_fcm_waiting_token">Firebase 설정됨: FCM 토큰을 기다리는 중입니다.</string>
+    <string name="settings_fcm_token_format">FCM 토큰: %1$s</string>
+    <string name="settings_notification_permission_granted">알림 권한: 허용됨</string>
+    <string name="settings_notification_permission_denied">알림 권한: 거부됨</string>
+    <string name="settings_notification_permission_blocked">알림 권한: 허용됐지만 OS에서 알림이 차단됨</string>
+    <string name="settings_notification_blocked">시스템 설정에서 AnimalLoo 알림을 허용해 주세요.</string>
+    <string name="settings_open_notification_settings">알림 설정 열기</string>
+    <string name="settings_test_notification_note">테스트 알림은 카테고리 설정과 별개로 로컬에서 바로 표시됩니다.</string>
     <string name="settings_test_rescue_notification">구조 알림 테스트</string>
     <string name="settings_test_lost_notification">분실 알림 테스트</string>
+    <string name="settings_test_location_notification">위치 알림 테스트</string>
+    <string name="settings_test_location_title">[테스트] 위치 기반 알림</string>
+    <string name="settings_test_location_body">서울 송파구 인근 반려동물 관련 알림이 도착했습니다. (Mock)</string>
     <string name="settings_test_rescue_title">[테스트] 구조동물 알림</string>
     <string name="settings_test_rescue_body">서울 송파구에서 말티즈 구조 알림이 도착했습니다. (Mock)</string>
     <string name="settings_test_lost_title">[테스트] 분실동물 알림</string>
     <string name="settings_test_lost_body">서울 강남구에서 푸들 분실 신고 알림이 도착했습니다. (Mock)</string>
     <string name="settings_test_notification_sent">테스트 알림을 표시했습니다.</string>
+    <string name="settings_test_notification_failed">테스트 알림을 표시하지 못했습니다.</string>
+    <string name="settings_test_notification_cooldown">잠시 후 다시 시도해 주세요.</string>
     <string name="settings_cache_section">분실 신고 사진 캐시</string>
     <string name="settings_cache_size_format">분실 신고 사진 캐시: %1$s</string>
     <string name="settings_clear_photo_cache">사진 캐시 삭제</string>
-    <string name="settings_cache_cleared_format">%1$d개의 캐시 파일을 삭제했습니다.</string>
+    <string name="settings_cache_cleared_format">%1$d개의 임시 사진 파일을 삭제했습니다.</string>
+    <string name="settings_cache_note">제출된 신고 사진은 삭제되지 않습니다. 선택 중인 임시 사진만 제거됩니다.</string>
 
     <!-- FCM -->
     <string name="fcm_token_updated">FCM 토큰이 갱신되었습니다.</string>
@@ -201,6 +217,7 @@
     <string name="network_demo_fetch">데모 API 호출</string>
     <string name="network_demo_source_format">출처: %1$s</string>
     <string name="network_demo_fetched_at_format">조회 시각: %1$s</string>
+    <string name="network_demo_empty">표시할 데모 데이터가 없습니다.</string>
 
     <!-- Data Source -->
     <string name="data_source_title">데이터 출처 안내</string>

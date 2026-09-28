@@ -8,14 +8,12 @@ import com.animalloo.data.model.User;
 import com.animalloo.data.repository.AuthRepository;
 import com.animalloo.util.RepositoryProvider;
 
-public class SettingsViewModel extends ViewModel {
+public class MoreViewModel extends ViewModel {
 
     private final AuthRepository authRepository;
     private final MutableLiveData<User> currentUser = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> logoutComplete = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> logoutInProgress = new MutableLiveData<>(false);
 
-    public SettingsViewModel() {
+    public MoreViewModel() {
         authRepository = RepositoryProvider.getInstance().getAuthRepository();
     }
 
@@ -23,22 +21,7 @@ public class SettingsViewModel extends ViewModel {
         return currentUser;
     }
 
-    public LiveData<Boolean> getLogoutComplete() {
-        return logoutComplete;
-    }
-
-    public LiveData<Boolean> getLogoutInProgress() {
-        return logoutInProgress;
-    }
-
     public void loadAccount() {
         currentUser.setValue(authRepository.getCurrentUser());
-    }
-
-    public void logout() {
-        logoutInProgress.setValue(true);
-        authRepository.logout();
-        logoutInProgress.setValue(false);
-        logoutComplete.setValue(true);
     }
 }

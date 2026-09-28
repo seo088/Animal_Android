@@ -83,6 +83,16 @@ public class DataSourceFragment extends BaseFragment {
             return;
         }
 
+        if (state.isEmpty()) {
+            binding.networkStateContainer.setVisibility(View.VISIBLE);
+            View emptyView = getLayoutInflater().inflate(
+                    R.layout.layout_empty, binding.networkStateContainer, false);
+            TextView messageView = emptyView.findViewById(R.id.tv_empty_message);
+            messageView.setText(R.string.network_demo_empty);
+            binding.networkStateContainer.addView(emptyView);
+            return;
+        }
+
         if (state.isSuccess() && state.getData() != null) {
             PublicDataInfo info = state.getData();
             binding.layoutNetworkResult.setVisibility(View.VISIBLE);

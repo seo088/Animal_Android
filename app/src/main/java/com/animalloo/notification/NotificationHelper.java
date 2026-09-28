@@ -60,7 +60,43 @@ public final class NotificationHelper {
         manager.createNotificationChannel(generalChannel);
     }
 
-    public static void showRescueNotification(Context context, String title, String body) {
+    public static boolean canPostNotifications(Context context) {
+        return canPostToChannel(context, CHANNEL_GENERAL);
+    }
+
+    public static boolean canPostToChannel(Context context, String channelId) {
+        if (!hasNotificationPermission(context)) {
+            return false;
+        }
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !manager.areNotificationsEnabled()) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.NotificationChannel channel = manager.getNotificationChannel(channelId);
+            if (channel != null && channel.getImportance() == NotificationManager.IMPORTANCE_NONE) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasNotificationPermission(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return true;
+        }
+        return androidx.core.content.ContextCompat.checkSelfPermission(
+                context, android.Manifest.permission.POST_NOTIFICATIONS)
+                == android.content.pm.PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean showRescueNotification(Context context, String title, String body) {
+        if (!canPostToChannel(context, CHANNEL_RESCUE)) {
+            return false;
+        }
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(EXTRA_OPEN_RESCUE_TAB, 1);
@@ -83,10 +119,15 @@ public final class NotificationHelper {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {
             manager.notify(NOTIFICATION_ID_RESCUE, builder.build());
+            return true;
         }
+        return false;
     }
 
-    public static void showLostNotification(Context context, String title, String body) {
+    public static boolean showLostNotification(Context context, String title, String body) {
+        if (!canPostToChannel(context, CHANNEL_LOST)) {
+            return false;
+        }
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(EXTRA_OPEN_RESCUE_TAB, 0);
@@ -109,10 +150,15 @@ public final class NotificationHelper {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {
             manager.notify(NOTIFICATION_ID_LOST, builder.build());
+            return true;
         }
+        return false;
     }
 
-    public static void showGeneralNotification(Context context, String title, String body) {
+    public static boolean showGeneralNotification(Context context, String title, String body) {
+        if (!canPostToChannel(context, CHANNEL_GENERAL)) {
+            return false;
+        }
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(EXTRA_OPEN_HOME, true);
@@ -135,6 +181,8 @@ public final class NotificationHelper {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {
             manager.notify(NOTIFICATION_ID_GENERAL, builder.build());
+            return true;
         }
+        return false;
     }
 }

@@ -23,6 +23,7 @@ import com.animalloo.ui.diagnosis.DiagnosisFragment;
 import com.animalloo.ui.home.HomeFragment;
 import com.animalloo.ui.map.MapFragment;
 import com.animalloo.ui.more.MoreFragment;
+import com.animalloo.ui.more.MoreSectionListener;
 import com.animalloo.ui.auth.AuthActivity;
 import com.animalloo.ui.rescue.RescueFragment;
 import com.animalloo.util.RepositoryProvider;
@@ -31,7 +32,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class MainActivity extends AppCompatActivity implements MainNavigator, DetailNavigator {
+public class MainActivity extends AppCompatActivity implements MainNavigator, DetailNavigator, MoreSectionListener {
 
     private static final class DetailEntry {
         final DetailType type;
@@ -235,7 +236,9 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
         binding.detailContainer.setVisibility(View.GONE);
         binding.bottomNavigation.setVisibility(View.VISIBLE);
-        updateToolbarTitle(getTitleResForNavItem(binding.bottomNavigation.getSelectedItemId()));
+        updateToolbarForActiveFragment(
+                activeFragment,
+                getTitleResForNavItem(binding.bottomNavigation.getSelectedItemId()));
         updateDetailBackHandlerEnabled();
     }
 
@@ -336,7 +339,31 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         transaction.commit();
 
         activeFragment = targetFragment;
-        updateToolbarTitle(titleRes);
+        updateToolbarForActiveFragment(targetFragment, titleRes);
+    }
+
+    @Override
+    public void onMoreSectionChanged(int section) {
+        if (activeFragment != moreFragment || detailVisible) {
+            return;
+        }
+        if (section == MoreFragment.SECTION_HUB) {
+            binding.toolbar.setVisibility(View.VISIBLE);
+            updateToolbarTitle(R.string.nav_more);
+        } else {
+            binding.toolbar.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateToolbarForActiveFragment(Fragment targetFragment, int titleRes) {
+        if (targetFragment == moreFragment
+                && moreFragment != null
+                && moreFragment.getCurrentSection() != MoreFragment.SECTION_HUB) {
+            binding.toolbar.setVisibility(View.GONE);
+        } else {
+            binding.toolbar.setVisibility(View.VISIBLE);
+            updateToolbarTitle(titleRes);
+        }
     }
 
     public void switchToTabProgrammatically(int bottomNavItemId) {

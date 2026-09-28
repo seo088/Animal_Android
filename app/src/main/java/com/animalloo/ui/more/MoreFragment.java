@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.animalloo.R;
 import com.animalloo.databinding.FragmentMoreBinding;
@@ -29,6 +30,7 @@ public class MoreFragment extends BaseFragment implements MoreHost {
     private static final String TAG_DATA_SOURCE = "tag_data_source";
 
     private FragmentMoreBinding binding;
+    private MoreViewModel viewModel;
     private OnBackPressedCallback backPressedCallback;
     private int currentSection = SECTION_HUB;
 
@@ -44,13 +46,25 @@ public class MoreFragment extends BaseFragment implements MoreHost {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(MoreViewModel.class);
         setupMenuItems();
+        setupAccountSummary();
         setupBackHandler();
 
         if (savedInstanceState != null) {
             currentSection = savedInstanceState.getInt("more_section", SECTION_HUB);
         }
         updateSectionVisibility(currentSection);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.loadAccount();
+    }
+
+    public int getCurrentSection() {
+        return currentSection;
     }
 
     public void openSection(int section) {
@@ -74,6 +88,7 @@ public class MoreFragment extends BaseFragment implements MoreHost {
         transaction.commit();
 
         updateBackHandlerEnabled(true);
+        notifySectionChanged(section);
     }
 
     @Override
@@ -91,6 +106,22 @@ public class MoreFragment extends BaseFragment implements MoreHost {
         transaction.commit();
 
         updateBackHandlerEnabled(false);
+        notifySectionChanged(SECTION_HUB);
+    }
+
+    private void setupAccountSummary() {
+        binding.cardAccountSummary.setOnClickListener(v -> openSection(SECTION_SETTINGS));
+        binding.btnOpenSettings.setOnClickListener(v -> openSection(SECTION_SETTINGS));
+        viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) {
+                binding.cardAccountSummary.setVisibility(View.GONE);
+                return;
+            }
+            binding.cardAccountSummary.setVisibility(View.VISIBLE);
+            binding.tvHubAccountName.setText(user.getDisplayName());
+            binding.tvHubAccountEmail.setText(user.getEmail());
+        });
+        viewModel.loadAccount();
     }
 
     private void setupMenuItems() {
@@ -190,6 +221,12 @@ public class MoreFragment extends BaseFragment implements MoreHost {
     private void updateBackHandlerEnabled(boolean enabled) {
         if (backPressedCallback != null) {
             backPressedCallback.setEnabled(enabled);
+        }
+    }
+
+    private void notifySectionChanged(int section) {
+        if (getActivity() instanceof MoreSectionListener) {
+            ((MoreSectionListener) getActivity()).onMoreSectionChanged(section);
         }
     }
 
