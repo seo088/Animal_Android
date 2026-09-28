@@ -28,6 +28,10 @@ public class DiagnosisViewModel extends ViewModel {
     private final MutableLiveData<UiState<List<DiagnosisResult>>> diagnosisState = new MutableLiveData<>();
     private final MutableLiveData<UiState<List<Hospital>>> hospitalsState = new MutableLiveData<>();
     private final MutableLiveData<Set<String>> selectedSymptomIds = new MutableLiveData<>(new HashSet<>());
+    private final MutableLiveData<String> symptomValidationMessage = new MutableLiveData<>();
+
+    private int diagnosisRequestGeneration;
+    private int hospitalRequestGeneration;
 
     public DiagnosisViewModel() {
         RepositoryProvider provider = RepositoryProvider.getInstance();
@@ -53,6 +57,17 @@ public class DiagnosisViewModel extends ViewModel {
 
     public LiveData<Set<String>> getSelectedSymptomIds() {
         return selectedSymptomIds;
+    }
+
+    public LiveData<String> getSymptomValidationMessage() {
+        return symptomValidationMessage;
+    }
+
+    public void ensureSymptomsLoaded() {
+        UiState<List<Symptom>> current = symptomsState.getValue();
+        if (current == null) {
+            loadSymptoms();
+        }
     }
 
     public void loadSymptoms() {
@@ -82,22 +97,44 @@ public class DiagnosisViewModel extends ViewModel {
             current.remove(symptomId);
         }
         selectedSymptomIds.setValue(current);
+        if (!current.isEmpty()) {
+            symptomValidationMessage.setValue(null);
+        }
     }
 
     public void diagnoseSelectedSymptoms() {
         List<String> symptomIds = new ArrayList<>(getSelectedIdsSnapshot());
         if (symptomIds.isEmpty()) {
-            diagnosisState.setValue(UiState.error("증상을 하나 이상 선택해 주세요."));
-            currentStep.setValue(DiagnosisStep.RESULT);
+            symptomValidationMessage.setValue("증상을 하나 이상 선택해 주세요.");
             return;
         }
 
+        symptomValidationMessage.setValue(null);
+        runDiagnosis(symptomIds);
+    }
+
+    public void retryDiagnosis() {
+        List<String> symptomIds = new ArrayList<>(getSelectedIdsSnapshot());
+        if (symptomIds.isEmpty()) {
+            backToSymptoms();
+            symptomValidationMessage.setValue("증상을 하나 이상 선택해 주세요.");
+            return;
+        }
+        runDiagnosis(symptomIds);
+    }
+
+    private void runDiagnosis(List<String> symptomIds) {
         diagnosisState.setValue(UiState.loading());
         currentStep.setValue(DiagnosisStep.RESULT);
+        hospitalsState.setValue(null);
+        int generation = ++diagnosisRequestGeneration;
 
         diagnosisRepository.inferDisease(symptomIds, new RepositoryCallback<List<DiagnosisResult>>() {
             @Override
             public void onSuccess(List<DiagnosisResult> data) {
+                if (generation != diagnosisRequestGeneration) {
+                    return;
+                }
                 if (data == null || data.isEmpty()) {
                     diagnosisState.setValue(UiState.empty());
                 } else {
@@ -107,6 +144,9 @@ public class DiagnosisViewModel extends ViewModel {
 
             @Override
             public void onError(String message) {
+                if (generation != diagnosisRequestGeneration) {
+                    return;
+                }
                 diagnosisState.setValue(UiState.error(message));
             }
         });
@@ -115,10 +155,14 @@ public class DiagnosisViewModel extends ViewModel {
     public void loadNearbyHospitals() {
         hospitalsState.setValue(UiState.loading());
         currentStep.setValue(DiagnosisStep.HOSPITAL);
+        int generation = ++hospitalRequestGeneration;
 
         hospitalRepository.getNearbyHospitals(new RepositoryCallback<List<Hospital>>() {
             @Override
             public void onSuccess(List<Hospital> data) {
+                if (generation != hospitalRequestGeneration) {
+                    return;
+                }
                 if (data == null || data.isEmpty()) {
                     hospitalsState.setValue(UiState.empty());
                 } else {
@@ -128,17 +172,37 @@ public class DiagnosisViewModel extends ViewModel {
 
             @Override
             public void onError(String message) {
+                if (generation != hospitalRequestGeneration) {
+                    return;
+                }
                 hospitalsState.setValue(UiState.error(message));
             }
         });
     }
 
-    public void resetDiagnosis() {
+    public void backToSymptoms() {
+        diagnosisRequestGeneration++;
+        hospitalRequestGeneration++;
+        currentStep.setValue(DiagnosisStep.SYMPTOM);
+        diagnosisState.setValue(null);
+        hospitalsState.setValue(null);
+    }
+
+    public void backToResults() {
+        hospitalRequestGeneration++;
+        currentStep.setValue(DiagnosisStep.RESULT);
+        hospitalsState.setValue(null);
+    }
+
+    public void restartDiagnosis() {
+        diagnosisRequestGeneration++;
+        hospitalRequestGeneration++;
         selectedSymptomIds.setValue(new HashSet<>());
         diagnosisState.setValue(null);
         hospitalsState.setValue(null);
+        symptomValidationMessage.setValue(null);
         currentStep.setValue(DiagnosisStep.SYMPTOM);
-        loadSymptoms();
+        ensureSymptomsLoaded();
     }
 
     private Set<String> getSelectedIdsSnapshot() {

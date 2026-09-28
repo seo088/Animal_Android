@@ -2,6 +2,7 @@ package com.animalloo.ui.diagnosis;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Set;
@@ -38,6 +38,7 @@ public class DiagnosisFragment extends BaseFragment {
     private DiagnosisResultAdapter diagnosisResultAdapter;
     private HospitalAdapter hospitalAdapter;
     private DetailNavigator detailNavigator;
+    private boolean syncingChipSelection;
 
     @Override
     public void onAttach(@NonNull android.content.Context context) {
@@ -65,10 +66,7 @@ public class DiagnosisFragment extends BaseFragment {
         setupRecyclerViews();
         setupButtons();
         observeViewModel();
-
-        if (savedInstanceState == null) {
-            viewModel.loadSymptoms();
-        }
+        viewModel.ensureSymptomsLoaded();
     }
 
     private void setupRecyclerViews() {
@@ -86,18 +84,40 @@ public class DiagnosisFragment extends BaseFragment {
     private void setupButtons() {
         binding.btnDiagnose.setOnClickListener(v -> viewModel.diagnoseSelectedSymptoms());
         binding.btnFindHospitals.setOnClickListener(v -> viewModel.loadNearbyHospitals());
-        binding.btnRetryDiagnosis.setOnClickListener(v -> viewModel.resetDiagnosis());
-        binding.btnRetryFromHospital.setOnClickListener(v -> viewModel.resetDiagnosis());
+        binding.btnRetryDiagnosis.setOnClickListener(v -> viewModel.retryDiagnosis());
+        binding.btnBackToSymptoms.setOnClickListener(v -> viewModel.backToSymptoms());
+        binding.btnBackToResults.setOnClickListener(v -> viewModel.backToResults());
+        binding.btnRestartDiagnosis.setOnClickListener(v -> viewModel.restartDiagnosis());
     }
 
     private void observeViewModel() {
         viewModel.getCurrentStep().observe(getViewLifecycleOwner(), this::renderStep);
-        viewModel.getSymptomsState().observe(getViewLifecycleOwner(), this::renderSymptomsState);
+        viewModel.getSymptomsState().observe(getViewLifecycleOwner(), state -> {
+            renderSymptomsState(state);
+            updateDiagnoseButtonState();
+        });
         viewModel.getDiagnosisState().observe(getViewLifecycleOwner(), this::renderDiagnosisState);
         viewModel.getHospitalsState().observe(getViewLifecycleOwner(), this::renderHospitalsState);
         viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), ids -> {
-            // Chip states are updated directly on click.
+            updateDiagnoseButtonState();
+            syncChipSelection(ids);
         });
+        viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
+            if (TextUtils.isEmpty(message)) {
+                binding.tvSymptomValidation.setVisibility(View.GONE);
+            } else {
+                binding.tvSymptomValidation.setText(message);
+                binding.tvSymptomValidation.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void updateDiagnoseButtonState() {
+        UiState<List<Symptom>> symptoms = viewModel.getSymptomsState().getValue();
+        Set<String> selected = viewModel.getSelectedSymptomIds().getValue();
+        boolean symptomsReady = symptoms != null && symptoms.isSuccess();
+        boolean hasSelection = selected != null && !selected.isEmpty();
+        binding.btnDiagnose.setEnabled(symptomsReady && hasSelection);
     }
 
     private void renderStep(DiagnosisStep step) {
@@ -138,6 +158,7 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isLoading()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.btnDiagnose.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_loading, null);
             return;
         }
@@ -146,6 +167,7 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isError()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.btnDiagnose.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
                 MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
@@ -157,6 +179,7 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isEmpty()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.btnDiagnose.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_empty, null);
             return;
         }
@@ -165,6 +188,21 @@ public class DiagnosisFragment extends BaseFragment {
             binding.chipGroupSymptoms.setVisibility(View.VISIBLE);
             bindSymptomChips(state.getData());
         }
+    }
+
+    private void syncChipSelection(Set<String> selectedIds) {
+        syncingChipSelection = true;
+        for (int i = 0; i < binding.chipGroupSymptoms.getChildCount(); i++) {
+            View child = binding.chipGroupSymptoms.getChildAt(i);
+            if (child instanceof Chip) {
+                Chip chip = (Chip) child;
+                Object tag = chip.getTag();
+                if (tag instanceof String) {
+                    chip.setChecked(selectedIds != null && selectedIds.contains((String) tag));
+                }
+            }
+        }
+        syncingChipSelection = false;
     }
 
     private void bindSymptomChips(List<Symptom> symptoms) {
@@ -178,8 +216,12 @@ public class DiagnosisFragment extends BaseFragment {
             chip.setTag(symptom.getId());
             chip.setChecked(selectedIds != null && selectedIds.contains(symptom.getId()));
 
-            chip.setOnCheckedChangeListener((buttonView, isChecked) ->
-                    viewModel.toggleSymptomSelection(symptom.getId(), isChecked));
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (syncingChipSelection) {
+                    return;
+                }
+                viewModel.toggleSymptomSelection(symptom.getId(), isChecked);
+            });
 
             binding.chipGroupSymptoms.addView(chip);
         }
@@ -209,7 +251,7 @@ public class DiagnosisFragment extends BaseFragment {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
                 MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
                 messageView.setText(state.getErrorMessage());
-                retryButton.setOnClickListener(v -> viewModel.resetDiagnosis());
+                retryButton.setOnClickListener(v -> viewModel.retryDiagnosis());
             });
             return;
         }

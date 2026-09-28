@@ -67,7 +67,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             binding.tvHospitalPhone.setText(hospital.getPhone());
             binding.tvHospitalDistance.setText(
                     binding.getRoot().getContext().getString(
-                            R.string.map_distance_format, hospital.getDistanceKm()));
+                            R.string.diagnosis_hospital_distance_sample, hospital.getDistanceKm()));
             binding.tvHospitalOpenStatus.setText(
                     binding.getRoot().getContext().getString(
                             hospital.isOpenNow() ? R.string.hospital_open : R.string.hospital_closed));

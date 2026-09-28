@@ -33,9 +33,14 @@ public class DetailViewModel extends ViewModel {
 
     private final MutableLiveData<UiState<DetailUiModel>> detailState = new MutableLiveData<>();
     private Facility currentFacility;
+    private Hospital currentHospital;
 
     public Facility getCurrentFacility() {
         return currentFacility;
+    }
+
+    public Hospital getCurrentHospital() {
+        return currentHospital;
     }
 
     public DetailViewModel() {
@@ -54,6 +59,7 @@ public class DetailViewModel extends ViewModel {
 
     public void loadDetail(DetailType type, String itemId) {
         currentFacility = null;
+        currentHospital = null;
         detailState.setValue(UiState.loading());
 
         if (type == DetailType.FACILITY) {
@@ -90,6 +96,7 @@ public class DetailViewModel extends ViewModel {
         hospitalRepository.getHospitalById(itemId, new RepositoryCallback<Hospital>() {
             @Override
             public void onSuccess(Hospital data) {
+                currentHospital = data;
                 detailState.setValue(UiState.success(DetailUiMapper.fromHospital(appContext, data)));
             }
 

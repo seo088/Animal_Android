@@ -98,6 +98,17 @@
                 android:layout_marginTop="@dimen/spacing_sm"
                 app:singleSelection="false" />
 
+            <TextView
+                android:id="@+id/tv_symptom_validation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_error_text"
+                android:visibility="gone"
+                tools:text="증상을 하나 이상 선택해 주세요."
+                tools:visibility="visible" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_diagnose"
                 style="@style/Widget.AnimalLoo.Button"
@@ -117,10 +128,17 @@
             android:visibility="gone"
             tools:visibility="visible">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnosis_result_guide"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
             <FrameLayout
                 android:id="@+id/result_state_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_diagnosis_results"
@@ -140,12 +158,20 @@
                 android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_retry_diagnosis"
+                android:id="@+id/btn_back_to_symptoms"
                 style="@style/Widget.AnimalLoo.Button.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:text="@string/diagnosis_retry" />
+                android:text="@string/diagnosis_back_to_symptoms" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry_diagnosis"
+                style="@style/Widget.AnimalLoo.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="@string/diagnosis_retry_analysis" />
 
         </LinearLayout>
 
@@ -157,10 +183,25 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnosis_hospital_guide"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="@string/diagnosis_hospital_sample_hint"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_text_secondary" />
+
             <FrameLayout
                 android:id="@+id/hospital_state_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_hospitals"
@@ -171,12 +212,20 @@
                 tools:listitem="@layout/item_hospital" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_retry_from_hospital"
+                android:id="@+id/btn_back_to_results"
                 style="@style/Widget.AnimalLoo.Button.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:text="@string/diagnosis_retry" />
+                android:text="@string/diagnosis_back_to_results" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_restart_diagnosis"
+                style="@style/Widget.AnimalLoo.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:text="@string/diagnosis_restart" />
 
         </LinearLayout>
 

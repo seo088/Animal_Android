@@ -55,6 +55,14 @@
     <string name="diagnosis_disclaimer">※ 본 결과는 Mock 추론 데이터이며, 실제 의료 진단이 아닙니다.</string>
     <string name="diagnosis_button">진단하기</string>
     <string name="diagnosis_retry">다시 진단</string>
+    <string name="diagnosis_retry_analysis">같은 증상으로 다시 분석</string>
+    <string name="diagnosis_back_to_symptoms">증상 수정</string>
+    <string name="diagnosis_back_to_results">결과로 돌아가기</string>
+    <string name="diagnosis_restart">처음부터 다시</string>
+    <string name="diagnosis_result_guide">선택한 증상에 대한 Mock 추론 결과입니다.</string>
+    <string name="diagnosis_hospital_guide">인근 동물병원 샘플 목록입니다.</string>
+    <string name="diagnosis_hospital_sample_hint">거리·운영 상태는 Mock 데이터이며 실제 위치와 다를 수 있습니다.</string>
+    <string name="diagnosis_hospital_distance_sample">%.1fkm (샘플)</string>
     <string name="diagnosis_symptom_guide">반려동물의 증상을 선택해 주세요. (복수 선택 가능)</string>
     <string name="diagnosis_probability_format">가능성 %1$d%%</string>
     <string name="diagnosis_related_symptoms">관련 증상: %1$s</string>
@@ -62,7 +70,6 @@
     <string name="diagnosis_find_hospitals">인근 병원 보기</string>
     <string name="hospital_open">운영 중</string>
     <string name="hospital_closed">운영 종료</string>
-    <string name="diagnosis_hospital_detail_prepare">병원 상세 화면은 곧 연결됩니다.</string>
 
     <!-- Rescue -->
     <string name="rescue_title">구조/분실</string>

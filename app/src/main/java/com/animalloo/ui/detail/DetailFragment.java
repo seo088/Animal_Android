@@ -17,6 +17,7 @@ import com.animalloo.data.model.DetailField;
 import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.DetailUiModel;
 import com.animalloo.data.model.Facility;
+import com.animalloo.data.model.Hospital;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentDetailBinding;
 import com.animalloo.databinding.ItemDetailRowBinding;
@@ -134,8 +135,11 @@ public class DetailFragment extends BaseFragment {
         binding.tvDetailTitle.setText(model.getTitle());
         Facility facility = model.getType() == DetailType.FACILITY
                 ? viewModel.getCurrentFacility() : null;
-        binding.btnFacilityCall.setVisibility(facility == null ? View.GONE : View.VISIBLE);
-        binding.btnFacilityDirections.setVisibility(facility == null ? View.GONE : View.VISIBLE);
+        Hospital hospital = model.getType() == DetailType.HOSPITAL
+                ? viewModel.getCurrentHospital() : null;
+        boolean showContactActions = facility != null || hospital != null;
+        binding.btnFacilityCall.setVisibility(showContactActions ? View.VISIBLE : View.GONE);
+        binding.btnFacilityDirections.setVisibility(showContactActions ? View.VISIBLE : View.GONE);
         if (facility != null) {
             binding.btnFacilityCall.setEnabled(facility.getPhone() != null
                     && !facility.getPhone().trim().isEmpty());
@@ -143,6 +147,13 @@ public class DetailFragment extends BaseFragment {
                     FacilityActions.dial(this, binding.getRoot(), facility));
             binding.btnFacilityDirections.setOnClickListener(v ->
                     FacilityActions.directions(this, binding.getRoot(), facility));
+        } else if (hospital != null) {
+            binding.btnFacilityCall.setEnabled(hospital.getPhone() != null
+                    && !hospital.getPhone().trim().isEmpty());
+            binding.btnFacilityCall.setOnClickListener(v ->
+                    FacilityActions.dial(this, binding.getRoot(), hospital));
+            binding.btnFacilityDirections.setOnClickListener(v ->
+                    FacilityActions.directions(this, binding.getRoot(), hospital));
         }
 
         if (!TextUtils.isEmpty(model.getSubtitle())) {
