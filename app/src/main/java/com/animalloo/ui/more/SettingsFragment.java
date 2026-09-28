@@ -245,7 +245,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void sendTestRescueNotification() {
-        if (!canSendTestNotification()) {
+        if (!canSendTestNotification(NotificationHelper.CHANNEL_RESCUE)) {
             return;
         }
         boolean posted = NotificationHelper.showRescueNotification(
@@ -256,7 +256,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void sendTestLostNotification() {
-        if (!canSendTestNotification()) {
+        if (!canSendTestNotification(NotificationHelper.CHANNEL_LOST)) {
             return;
         }
         boolean posted = NotificationHelper.showLostNotification(
@@ -267,7 +267,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void sendTestLocationNotification() {
-        if (!canSendTestNotification()) {
+        if (!canSendTestNotification(NotificationHelper.CHANNEL_GENERAL)) {
             return;
         }
         boolean posted = NotificationHelper.showGeneralNotification(
@@ -277,11 +277,11 @@ public class SettingsFragment extends BaseFragment {
         handleTestNotificationResult(posted);
     }
 
-    private boolean canSendTestNotification() {
+    private boolean canSendTestNotification(String channelId) {
         if (!ensureNotificationPermissionForTest()) {
             return false;
         }
-        if (!NotificationHelper.canPostNotifications(requireContext())) {
+        if (!NotificationHelper.canPostToChannel(requireContext(), channelId)) {
             Snackbar.make(binding.getRoot(), R.string.settings_notification_blocked, Snackbar.LENGTH_LONG)
                     .setAction(R.string.settings_open_notification_settings, v ->
                             PermissionHelper.openAppNotificationSettings(requireContext()))
@@ -352,16 +352,34 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void updateNotificationPermissionStatus() {
-        if (PermissionHelper.hasNotificationPermission(requireContext())
-                && NotificationHelper.canPostNotifications(requireContext())) {
+        if (!PermissionHelper.hasNotificationPermission(requireContext())) {
+            binding.tvNotificationPermissionStatus.setText(R.string.settings_notification_permission_denied);
+            return;
+        }
+
+        boolean rescueEnabled = NotificationHelper.canPostToChannel(
+                requireContext(), NotificationHelper.CHANNEL_RESCUE);
+        boolean lostEnabled = NotificationHelper.canPostToChannel(
+                requireContext(), NotificationHelper.CHANNEL_LOST);
+        boolean generalEnabled = NotificationHelper.canPostToChannel(
+                requireContext(), NotificationHelper.CHANNEL_GENERAL);
+
+        if (rescueEnabled && lostEnabled && generalEnabled) {
             binding.tvNotificationPermissionStatus.setText(R.string.settings_notification_permission_granted);
             return;
         }
-        if (PermissionHelper.hasNotificationPermission(requireContext())) {
-            binding.tvNotificationPermissionStatus.setText(R.string.settings_notification_permission_blocked);
-            return;
-        }
-        binding.tvNotificationPermissionStatus.setText(R.string.settings_notification_permission_denied);
+
+        binding.tvNotificationPermissionStatus.setText(
+                getString(R.string.settings_notification_permission_partial,
+                        channelStatusLabel(rescueEnabled),
+                        channelStatusLabel(lostEnabled),
+                        channelStatusLabel(generalEnabled)));
+    }
+
+    private String channelStatusLabel(boolean enabled) {
+        return enabled
+                ? getString(R.string.settings_channel_enabled)
+                : getString(R.string.settings_channel_disabled);
     }
 
     private void updateCacheInfo() {

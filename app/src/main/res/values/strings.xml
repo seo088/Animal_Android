@@ -180,6 +180,9 @@
     <string name="settings_notification_permission_granted">알림 권한: 허용됨</string>
     <string name="settings_notification_permission_denied">알림 권한: 거부됨</string>
     <string name="settings_notification_permission_blocked">알림 권한: 허용됐지만 OS에서 알림이 차단됨</string>
+    <string name="settings_notification_permission_partial">알림 채널 상태 - 구조: %1$s, 분실: %2$s, 일반: %3$s</string>
+    <string name="settings_channel_enabled">켜짐</string>
+    <string name="settings_channel_disabled">꺼짐</string>
     <string name="settings_notification_blocked">시스템 설정에서 AnimalLoo 알림을 허용해 주세요.</string>
     <string name="settings_open_notification_settings">알림 설정 열기</string>
     <string name="settings_test_notification_note">테스트 알림은 카테고리 설정과 별개로 로컬에서 바로 표시됩니다.</string>
