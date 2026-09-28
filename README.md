@@ -111,9 +111,12 @@ MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
 
 ```
 SplashActivity (애니메이션 + 효과음)
+  → AuthActivity (로그인 / 회원가입, Mock 인증)
   → MainActivity (BottomNavigation 5탭)
     → Home / Map / Diagnosis / Rescue / More
 ```
+
+**데모 계정:** `demo@animalloo.app` / `Demo1234!`
 
 ---
 
@@ -240,7 +243,7 @@ Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
 | 평가요소 | 확인 위치 |
 |----------|-----------|
 | ConstraintLayout / LinearLayout / FrameLayout | 각 화면 XML (`fragment_*.xml`, `activity_*.xml`) |
-| EditText / Spinner / Button | **구조 → 분실 신고** |
+| EditText / ExposedDropdownMenu / Button | **구조 → 분실 신고** |
 | ChipGroup | **지도**, **증상진단**, **동반시설** |
 | Options Menu | **홈** 툴바 새로고침 |
 | Context Menu | **홈 알림** 롱클릭, **구조동물** 롱클릭 |
@@ -252,6 +255,19 @@ Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
 | ViewModel / LiveData | 각 Feature ViewModel |
 | Repository Pattern | `data/repository/` + `data/mock/` |
 | FCM | **설정 → 알림 테스트**, `AnimalLooFirebaseMessagingService` |
+| MaterialToolbar | **더보기 하위 화면**, **상세**, **동반시설** |
+| 접근성 | `contentDescription`, 터치 영역 `@dimen/min_touch_target`, 분실 신고 유효성 검사 포커스 |
+
+### Phase 10 QA 체크리스트 (Android Studio)
+
+1. 로그인 → 5개 탭 순회 → 로그아웃
+2. 홈 바로가기 5종, 알림 상세, 당겨서 새로고침
+3. 지도 Chip 필터, 마커, 바텀시트 → 상세
+4. 증상진단 3단계 뒤로가기, 병원 상세
+5. 분실 신고 유효성/사진/매칭, 구조동물 필터·즐겨찾기
+6. 더보기 → 동반시설 리스트↔지도, 설정, 데이터 출처
+7. 알림 테스트(구조/분실/일반), 상세 오버레이 뒤로가기
+8. Maps API Key 없음 / Firebase 없음 환경에서 실행 확인
 
 ---
 

@@ -22,7 +22,6 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentPetFriendlyBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
-import com.animalloo.ui.main.MainNavigator;
 import com.animalloo.ui.map.FacilityBottomSheetFragment;
 import com.animalloo.util.MapsAvailabilityChecker;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -184,13 +183,16 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void setupViewToggle() {
-        binding.btnToggleView.setText(R.string.pet_friendly_open_map_tab);
-        binding.btnToggleView.setEnabled(mapsAvailable);
-        binding.btnToggleView.setOnClickListener(v -> {
-            if (requireActivity() instanceof MainNavigator) {
-                ((MainNavigator) requireActivity()).navigateToTab(R.id.nav_map);
-            }
-        });
+        binding.btnToggleView.setOnClickListener(v -> viewModel.toggleViewMode());
+        updateToggleButtonLabel();
+    }
+
+    private void updateToggleButtonLabel() {
+        boolean showMap = Boolean.TRUE.equals(viewModel.getMapViewMode().getValue()) && mapsAvailable;
+        binding.btnToggleView.setText(showMap
+                ? R.string.pet_friendly_view_list
+                : R.string.pet_friendly_view_map);
+        binding.btnToggleView.setEnabled(mapsAvailable || showMap);
     }
 
     private void observeViewModel() {
@@ -200,6 +202,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
     private void renderViewMode(Boolean mapMode) {
         boolean showMap = Boolean.TRUE.equals(mapMode) && mapsAvailable;
+        updateToggleButtonLabel();
         binding.mapContainer.setVisibility(showMap ? View.VISIBLE : View.GONE);
         binding.rvPetFriendlyList.setVisibility(showMap ? View.GONE : View.VISIBLE);
 

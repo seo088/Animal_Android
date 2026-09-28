@@ -205,15 +205,15 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void renderStatsState(UiState<HomeStats> state) {
-        binding.swipeRefresh.setRefreshing(false);
-
         if (state == null) {
+            updateSwipeRefreshState();
             return;
         }
 
         if (state.isLoading()) {
             binding.gridStats.setVisibility(View.GONE);
             showStateView(binding.statsStateContainer, R.layout.layout_loading, null);
+            updateSwipeRefreshState();
             return;
         }
 
@@ -228,6 +228,7 @@ public class HomeFragment extends BaseFragment {
                 messageView.setText(state.getErrorMessage());
                 retryButton.setOnClickListener(v -> viewModel.refresh());
             });
+            updateSwipeRefreshState();
             return;
         }
 
@@ -239,16 +240,20 @@ public class HomeFragment extends BaseFragment {
             binding.tvStatLostValue.setText(String.valueOf(stats.getLostReportCount()));
             binding.tvStatFacilityValue.setText(String.valueOf(stats.getFacilityCount()));
         }
+
+        updateSwipeRefreshState();
     }
 
     private void renderAlertsState(UiState<List<AlertNotification>> state) {
         if (state == null) {
+            updateSwipeRefreshState();
             return;
         }
 
         if (state.isLoading()) {
             binding.rvAlerts.setVisibility(View.GONE);
             showStateView(binding.alertsStateContainer, R.layout.layout_loading, null);
+            updateSwipeRefreshState();
             return;
         }
 
@@ -263,12 +268,14 @@ public class HomeFragment extends BaseFragment {
                 messageView.setText(state.getErrorMessage());
                 retryButton.setOnClickListener(v -> viewModel.refresh());
             });
+            updateSwipeRefreshState();
             return;
         }
 
         if (state.isEmpty()) {
             binding.rvAlerts.setVisibility(View.GONE);
             showStateView(binding.alertsStateContainer, R.layout.layout_empty, null);
+            updateSwipeRefreshState();
             return;
         }
 
@@ -276,6 +283,19 @@ public class HomeFragment extends BaseFragment {
             binding.rvAlerts.setVisibility(View.VISIBLE);
             alertAdapter.setItems(state.getData());
         }
+
+        updateSwipeRefreshState();
+    }
+
+    private void updateSwipeRefreshState() {
+        if (binding == null || viewModel == null) {
+            return;
+        }
+        UiState<HomeStats> stats = viewModel.getStatsState().getValue();
+        UiState<List<AlertNotification>> alerts = viewModel.getAlertsState().getValue();
+        boolean statsLoading = stats != null && stats.isLoading();
+        boolean alertsLoading = alerts != null && alerts.isLoading();
+        binding.swipeRefresh.setRefreshing(statsLoading || alertsLoading);
     }
 
     private void showStateView(ViewGroup container, int layoutRes,

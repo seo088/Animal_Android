@@ -1,9 +1,11 @@
 package com.animalloo.ui.rescue;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.animalloo.R;
 import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.MatchResult;
 import com.animalloo.data.model.UiState;
@@ -18,11 +20,29 @@ import java.util.List;
 
 public class LostReportViewModel extends ViewModel {
 
+    public static final class FieldValidationError {
+        private final String message;
+        private final int focusViewId;
+
+        public FieldValidationError(String message, int focusViewId) {
+            this.message = message;
+            this.focusViewId = focusViewId;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public int getFocusViewId() {
+            return focusViewId;
+        }
+    }
+
     private final LostAnimalRepository lostAnimalRepository;
 
     private final MutableLiveData<UiState<LostAnimalReport>> submitState = new MutableLiveData<>();
     private final MutableLiveData<UiState<List<MatchResult>>> matchResultsState = new MutableLiveData<>();
-    private final MutableLiveData<String> validationError = new MutableLiveData<>();
+    private final MutableLiveData<FieldValidationError> validationError = new MutableLiveData<>();
 
     private LostAnimalReport lastSubmittedReport;
     private boolean isSubmitting;
@@ -41,7 +61,7 @@ public class LostReportViewModel extends ViewModel {
         return matchResultsState;
     }
 
-    public LiveData<String> getValidationError() {
+    public LiveData<FieldValidationError> getValidationError() {
         return validationError;
     }
 
@@ -62,9 +82,9 @@ public class LostReportViewModel extends ViewModel {
             return;
         }
 
-        String validationMessage = validateReport(report);
-        if (validationMessage != null) {
-            validationError.setValue(validationMessage);
+        FieldValidationError validationIssue = validateReport(report);
+        if (validationIssue != null) {
+            validationError.setValue(validationIssue);
             return;
         }
 
@@ -140,31 +160,34 @@ public class LostReportViewModel extends ViewModel {
         validationError.setValue(null);
     }
 
-    private String validateReport(LostAnimalReport report) {
+    @Nullable
+    private FieldValidationError validateReport(LostAnimalReport report) {
         if (report.getName() == null || report.getName().trim().isEmpty()) {
-            return "동물 이름을 입력해 주세요.";
+            return new FieldValidationError("동물 이름을 입력해 주세요.", R.id.et_animal_name);
         }
         if (report.getBreed() == null || report.getBreed().trim().isEmpty()
                 || "전체".equals(report.getBreed())) {
-            return "품종을 선택해 주세요.";
+            return new FieldValidationError("품종을 선택해 주세요.", R.id.actv_breed);
         }
         if (report.getRegion() == null || report.getRegion().trim().isEmpty()) {
-            return "실종 지역을 입력해 주세요.";
+            return new FieldValidationError("실종 지역을 입력해 주세요.", R.id.et_region);
         }
         if (report.getLostDate() == null || report.getLostDate().trim().isEmpty()) {
-            return "실종 날짜를 선택해 주세요.";
+            return new FieldValidationError("실종 날짜를 선택해 주세요.", R.id.et_lost_date);
         }
         if (isFutureDate(report.getLostDate())) {
-            return "실종 날짜는 오늘 이전이어야 합니다.";
+            return new FieldValidationError("실종 날짜는 오늘 이전이어야 합니다.", R.id.et_lost_date);
         }
         if (report.getContactInfo() == null || report.getContactInfo().trim().isEmpty()) {
-            return "연락 정보를 입력해 주세요.";
+            return new FieldValidationError("연락 정보를 입력해 주세요.", R.id.et_contact);
         }
         if (report.getPhotoPath() == null || report.getPhotoPath().trim().isEmpty()) {
-            return "사진을 선택해 주세요.";
+            return new FieldValidationError("사진을 선택해 주세요.", R.id.btn_select_photo);
         }
         if (!new File(report.getPhotoPath()).exists()) {
-            return "선택한 사진을 찾을 수 없습니다. 다시 선택해 주세요.";
+            return new FieldValidationError(
+                    "선택한 사진을 찾을 수 없습니다. 다시 선택해 주세요.",
+                    R.id.btn_select_photo);
         }
         return null;
     }

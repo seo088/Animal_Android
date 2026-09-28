@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_sm"
-        android:text="@string/pet_friendly_open_map_tab"
+        android:minWidth="80dp"
+        android:text="@string/pet_friendly_view_map"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/toolbar" />

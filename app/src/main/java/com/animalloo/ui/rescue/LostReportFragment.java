@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +27,9 @@ import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.util.ImageFileHelper;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.core.widget.NestedScrollView;
 
 import java.io.File;
 import java.io.IOException;
@@ -266,10 +271,12 @@ public class LostReportFragment extends BaseFragment {
     }
 
     private void observeViewModel() {
-        viewModel.getValidationError().observe(getViewLifecycleOwner(), message -> {
-            if (message != null && !message.isEmpty()) {
-                Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_LONG).show();
+        viewModel.getValidationError().observe(getViewLifecycleOwner(), error -> {
+            if (error == null) {
+                clearFieldErrors();
+                return;
             }
+            showValidationError(error);
         });
 
         viewModel.getSubmitState().observe(getViewLifecycleOwner(), state -> {
@@ -331,6 +338,72 @@ public class LostReportFragment extends BaseFragment {
             matchingScreenShown = true;
             rescueHost.showMatchingResults();
         }
+    }
+
+    private void showValidationError(LostReportViewModel.FieldValidationError error) {
+        clearFieldErrors();
+        View target = binding.getRoot().findViewById(error.getFocusViewId());
+        if (target != null) {
+            TextInputLayout inputLayout = findTextInputLayout(target);
+            if (inputLayout != null) {
+                inputLayout.setError(error.getMessage());
+            }
+            scrollToView(target);
+            target.post(() -> {
+                target.requestFocus();
+                target.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            });
+        }
+        Snackbar.make(binding.getRoot(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+    }
+
+    private void clearFieldErrors() {
+        binding.tilSpecies.setError(null);
+        binding.tilBreed.setError(null);
+        binding.tilGender.setError(null);
+        binding.tilLostDate.setError(null);
+        ViewParent nameParent = binding.etAnimalName.getParent();
+        if (nameParent instanceof TextInputLayout) {
+            ((TextInputLayout) nameParent).setError(null);
+        }
+        ViewParent regionParent = binding.etRegion.getParent();
+        if (regionParent instanceof TextInputLayout) {
+            ((TextInputLayout) regionParent).setError(null);
+        }
+        ViewParent contactParent = binding.etContact.getParent();
+        if (contactParent instanceof TextInputLayout) {
+            ((TextInputLayout) contactParent).setError(null);
+        }
+    }
+
+    @Nullable
+    private TextInputLayout findTextInputLayout(View view) {
+        ViewParent parent = view.getParent();
+        while (parent instanceof View) {
+            if (parent instanceof TextInputLayout) {
+                return (TextInputLayout) parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
+    }
+
+    private void scrollToView(View target) {
+        View root = binding.getRoot();
+        if (!(root instanceof NestedScrollView)) {
+            return;
+        }
+        NestedScrollView scrollView = (NestedScrollView) root;
+        scrollView.post(() -> {
+            int scrollY = 0;
+            View current = target;
+            while (current != null && current != scrollView) {
+                scrollY += current.getTop();
+                ViewParent parent = current.getParent();
+                current = parent instanceof View ? (View) parent : null;
+            }
+            scrollView.smoothScrollTo(0, scrollY);
+        });
     }
 
     @Override

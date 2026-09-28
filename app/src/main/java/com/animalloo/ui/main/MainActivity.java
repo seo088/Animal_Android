@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             detailVisible = true;
             binding.detailContainer.setVisibility(View.VISIBLE);
             binding.bottomNavigation.setVisibility(View.GONE);
-            updateToolbarTitle(R.string.detail_title);
+            binding.toolbar.setVisibility(View.GONE);
             updateDetailBackHandlerEnabled();
         }
     }
@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
         binding.detailContainer.setVisibility(View.GONE);
         binding.bottomNavigation.setVisibility(View.VISIBLE);
+        binding.toolbar.setVisibility(View.VISIBLE);
         updateToolbarForActiveFragment(
                 activeFragment,
                 getTitleResForNavItem(binding.bottomNavigation.getSelectedItemId()));
@@ -251,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
         binding.detailContainer.setVisibility(View.VISIBLE);
         binding.bottomNavigation.setVisibility(View.GONE);
-        updateToolbarTitle(R.string.detail_title);
+        binding.toolbar.setVisibility(View.GONE);
         updateDetailBackHandlerEnabled();
     }
 
