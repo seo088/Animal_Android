@@ -7,6 +7,7 @@ import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.FacilityCategory;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.Hospital;
+import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.RescuedAnimal;
 import com.animalloo.data.model.Symptom;
 
@@ -29,6 +30,7 @@ public final class MockDataProvider {
     private final List<Hospital> hospitals;
     private final List<RescuedAnimal> rescuedAnimals;
     private final List<AlertNotification> alerts;
+    private final List<LostAnimalReport> seedLostReports;
     private final List<Symptom> symptoms;
     private final List<DiagnosisResult> diagnosisResults;
     private final HomeStats homeStats;
@@ -39,6 +41,7 @@ public final class MockDataProvider {
         hospitals = createHospitals();
         rescuedAnimals = createRescuedAnimals();
         alerts = createAlerts();
+        seedLostReports = createSeedLostReports();
         symptoms = createSymptoms();
         diagnosisResults = createDiagnosisResults();
         symptomToDiseaseMap = createSymptomToDiseaseMap();
@@ -66,6 +69,15 @@ public final class MockDataProvider {
 
     public List<AlertNotification> getAlerts() {
         return Collections.unmodifiableList(alerts);
+    }
+
+    public LostAnimalReport findLostReportById(String id) {
+        for (LostAnimalReport report : seedLostReports) {
+            if (report.getId().equals(id)) {
+                return report;
+            }
+        }
+        return null;
     }
 
     public List<Symptom> getSymptoms() {
@@ -319,6 +331,38 @@ public final class MockDataProvider {
                                         double lat, double lng) {
         return new RescuedAnimal(id, name, species, breed, gender, region,
                 rescuedDate, status, imageUrl, features, lat, lng);
+    }
+
+    private List<LostAnimalReport> createSeedLostReports() {
+        List<LostAnimalReport> list = new ArrayList<>();
+        list.add(createLostReport("lost_001", "초코", "개", "푸들", "수컷",
+                "서울 강남구", "2026-09-09", "검은색 푸들, 빨간 목줄",
+                "010-1234-5678", "https://picsum.photos/seed/alt002/200/200"));
+        list.add(createLostReport("lost_002", "호두", "개", "시바견", "수컷",
+                "서울 송파구", "2026-09-08", "적색 털, 가슴 흰색",
+                "010-2345-6789", "https://picsum.photos/seed/alt004/200/200"));
+        list.add(createLostReport("lost_003", "골디", "개", "골든 리트리버", "암컷",
+                "서울 강남구", "2026-09-08", "금색 긴 털",
+                "010-3456-7890", "https://picsum.photos/seed/alt006/200/200"));
+        list.add(createLostReport("lost_004", "솜털", "개", "말티즈", "암컷",
+                "인천 연수구", "2026-09-07", "순백색 소형견",
+                "010-4567-8901", "https://picsum.photos/seed/alt008/200/200"));
+        list.add(createLostReport("lost_005", "바람", "개", "진돗개", "수컷",
+                "경기 성남시", "2026-09-07", "진한 갈색, 귀 세움",
+                "010-5678-9012", "https://picsum.photos/seed/alt010/200/200"));
+        list.add(createLostReport("lost_006", "별이", "개", "믹스견", "암컷",
+                "서울 마포구", "2026-09-06", "검정·흰색 중형견",
+                "010-6789-0123", "https://picsum.photos/seed/alt012/200/200"));
+        return list;
+    }
+
+    private LostAnimalReport createLostReport(String id, String name, String species,
+                                              String breed, String gender, String region,
+                                              String lostDate, String features,
+                                              String contactInfo, String photoUrl) {
+        return new LostAnimalReport(
+                id, name, species, breed, gender, region, lostDate,
+                features, contactInfo, photoUrl, 0L);
     }
 
     private List<AlertNotification> createAlerts() {

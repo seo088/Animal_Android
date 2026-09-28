@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHolder> {
 
@@ -26,6 +28,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
     }
 
     private final List<AlertNotification> items = new ArrayList<>();
+    private final Set<String> favoriteAlertIds = new HashSet<>();
     private OnAlertClickListener listener;
 
     public void setItems(List<AlertNotification> alerts) {
@@ -38,6 +41,14 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
 
     public void setOnAlertClickListener(OnAlertClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setFavoriteAlertIds(Set<String> favoriteIds) {
+        favoriteAlertIds.clear();
+        if (favoriteIds != null) {
+            favoriteAlertIds.addAll(favoriteIds);
+        }
+        notifyDataSetChanged();
     }
 
     public AlertNotification getItem(int position) {
@@ -76,6 +87,8 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
             binding.tvRegion.setText(alert.getRegion());
             binding.tvOccurredAt.setText(alert.getOccurredAt());
             binding.tvStatus.setText(alert.getStatus());
+            binding.tvFavoriteBadge.setVisibility(
+                    favoriteAlertIds.contains(alert.getId()) ? View.VISIBLE : View.GONE);
 
             if (alert.getType() == AlertType.RESCUE) {
                 binding.tvAlertType.setText(R.string.alert_type_rescue);

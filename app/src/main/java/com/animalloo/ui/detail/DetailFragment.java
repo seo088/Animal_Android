@@ -216,6 +216,14 @@ public class DetailFragment extends BaseFragment {
         void setup(View stateView);
     }
 
+    public DetailType getDetailType() {
+        return detailType;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
     @Override
     public void onDestroyView() {
         binding = null;

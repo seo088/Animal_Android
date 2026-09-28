@@ -93,6 +93,9 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
         asyncHelper.execute(() -> {
             LostAnimalReport report = submittedReports.get(id);
             if (report == null) {
+                report = dataProvider.findLostReportById(id);
+            }
+            if (report == null) {
                 throw new IllegalStateException("분실 신고 정보를 찾을 수 없습니다.");
             }
             return report;

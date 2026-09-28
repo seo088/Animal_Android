@@ -22,8 +22,11 @@
     <string name="alert_type_rescue">구조</string>
     <string name="alert_type_lost">분실</string>
     <string name="home_alert_shared">알림 정보를 공유했습니다.</string>
+    <string name="home_alert_share_subject">AnimalLoo 알림 공유</string>
+    <string name="home_alert_share_format">[%1$s] %2$s · %3$s\n%4$s · %5$s</string>
     <string name="home_alert_favorited">관심 알림으로 등록했습니다.</string>
-    <string name="home_alert_detail_prepare">상세 정보 화면은 곧 연결됩니다.</string>
+    <string name="home_alert_unfavorited">관심 알림을 해제했습니다.</string>
+    <string name="home_alert_favorite_badge">관심</string>
     <string name="shortcut_hospital">동물병원</string>
     <string name="shortcut_diagnosis">증상진단</string>
     <string name="shortcut_lost_report">분실신고</string>
@@ -228,6 +231,7 @@
     <!-- Context Menu -->
     <string name="context_share">공유</string>
     <string name="context_favorite">관심 등록</string>
+    <string name="context_unfavorite">관심 해제</string>
 
     <!-- Permissions -->
     <string name="permission_notification_rationale">구조/분실 알림을 받으려면 알림 권한이 필요합니다.</string>

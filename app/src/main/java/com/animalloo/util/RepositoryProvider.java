@@ -7,6 +7,7 @@ import com.animalloo.data.mock.MockAlertRepository;
 import com.animalloo.data.mock.MockAnimalRepository;
 import com.animalloo.data.mock.MockAsyncHelper;
 import com.animalloo.data.mock.MockDiagnosisRepository;
+import com.animalloo.data.mock.MockFavoriteRepository;
 import com.animalloo.data.mock.MockFacilityRepository;
 import com.animalloo.data.mock.MockHomeRepository;
 import com.animalloo.data.mock.MockHospitalRepository;
@@ -18,6 +19,7 @@ import com.animalloo.data.repository.AlertRepository;
 import com.animalloo.data.repository.AnimalRepository;
 import com.animalloo.data.repository.DiagnosisRepository;
 import com.animalloo.data.repository.FacilityRepository;
+import com.animalloo.data.repository.FavoriteRepository;
 import com.animalloo.data.repository.HomeRepository;
 import com.animalloo.data.repository.HospitalRepository;
 import com.animalloo.data.repository.LostAnimalRepository;
@@ -39,6 +41,7 @@ public final class RepositoryProvider {
     private final HomeRepository homeRepository;
     private final PublicDataRepository publicDataRepository;
     private final AuthRepository authRepository;
+    private final FavoriteRepository favoriteRepository;
     private final Application application;
 
     private RepositoryProvider(Application application) {
@@ -52,6 +55,7 @@ public final class RepositoryProvider {
         homeRepository = new MockHomeRepository();
         publicDataRepository = new RetrofitPublicDataRepository();
         authRepository = new MockAuthRepository(application);
+        favoriteRepository = new MockFavoriteRepository(application);
     }
 
     public static void init(Application application) {
@@ -101,6 +105,10 @@ public final class RepositoryProvider {
 
     public AuthRepository getAuthRepository() {
         return authRepository;
+    }
+
+    public FavoriteRepository getFavoriteRepository() {
+        return favoriteRepository;
     }
 
     public android.content.Context getApplicationContext() {

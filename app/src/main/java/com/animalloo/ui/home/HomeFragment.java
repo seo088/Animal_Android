@@ -1,5 +1,6 @@
 package com.animalloo.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.animalloo.R;
 import com.animalloo.adapter.AlertAdapter;
 import com.animalloo.data.model.AlertNotification;
+import com.animalloo.data.model.AlertType;
 import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
@@ -28,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends BaseFragment {
 
@@ -122,9 +125,15 @@ public class HomeFragment extends BaseFragment {
 
     private void showAlertContextMenu(AlertNotification alert, View anchorView) {
         contextMenuAlert = alert;
-        registerForContextMenu(anchorView);
         anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) -> {
             requireActivity().getMenuInflater().inflate(R.menu.context_menu_alert, menu);
+            MenuItem favoriteItem = menu.findItem(R.id.context_favorite);
+            if (favoriteItem != null) {
+                boolean isFavorite = viewModel.isAlertFavorite(alert.getId());
+                favoriteItem.setTitle(isFavorite
+                        ? R.string.context_unfavorite
+                        : R.string.context_favorite);
+            }
         });
         anchorView.showContextMenu();
     }
@@ -137,15 +146,36 @@ public class HomeFragment extends BaseFragment {
 
         int itemId = item.getItemId();
         if (itemId == R.id.context_share) {
-            Snackbar.make(binding.getRoot(),
-                    getString(R.string.home_alert_shared) + " (" + contextMenuAlert.getAnimalType() + ")",
-                    Snackbar.LENGTH_SHORT).show();
+            shareAlert(contextMenuAlert);
             return true;
         } else if (itemId == R.id.context_favorite) {
-            Snackbar.make(binding.getRoot(), R.string.home_alert_favorited, Snackbar.LENGTH_SHORT).show();
+            boolean wasFavorite = viewModel.isAlertFavorite(contextMenuAlert.getId());
+            viewModel.toggleAlertFavorite(contextMenuAlert.getId());
+            Snackbar.make(binding.getRoot(),
+                    wasFavorite ? R.string.home_alert_unfavorited : R.string.home_alert_favorited,
+                    Snackbar.LENGTH_SHORT).show();
             return true;
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void shareAlert(AlertNotification alert) {
+        String typeLabel = alert.getType() == AlertType.RESCUE
+                ? getString(R.string.alert_type_rescue)
+                : getString(R.string.alert_type_lost);
+        String shareText = getString(
+                R.string.home_alert_share_format,
+                typeLabel,
+                alert.getAnimalType(),
+                alert.getRegion(),
+                alert.getOccurredAt(),
+                alert.getStatus());
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.home_alert_share_subject));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.context_share)));
     }
 
     private void setupSwipeRefresh() {
@@ -156,6 +186,13 @@ public class HomeFragment extends BaseFragment {
     private void observeViewModel() {
         viewModel.getStatsState().observe(getViewLifecycleOwner(), this::renderStatsState);
         viewModel.getAlertsState().observe(getViewLifecycleOwner(), this::renderAlertsState);
+        viewModel.getFavoriteAlertIds().observe(getViewLifecycleOwner(), this::renderFavoriteState);
+    }
+
+    private void renderFavoriteState(Set<String> favoriteIds) {
+        if (alertAdapter != null) {
+            alertAdapter.setFavoriteAlertIds(favoriteIds);
+        }
     }
 
     private void renderStatsState(UiState<HomeStats> state) {

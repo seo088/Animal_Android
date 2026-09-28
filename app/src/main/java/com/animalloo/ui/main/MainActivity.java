@@ -28,7 +28,20 @@ import com.animalloo.ui.rescue.RescueFragment;
 import com.animalloo.util.RepositoryProvider;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class MainActivity extends AppCompatActivity implements MainNavigator, DetailNavigator {
+
+    private static final class DetailEntry {
+        final DetailType type;
+        final String itemId;
+
+        DetailEntry(DetailType type, String itemId) {
+            this.type = type;
+            this.itemId = itemId;
+        }
+    }
 
     private static final String TAG_HOME = "tag_home";
     private static final String TAG_MAP = "tag_map";
@@ -50,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
     private int pendingMoreSection = -1;
     private boolean detailVisible;
     private OnBackPressedCallback detailBackCallback;
+    private final Deque<DetailEntry> detailBackStack = new ArrayDeque<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,21 +198,30 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
     @Override
     public void navigateToDetail(DetailType type, String itemId) {
-        detailVisible = true;
-        DetailFragment detailFragment = DetailFragment.newInstance(type, itemId);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_container, detailFragment, TAG_DETAIL)
-                .commit();
+        if (detailVisible) {
+            Fragment currentDetail = getSupportFragmentManager().findFragmentByTag(TAG_DETAIL);
+            if (currentDetail instanceof DetailFragment) {
+                DetailFragment detailFragment = (DetailFragment) currentDetail;
+                if (detailFragment.getDetailType() != null && detailFragment.getItemId() != null) {
+                    detailBackStack.push(new DetailEntry(
+                            detailFragment.getDetailType(),
+                            detailFragment.getItemId()));
+                }
+            }
+        }
 
-        binding.detailContainer.setVisibility(View.VISIBLE);
-        binding.bottomNavigation.setVisibility(View.GONE);
-        updateToolbarTitle(R.string.detail_title);
-        updateDetailBackHandlerEnabled();
+        showDetail(type, itemId);
     }
 
     @Override
     public void closeDetail() {
         if (!detailVisible) {
+            return;
+        }
+
+        if (!detailBackStack.isEmpty()) {
+            DetailEntry previous = detailBackStack.pop();
+            showDetail(previous.type, previous.itemId);
             return;
         }
 
@@ -213,6 +236,19 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         binding.detailContainer.setVisibility(View.GONE);
         binding.bottomNavigation.setVisibility(View.VISIBLE);
         updateToolbarTitle(getTitleResForNavItem(binding.bottomNavigation.getSelectedItemId()));
+        updateDetailBackHandlerEnabled();
+    }
+
+    private void showDetail(DetailType type, String itemId) {
+        detailVisible = true;
+        DetailFragment detailFragment = DetailFragment.newInstance(type, itemId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detail_container, detailFragment, TAG_DETAIL)
+                .commit();
+
+        binding.detailContainer.setVisibility(View.VISIBLE);
+        binding.bottomNavigation.setVisibility(View.GONE);
+        updateToolbarTitle(R.string.detail_title);
         updateDetailBackHandlerEnabled();
     }
 
