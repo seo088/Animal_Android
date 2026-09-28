@@ -1,6 +1,7 @@
 package com.animalloo.ui.more;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,20 +13,24 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.animalloo.R;
 import com.animalloo.databinding.FragmentSettingsBinding;
 import com.animalloo.notification.NotificationHelper;
+import com.animalloo.ui.auth.AuthActivity;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.util.FirebaseAvailabilityChecker;
 import com.animalloo.util.ImageFileHelper;
 import com.animalloo.util.PermissionHelper;
 import com.animalloo.util.SettingsPreferenceHelper;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsFragment extends BaseFragment {
 
     private FragmentSettingsBinding binding;
+    private SettingsViewModel viewModel;
     private ActivityResultLauncher<String> notificationPermissionLauncher;
 
     @Override
@@ -54,18 +59,69 @@ public class SettingsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
+
         binding.btnBack.setOnClickListener(v -> {
             if (getParentFragment() instanceof MoreHost) {
                 ((MoreHost) getParentFragment()).onMoreBackPressed();
             }
         });
 
+        setupAccountObservers();
+        setupLogoutAction();
         loadSettings();
         setupSwitchListeners();
         setupUtilityActions();
         updateAppInfo();
         updateFcmStatus();
         updateCacheInfo();
+        viewModel.loadAccount();
+    }
+
+    private void setupAccountObservers() {
+        viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) {
+                binding.tvAccountName.setText(R.string.settings_account_unavailable);
+                binding.tvAccountEmail.setVisibility(View.GONE);
+                binding.btnLogout.setEnabled(false);
+                redirectToAuth();
+                return;
+            }
+
+            binding.tvAccountName.setText(user.getDisplayName());
+            binding.tvAccountEmail.setText(user.getEmail());
+            binding.tvAccountEmail.setVisibility(View.VISIBLE);
+            binding.btnLogout.setEnabled(true);
+        });
+
+        viewModel.getLogoutComplete().observe(getViewLifecycleOwner(), completed -> {
+            if (Boolean.TRUE.equals(completed)) {
+                redirectToAuth();
+            }
+        });
+    }
+
+    private void setupLogoutAction() {
+        binding.btnLogout.setOnClickListener(v -> showLogoutConfirmation());
+    }
+
+    private void showLogoutConfirmation() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.settings_logout_confirm_title)
+                .setMessage(R.string.settings_logout_confirm_message)
+                .setNegativeButton(R.string.settings_logout_confirm_negative, null)
+                .setPositiveButton(R.string.settings_logout_confirm_positive, (dialog, which) -> {
+                    binding.btnLogout.setEnabled(false);
+                    viewModel.logout();
+                })
+                .show();
+    }
+
+    private void redirectToAuth() {
+        Intent intent = new Intent(requireContext(), AuthActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish();
     }
 
     private void loadSettings() {
