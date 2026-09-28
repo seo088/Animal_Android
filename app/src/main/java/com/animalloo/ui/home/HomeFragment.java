@@ -120,6 +120,15 @@ public class HomeFragment extends BaseFragment {
             public void onAlertLongClick(AlertNotification alert, View anchorView) {
                 showAlertContextMenu(alert, anchorView);
             }
+
+            @Override
+            public void onFavoriteClick(AlertNotification alert) {
+                boolean wasFavorite = viewModel.isAlertFavorite(alert.getId());
+                viewModel.toggleAlertFavorite(alert.getId());
+                Snackbar.make(binding.getRoot(),
+                        wasFavorite ? R.string.home_alert_unfavorited : R.string.home_alert_favorited,
+                        Snackbar.LENGTH_SHORT).show();
+            }
         });
     }
 

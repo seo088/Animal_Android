@@ -194,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="#7C5CC4" />
+                            android:textColor="@color/color_stat_facility_text" />
 
                         <TextView
                             android:layout_width="wrap_content"

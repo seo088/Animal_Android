@@ -38,10 +38,21 @@
             app:layout_constraintStart_toEndOf="@id/iv_alert_image"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btn_favorite"
+            android:layout_width="@dimen/min_touch_target"
+            android:layout_height="@dimen/min_touch_target"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/context_favorite"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_favorite_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_xs"
             android:background="@drawable/bg_badge"
             android:paddingHorizontal="@dimen/spacing_sm"
             android:paddingVertical="@dimen/spacing_xs"
@@ -49,8 +60,9 @@
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             android:textColor="@color/color_primary"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/btn_favorite"
+            app:layout_constraintEnd_toStartOf="@id/btn_favorite"
+            app:layout_constraintTop_toTopOf="@id/btn_favorite" />
 
         <TextView
             android:id="@+id/tv_animal_type"
@@ -96,18 +108,6 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_occurred_at"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_occurred_at" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_detail"
-            style="@style/Widget.AnimalLoo.Button.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
-            android:layout_marginTop="@dimen/spacing_xs"
-            android:minHeight="@dimen/min_touch_target"
-            android:text="@string/detail_view_more"
-            app:layout_constraintStart_toEndOf="@id/iv_alert_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_occurred_at" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

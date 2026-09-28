@@ -12,6 +12,7 @@ import com.animalloo.R;
 import com.animalloo.databinding.ActivityAuthBinding;
 import com.animalloo.notification.NotificationHelper;
 import com.animalloo.ui.main.MainActivity;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class AuthActivity extends AppCompatActivity {
         setupObservers();
         setupActions();
         setupKeyboardActions();
+        setupFieldChangeListeners();
     }
 
     private void setupObservers() {
@@ -41,6 +43,15 @@ public class AuthActivity extends AppCompatActivity {
                 applyModeUi(mode);
                 lastRenderedMode = mode;
             }
+        });
+
+        viewModel.getValidationError().observe(this, error -> {
+            clearFieldErrors();
+            if (error == null) {
+                hideError();
+                return;
+            }
+            applyFieldError(error);
         });
 
         viewModel.getAuthState().observe(this, state -> {
@@ -59,7 +70,14 @@ public class AuthActivity extends AppCompatActivity {
             setSubmitting(false);
 
             if (state.isError()) {
-                showError(state.getErrorMessage());
+                AuthViewModel.AuthValidationError validationError =
+                        viewModel.getValidationError().getValue();
+                if (validationError == null
+                        || validationError.getField() == AuthViewModel.AuthField.GENERAL) {
+                    showError(state.getErrorMessage());
+                } else {
+                    hideError();
+                }
                 return;
             }
 
@@ -82,8 +100,29 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setupKeyboardActions() {
+        binding.etDisplayName.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.etEmail.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        binding.etEmail.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.etPassword.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
         binding.etPassword.setOnEditorActionListener((textView, actionId, event) -> {
             AuthViewModel.AuthMode mode = viewModel.getAuthMode().getValue();
+            if (mode == AuthViewModel.AuthMode.SIGN_UP
+                    && actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.etConfirmPassword.requestFocus();
+                return true;
+            }
             if (mode == AuthViewModel.AuthMode.LOGIN
                     && (actionId == EditorInfo.IME_ACTION_DONE
                     || actionId == EditorInfo.IME_ACTION_GO)) {
@@ -102,10 +141,36 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
+    private void setupFieldChangeListeners() {
+        binding.etDisplayName.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                binding.layoutDisplayName.setError(null);
+            }
+        });
+        binding.etEmail.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                binding.layoutEmail.setError(null);
+            }
+        });
+        binding.etPassword.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                binding.layoutPassword.setError(null);
+            }
+        });
+        binding.etConfirmPassword.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                binding.layoutConfirmPassword.setError(null);
+            }
+        });
+    }
+
     private void submitCurrentForm() {
         if (isSubmitting) {
             return;
         }
+
+        clearFieldErrors();
+        hideError();
 
         AuthViewModel.AuthMode mode = viewModel.getAuthMode().getValue();
         if (mode == AuthViewModel.AuthMode.SIGN_UP) {
@@ -145,11 +210,52 @@ public class AuthActivity extends AppCompatActivity {
         binding.layoutDisplayName.setVisibility(isSignUp ? View.VISIBLE : View.GONE);
         binding.layoutConfirmPassword.setVisibility(isSignUp ? View.VISIBLE : View.GONE);
 
+        binding.etDisplayName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        binding.etEmail.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         binding.etPassword.setImeOptions(isSignUp
                 ? EditorInfo.IME_ACTION_NEXT
                 : EditorInfo.IME_ACTION_DONE);
+        binding.etConfirmPassword.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
+        clearFieldErrors();
         hideError();
+    }
+
+    private void applyFieldError(AuthViewModel.AuthValidationError error) {
+        TextInputLayout targetLayout = null;
+        switch (error.getField()) {
+            case DISPLAY_NAME:
+                targetLayout = binding.layoutDisplayName;
+                break;
+            case EMAIL:
+                targetLayout = binding.layoutEmail;
+                break;
+            case PASSWORD:
+                targetLayout = binding.layoutPassword;
+                break;
+            case CONFIRM_PASSWORD:
+                targetLayout = binding.layoutConfirmPassword;
+                break;
+            case GENERAL:
+                showError(error.getMessage());
+                return;
+            case NONE:
+            default:
+                break;
+        }
+
+        if (targetLayout != null) {
+            targetLayout.setError(error.getMessage());
+        } else {
+            showError(error.getMessage());
+        }
+    }
+
+    private void clearFieldErrors() {
+        binding.layoutDisplayName.setError(null);
+        binding.layoutEmail.setError(null);
+        binding.layoutPassword.setError(null);
+        binding.layoutConfirmPassword.setError(null);
     }
 
     private void setSubmitting(boolean submitting) {
