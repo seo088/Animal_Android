@@ -47,6 +47,7 @@ public class DataSourceFragment extends BaseFragment {
 
         binding.btnFetchPublicData.setOnClickListener(v -> viewModel.fetchDemoPublicData());
         observeViewModel();
+        renderPublicDataState(viewModel.getPublicDataState().getValue());
     }
 
     private void observeViewModel() {
@@ -54,24 +55,31 @@ public class DataSourceFragment extends BaseFragment {
     }
 
     private void renderPublicDataState(UiState<PublicDataInfo> state) {
-        if (state == null) {
-            return;
-        }
+        boolean loading = state != null && state.isLoading();
+        binding.btnFetchPublicData.setEnabled(!loading);
+        binding.btnFetchPublicData.setText(loading
+                ? R.string.network_demo_fetching
+                : R.string.network_demo_fetch);
 
-        binding.btnFetchPublicData.setEnabled(!state.isLoading());
         binding.layoutNetworkResult.setVisibility(View.GONE);
         binding.networkStateContainer.setVisibility(View.GONE);
         binding.networkStateContainer.removeAllViews();
 
+        if (state == null) {
+            showIdlePrompt();
+            return;
+        }
+
         if (state.isLoading()) {
+            binding.tvNetworkPrompt.setVisibility(View.GONE);
             binding.networkStateContainer.setVisibility(View.VISIBLE);
-            View loadingView = getLayoutInflater().inflate(
-                    R.layout.layout_loading, binding.networkStateContainer, false);
-            binding.networkStateContainer.addView(loadingView);
+            binding.networkStateContainer.addView(getLayoutInflater().inflate(
+                    R.layout.layout_loading, binding.networkStateContainer, false));
             return;
         }
 
         if (state.isError()) {
+            binding.tvNetworkPrompt.setVisibility(View.GONE);
             binding.networkStateContainer.setVisibility(View.VISIBLE);
             View errorView = getLayoutInflater().inflate(
                     R.layout.layout_error, binding.networkStateContainer, false);
@@ -84,16 +92,23 @@ public class DataSourceFragment extends BaseFragment {
         }
 
         if (state.isEmpty()) {
+            binding.tvNetworkPrompt.setVisibility(View.GONE);
             binding.networkStateContainer.setVisibility(View.VISIBLE);
             View emptyView = getLayoutInflater().inflate(
                     R.layout.layout_empty, binding.networkStateContainer, false);
             TextView messageView = emptyView.findViewById(R.id.tv_empty_message);
             messageView.setText(R.string.network_demo_empty);
+            MaterialButton retryButton = emptyView.findViewById(R.id.btn_retry_empty);
+            if (retryButton != null) {
+                retryButton.setVisibility(View.VISIBLE);
+                retryButton.setOnClickListener(v -> viewModel.fetchDemoPublicData());
+            }
             binding.networkStateContainer.addView(emptyView);
             return;
         }
 
         if (state.isSuccess() && state.getData() != null) {
+            binding.tvNetworkPrompt.setVisibility(View.GONE);
             PublicDataInfo info = state.getData();
             binding.layoutNetworkResult.setVisibility(View.VISIBLE);
             binding.tvNetworkSource.setText(getString(
@@ -104,6 +119,10 @@ public class DataSourceFragment extends BaseFragment {
                     R.string.network_demo_fetched_at_format,
                     DateFormat.getDateTimeInstance().format(new Date(info.getFetchedAtMillis()))));
         }
+    }
+
+    private void showIdlePrompt() {
+        binding.tvNetworkPrompt.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -24,4 +24,13 @@
         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
         android:textColor="@color/color_text_secondary" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_retry_empty"
+        style="@style/Widget.AnimalLoo.Button.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/retry"
+        android:visibility="gone" />
+
 </LinearLayout>

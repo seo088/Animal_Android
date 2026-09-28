@@ -108,12 +108,40 @@
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:text="@string/network_demo_endpoint"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                    android:textColor="@color/color_text_secondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:text="@string/network_demo_disclaimer"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_fetch_public_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
                     android:text="@string/network_demo_fetch" />
+
+                <TextView
+                    android:id="@+id/tv_network_prompt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:background="@drawable/bg_empty_state"
+                    android:gravity="center"
+                    android:padding="@dimen/spacing_md"
+                    android:text="@string/network_demo_prompt"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
 
                 <FrameLayout
                     android:id="@+id/network_state_container"
@@ -138,6 +166,14 @@
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                         android:textColor="@color/color_primary"
                         tools:text="출처: JSONPlaceholder" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:text="@string/network_demo_result_notice"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                        android:textColor="@color/color_text_secondary" />
 
                     <TextView
                         android:id="@+id/tv_network_title"

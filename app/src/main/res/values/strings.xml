@@ -215,9 +215,14 @@
     <string name="notification_channel_general_desc">위치 기반 및 기타 AnimalLoo 알림</string>
 
     <!-- Network Demo -->
-    <string name="network_demo_section">공공데이터 네트워크 데모</string>
-    <string name="network_demo_description">Retrofit enqueue로 데모 API를 호출합니다. 실제 AnimalLoo 백엔드 연동 전 네트워크 구조 시연용입니다.</string>
+    <string name="network_demo_section">네트워크 구조 데모</string>
+    <string name="network_demo_description">Retrofit enqueue로 외부 샘플 API를 호출합니다. AnimalLoo 기능 데이터가 아닌 연결 구조 시연용입니다.</string>
+    <string name="network_demo_endpoint">호출 엔드포인트: GET jsonplaceholder.typicode.com/posts/1</string>
+    <string name="network_demo_disclaimer">※ JSONPlaceholder 응답은 반려동물 공공데이터가 아닌 샘플 콘텐츠입니다.</string>
+    <string name="network_demo_prompt">아래 버튼을 눌러 Retrofit enqueue 네트워크 데모를 실행하세요.</string>
     <string name="network_demo_fetch">데모 API 호출</string>
+    <string name="network_demo_fetching">데모 API 호출 중…</string>
+    <string name="network_demo_result_notice">아래 내용은 샘플 API 응답이며 AnimalLoo 화면 데이터와 연결되지 않습니다.</string>
     <string name="network_demo_source_format">출처: %1$s</string>
     <string name="network_demo_fetched_at_format">조회 시각: %1$s</string>
     <string name="network_demo_empty">표시할 데모 데이터가 없습니다.</string>

@@ -15,6 +15,9 @@ public class DataSourceViewModel extends ViewModel {
     private final PublicDataRepository publicDataRepository;
     private final MutableLiveData<UiState<PublicDataInfo>> publicDataState = new MutableLiveData<>();
 
+    private boolean isFetching;
+    private int requestGeneration;
+
     public DataSourceViewModel() {
         publicDataRepository = RepositoryProvider.getInstance().getPublicDataRepository();
     }
@@ -23,11 +26,26 @@ public class DataSourceViewModel extends ViewModel {
         return publicDataState;
     }
 
+    public boolean isFetching() {
+        return isFetching;
+    }
+
     public void fetchDemoPublicData() {
+        if (isFetching) {
+            return;
+        }
+
+        isFetching = true;
+        int generation = ++requestGeneration;
         publicDataState.setValue(UiState.loading());
+
         publicDataRepository.fetchDemoPublicData(new RepositoryCallback<PublicDataInfo>() {
             @Override
             public void onSuccess(PublicDataInfo data) {
+                if (generation != requestGeneration) {
+                    return;
+                }
+                isFetching = false;
                 if (data == null) {
                     publicDataState.setValue(UiState.empty());
                 } else {
@@ -37,6 +55,10 @@ public class DataSourceViewModel extends ViewModel {
 
             @Override
             public void onError(String message) {
+                if (generation != requestGeneration) {
+                    return;
+                }
+                isFetching = false;
                 publicDataState.setValue(UiState.error(message));
             }
         });
