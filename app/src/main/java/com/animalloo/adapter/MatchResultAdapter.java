@@ -82,13 +82,21 @@ public class MatchResultAdapter extends RecyclerView.Adapter<MatchResultAdapter.
             binding.tvMatchDescription.setText(grade.getDescription());
 
             int gradeColor;
+            int gradeBackground;
             if (grade == MatchGrade.A) {
                 gradeColor = R.color.color_match_a;
+                gradeBackground = R.drawable.bg_match_grade_a;
             } else if (grade == MatchGrade.B) {
                 gradeColor = R.color.color_match_b;
+                gradeBackground = R.drawable.bg_match_grade_b;
             } else {
                 gradeColor = R.color.color_match_c;
+                gradeBackground = R.drawable.bg_match_grade_c;
             }
+            int paddingH = binding.getRoot().getResources().getDimensionPixelSize(R.dimen.spacing_sm);
+            int paddingV = binding.getRoot().getResources().getDimensionPixelSize(R.dimen.spacing_xs);
+            binding.tvMatchGrade.setPadding(paddingH, paddingV, paddingH, paddingV);
+            binding.tvMatchGrade.setBackgroundResource(gradeBackground);
             binding.tvMatchGrade.setTextColor(
                     ContextCompat.getColor(binding.getRoot().getContext(), gradeColor));
 

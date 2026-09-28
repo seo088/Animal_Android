@@ -26,9 +26,16 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
         void onAnimalLongClick(RescuedAnimal animal, View anchorView);
     }
 
+    public interface OnAnimalActionListener {
+        void onFavoriteClick(RescuedAnimal animal);
+
+        void onShareClick(RescuedAnimal animal);
+    }
+
     private final List<RescuedAnimal> items = new ArrayList<>();
     private final Set<String> favoriteAnimalIds = new HashSet<>();
     private OnAnimalClickListener listener;
+    private OnAnimalActionListener actionListener;
 
     public void setItems(List<RescuedAnimal> animals) {
         items.clear();
@@ -48,6 +55,10 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
 
     public void setOnAnimalClickListener(OnAnimalClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnAnimalActionListener(OnAnimalActionListener actionListener) {
+        this.actionListener = actionListener;
     }
 
     @NonNull
@@ -78,13 +89,19 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
         }
 
         void bind(RescuedAnimal animal) {
+            boolean isFavorite = favoriteAnimalIds.contains(animal.getId());
+
             binding.tvBreed.setText(animal.getBreed());
             binding.tvGender.setText(animal.getGender());
             binding.tvRegion.setText(animal.getRegion());
             binding.tvRescuedDate.setText(animal.getRescuedDate());
             binding.tvProtectionStatus.setText(animal.getProtectionStatus());
-            binding.tvFavoriteBadge.setVisibility(
-                    favoriteAnimalIds.contains(animal.getId()) ? View.VISIBLE : View.GONE);
+            binding.tvFavoriteBadge.setVisibility(isFavorite ? View.VISIBLE : View.GONE);
+            binding.btnFavorite.setImageResource(isFavorite
+                    ? R.drawable.ic_favorite_filled
+                    : R.drawable.ic_favorite);
+            binding.btnFavorite.setContentDescription(binding.getRoot().getContext().getString(
+                    isFavorite ? R.string.context_unfavorite : R.string.context_favorite));
 
             Glide.with(binding.ivAnimalImage.getContext())
                     .load(animal.getImageUrl())
@@ -110,6 +127,18 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
                     listener.onAnimalLongClick(animal, v);
                 }
                 return true;
+            });
+
+            binding.btnFavorite.setOnClickListener(v -> {
+                if (actionListener != null) {
+                    actionListener.onFavoriteClick(animal);
+                }
+            });
+
+            binding.btnShare.setOnClickListener(v -> {
+                if (actionListener != null) {
+                    actionListener.onShareClick(animal);
+                }
             });
         }
     }

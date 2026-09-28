@@ -241,7 +241,7 @@ public class SettingsFragment extends BaseFragment {
         binding.btnTestRescueNotification.setOnClickListener(v -> sendTestRescueNotification());
         binding.btnTestLostNotification.setOnClickListener(v -> sendTestLostNotification());
         binding.btnTestLocationNotification.setOnClickListener(v -> sendTestLocationNotification());
-        binding.btnClearPhotoCache.setOnClickListener(v -> clearPhotoCache());
+        binding.btnClearPhotoCache.setOnClickListener(v -> showClearCacheConfirmation());
     }
 
     private void sendTestRescueNotification() {
@@ -316,6 +316,16 @@ public class SettingsFragment extends BaseFragment {
         return false;
     }
 
+    private void showClearCacheConfirmation() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.settings_clear_cache_confirm_title)
+                .setMessage(R.string.settings_clear_cache_confirm_message)
+                .setNegativeButton(R.string.settings_clear_cache_confirm_negative, null)
+                .setPositiveButton(R.string.settings_clear_cache_confirm_positive,
+                        (dialog, which) -> clearPhotoCache())
+                .show();
+    }
+
     private void clearPhotoCache() {
         int deletedCount = ImageFileHelper.clearLostReportCache(requireContext());
         updateCacheInfo();
@@ -352,7 +362,10 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void updateNotificationPermissionStatus() {
-        if (!PermissionHelper.hasNotificationPermission(requireContext())) {
+        boolean hasPermission = PermissionHelper.hasNotificationPermission(requireContext());
+        updateNotificationSwitchAvailability(hasPermission);
+
+        if (!hasPermission) {
             binding.tvNotificationPermissionStatus.setText(R.string.settings_notification_permission_denied);
             return;
         }
@@ -380,6 +393,16 @@ public class SettingsFragment extends BaseFragment {
         return enabled
                 ? getString(R.string.settings_channel_enabled)
                 : getString(R.string.settings_channel_disabled);
+    }
+
+    private void updateNotificationSwitchAvailability(boolean enabled) {
+        binding.switchRescueAlert.setEnabled(enabled);
+        binding.switchLostAlert.setEnabled(enabled);
+        binding.switchLocationAlert.setEnabled(enabled);
+        float alpha = enabled ? 1.0f : 0.5f;
+        binding.switchRescueAlert.setAlpha(alpha);
+        binding.switchLostAlert.setAlpha(alpha);
+        binding.switchLocationAlert.setAlpha(alpha);
     }
 
     private void updateCacheInfo() {

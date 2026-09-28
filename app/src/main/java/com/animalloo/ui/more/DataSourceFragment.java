@@ -39,7 +39,7 @@ public class DataSourceFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(this).get(DataSourceViewModel.class);
 
-        binding.btnBack.setOnClickListener(v -> {
+        binding.toolbar.setNavigationOnClickListener(v -> {
             if (getParentFragment() instanceof MoreHost) {
                 ((MoreHost) getParentFragment()).onMoreBackPressed();
             }
@@ -72,9 +72,6 @@ public class DataSourceFragment extends BaseFragment {
 
         if (state.isLoading()) {
             binding.tvNetworkPrompt.setVisibility(View.GONE);
-            binding.networkStateContainer.setVisibility(View.VISIBLE);
-            binding.networkStateContainer.addView(getLayoutInflater().inflate(
-                    R.layout.layout_loading, binding.networkStateContainer, false));
             return;
         }
 

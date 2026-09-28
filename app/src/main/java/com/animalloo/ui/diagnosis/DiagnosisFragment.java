@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -39,6 +40,7 @@ public class DiagnosisFragment extends BaseFragment {
     private HospitalAdapter hospitalAdapter;
     private DetailNavigator detailNavigator;
     private boolean syncingChipSelection;
+    private OnBackPressedCallback backPressedCallback;
 
     @Override
     public void onAttach(@NonNull android.content.Context context) {
@@ -65,8 +67,25 @@ public class DiagnosisFragment extends BaseFragment {
         viewModel = new ViewModelProvider(this).get(DiagnosisViewModel.class);
         setupRecyclerViews();
         setupButtons();
+        setupBackNavigation();
         observeViewModel();
         viewModel.ensureSymptomsLoaded();
+    }
+
+    private void setupBackNavigation() {
+        backPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                DiagnosisStep step = viewModel.getCurrentStep().getValue();
+                if (step == DiagnosisStep.HOSPITAL) {
+                    viewModel.backToResults();
+                } else if (step == DiagnosisStep.RESULT) {
+                    viewModel.backToSymptoms();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher()
+                .addCallback(getViewLifecycleOwner(), backPressedCallback);
     }
 
     private void setupRecyclerViews() {
@@ -98,10 +117,7 @@ public class DiagnosisFragment extends BaseFragment {
         });
         viewModel.getDiagnosisState().observe(getViewLifecycleOwner(), this::renderDiagnosisState);
         viewModel.getHospitalsState().observe(getViewLifecycleOwner(), this::renderHospitalsState);
-        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), ids -> {
-            updateDiagnoseButtonState();
-            syncChipSelection(ids);
-        });
+        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), this::syncChipSelection);
         viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
             if (TextUtils.isEmpty(message)) {
                 binding.tvSymptomValidation.setVisibility(View.GONE);
@@ -114,10 +130,9 @@ public class DiagnosisFragment extends BaseFragment {
 
     private void updateDiagnoseButtonState() {
         UiState<List<Symptom>> symptoms = viewModel.getSymptomsState().getValue();
-        Set<String> selected = viewModel.getSelectedSymptomIds().getValue();
-        boolean symptomsReady = symptoms != null && symptoms.isSuccess();
-        boolean hasSelection = selected != null && !selected.isEmpty();
-        binding.btnDiagnose.setEnabled(symptomsReady && hasSelection);
+        if (symptoms != null && symptoms.isSuccess()) {
+            binding.btnDiagnose.setEnabled(true);
+        }
     }
 
     private void renderStep(DiagnosisStep step) {
@@ -135,7 +150,45 @@ public class DiagnosisFragment extends BaseFragment {
         binding.tvDisclaimer.setVisibility(
                 step == DiagnosisStep.SYMPTOM ? View.GONE : View.VISIBLE);
 
+        syncBackCallbackEnabled(step);
+
         updateStepIndicator(step);
+    }
+
+    private void syncBackCallbackEnabled(@Nullable DiagnosisStep step) {
+        if (backPressedCallback == null) {
+            return;
+        }
+        if (step == null && viewModel != null) {
+            step = viewModel.getCurrentStep().getValue();
+        }
+        backPressedCallback.setEnabled(shouldHandleBack(step));
+    }
+
+    private boolean shouldHandleBack(@Nullable DiagnosisStep step) {
+        if (step == null || step == DiagnosisStep.SYMPTOM) {
+            return false;
+        }
+        if (!isResumed() || isHidden() || !isVisible()) {
+            return false;
+        }
+        if (getActivity() == null) {
+            return false;
+        }
+        View detailContainer = getActivity().findViewById(R.id.detail_container);
+        return detailContainer == null || detailContainer.getVisibility() != View.VISIBLE;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        syncBackCallbackEnabled(null);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        syncBackCallbackEnabled(null);
     }
 
     private void updateStepIndicator(DiagnosisStep step) {

@@ -22,6 +22,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentPetFriendlyBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
+import com.animalloo.ui.main.MainNavigator;
 import com.animalloo.ui.map.FacilityBottomSheetFragment;
 import com.animalloo.util.MapsAvailabilityChecker;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -85,7 +86,7 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void setupToolbar() {
-        binding.btnBack.setOnClickListener(v -> {
+        binding.toolbar.setNavigationOnClickListener(v -> {
             if (getParentFragment() instanceof MoreHost) {
                 ((MoreHost) getParentFragment()).onMoreBackPressed();
             }
@@ -183,8 +184,13 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void setupViewToggle() {
+        binding.btnToggleView.setText(R.string.pet_friendly_open_map_tab);
         binding.btnToggleView.setEnabled(mapsAvailable);
-        binding.btnToggleView.setOnClickListener(v -> viewModel.toggleViewMode());
+        binding.btnToggleView.setOnClickListener(v -> {
+            if (requireActivity() instanceof MainNavigator) {
+                ((MainNavigator) requireActivity()).navigateToTab(R.id.nav_map);
+            }
+        });
     }
 
     private void observeViewModel() {
@@ -199,12 +205,8 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
         if (Boolean.TRUE.equals(mapMode) && !mapsAvailable) {
             binding.tvMapFallbackMessage.setVisibility(View.VISIBLE);
-            binding.btnToggleView.setText(R.string.pet_friendly_view_map);
         } else {
             binding.tvMapFallbackMessage.setVisibility(mapsAvailable ? View.GONE : View.VISIBLE);
-            binding.btnToggleView.setText(showMap
-                    ? R.string.pet_friendly_view_list
-                    : R.string.pet_friendly_view_map);
         }
 
         UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();

@@ -75,14 +75,6 @@
                         android:textColor="@color/color_text_secondary"
                         tools:text="demo@animalloo.app" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_open_settings"
-                        style="@style/Widget.AnimalLoo.Button.Outlined"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/more_open_settings" />
-
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>

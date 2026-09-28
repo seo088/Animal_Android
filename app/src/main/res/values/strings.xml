@@ -49,9 +49,9 @@
 
     <!-- Diagnosis -->
     <string name="diagnosis_title">증상 진단</string>
-    <string name="diagnosis_step_symptom">증상 선택</string>
-    <string name="diagnosis_step_result">진단 결과</string>
-    <string name="diagnosis_step_hospital">인근 병원</string>
+    <string name="diagnosis_step_symptom">1. 증상</string>
+    <string name="diagnosis_step_result">2. 결과</string>
+    <string name="diagnosis_step_hospital">3. 병원</string>
     <string name="diagnosis_disclaimer">※ 본 결과는 Mock 추론 데이터이며, 실제 의료 진단이 아닙니다.</string>
     <string name="diagnosis_button">진단하기</string>
     <string name="diagnosis_retry">다시 진단</string>
@@ -87,6 +87,7 @@
     <string name="lost_report_features">특징</string>
     <string name="lost_report_contact">연락 정보</string>
     <string name="lost_report_photo">사진</string>
+    <string name="lost_report_photo_hint">탭하여 사진 선택</string>
     <string name="lost_report_select_photo">사진 선택</string>
     <string name="lost_report_submit">신고하기</string>
     <string name="lost_report_submit_success">분실 신고가 저장되었습니다.</string>
@@ -141,6 +142,7 @@
     <string name="pet_friendly_filter_leash">목줄 필요</string>
     <string name="pet_friendly_view_map">지도 보기</string>
     <string name="pet_friendly_view_list">리스트 보기</string>
+    <string name="pet_friendly_open_map_tab">지도 탭에서 보기</string>
     <string name="pet_friendly_empty">조건에 맞는 동반시설이 없습니다.</string>
     <string name="pet_friendly_reset_filters">필터 초기화</string>
     <string name="facility_call">전화</string>
@@ -201,6 +203,10 @@
     <string name="settings_cache_section">분실 신고 사진 캐시</string>
     <string name="settings_cache_size_format">분실 신고 사진 캐시: %1$s</string>
     <string name="settings_clear_photo_cache">사진 캐시 삭제</string>
+    <string name="settings_clear_cache_confirm_title">사진 캐시 삭제</string>
+    <string name="settings_clear_cache_confirm_message">선택 중인 임시 사진 파일을 모두 삭제합니다. 계속하시겠습니까?</string>
+    <string name="settings_clear_cache_confirm_positive">삭제</string>
+    <string name="settings_clear_cache_confirm_negative">취소</string>
     <string name="settings_cache_cleared_format">%1$d개의 임시 사진 파일을 삭제했습니다.</string>
     <string name="settings_cache_note">제출된 신고 사진은 삭제되지 않습니다. 선택 중인 임시 사진만 제거됩니다.</string>
 
@@ -222,6 +228,8 @@
     <string name="network_demo_prompt">아래 버튼을 눌러 Retrofit enqueue 네트워크 데모를 실행하세요.</string>
     <string name="network_demo_fetch">데모 API 호출</string>
     <string name="network_demo_fetching">데모 API 호출 중…</string>
+    <string name="network_demo_info_banner">이 섹션은 Retrofit 네트워크 연결 구조를 시연합니다. AnimalLoo 실제 데이터와는 연결되지 않습니다.</string>
+    <string name="network_demo_success_badge">호출 성공</string>
     <string name="network_demo_result_notice">아래 내용은 샘플 API 응답이며 AnimalLoo 화면 데이터와 연결되지 않습니다.</string>
     <string name="network_demo_source_format">출처: %1$s</string>
     <string name="network_demo_fetched_at_format">조회 시각: %1$s</string>

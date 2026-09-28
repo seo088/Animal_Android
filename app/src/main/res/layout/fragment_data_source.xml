@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:context=".ui.more.DataSourceFragment">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.AnimalLoo.Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_md">
+        android:layout_height="@dimen/toolbar_height"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/data_source_title"
+        app:titleTextColor="@color/color_text_primary" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="@dimen/min_touch_target"
-                android:layout_height="@dimen/min_touch_target"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/more_back"
-                android:src="@drawable/ic_back" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_sm"
-                android:text="@string/data_source_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
-
-        </LinearLayout>
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.AnimalLoo.Card"
@@ -95,8 +87,19 @@
                 android:padding="@dimen/spacing_md">
 
                 <TextView
+                    android:id="@+id/tv_network_info_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_info_banner"
+                    android:padding="@dimen/spacing_md"
+                    android:text="@string/network_demo_info_banner"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_secondary" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
                     android:text="@string/network_demo_section"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
 
@@ -160,9 +163,21 @@
                     tools:visibility="visible">
 
                     <TextView
+                        android:id="@+id/tv_network_success_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_success"
+                        android:paddingHorizontal="@dimen/spacing_sm"
+                        android:paddingVertical="@dimen/spacing_xs"
+                        android:text="@string/network_demo_success_badge"
+                        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                        android:textColor="@color/color_on_primary" />
+
+                    <TextView
                         android:id="@+id/tv_network_source"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                         android:textColor="@color/color_primary"
                         tools:text="출처: JSONPlaceholder" />
@@ -206,6 +221,8 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

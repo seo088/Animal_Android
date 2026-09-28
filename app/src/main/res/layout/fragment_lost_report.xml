@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,47 +32,50 @@
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_md"
-            android:text="@string/lost_report_species"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
-
-        <Spinner
-            android:id="@+id/spinner_species"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_species"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_xs"
-            android:minHeight="@dimen/min_touch_target" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
-            android:text="@string/lost_report_breed"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+            android:hint="@string/lost_report_species">
 
-        <Spinner
-            android:id="@+id/spinner_breed"
+            <AutoCompleteTextView
+                android:id="@+id/actv_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_breed"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_xs"
-            android:minHeight="@dimen/min_touch_target" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
-            android:text="@string/lost_report_gender"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+            android:hint="@string/lost_report_breed">
 
-        <Spinner
-            android:id="@+id/spinner_gender"
+            <AutoCompleteTextView
+                android:id="@+id/actv_breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_gender"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_xs"
-            android:minHeight="@dimen/min_touch_target" />
+            android:layout_marginTop="@dimen/spacing_md"
+            android:hint="@string/lost_report_gender">
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -87,10 +91,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_lost_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
-            android:hint="@string/lost_report_date">
+            android:hint="@string/lost_report_date"
+            app:endIconDrawable="@drawable/ic_calendar"
+            app:endIconMode="custom">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_lost_date"
@@ -134,15 +141,39 @@
             android:text="@string/lost_report_photo"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
 
-        <ImageView
-            android:id="@+id/iv_photo_preview"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:background="@drawable/bg_card"
-            android:contentDescription="@string/cd_animal_photo"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_placeholder" />
+            android:layout_marginTop="@dimen/spacing_sm">
+
+            <ImageView
+                android:id="@+id/iv_photo_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_card"
+                android:contentDescription="@string/cd_animal_photo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_placeholder" />
+
+            <View
+                android:id="@+id/photo_preview_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:contentDescription="@string/lost_report_select_photo"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/tv_photo_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/lost_report_photo_hint"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textColor="@color/color_text_secondary" />
+
+        </FrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_select_photo"

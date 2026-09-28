@@ -3,6 +3,7 @@ package com.animalloo.ui.rescue;
 import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class LostReportFragment extends BaseFragment {
     private String selectedPhotoPath;
     private String selectedLostDate;
     private boolean matchingScreenShown;
-    private boolean suppressSpeciesCallback;
     private String currentBreedSpecies;
 
     private final ActivityResultLauncher<String> pickImageLauncher =
@@ -74,7 +74,7 @@ public class LostReportFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(requireParentFragment()).get(LostReportViewModel.class);
-        setupSpinners();
+        setupDropdowns();
         setupDatePicker();
         setupButtons();
         observeViewModel();
@@ -87,13 +87,15 @@ public class LostReportFragment extends BaseFragment {
             binding.etRegion.setText(savedInstanceState.getString("region", ""));
             binding.etFeatures.setText(savedInstanceState.getString("features", ""));
             binding.etContact.setText(savedInstanceState.getString("contact", ""));
-            suppressSpeciesCallback = true;
-            int speciesIndex = savedInstanceState.getInt("species_index", 0);
-            int breedIndex = savedInstanceState.getInt("breed_index", 0);
-            binding.spinnerSpecies.setSelection(speciesIndex);
-            updateBreedSpinner(binding.spinnerSpecies.getSelectedItem().toString(), breedIndex);
-            suppressSpeciesCallback = false;
-            binding.spinnerGender.setSelection(savedInstanceState.getInt("gender_index", 0));
+            String species = savedInstanceState.getString("species", "");
+            if (!TextUtils.isEmpty(species)) {
+                binding.actvSpecies.setText(species, false);
+                updateBreedDropdown(species, savedInstanceState.getString("breed", null));
+            }
+            String gender = savedInstanceState.getString("gender", "");
+            if (!TextUtils.isEmpty(gender)) {
+                binding.actvGender.setText(gender, false);
+            }
             if (selectedLostDate != null) {
                 binding.etLostDate.setText(selectedLostDate);
             }
@@ -101,33 +103,33 @@ public class LostReportFragment extends BaseFragment {
         }
     }
 
-    private void setupSpinners() {
-        ArrayAdapter<CharSequence> speciesAdapter = ArrayAdapter.createFromResource(
-                requireContext(), R.array.animal_species, android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerSpecies.setAdapter(speciesAdapter);
-        binding.spinnerSpecies.setOnItemSelectedListener(new SimpleItemSelectedListener(value -> {
-            if (suppressSpeciesCallback) {
-                return;
-            }
-            updateBreedSpinner(value, null);
+    private void setupDropdowns() {
+        String[] species = getResources().getStringArray(R.array.animal_species);
+        ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(
+                requireContext(), android.R.layout.simple_dropdown_item_1line, species);
+        binding.actvSpecies.setAdapter(speciesAdapter);
+        binding.actvSpecies.setText(species[0], false);
+        binding.actvSpecies.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            updateBreedDropdown(selected, null);
             viewModel.clearValidationError();
-        }));
+        });
 
-        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(
-                requireContext(), R.array.animal_gender, android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerGender.setAdapter(genderAdapter);
+        String[] genders = getResources().getStringArray(R.array.animal_gender);
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(
+                requireContext(), android.R.layout.simple_dropdown_item_1line, genders);
+        binding.actvGender.setAdapter(genderAdapter);
+        binding.actvGender.setText(genders[0], false);
 
-        updateBreedSpinner(SPECIES_DOG, null);
+        updateBreedDropdown(SPECIES_DOG, null);
     }
 
-    private void updateBreedSpinner(String species, @Nullable Integer breedIndex) {
-        if (currentBreedSpecies != null && species.equals(currentBreedSpecies)) {
-            if (breedIndex != null
-                    && binding.spinnerBreed.getAdapter() != null
-                    && breedIndex >= 0
-                    && breedIndex < binding.spinnerBreed.getAdapter().getCount()) {
-                binding.spinnerBreed.setSelection(breedIndex, false);
-            }
+    private void updateBreedDropdown(String species, @Nullable String breedText) {
+        if (currentBreedSpecies != null
+                && species.equals(currentBreedSpecies)
+                && breedText != null
+                && !breedText.isEmpty()) {
+            binding.actvBreed.setText(breedText, false);
             return;
         }
 
@@ -141,33 +143,42 @@ public class LostReportFragment extends BaseFragment {
             arrayRes = R.array.dog_breeds;
         }
 
-        ArrayAdapter<CharSequence> breedAdapter = ArrayAdapter.createFromResource(
-                requireContext(), arrayRes, android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerBreed.setAdapter(breedAdapter);
-        if (breedIndex != null && breedIndex >= 0 && breedIndex < breedAdapter.getCount()) {
-            binding.spinnerBreed.setSelection(breedIndex, false);
+        String[] breeds = getResources().getStringArray(arrayRes);
+        ArrayAdapter<String> breedAdapter = new ArrayAdapter<>(
+                requireContext(), android.R.layout.simple_dropdown_item_1line, breeds);
+        binding.actvBreed.setAdapter(breedAdapter);
+        if (!TextUtils.isEmpty(breedText)) {
+            binding.actvBreed.setText(breedText, false);
+        } else if (breeds.length > 0) {
+            binding.actvBreed.setText(breeds[0], false);
         }
     }
 
     private void setupDatePicker() {
-        binding.etLostDate.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            DatePickerDialog dialog = new DatePickerDialog(
-                    requireContext(),
-                    (view, year, month, dayOfMonth) -> {
-                        selectedLostDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
-                        binding.etLostDate.setText(selectedLostDate);
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH));
-            dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-            dialog.show();
-        });
+        View.OnClickListener dateClickListener = v -> showDatePicker();
+        binding.etLostDate.setOnClickListener(dateClickListener);
+        binding.tilLostDate.setEndIconOnClickListener(dateClickListener);
+    }
+
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(
+                requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    selectedLostDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                    binding.etLostDate.setText(selectedLostDate);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.show();
     }
 
     private void setupButtons() {
-        binding.btnSelectPhoto.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
+        View.OnClickListener pickPhotoListener = v -> pickImageLauncher.launch("image/*");
+        binding.btnSelectPhoto.setOnClickListener(pickPhotoListener);
+        binding.photoPreviewOverlay.setOnClickListener(pickPhotoListener);
         binding.btnSubmitReport.setOnClickListener(v -> submitReport());
     }
 
@@ -188,8 +199,12 @@ public class LostReportFragment extends BaseFragment {
     }
 
     private void updatePhotoPreview() {
-        if (selectedPhotoPath == null || selectedPhotoPath.isEmpty()
-                || !new File(selectedPhotoPath).exists()) {
+        boolean hasPhoto = selectedPhotoPath != null
+                && !selectedPhotoPath.isEmpty()
+                && new File(selectedPhotoPath).exists();
+        binding.tvPhotoHint.setVisibility(hasPhoto ? View.GONE : View.VISIBLE);
+
+        if (!hasPhoto) {
             binding.ivPhotoPreview.setImageResource(R.drawable.img_placeholder);
             return;
         }
@@ -200,6 +215,33 @@ public class LostReportFragment extends BaseFragment {
                 .into(binding.ivPhotoPreview);
     }
 
+    public void resetFormFields() {
+        if (binding == null) {
+            return;
+        }
+
+        String[] species = getResources().getStringArray(R.array.animal_species);
+        String[] genders = getResources().getStringArray(R.array.animal_gender);
+
+        binding.etAnimalName.setText("");
+        binding.actvSpecies.setText(species.length > 0 ? species[0] : "", false);
+        binding.actvGender.setText(genders.length > 0 ? genders[0] : "", false);
+        binding.etRegion.setText("");
+        binding.etFeatures.setText("");
+        binding.etContact.setText("");
+        binding.etLostDate.setText("");
+
+        if (selectedPhotoPath != null && !isPersistedReportPhoto(selectedPhotoPath)) {
+            ImageFileHelper.deleteCachedFile(selectedPhotoPath);
+        }
+        selectedPhotoPath = null;
+        selectedLostDate = null;
+        matchingScreenShown = false;
+        updateBreedDropdown(SPECIES_DOG, null);
+        updatePhotoPreview();
+        viewModel.clearValidationError();
+    }
+
     private void submitReport() {
         if (viewModel.isSubmitting()) {
             return;
@@ -208,9 +250,9 @@ public class LostReportFragment extends BaseFragment {
         LostAnimalReport report = new LostAnimalReport(
                 null,
                 binding.etAnimalName.getText() != null ? binding.etAnimalName.getText().toString().trim() : "",
-                binding.spinnerSpecies.getSelectedItem().toString(),
-                binding.spinnerBreed.getSelectedItem().toString(),
-                binding.spinnerGender.getSelectedItem().toString(),
+                binding.actvSpecies.getText() != null ? binding.actvSpecies.getText().toString().trim() : "",
+                binding.actvBreed.getText() != null ? binding.actvBreed.getText().toString().trim() : "",
+                binding.actvGender.getText() != null ? binding.actvGender.getText().toString().trim() : "",
                 binding.etRegion.getText() != null ? binding.etRegion.getText().toString().trim() : "",
                 selectedLostDate != null ? selectedLostDate : "",
                 binding.etFeatures.getText() != null ? binding.etFeatures.getText().toString().trim() : "",
@@ -314,40 +356,17 @@ public class LostReportFragment extends BaseFragment {
                 ? binding.etFeatures.getText().toString() : "");
         outState.putString("contact", binding.etContact.getText() != null
                 ? binding.etContact.getText().toString() : "");
-        outState.putInt("species_index", binding.spinnerSpecies.getSelectedItemPosition());
-        outState.putInt("breed_index", binding.spinnerBreed.getSelectedItemPosition());
-        outState.putInt("gender_index", binding.spinnerGender.getSelectedItemPosition());
+        outState.putString("species", binding.actvSpecies.getText() != null
+                ? binding.actvSpecies.getText().toString() : "");
+        outState.putString("breed", binding.actvBreed.getText() != null
+                ? binding.actvBreed.getText().toString() : "");
+        outState.putString("gender", binding.actvGender.getText() != null
+                ? binding.actvGender.getText().toString() : "");
     }
 
     @Override
     public void onDestroyView() {
         binding = null;
         super.onDestroyView();
-    }
-
-    private static class SimpleItemSelectedListener implements android.widget.AdapterView.OnItemSelectedListener {
-
-        interface SelectionCallback {
-            void onSelected(String value);
-        }
-
-        private final SelectionCallback callback;
-
-        SimpleItemSelectedListener(SelectionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-            Object item = parent.getItemAtPosition(position);
-            if (item != null) {
-                callback.onSelected(item.toString());
-            }
-        }
-
-        @Override
-        public void onNothingSelected(android.widget.AdapterView<?> parent) {
-            // no-op
-        }
     }
 }

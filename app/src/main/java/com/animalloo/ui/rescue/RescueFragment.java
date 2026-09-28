@@ -126,6 +126,12 @@ public class RescueFragment extends BaseFragment implements RescueHost {
         transaction.commit();
     }
 
+    public void resetLostReportForm() {
+        if (lostReportFragment != null) {
+            lostReportFragment.resetFormFields();
+        }
+    }
+
     @Override
     public void showMatchingResults() {
         if (lostReportFragment == null) {

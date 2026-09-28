@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -128,6 +130,21 @@ public class RescuedAnimalFragment extends BaseFragment {
                 showAnimalContextMenu(animal, anchorView);
             }
         });
+        rescuedAnimalAdapter.setOnAnimalActionListener(new RescuedAnimalAdapter.OnAnimalActionListener() {
+            @Override
+            public void onFavoriteClick(RescuedAnimal animal) {
+                boolean wasFavorite = viewModel.isAnimalFavorite(animal.getId());
+                viewModel.toggleAnimalFavorite(animal.getId());
+                Snackbar.make(binding.getRoot(),
+                        wasFavorite ? R.string.rescued_unfavorited : R.string.rescued_favorited,
+                        Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onShareClick(RescuedAnimal animal) {
+                shareAnimal(animal);
+            }
+        });
     }
 
     private void showAnimalContextMenu(RescuedAnimal animal, View anchorView) {
@@ -234,6 +251,22 @@ public class RescuedAnimalFragment extends BaseFragment {
         binding.spinnerFilterBreed.setSelection(0);
         binding.spinnerFilterRegion.setSelection(0);
         binding.chipGroupGender.check(R.id.chip_gender_all);
+        scrollToTop();
+    }
+
+    private void scrollToTop() {
+        binding.getRoot().scrollTo(0, 0);
+        ViewParent parent = binding.getRoot().getParent();
+        while (parent instanceof View) {
+            if (parent instanceof NestedScrollView) {
+                ((NestedScrollView) parent).scrollTo(0, 0);
+                break;
+            }
+            parent = parent.getParent();
+        }
+        if (binding.rvRescuedAnimals.getVisibility() == View.VISIBLE) {
+            binding.rvRescuedAnimals.scrollToPosition(0);
+        }
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {

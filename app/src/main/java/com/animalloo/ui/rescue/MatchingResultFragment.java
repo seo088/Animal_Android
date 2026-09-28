@@ -140,6 +140,9 @@ public class MatchingResultFragment extends BaseFragment {
 
     private void backToReport() {
         viewModel.resetSubmissionState();
+        if (requireParentFragment() instanceof RescueFragment) {
+            ((RescueFragment) requireParentFragment()).resetLostReportForm();
+        }
         requireParentFragment().getChildFragmentManager().popBackStack();
     }
 

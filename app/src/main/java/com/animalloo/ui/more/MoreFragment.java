@@ -111,7 +111,6 @@ public class MoreFragment extends BaseFragment implements MoreHost {
 
     private void setupAccountSummary() {
         binding.cardAccountSummary.setOnClickListener(v -> openSection(SECTION_SETTINGS));
-        binding.btnOpenSettings.setOnClickListener(v -> openSection(SECTION_SETTINGS));
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
             if (user == null) {
                 binding.cardAccountSummary.setVisibility(View.GONE);

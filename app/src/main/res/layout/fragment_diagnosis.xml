@@ -64,11 +64,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
-            android:background="@color/color_error_background"
+            android:background="@color/color_surface_variant"
             android:padding="@dimen/spacing_md"
             android:text="@string/diagnosis_disclaimer"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-            android:textColor="@color/color_error_text"
+            android:textColor="@color/color_text_secondary"
             android:visibility="gone"
             tools:visibility="visible" />
 
