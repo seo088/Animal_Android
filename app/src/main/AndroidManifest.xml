@@ -35,6 +35,13 @@
         </activity>
 
         <activity
+            android:name=".ui.auth.AuthActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AnimalLoo"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
             android:launchMode="singleTop"

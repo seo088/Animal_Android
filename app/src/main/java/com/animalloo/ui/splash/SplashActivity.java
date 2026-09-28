@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.animalloo.R;
 import com.animalloo.databinding.ActivitySplashBinding;
+import com.animalloo.ui.auth.AuthActivity;
 import com.animalloo.ui.main.MainActivity;
+import com.animalloo.util.RepositoryProvider;
 
 /**
  * AnimalLoo brand splash screen.
@@ -130,7 +132,12 @@ public class SplashActivity extends AppCompatActivity {
         if (isFinishing() || isDestroyed()) {
             return;
         }
-        startActivity(new Intent(this, MainActivity.class));
+
+        boolean isLoggedIn = RepositoryProvider.getInstance().getAuthRepository().isLoggedIn();
+        Intent intent = isLoggedIn
+                ? new Intent(this, MainActivity.class)
+                : new Intent(this, AuthActivity.class);
+        startActivity(intent);
         finish();
     }
 

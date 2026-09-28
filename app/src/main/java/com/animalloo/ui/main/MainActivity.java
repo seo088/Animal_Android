@@ -23,7 +23,9 @@ import com.animalloo.ui.diagnosis.DiagnosisFragment;
 import com.animalloo.ui.home.HomeFragment;
 import com.animalloo.ui.map.MapFragment;
 import com.animalloo.ui.more.MoreFragment;
+import com.animalloo.ui.auth.AuthActivity;
 import com.animalloo.ui.rescue.RescueFragment;
+import com.animalloo.util.RepositoryProvider;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements MainNavigator, DetailNavigator {
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!RepositoryProvider.getInstance().getAuthRepository().isLoggedIn()) {
+            redirectToAuth();
+            return;
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -67,6 +75,23 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         super.onNewIntent(intent);
         setIntent(intent);
         handleNotificationIntent(intent);
+    }
+
+    private void redirectToAuth() {
+        Intent authIntent = new Intent(this, AuthActivity.class);
+        Intent currentIntent = getIntent();
+        if (currentIntent != null) {
+            if (currentIntent.hasExtra(NotificationHelper.EXTRA_OPEN_RESCUE_TAB)) {
+                authIntent.putExtra(NotificationHelper.EXTRA_OPEN_RESCUE_TAB,
+                        currentIntent.getIntExtra(NotificationHelper.EXTRA_OPEN_RESCUE_TAB, 0));
+            }
+            if (currentIntent.getBooleanExtra(NotificationHelper.EXTRA_OPEN_HOME, false)) {
+                authIntent.putExtra(NotificationHelper.EXTRA_OPEN_HOME, true);
+            }
+        }
+        authIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(authIntent);
+        finish();
     }
 
     private void handleNotificationIntent(Intent intent) {
