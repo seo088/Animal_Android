@@ -21,17 +21,9 @@ import com.animalloo.data.model.FacilityCategory;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMapBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.util.FacilityMapController;
 import com.animalloo.util.MapsAvailabilityChecker;
 import com.animalloo.util.PermissionHelper;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -40,14 +32,11 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 import java.util.Map;
 
-public class MapFragment extends BaseFragment implements OnMapReadyCallback {
-
-    private static final LatLng DEFAULT_SEOUL = new LatLng(37.5665, 126.9780);
-    private static final float DEFAULT_ZOOM = 11f;
+public class MapFragment extends BaseFragment {
 
     private FragmentMapBinding binding;
     private MapViewModel viewModel;
-    private GoogleMap googleMap;
+    private FacilityMapController mapController;
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
@@ -60,6 +49,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 this::handleLocationPermissionResult);
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -88,22 +78,30 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         viewModel.loadFacilities(category);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mapController != null) {
+            mapController.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (mapController != null) {
+            mapController.pause();
+        }
+        super.onPause();
+    }
+
     private void setupMapContainer() {
         if (mapsAvailable) {
             binding.layoutMapFallback.setVisibility(View.GONE);
             binding.mapContainer.setVisibility(View.VISIBLE);
-
-            SupportMapFragment existingMapFragment =
-                    (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_container);
-            if (existingMapFragment != null) {
-                existingMapFragment.getMapAsync(this);
-            } else {
-                SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.map_container, mapFragment)
-                        .commit();
-                mapFragment.getMapAsync(this);
-            }
+            mapController = new FacilityMapController(binding.mapContainer);
+            mapController.setOnFacilityClickListener(this::showFacilityBottomSheet);
+            mapController.start();
+            promptLocationPermissionIfNeeded();
         } else {
             binding.mapContainer.setVisibility(View.GONE);
             binding.layoutMapFallback.setVisibility(View.VISIBLE);
@@ -195,8 +193,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 : binding.fallbackStateContainer;
 
         if (state.isLoading()) {
-            if (mapsAvailable && googleMap != null) {
-                googleMap.clear();
+            if (mapsAvailable && mapController != null) {
+                mapController.clearMarkers();
             } else if (!mapsAvailable) {
                 facilityListAdapter.setItems(null);
             }
@@ -207,8 +205,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         hideOverlayState(stateContainer);
 
         if (state.isError()) {
-            if (mapsAvailable && googleMap != null) {
-                googleMap.clear();
+            if (mapsAvailable && mapController != null) {
+                mapController.clearMarkers();
             }
             if (!mapsAvailable) {
                 facilityListAdapter.setItems(null);
@@ -223,8 +221,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         }
 
         if (state.isEmpty()) {
-            if (mapsAvailable && googleMap != null) {
-                googleMap.clear();
+            if (mapsAvailable && mapController != null) {
+                mapController.clearMarkers();
             }
             if (!mapsAvailable) {
                 facilityListAdapter.setItems(null);
@@ -235,85 +233,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
         if (state.isSuccess() && state.getData() != null) {
             List<Facility> facilities = state.getData();
-            if (mapsAvailable) {
-                updateMapMarkers(facilities);
+            if (mapsAvailable && mapController != null) {
+                mapController.updateFacilities(facilities);
             } else {
                 facilityListAdapter.setItems(facilities);
             }
         }
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap map) {
-        if (binding == null) return;
-        googleMap = map;
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
-        googleMap.setOnMarkerClickListener(marker -> {
-            Object tag = marker.getTag();
-            if (tag instanceof String) {
-                showFacilityBottomSheet((String) tag);
-            }
-            return true;
-        });
-
-        enableMyLocationIfPossible();
-
-        UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();
-        if (currentState != null && currentState.isSuccess() && currentState.getData() != null) {
-            updateMapMarkers(currentState.getData());
-        }
-    }
-
-    private void updateMapMarkers(List<Facility> facilities) {
-        if (googleMap == null) {
-            return;
-        }
-
-        googleMap.clear();
-        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-        boolean hasMarker = false;
-
-        for (Facility facility : facilities) {
-            LatLng position = new LatLng(facility.getLatitude(), facility.getLongitude());
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .title(facility.getName())
-                    .snippet(facility.getAddress())
-                    .icon(BitmapDescriptorFactory.defaultMarker(getMarkerHue(facility.getCategory()))));
-            if (marker != null) {
-                marker.setTag(facility.getId());
-                boundsBuilder.include(position);
-                hasMarker = true;
-            }
-        }
-
-        if (hasMarker) {
-            try {
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 120));
-            } catch (IllegalStateException exception) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
-            }
-        }
-    }
-
-    private float getMarkerHue(FacilityCategory category) {
-        if (category == FacilityCategory.HOSPITAL) {
-            return BitmapDescriptorFactory.HUE_RED;
-        } else if (category == FacilityCategory.PHARMACY) {
-            return BitmapDescriptorFactory.HUE_AZURE;
-        } else if (category == FacilityCategory.SHELTER) {
-            return BitmapDescriptorFactory.HUE_ORANGE;
-        } else if (category == FacilityCategory.RESTAURANT) {
-            return BitmapDescriptorFactory.HUE_ROSE;
-        } else if (category == FacilityCategory.CAFE) {
-            return BitmapDescriptorFactory.HUE_VIOLET;
-        } else if (category == FacilityCategory.HOTEL) {
-            return BitmapDescriptorFactory.HUE_BLUE;
-        } else if (category == FacilityCategory.TOURISM) {
-            return BitmapDescriptorFactory.HUE_GREEN;
-        }
-        return BitmapDescriptorFactory.HUE_GREEN;
     }
 
     private void showFacilityBottomSheet(String facilityId) {
@@ -334,19 +259,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         Boolean coarseGranted = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
         if (Boolean.TRUE.equals(fineGranted) || Boolean.TRUE.equals(coarseGranted)
                 || PermissionHelper.hasLocationPermission(requireContext())) {
-            enableMyLocationLayer();
+            showLocationEnabledMessage();
         } else if (binding != null) {
             Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_LONG).show();
         }
     }
 
-    private void enableMyLocationIfPossible() {
-        if (googleMap == null || !mapsAvailable || binding == null) {
+    private void promptLocationPermissionIfNeeded() {
+        if (!mapsAvailable || binding == null) {
             return;
         }
 
         if (PermissionHelper.hasLocationPermission(requireContext())) {
-            enableMyLocationLayer();
             return;
         }
 
@@ -365,15 +289,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         });
     }
 
-    private void enableMyLocationLayer() {
-        if (googleMap == null || binding == null) {
-            return;
-        }
-        try {
-            googleMap.setMyLocationEnabled(true);
+    private void showLocationEnabledMessage() {
+        if (binding != null) {
             Snackbar.make(binding.getRoot(), R.string.map_location_enabled, Snackbar.LENGTH_SHORT).show();
-        } catch (SecurityException exception) {
-            Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -398,7 +316,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroyView() {
-        googleMap = null;
+        if (mapController != null) {
+            mapController.destroy();
+            mapController = null;
+        }
         binding = null;
         super.onDestroyView();
     }

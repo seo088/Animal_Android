@@ -14,7 +14,7 @@
 |------|------|
 | **스플래시** | Circular Reveal, ObjectAnimator, AnimatorSet, MediaPlayer 짖는 효과음 |
 | **홈** | 통계 카드, 5개 바로가기, 실시간 구조/분실 알림 RecyclerView |
-| **지도** | Google Maps + 7종 카테고리 Chip 필터, Marker, BottomSheet |
+| **지도** | Kakao Map + 7종 카테고리 Chip 필터, Marker, BottomSheet |
 | **증상진단** | 3단계(증상 → Mock 추론 결과 → 인근 병원) 단일 Fragment |
 | **구조/분실** | 분실 신고 Form, Photo Picker, 캐시 저장, A/B/C 매칭, 구조동물 필터 |
 | **더보기** | 동반시설(리스트↔지도), 설정, 데이터 출처, 네트워크 데모 |
@@ -34,7 +34,7 @@
 | 상태 | ViewModel, LiveData, UiState |
 | 리스트 | RecyclerView, Adapter, ViewHolder |
 | 이미지 | Glide |
-| 지도 | Google Maps SDK for Android |
+| 지도 | Kakao Maps SDK v2 for Android |
 | 네트워크 | Retrofit 2 + OkHttp (데모), ExecutorService + Handler (Mock) |
 | 푸시 | Firebase Cloud Messaging (프론트 수신 구조) |
 | Gradle | Groovy DSL (`build.gradle`, `settings.gradle`) |
@@ -99,15 +99,48 @@ Android Studio → **Open** → 프로젝트 루트 선택 → **Gradle Sync**
 
 ```properties
 sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
-MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
 ```
 
-### 4. 빌드 및 실행
+### 4. 환경 변수 / .env 설정 (Kakao Map)
+
+카카오맵 키는 Git에 올리지 않습니다. 아래 **3가지 방법 중 하나**로 설정하세요.
+
+**권장: `.env` 파일 사용**
+
+```bash
+cp .env.example .env
+```
+
+`.env` 파일을 열고 네이티브 앱 키를 입력합니다.
+
+```properties
+KAKAO_MAP_KEY=발급받은_네이티브_앱_키
+```
+
+**또는 OS 환경 변수 사용**
+
+```bash
+# macOS / Linux
+export KAKAO_MAP_KEY=발급받은_네이티브_앱_키
+
+# Windows PowerShell
+$env:KAKAO_MAP_KEY="발급받은_네이티브_앱_키"
+```
+
+**또는 `local.properties`에 직접 추가 (로컬 override)**
+
+```properties
+KAKAO_MAP_KEY=발급받은_네이티브_앱_키
+```
+
+키 조회 우선순위: `local.properties` → 환경 변수 → `.env`
+
+### 5. 빌드 및 실행
 
 - Run ▶ 버튼 또는 `./gradlew assembleDebug`
 - 에뮬레이터/실기기(API 26+)에서 실행
 
-### 5. 정상 실행 흐름
+### 6. 정상 실행 흐름
 
 ```
 SplashActivity (애니메이션 + 효과음)
@@ -120,17 +153,14 @@ SplashActivity (애니메이션 + 효과음)
 
 ---
 
-## Google Maps API Key 설정
+## Kakao Map API Key 설정
 
-1. [Google Cloud Console](https://console.cloud.google.com/)에서 Maps SDK for Android 활성화
-2. API Key 발급
-3. `local.properties`에 추가:
+1. [카카오 개발자](https://developers.kakao.com/)에서 앱 등록
+2. **네이티브 앱 키** 발급
+3. Android 플랫폼에 패키지명 `com.animalloo` 및 **키 해시** 등록
+4. `.env` 또는 환경 변수 `KAKAO_MAP_KEY`에 키 입력
 
-```properties
-MAPS_API_KEY=발급받은_API_KEY
-```
-
-4. `app/build.gradle`의 `manifestPlaceholders`가 자동으로 Manifest에 주입합니다.
+`app/build.gradle`이 키를 읽어 `AndroidManifest.xml`과 `BuildConfig`에 자동 주입합니다.
 
 **API Key가 없는 경우:** 지도 탭은 리스트 fallback UI로 동작하며, 앱의 다른 기능은 정상 실행됩니다.
 
@@ -229,7 +259,7 @@ Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
 
 | 항목 | 설명 |
 |------|------|
-| **커밋 금지** | `local.properties`, `google-services.json`, API Key, Secret |
+| **커밋 금지** | `.env`, `local.properties`, `google-services.json`, API Key, Secret |
 | **커밋 금지** | `AGENTS.md`, `scripts/` (로컬 전용) |
 | **브랜치** | 기능별 feature branch → PR 권장 |
 | **Gradle Sync** | pull 후 Android Studio Gradle Sync 필수 |

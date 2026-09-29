@@ -15,6 +15,14 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+apply from: rootProject.file('gradle/env.gradle')
+
+def dotEnv = loadDotEnv()
+def kakaoMapKey = resolveSecret(localProperties, 'KAKAO_MAP_KEY', dotEnv)
+if (kakaoMapKey.isEmpty()) {
+    kakaoMapKey = 'YOUR_KAKAO_MAP_KEY_HERE'
+}
+
 android {
     namespace 'com.animalloo'
     compileSdk 34
@@ -29,8 +37,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
-                MAPS_API_KEY: localProperties.getProperty('MAPS_API_KEY', 'YOUR_MAPS_API_KEY_HERE')
+                KAKAO_MAP_KEY: kakaoMapKey
         ]
+
+        buildConfigField "String", "KAKAO_MAP_KEY",
+                "\"${escapeForBuildConfig(kakaoMapKey)}\""
     }
 
     buildTypes {
@@ -47,6 +58,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
@@ -64,7 +76,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
-    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.kakao.maps.open:android:2.15.2'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

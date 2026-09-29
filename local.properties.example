@@ -2,5 +2,6 @@
 # Copy this file to local.properties and set your Android SDK path.
 # sdk.dir=/Users/YOUR_USERNAME/Library/Android/sdk
 
-## Google Maps API Key (optional for Phase 2)
-# MAPS_API_KEY=YOUR_MAPS_API_KEY_HERE
+## Optional local override for Kakao Map key.
+## Recommended setup for team members: copy `.env.example` to `.env` or export KAKAO_MAP_KEY.
+# KAKAO_MAP_KEY=YOUR_KAKAO_MAP_KEY_HERE

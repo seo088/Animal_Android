@@ -14,39 +14,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
 import com.animalloo.adapter.PetFriendlyFacilityAdapter;
-import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.DetailType;
-import com.animalloo.data.model.FacilityCategory;
+import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.PetFriendlyFilter;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentPetFriendlyBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.map.FacilityBottomSheetFragment;
+import com.animalloo.util.FacilityMapController;
 import com.animalloo.util.MapsAvailabilityChecker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
-public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallback {
-
-    private static final LatLng DEFAULT_SEOUL = new LatLng(37.5665, 126.9780);
-    private static final float DEFAULT_ZOOM = 11f;
+public class PetFriendlyFragment extends BaseFragment {
 
     private FragmentPetFriendlyBinding binding;
     private PetFriendlyViewModel viewModel;
     private PetFriendlyFacilityAdapter facilityAdapter;
-    private GoogleMap googleMap;
+    private FacilityMapController mapController;
     private boolean mapsAvailable;
 
     @Nullable
@@ -82,6 +70,22 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         observeViewModel();
 
         viewModel.loadFacilities();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mapController != null) {
+            mapController.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (mapController != null) {
+            mapController.pause();
+        }
+        super.onPause();
     }
 
     private void setupToolbar() {
@@ -167,19 +171,12 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
     }
 
     private void setupMapContainer() {
-        if (mapsAvailable) {
-            SupportMapFragment existingMapFragment =
-                    (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_container);
-            if (existingMapFragment != null) {
-                existingMapFragment.getMapAsync(this);
-            } else {
-                SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.map_container, mapFragment)
-                        .commit();
-                mapFragment.getMapAsync(this);
-            }
+        if (!mapsAvailable) {
+            return;
         }
+        mapController = new FacilityMapController(binding.mapContainer);
+        mapController.setOnFacilityClickListener(this::showFacilityBottomSheet);
+        mapController.start();
     }
 
     private void setupViewToggle() {
@@ -214,8 +211,8 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
         UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();
         if (currentState != null && currentState.isSuccess() && currentState.getData() != null) {
-            if (showMap) {
-                updateMapMarkers(currentState.getData());
+            if (showMap && mapController != null) {
+                mapController.updateFacilities(currentState.getData());
             } else {
                 facilityAdapter.setItems(currentState.getData());
             }
@@ -228,8 +225,8 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         }
 
         if (state.isLoading()) {
-            if (googleMap != null) {
-                googleMap.clear();
+            if (mapController != null) {
+                mapController.clearMarkers();
             }
             facilityAdapter.setItems(null);
             showOverlayState(binding.stateContainer, R.layout.layout_loading, null);
@@ -239,7 +236,9 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         hideOverlayState(binding.stateContainer);
 
         if (state.isError()) {
-            if (googleMap != null) googleMap.clear();
+            if (mapController != null) {
+                mapController.clearMarkers();
+            }
             facilityAdapter.setItems(null);
             showOverlayState(binding.stateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
@@ -251,8 +250,8 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         }
 
         if (state.isEmpty()) {
-            if (googleMap != null) {
-                googleMap.clear();
+            if (mapController != null) {
+                mapController.clearMarkers();
             }
             facilityAdapter.setItems(null);
             showOverlayState(binding.stateContainer, R.layout.layout_pet_friendly_empty, stateView ->
@@ -270,85 +269,12 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
         if (state.isSuccess() && state.getData() != null) {
             List<Facility> facilities = state.getData();
             Boolean mapMode = viewModel.getMapViewMode().getValue();
-            if (Boolean.TRUE.equals(mapMode) && mapsAvailable) {
-                updateMapMarkers(facilities);
+            if (Boolean.TRUE.equals(mapMode) && mapsAvailable && mapController != null) {
+                mapController.updateFacilities(facilities);
             } else {
                 facilityAdapter.setItems(facilities);
             }
         }
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap map) {
-        if (binding == null) return;
-        googleMap = map;
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
-        googleMap.setOnMarkerClickListener(marker -> {
-            Object tag = marker.getTag();
-            if (tag instanceof String) {
-                showFacilityBottomSheet((String) tag);
-            }
-            return true;
-        });
-
-        UiState<List<Facility>> currentState = viewModel.getFacilitiesState().getValue();
-        Boolean mapMode = viewModel.getMapViewMode().getValue();
-        if (Boolean.TRUE.equals(mapMode) && currentState != null
-                && currentState.isSuccess() && currentState.getData() != null) {
-            updateMapMarkers(currentState.getData());
-        }
-    }
-
-    private void updateMapMarkers(List<Facility> facilities) {
-        if (googleMap == null) {
-            return;
-        }
-
-        googleMap.clear();
-        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-        boolean hasMarker = false;
-
-        for (Facility facility : facilities) {
-            LatLng position = new LatLng(facility.getLatitude(), facility.getLongitude());
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .title(facility.getName())
-                    .snippet(facility.getAddress())
-                    .icon(BitmapDescriptorFactory.defaultMarker(getMarkerHue(facility.getCategory()))));
-            if (marker != null) {
-                marker.setTag(facility.getId());
-                boundsBuilder.include(position);
-                hasMarker = true;
-            }
-        }
-
-        if (hasMarker) {
-            try {
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 120));
-            } catch (IllegalStateException exception) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_SEOUL, DEFAULT_ZOOM));
-            }
-        }
-    }
-
-    private float getMarkerHue(FacilityCategory category) {
-        if (category == FacilityCategory.HOSPITAL) {
-            return BitmapDescriptorFactory.HUE_RED;
-        } else if (category == FacilityCategory.RESTAURANT) {
-            return BitmapDescriptorFactory.HUE_ROSE;
-        } else if (category == FacilityCategory.CAFE) {
-            return BitmapDescriptorFactory.HUE_VIOLET;
-        } else if (category == FacilityCategory.HOTEL) {
-            return BitmapDescriptorFactory.HUE_BLUE;
-        } else if (category == FacilityCategory.TOURISM) {
-            return BitmapDescriptorFactory.HUE_GREEN;
-        }
-        return BitmapDescriptorFactory.HUE_GREEN;
-    }
-
-    private void showFacilityBottomSheet(Facility facility) {
-        showFacilityBottomSheet(facility.getId());
     }
 
     private void showFacilityBottomSheet(String facilityId) {
@@ -416,7 +342,10 @@ public class PetFriendlyFragment extends BaseFragment implements OnMapReadyCallb
 
     @Override
     public void onDestroyView() {
-        googleMap = null;
+        if (mapController != null) {
+            mapController.destroy();
+            mapController = null;
+        }
         binding = null;
         super.onDestroyView();
     }
