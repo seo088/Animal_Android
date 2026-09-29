@@ -23,26 +23,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Headline" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xs"
-                android:text="@string/more_subtitle"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
-                android:textColor="@color/color_text_secondary" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_account_summary"
                 style="@style/Widget.AnimalLoo.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginTop="@dimen/spacing_sm"
                 android:clickable="true"
                 android:focusable="true">
 

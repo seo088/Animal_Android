@@ -8,15 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.more.DataSourceFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Widget.AnimalLoo.Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="@string/data_source_title"
-        app:titleTextColor="@color/color_text_primary" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

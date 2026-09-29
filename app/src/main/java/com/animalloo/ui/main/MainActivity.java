@@ -2,8 +2,6 @@ package com.animalloo.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
         initFragments(savedInstanceState);
         setupBottomNavigation();
         setupDetailBackHandler();
@@ -150,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             transaction.commit();
 
             activeFragment = homeFragment;
-            updateToolbarTitle(R.string.nav_home);
             binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
         } else {
             homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(TAG_HOME);
@@ -165,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             int selectedItemId = savedInstanceState.getInt("selected_nav_item", R.id.nav_home);
             binding.bottomNavigation.setSelectedItemId(selectedItemId);
             activeFragment = findActiveFragmentByNavId(selectedItemId);
-            updateToolbarTitle(getTitleResForNavItem(selectedItemId));
             restoreDetailOverlayIfNeeded(fragmentManager);
         }
     }
@@ -176,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             detailVisible = true;
             binding.detailContainer.setVisibility(View.VISIBLE);
             binding.bottomNavigation.setVisibility(View.GONE);
-            binding.toolbar.setVisibility(View.GONE);
             updateDetailBackHandlerEnabled();
         }
     }
@@ -236,10 +230,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
         binding.detailContainer.setVisibility(View.GONE);
         binding.bottomNavigation.setVisibility(View.VISIBLE);
-        binding.toolbar.setVisibility(View.VISIBLE);
-        updateToolbarForActiveFragment(
-                activeFragment,
-                getTitleResForNavItem(binding.bottomNavigation.getSelectedItemId()));
         updateDetailBackHandlerEnabled();
     }
 
@@ -252,30 +242,29 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
         binding.detailContainer.setVisibility(View.VISIBLE);
         binding.bottomNavigation.setVisibility(View.GONE);
-        binding.toolbar.setVisibility(View.GONE);
         updateDetailBackHandlerEnabled();
     }
 
     private void setupBottomNavigation() {
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
-                    switchFragment(homeFragment, R.string.nav_home);
+                    switchFragment(homeFragment);
                     return true;
                 } else if (itemId == R.id.nav_map) {
-                    switchFragment(mapFragment, R.string.nav_map);
+                    switchFragment(mapFragment);
                     return true;
                 } else if (itemId == R.id.nav_diagnosis) {
-                    switchFragment(diagnosisFragment, R.string.nav_diagnosis);
+                    switchFragment(diagnosisFragment);
                     return true;
                 } else if (itemId == R.id.nav_rescue) {
-                    switchFragment(rescueFragment, R.string.nav_rescue);
+                    switchFragment(rescueFragment);
                     applyPendingRescueTabIfNeeded();
                     return true;
                 } else if (itemId == R.id.nav_more) {
-                    switchFragment(moreFragment, R.string.nav_more);
+                    switchFragment(moreFragment);
                     applyPendingMoreSectionIfNeeded();
                     return true;
                 }
@@ -313,6 +302,11 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         }
     }
 
+    @Override
+    public void onMoreSectionChanged(int section) {
+        // Header removed; section changes rely on system back navigation.
+    }
+
     private void applyPendingMoreSectionIfNeeded() {
         if (pendingMoreSection >= 0 && moreFragment != null) {
             moreFragment.openSection(pendingMoreSection);
@@ -327,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         }
     }
 
-    private void switchFragment(Fragment targetFragment, int titleRes) {
+    private void switchFragment(Fragment targetFragment) {
         if (targetFragment == null || targetFragment == activeFragment) {
             return;
         }
@@ -340,57 +334,24 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         transaction.commit();
 
         activeFragment = targetFragment;
-        updateToolbarForActiveFragment(targetFragment, titleRes);
-    }
-
-    @Override
-    public void onMoreSectionChanged(int section) {
-        if (activeFragment != moreFragment || detailVisible) {
-            return;
-        }
-        if (section == MoreFragment.SECTION_HUB) {
-            binding.toolbar.setVisibility(View.VISIBLE);
-            updateToolbarTitle(R.string.nav_more);
-        } else {
-            binding.toolbar.setVisibility(View.GONE);
-        }
-    }
-
-    private void updateToolbarForActiveFragment(Fragment targetFragment, int titleRes) {
-        if (targetFragment == moreFragment
-                && moreFragment != null
-                && moreFragment.getCurrentSection() != MoreFragment.SECTION_HUB) {
-            binding.toolbar.setVisibility(View.GONE);
-        } else {
-            binding.toolbar.setVisibility(View.VISIBLE);
-            updateToolbarTitle(titleRes);
-        }
     }
 
     public void switchToTabProgrammatically(int bottomNavItemId) {
         if (bottomNavItemId == R.id.nav_map) {
-            switchFragment(mapFragment, R.string.nav_map);
+            switchFragment(mapFragment);
         } else if (bottomNavItemId == R.id.nav_diagnosis) {
-            switchFragment(diagnosisFragment, R.string.nav_diagnosis);
+            switchFragment(diagnosisFragment);
         } else if (bottomNavItemId == R.id.nav_rescue) {
-            switchFragment(rescueFragment, R.string.nav_rescue);
+            switchFragment(rescueFragment);
             applyPendingRescueTabIfNeeded();
         } else if (bottomNavItemId == R.id.nav_more) {
-            switchFragment(moreFragment, R.string.nav_more);
+            switchFragment(moreFragment);
             applyPendingMoreSectionIfNeeded();
         } else {
-            switchFragment(homeFragment, R.string.nav_home);
+            switchFragment(homeFragment);
             bottomNavItemId = R.id.nav_home;
         }
         binding.bottomNavigation.setSelectedItemId(bottomNavItemId);
-    }
-
-    private void updateToolbarTitle(int titleRes) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(titleRes);
-        } else {
-            binding.toolbar.setTitle(titleRes);
-        }
     }
 
     private Fragment findActiveFragmentByNavId(int navItemId) {
@@ -404,36 +365,6 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             return moreFragment;
         }
         return homeFragment;
-    }
-
-    private int getTitleResForNavItem(int navItemId) {
-        if (navItemId == R.id.nav_map) {
-            return R.string.nav_map;
-        } else if (navItemId == R.id.nav_diagnosis) {
-            return R.string.nav_diagnosis;
-        } else if (navItemId == R.id.nav_rescue) {
-            return R.string.nav_rescue;
-        } else if (navItemId == R.id.nav_more) {
-            return R.string.nav_more;
-        }
-        return R.string.nav_home;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_options_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_refresh) {
-            if (homeFragment != null && activeFragment == homeFragment) {
-                homeFragment.refreshHomeData();
-            }
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

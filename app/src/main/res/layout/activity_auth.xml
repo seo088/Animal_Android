@@ -13,49 +13,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/hero_height"
-            android:background="@drawable/bg_splash_gradient">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_lg"
+            android:paddingTop="@dimen/spacing_xl"
+            android:paddingBottom="@dimen/spacing_md">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="@dimen/icon_size_lg"
+                android:layout_height="@dimen/icon_size_lg"
+                android:contentDescription="@string/cd_app_logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_splash_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingHorizontal="@dimen/spacing_lg">
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/splash_brand_name"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
+                android:textColor="@color/color_text_primary" />
 
-                <ImageView
-                    android:layout_width="@dimen/icon_size_lg"
-                    android:layout_height="@dimen/icon_size_lg"
-                    android:contentDescription="@string/cd_app_logo"
-                    android:src="@drawable/ic_dog_splash" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="@string/app_name"
-                    android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                    android:textColor="@color/color_on_primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xs"
-                    android:text="@string/app_tagline"
-                    android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                    android:textColor="@color/color_on_primary" />
-            </LinearLayout>
-        </FrameLayout>
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.AnimalLoo.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_md"
-            android:layout_marginTop="-24dp"
             android:layout_marginBottom="@dimen/spacing_lg">
 
             <LinearLayout

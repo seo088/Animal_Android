@@ -62,7 +62,6 @@ public class PetFriendlyFragment extends BaseFragment {
         }
         if (!mapsAvailable) viewModel.setMapViewMode(false);
 
-        setupToolbar();
         setupFilters();
         setupRecyclerView();
         setupMapContainer();
@@ -86,14 +85,6 @@ public class PetFriendlyFragment extends BaseFragment {
             mapController.pause();
         }
         super.onPause();
-    }
-
-    private void setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener(v -> {
-            if (getParentFragment() instanceof MoreHost) {
-                ((MoreHost) getParentFragment()).onMoreBackPressed();
-            }
-        });
     }
 
     private void setupFilters() {

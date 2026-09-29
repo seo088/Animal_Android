@@ -15,7 +15,7 @@
     <color name="color_on_secondary_container">#5C3A12</color>
 
     <!-- Background & Surface -->
-    <color name="color_background">#F4F7FB</color>
+    <color name="color_background">#FFFFFF</color>
     <color name="color_surface">#FFFFFF</color>
     <color name="color_surface_variant">#EEF2F7</color>
     <color name="color_on_surface">#1B2430</color>

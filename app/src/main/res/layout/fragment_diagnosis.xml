@@ -14,17 +14,11 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_md">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diagnosis_title"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline" />
-
         <LinearLayout
             android:id="@+id/layout_step_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:orientation="horizontal">
 
             <TextView

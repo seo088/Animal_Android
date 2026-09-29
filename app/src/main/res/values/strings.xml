@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AnimalLoo</string>
+    <string name="splash_brand_name">Animalloo</string>
     <string name="app_tagline">반려동물 통합 지식그래프 플랫폼</string>
 
     <!-- Bottom Navigation -->

@@ -87,7 +87,6 @@ public class DetailFragment extends BaseFragment {
         detailType = DetailType.valueOf(typeName);
         viewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
-        binding.toolbar.setNavigationOnClickListener(v -> detailNavigator.closeDetail());
         observeViewModel();
 
         if (savedInstanceState == null) {

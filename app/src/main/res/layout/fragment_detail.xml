@@ -7,18 +7,6 @@
     android:background="@color/color_background"
     tools:context=".ui.detail.DetailFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Widget.AnimalLoo.Toolbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/toolbar_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="@string/detail_title"
-        app:titleTextColor="@color/color_text_primary" />
-
     <FrameLayout
         android:id="@+id/state_container"
         android:layout_width="0dp"
@@ -26,7 +14,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/layout_content"

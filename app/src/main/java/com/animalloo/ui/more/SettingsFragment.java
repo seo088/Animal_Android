@@ -86,12 +86,6 @@ public class SettingsFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
 
-        binding.toolbar.setNavigationOnClickListener(v -> {
-            if (getParentFragment() instanceof MoreHost) {
-                ((MoreHost) getParentFragment()).onMoreBackPressed();
-            }
-        });
-
         setupAccountObservers();
         setupLogoutAction();
         setupSwitchListeners();

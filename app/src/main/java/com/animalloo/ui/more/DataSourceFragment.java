@@ -39,12 +39,6 @@ public class DataSourceFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(this).get(DataSourceViewModel.class);
 
-        binding.toolbar.setNavigationOnClickListener(v -> {
-            if (getParentFragment() instanceof MoreHost) {
-                ((MoreHost) getParentFragment()).onMoreBackPressed();
-            }
-        });
-
         binding.btnFetchPublicData.setOnClickListener(v -> viewModel.fetchDemoPublicData());
         observeViewModel();
         renderPublicDataState(viewModel.getPublicDataState().getValue());
