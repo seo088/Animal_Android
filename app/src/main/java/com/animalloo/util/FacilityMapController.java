@@ -1,10 +1,14 @@
 package com.animalloo.util;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.animalloo.R;
 import com.animalloo.data.model.Facility;
@@ -18,6 +22,8 @@ import com.kakao.vectormap.label.Label;
 import com.kakao.vectormap.label.LabelLayer;
 import com.kakao.vectormap.label.LabelManager;
 import com.kakao.vectormap.label.LabelOptions;
+import com.kakao.vectormap.label.LabelStyle;
+import com.kakao.vectormap.label.LabelStyles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +40,13 @@ public final class FacilityMapController {
     private static final LatLng DEFAULT_SEOUL = LatLng.from(37.5665, 126.9780);
     private static final int DEFAULT_ZOOM = 11;
     private static final int MAP_PADDING_PX = 120;
+    private static final int MARKER_SIZE_DP = 36;
 
     private final FrameLayout container;
     private MapView mapView;
     private KakaoMap kakaoMap;
     private LabelLayer labelLayer;
+    private LabelStyles facilityLabelStyles;
     private final List<Label> labels = new ArrayList<>();
     private OnFacilityClickListener facilityClickListener;
     private List<Facility> pendingFacilities;
@@ -80,6 +88,8 @@ public final class FacilityMapController {
                 LabelManager labelManager = map.getLabelManager();
                 if (labelManager != null) {
                     labelLayer = labelManager.getLayer();
+                    facilityLabelStyles = labelManager.addLabelStyles(
+                            LabelStyles.from(LabelStyle.from(createMarkerBitmap())));
                 }
 
                 map.setOnLabelClickListener((kakaoMap, layer, label) -> {
@@ -130,7 +140,7 @@ public final class FacilityMapController {
     }
 
     public void updateFacilities(@Nullable List<Facility> facilities) {
-        if (kakaoMap == null || labelLayer == null) {
+        if (kakaoMap == null || labelLayer == null || facilityLabelStyles == null) {
             pendingFacilities = facilities;
             return;
         }
@@ -145,7 +155,7 @@ public final class FacilityMapController {
         for (Facility facility : facilities) {
             LatLng position = LatLng.from(facility.getLatitude(), facility.getLongitude());
             Label label = labelLayer.addLabel(LabelOptions.from(position)
-                    .setStyles(R.drawable.ic_map_marker)
+                    .setStyles(facilityLabelStyles)
                     .setTag(facility.getId())
                     .setClickable(true));
             labels.add(label);
@@ -161,11 +171,26 @@ public final class FacilityMapController {
         clearMarkers();
         kakaoMap = null;
         labelLayer = null;
+        facilityLabelStyles = null;
         pendingFacilities = null;
         if (mapView != null) {
             container.removeView(mapView);
             mapView = null;
         }
         mapStarted = false;
+    }
+
+    @NonNull
+    private Bitmap createMarkerBitmap() {
+        float density = container.getResources().getDisplayMetrics().density;
+        int sizePx = (int) (MARKER_SIZE_DP * density);
+        Drawable drawable = AppCompatResources.getDrawable(container.getContext(), R.drawable.ic_map_marker);
+        Bitmap bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888);
+        if (drawable != null) {
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, sizePx, sizePx);
+            drawable.draw(canvas);
+        }
+        return bitmap;
     }
 }

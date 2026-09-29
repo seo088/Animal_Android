@@ -26,6 +26,11 @@
     <color name="color_text_secondary">#5C6B7A</color>
     <color name="color_text_hint">#8B98A8</color>
 
+    <!-- Map -->
+    <color name="map_category_button_background">#CCFFFFFF</color>
+    <color name="map_category_chip_background">#CCFFFFFF</color>
+    <color name="map_category_button_stroke">#33000000</color>
+
     <!-- Divider & Border -->
     <color name="color_divider">#E3E9F0</color>
     <color name="color_border">#D7DEE8</color>

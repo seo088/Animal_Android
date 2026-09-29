@@ -1,5 +1,6 @@
 package com.animalloo.data.mock;
 
+import com.animalloo.data.model.HomeProfile;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.repository.HomeRepository;
 import com.animalloo.data.repository.RepositoryCallback;
@@ -17,5 +18,10 @@ public class MockHomeRepository implements HomeRepository {
     @Override
     public void getHomeStats(RepositoryCallback<HomeStats> callback) {
         asyncHelper.execute(dataProvider::getHomeStats, callback);
+    }
+
+    @Override
+    public void getHomeProfile(String userDisplayName, RepositoryCallback<HomeProfile> callback) {
+        asyncHelper.execute(() -> dataProvider.getHomeProfile(userDisplayName), callback);
     }
 }

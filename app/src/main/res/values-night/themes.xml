@@ -2,6 +2,9 @@
 <resources>
 
     <style name="Theme.AnimalLoo" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
+        <item name="android:textViewStyle">@style/Widget.AnimalLoo.TextView</item>
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
         <item name="colorPrimaryContainer">@color/color_primary_container</item>

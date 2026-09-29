@@ -5,6 +5,9 @@ import com.animalloo.data.model.AlertType;
 import com.animalloo.data.model.DiagnosisResult;
 import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.FacilityCategory;
+import com.animalloo.R;
+import com.animalloo.data.model.HomeProfile;
+import com.animalloo.ui.home.HomeStatSlideImages;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.Hospital;
 import com.animalloo.data.model.LostAnimalReport;
@@ -91,6 +94,19 @@ public final class MockDataProvider {
 
     public HomeStats getHomeStats() {
         return homeStats;
+    }
+
+    public HomeProfile getHomeProfile(String userDisplayName) {
+        String displayName = userDisplayName == null || userDisplayName.isEmpty()
+                ? "게스트"
+                : userDisplayName;
+        return new HomeProfile(
+                displayName,
+                HomeStatSlideImages.MOCK_PET_PROFILE,
+                R.drawable.ic_profile_placeholder,
+                "몽이",
+                "말티즈",
+                "3살");
     }
 
     public Map<String, List<String>> getSymptomToDiseaseMap() {

@@ -5,8 +5,4 @@
         android:id="@+id/context_share"
         android:title="@string/context_share" />
 
-    <item
-        android:id="@+id/context_favorite"
-        android:title="@string/context_favorite" />
-
 </menu>

@@ -32,13 +32,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="@string/cd_animal_photo"
                 android:scaleType="centerCrop"
                 android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.AnimalLoo.Rounded"
                 tools:src="@drawable/img_placeholder"
                 tools:visibility="visible" />
 

@@ -36,6 +36,9 @@
     <dimen name="icon_size_lg">40dp</dimen>
     <dimen name="shortcut_icon_container">52dp</dimen>
     <dimen name="thumbnail_size">80dp</dimen>
+    <dimen name="alert_thumbnail_size">120dp</dimen>
+    <dimen name="alert_card_min_height">136dp</dimen>
+    <dimen name="alert_card_spacing">16dp</dimen>
     <dimen name="splash_logo_size">180dp</dimen>
     <dimen name="min_touch_target">48dp</dimen>
     <dimen name="hero_height">148dp</dimen>
@@ -43,4 +46,21 @@
     <!-- Chip -->
     <dimen name="chip_height">36dp</dimen>
     <dimen name="chip_spacing">8dp</dimen>
+
+    <!-- Map -->
+    <dimen name="map_category_top_margin">40dp</dimen>
+    <dimen name="map_category_button_size">48dp</dimen>
+    <dimen name="map_category_menu_width">108dp</dimen>
+    <dimen name="map_category_chip_height">48dp</dimen>
+    <dimen name="map_category_chip_spacing">10dp</dimen>
+
+    <!-- Home -->
+    <dimen name="home_stat_carousel_height">168dp</dimen>
+    <dimen name="home_stat_value_text_size">40sp</dimen>
+    <dimen name="home_stat_label_text_size">18sp</dimen>
+    <dimen name="home_profile_image_size">112dp</dimen>
+    <dimen name="home_profile_top_padding">48dp</dimen>
+    <dimen name="home_profile_bottom_padding">16dp</dimen>
+    <dimen name="stats_dot_size">6dp</dimen>
+    <dimen name="stats_indicator_height">12dp</dimen>
 </resources>

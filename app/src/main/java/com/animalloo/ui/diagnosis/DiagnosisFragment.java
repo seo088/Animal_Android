@@ -262,10 +262,10 @@ public class DiagnosisFragment extends BaseFragment {
         binding.chipGroupSymptoms.removeAllViews();
         Set<String> selectedIds = viewModel.getSelectedSymptomIds().getValue();
 
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
         for (Symptom symptom : symptoms) {
-            Chip chip = new Chip(requireContext(), null, R.style.Widget_AnimalLoo_Chip);
+            Chip chip = (Chip) inflater.inflate(R.layout.item_symptom_chip, binding.chipGroupSymptoms, false);
             chip.setText(symptom.getName());
-            chip.setCheckable(true);
             chip.setTag(symptom.getId());
             chip.setChecked(selectedIds != null && selectedIds.contains(symptom.getId()));
 

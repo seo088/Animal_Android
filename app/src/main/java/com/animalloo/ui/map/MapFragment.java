@@ -1,7 +1,9 @@
 package com.animalloo.ui.map;
 
 import android.Manifest;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,7 +29,6 @@ import com.animalloo.util.MapsAvailabilityChecker;
 import com.animalloo.util.PermissionHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -34,11 +36,14 @@ import java.util.Map;
 
 public class MapFragment extends BaseFragment {
 
+    private static final long CATEGORY_ANIMATION_MS = 180L;
+
     private FragmentMapBinding binding;
     private MapViewModel viewModel;
     private FacilityMapController mapController;
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
+    private boolean categoryMenuExpanded;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
     private boolean locationPromptShown;
 
@@ -68,12 +73,20 @@ public class MapFragment extends BaseFragment {
         if (savedInstanceState != null) {
             String savedCategory = savedInstanceState.getString("selected_category");
             category = savedCategory == null ? null : FacilityCategory.valueOf(savedCategory);
+            categoryMenuExpanded = savedInstanceState.getBoolean("category_menu_expanded", false);
         }
-        restoreChipSelection(category);
-        setupChipGroup();
+
+        setupCategoryMenu();
+        restoreCategorySelection(category);
         setupFallbackList();
         setupMapContainer();
         observeViewModel();
+
+        if (categoryMenuExpanded) {
+            showCategoryMenu(false);
+        } else {
+            hideCategoryMenu(false);
+        }
 
         viewModel.loadFacilities(category);
     }
@@ -116,24 +129,87 @@ public class MapFragment extends BaseFragment {
                 facility -> showFacilityBottomSheet(facility.getId()));
     }
 
-    private void setupChipGroup() {
-        binding.chipGroupCategory.setOnCheckedStateChangeListener(
-                (ChipGroup group, List<Integer> checkedIds) -> {
-                    if (checkedIds.isEmpty()) {
-                        return;
-                    }
-                    int checkedId = checkedIds.get(0);
-                    viewModel.loadFacilities(mapChipIdToCategory(checkedId));
-                });
+    private void setupCategoryMenu() {
+        binding.btnCategoryToggle.setOnClickListener(v -> toggleCategoryMenu());
+
+        setupCategoryChip(binding.chipAll, null);
+        setupCategoryChip(binding.chipHospital, FacilityCategory.HOSPITAL);
+        setupCategoryChip(binding.chipPharmacy, FacilityCategory.PHARMACY);
+        setupCategoryChip(binding.chipShelter, FacilityCategory.SHELTER);
+        setupCategoryChip(binding.chipRestaurant, FacilityCategory.RESTAURANT);
+        setupCategoryChip(binding.chipCafe, FacilityCategory.CAFE);
+        setupCategoryChip(binding.chipHotel, FacilityCategory.HOTEL);
+        setupCategoryChip(binding.chipTourism, FacilityCategory.TOURISM);
     }
 
-    private void restoreChipSelection(FacilityCategory category) {
-        if (category == null) {
-            binding.chipAll.setChecked(true);
+    private void setupCategoryChip(Chip chip, @Nullable FacilityCategory category) {
+        chip.setCheckable(false);
+        chip.setGravity(Gravity.CENTER);
+        chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        chip.setOnClickListener(v -> {
+            selectCategory(category, chip);
+            hideCategoryMenu(true);
+        });
+    }
+
+    private void toggleCategoryMenu() {
+        if (categoryMenuExpanded) {
+            hideCategoryMenu(true);
+        } else {
+            showCategoryMenu(true);
+        }
+    }
+
+    private void showCategoryMenu(boolean animate) {
+        categoryMenuExpanded = true;
+        View menu = binding.layoutCategoryItems;
+        menu.setVisibility(View.VISIBLE);
+
+        if (!animate) {
+            menu.setAlpha(1f);
+            menu.setTranslationY(0f);
             return;
         }
 
-        Chip targetChip = null;
+        menu.setAlpha(0f);
+        menu.setTranslationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm));
+        menu.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(CATEGORY_ANIMATION_MS)
+                .start();
+    }
+
+    private void hideCategoryMenu(boolean animate) {
+        categoryMenuExpanded = false;
+        View menu = binding.layoutCategoryItems;
+
+        if (!animate || menu.getVisibility() != View.VISIBLE) {
+            menu.setVisibility(View.GONE);
+            menu.setAlpha(1f);
+            menu.setTranslationY(0f);
+            return;
+        }
+
+        menu.animate()
+                .alpha(0f)
+                .translationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm))
+                .setDuration(CATEGORY_ANIMATION_MS)
+                .withEndAction(() -> {
+                    menu.setVisibility(View.GONE);
+                    menu.setAlpha(1f);
+                    menu.setTranslationY(0f);
+                })
+                .start();
+    }
+
+    private void selectCategory(@Nullable FacilityCategory category, Chip selectedChip) {
+        highlightSelectedChip(selectedChip);
+        viewModel.loadFacilities(category);
+    }
+
+    private void restoreCategorySelection(@Nullable FacilityCategory category) {
+        Chip targetChip = binding.chipAll;
         if (category == FacilityCategory.HOSPITAL) {
             targetChip = binding.chipHospital;
         } else if (category == FacilityCategory.PHARMACY) {
@@ -149,34 +225,29 @@ public class MapFragment extends BaseFragment {
         } else if (category == FacilityCategory.TOURISM) {
             targetChip = binding.chipTourism;
         }
-
-        if (targetChip != null) {
-            targetChip.setChecked(true);
-        } else {
-            binding.chipAll.setChecked(true);
-        }
+        highlightSelectedChip(targetChip);
     }
 
-    @Nullable
-    private FacilityCategory mapChipIdToCategory(int chipId) {
-        if (chipId == R.id.chip_all) {
-            return null;
-        } else if (chipId == R.id.chip_hospital) {
-            return FacilityCategory.HOSPITAL;
-        } else if (chipId == R.id.chip_pharmacy) {
-            return FacilityCategory.PHARMACY;
-        } else if (chipId == R.id.chip_shelter) {
-            return FacilityCategory.SHELTER;
-        } else if (chipId == R.id.chip_restaurant) {
-            return FacilityCategory.RESTAURANT;
-        } else if (chipId == R.id.chip_cafe) {
-            return FacilityCategory.CAFE;
-        } else if (chipId == R.id.chip_hotel) {
-            return FacilityCategory.HOTEL;
-        } else if (chipId == R.id.chip_tourism) {
-            return FacilityCategory.TOURISM;
-        }
-        return null;
+    private void highlightSelectedChip(Chip selectedChip) {
+        clearChipHighlight(binding.chipAll);
+        clearChipHighlight(binding.chipHospital);
+        clearChipHighlight(binding.chipPharmacy);
+        clearChipHighlight(binding.chipShelter);
+        clearChipHighlight(binding.chipRestaurant);
+        clearChipHighlight(binding.chipCafe);
+        clearChipHighlight(binding.chipHotel);
+        clearChipHighlight(binding.chipTourism);
+
+        int primary = ContextCompat.getColor(requireContext(), R.color.color_primary);
+        int onPrimary = ContextCompat.getColor(requireContext(), R.color.color_on_primary);
+        selectedChip.setChipBackgroundColor(ColorStateList.valueOf(primary));
+        selectedChip.setTextColor(onPrimary);
+    }
+
+    private void clearChipHighlight(Chip chip) {
+        int background = ContextCompat.getColor(requireContext(), R.color.map_category_chip_background);
+        chip.setChipBackgroundColor(ColorStateList.valueOf(background));
+        chip.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.chip_text_color));
     }
 
     private void observeViewModel() {
@@ -252,6 +323,7 @@ public class MapFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
         FacilityCategory category = viewModel.getSelectedCategory().getValue();
         outState.putString("selected_category", category == null ? null : category.name());
+        outState.putBoolean("category_menu_expanded", categoryMenuExpanded);
     }
 
     private void handleLocationPermissionResult(Map<String, Boolean> result) {

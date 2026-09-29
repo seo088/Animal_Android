@@ -20,6 +20,10 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/spacing_lg">
 
+            <include
+                android:id="@+id/layout_profile_header"
+                layout="@layout/layout_home_profile_header" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,147 +32,34 @@
                 android:text="@string/home_stats_title"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
 
-            <GridLayout
-                android:id="@+id/grid_stats"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_stats"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_sm"
+                android:layout_height="@dimen/home_stat_carousel_height"
+                android:layout_marginHorizontal="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:columnCount="2">
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:overScrollMode="never" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card.Flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_stat_protected"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_md">
-
-                        <TextView
-                            android:id="@+id/tv_stat_protected_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_primary" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xs"
-                            android:text="@string/home_stats_protected"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card.Flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_stat_rescued"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_md">
-
-                        <TextView
-                            android:id="@+id/tv_stat_rescued_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_badge_info" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xs"
-                            android:text="@string/home_stats_rescued_today"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card.Flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_stat_lost"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_md">
-
-                        <TextView
-                            android:id="@+id/tv_stat_lost_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_secondary" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xs"
-                            android:text="@string/home_stats_lost_report"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.AnimalLoo.Card.Flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/spacing_xs"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_stat_facility"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_md">
-
-                        <TextView
-                            android:id="@+id/tv_stat_facility_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-                            android:textColor="@color/color_stat_facility_text" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_xs"
-                            android:text="@string/home_stats_facilities"
-                            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </GridLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/stats_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/stats_indicator_height"
+                android:layout_marginHorizontal="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:background="@android:color/transparent"
+                app:tabBackground="@drawable/selector_stats_dot"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabMaxWidth="@dimen/stats_indicator_height"
+                app:tabMinWidth="@dimen/stats_indicator_height"
+                app:tabMode="fixed"
+                app:tabPaddingBottom="0dp"
+                app:tabPaddingEnd="5dp"
+                app:tabPaddingStart="5dp"
+                app:tabPaddingTop="0dp"
+                app:tabRippleColor="@android:color/transparent" />
 
             <FrameLayout
                 android:id="@+id/stats_state_container"
@@ -176,59 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_md"
                 android:visibility="gone" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
-                android:layout_marginTop="@dimen/spacing_lg"
-                android:text="@string/home_shortcuts_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
-
-            <GridLayout
-                android:id="@+id/grid_shortcuts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_sm"
-                android:layout_marginTop="@dimen/spacing_sm"
-                android:columnCount="3">
-
-                <include
-                    android:id="@+id/shortcut_hospital"
-                    layout="@layout/item_home_shortcut"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1" />
-
-                <include
-                    android:id="@+id/shortcut_diagnosis"
-                    layout="@layout/item_home_shortcut"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1" />
-
-                <include
-                    android:id="@+id/shortcut_lost"
-                    layout="@layout/item_home_shortcut"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1" />
-
-                <include
-                    android:id="@+id/shortcut_rescued"
-                    layout="@layout/item_home_shortcut"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1" />
-
-                <include
-                    android:id="@+id/shortcut_pet_friendly"
-                    layout="@layout/item_home_shortcut"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1" />
-
-            </GridLayout>
 
             <TextView
                 android:layout_width="wrap_content"

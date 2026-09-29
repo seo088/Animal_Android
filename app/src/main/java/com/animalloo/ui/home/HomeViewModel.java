@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.animalloo.data.model.AlertNotification;
+import com.animalloo.data.model.HomeProfile;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
+import com.animalloo.data.model.User;
 import com.animalloo.data.repository.AlertRepository;
+import com.animalloo.data.repository.AuthRepository;
 import com.animalloo.data.repository.FavoriteRepository;
 import com.animalloo.data.repository.HomeRepository;
 import com.animalloo.data.repository.RepositoryCallback;
@@ -22,7 +25,9 @@ public class HomeViewModel extends ViewModel {
     private final HomeRepository homeRepository;
     private final AlertRepository alertRepository;
     private final FavoriteRepository favoriteRepository;
+    private final AuthRepository authRepository;
 
+    private final MutableLiveData<UiState<HomeProfile>> profileState = new MutableLiveData<>();
     private final MutableLiveData<UiState<HomeStats>> statsState = new MutableLiveData<>();
     private final MutableLiveData<UiState<List<AlertNotification>>> alertsState = new MutableLiveData<>();
     private final MutableLiveData<Set<String>> favoriteAlertIds = new MutableLiveData<>(new HashSet<>());
@@ -32,6 +37,11 @@ public class HomeViewModel extends ViewModel {
         homeRepository = provider.getHomeRepository();
         alertRepository = provider.getAlertRepository();
         favoriteRepository = provider.getFavoriteRepository();
+        authRepository = provider.getAuthRepository();
+    }
+
+    public LiveData<UiState<HomeProfile>> getProfileState() {
+        return profileState;
     }
 
     public LiveData<UiState<HomeStats>> getStatsState() {
@@ -47,8 +57,26 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void loadHomeData() {
+        loadProfile();
         loadStats();
         loadAlerts();
+    }
+
+    private void loadProfile() {
+        profileState.setValue(UiState.loading());
+        User user = authRepository.getCurrentUser();
+        String displayName = user != null ? user.getDisplayName() : null;
+        homeRepository.getHomeProfile(displayName, new RepositoryCallback<HomeProfile>() {
+            @Override
+            public void onSuccess(HomeProfile data) {
+                profileState.setValue(UiState.success(data));
+            }
+
+            @Override
+            public void onError(String message) {
+                profileState.setValue(UiState.error(message));
+            }
+        });
     }
 
     private void loadStats() {

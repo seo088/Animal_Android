@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Widget.AnimalLoo.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
+    </style>
+
+    <style name="ShapeAppearance.AnimalLoo.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.AnimalLoo.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_radius_md</item>
+    </style>
+
     <!-- Typography -->
     <style name="TextAppearance.AnimalLoo.Display" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_display</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textStyle">bold</item>
@@ -10,24 +27,32 @@
     </style>
 
     <style name="TextAppearance.AnimalLoo.Headline" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_headline</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.AnimalLoo.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_title</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.AnimalLoo.Subtitle" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.AnimalLoo.Section" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textStyle">bold</item>
@@ -35,17 +60,23 @@
     </style>
 
     <style name="TextAppearance.AnimalLoo.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_body</item>
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:lineSpacingExtra">2dp</item>
     </style>
 
     <style name="TextAppearance.AnimalLoo.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">@dimen/text_size_caption</item>
         <item name="android:textColor">@color/color_text_secondary</item>
     </style>
 
     <style name="TextAppearance.AnimalLoo.Overline" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
+        <item name="fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="android:textAllCaps">true</item>
@@ -68,6 +99,7 @@
 
     <!-- Button -->
     <style name="Widget.AnimalLoo.Button" parent="Widget.Material3.Button">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textAllCaps">false</item>
         <item name="cornerRadius">@dimen/corner_radius_md</item>
         <item name="backgroundTint">@color/color_primary</item>
@@ -77,6 +109,7 @@
     </style>
 
     <style name="Widget.AnimalLoo.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textAllCaps">false</item>
         <item name="cornerRadius">@dimen/corner_radius_md</item>
         <item name="strokeColor">@color/color_primary</item>
@@ -85,18 +118,34 @@
     </style>
 
     <style name="Widget.AnimalLoo.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <!-- Chip -->
     <style name="Widget.AnimalLoo.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="android:fontFamily">@font/tmoney_round_wind</item>
         <item name="chipBackgroundColor">@color/chip_background_color</item>
         <item name="android:textColor">@color/chip_text_color</item>
         <item name="chipStrokeColor">@color/color_outline</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipCornerRadius">@dimen/corner_radius_xl</item>
         <item name="chipMinHeight">@dimen/chip_height</item>
+    </style>
+
+    <style name="Widget.AnimalLoo.Chip.MapCategory" parent="Widget.AnimalLoo.Chip">
+        <item name="chipMinHeight">@dimen/map_category_chip_height</item>
+        <item name="android:layout_height">@dimen/map_category_chip_height</item>
+        <item name="chipBackgroundColor">@color/map_category_chip_background</item>
+        <item name="chipStrokeColor">@color/map_category_button_stroke</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+        <item name="chipStartPadding">10dp</item>
+        <item name="chipEndPadding">10dp</item>
+        <item name="chipIconVisible">false</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:textSize">@dimen/text_size_body</item>
     </style>
 
     <!-- Switch -->

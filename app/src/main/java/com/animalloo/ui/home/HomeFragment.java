@@ -2,6 +2,8 @@ package com.animalloo.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,39 +12,54 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.animalloo.R;
 import com.animalloo.adapter.AlertAdapter;
+import com.animalloo.adapter.HomeStatCarouselAdapter;
 import com.animalloo.data.model.AlertNotification;
 import com.animalloo.data.model.AlertType;
 import com.animalloo.data.model.DetailType;
+import com.animalloo.data.model.HomeProfile;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentHomeBinding;
-import com.animalloo.databinding.ItemHomeShortcutBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.main.MainNavigator;
-import com.animalloo.ui.more.MoreFragment;
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class HomeFragment extends BaseFragment {
 
     public static final int RESCUE_TAB_LOST = 0;
     public static final int RESCUE_TAB_RESCUED = 1;
+    private static final long STAT_AUTO_SLIDE_MS = 4000L;
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
     private AlertAdapter alertAdapter;
+    private HomeStatCarouselAdapter statCarouselAdapter;
     private MainNavigator mainNavigator;
     private DetailNavigator detailNavigator;
     private AlertNotification contextMenuAlert;
+    private TabLayoutMediator statsTabMediator;
+    private final Handler statSlideHandler = new Handler(Looper.getMainLooper());
+    private final Runnable statSlideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            advanceStatsCarousel();
+            statSlideHandler.postDelayed(this, STAT_AUTO_SLIDE_MS);
+        }
+    };
 
     @Override
     public void onAttach(@NonNull android.content.Context context) {
@@ -71,11 +88,23 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        setupShortcuts();
+        setupStatsCarousel();
         setupAlertsRecyclerView();
         setupSwipeRefresh();
         observeViewModel();
         viewModel.loadHomeData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startStatsAutoSlide();
+    }
+
+    @Override
+    public void onPause() {
+        stopStatsAutoSlide();
+        super.onPause();
     }
 
     public void refreshHomeData() {
@@ -84,24 +113,22 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    private void setupShortcuts() {
-        setupShortcut(binding.shortcutHospital, R.drawable.ic_map, R.string.shortcut_hospital,
-                () -> mainNavigator.navigateToTab(R.id.nav_map));
-        setupShortcut(binding.shortcutDiagnosis, R.drawable.ic_diagnosis, R.string.shortcut_diagnosis,
-                () -> mainNavigator.navigateToTab(R.id.nav_diagnosis));
-        setupShortcut(binding.shortcutLost, R.drawable.ic_rescue, R.string.shortcut_lost_report,
-                () -> mainNavigator.navigateToRescueWithTab(RESCUE_TAB_LOST));
-        setupShortcut(binding.shortcutRescued, R.drawable.ic_rescue, R.string.shortcut_rescued,
-                () -> mainNavigator.navigateToRescueWithTab(RESCUE_TAB_RESCUED));
-        setupShortcut(binding.shortcutPetFriendly, R.drawable.ic_more, R.string.shortcut_pet_friendly,
-                () -> mainNavigator.navigateToMoreSection(MoreFragment.SECTION_PET_FRIENDLY));
-    }
+    private void setupStatsCarousel() {
+        statCarouselAdapter = new HomeStatCarouselAdapter();
+        binding.vpStats.setAdapter(statCarouselAdapter);
+        binding.vpStats.setOffscreenPageLimit(1);
+        binding.vpStats.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                restartStatsAutoSlide();
+            }
+        });
 
-    private void setupShortcut(ItemHomeShortcutBinding shortcutBinding, int iconRes, int labelRes,
-                               Runnable action) {
-        shortcutBinding.ivShortcutIcon.setImageResource(iconRes);
-        shortcutBinding.tvShortcutLabel.setText(labelRes);
-        shortcutBinding.cardShortcut.setOnClickListener(v -> action.run());
+        RecyclerView recyclerView = (RecyclerView) binding.vpStats.getChildAt(0);
+        if (recyclerView != null) {
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
 
     private void setupAlertsRecyclerView() {
@@ -120,30 +147,13 @@ public class HomeFragment extends BaseFragment {
             public void onAlertLongClick(AlertNotification alert, View anchorView) {
                 showAlertContextMenu(alert, anchorView);
             }
-
-            @Override
-            public void onFavoriteClick(AlertNotification alert) {
-                boolean wasFavorite = viewModel.isAlertFavorite(alert.getId());
-                viewModel.toggleAlertFavorite(alert.getId());
-                Snackbar.make(binding.getRoot(),
-                        wasFavorite ? R.string.home_alert_unfavorited : R.string.home_alert_favorited,
-                        Snackbar.LENGTH_SHORT).show();
-            }
         });
     }
 
     private void showAlertContextMenu(AlertNotification alert, View anchorView) {
         contextMenuAlert = alert;
-        anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) -> {
-            requireActivity().getMenuInflater().inflate(R.menu.context_menu_alert, menu);
-            MenuItem favoriteItem = menu.findItem(R.id.context_favorite);
-            if (favoriteItem != null) {
-                boolean isFavorite = viewModel.isAlertFavorite(alert.getId());
-                favoriteItem.setTitle(isFavorite
-                        ? R.string.context_unfavorite
-                        : R.string.context_favorite);
-            }
-        });
+        anchorView.setOnCreateContextMenuListener((menu, view, menuInfo) ->
+                requireActivity().getMenuInflater().inflate(R.menu.context_menu_alert, menu));
         anchorView.showContextMenu();
     }
 
@@ -156,13 +166,6 @@ public class HomeFragment extends BaseFragment {
         int itemId = item.getItemId();
         if (itemId == R.id.context_share) {
             shareAlert(contextMenuAlert);
-            return true;
-        } else if (itemId == R.id.context_favorite) {
-            boolean wasFavorite = viewModel.isAlertFavorite(contextMenuAlert.getId());
-            viewModel.toggleAlertFavorite(contextMenuAlert.getId());
-            Snackbar.make(binding.getRoot(),
-                    wasFavorite ? R.string.home_alert_unfavorited : R.string.home_alert_favorited,
-                    Snackbar.LENGTH_SHORT).show();
             return true;
         }
         return super.onContextItemSelected(item);
@@ -193,15 +196,28 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void observeViewModel() {
+        viewModel.getProfileState().observe(getViewLifecycleOwner(), this::renderProfileState);
         viewModel.getStatsState().observe(getViewLifecycleOwner(), this::renderStatsState);
         viewModel.getAlertsState().observe(getViewLifecycleOwner(), this::renderAlertsState);
-        viewModel.getFavoriteAlertIds().observe(getViewLifecycleOwner(), this::renderFavoriteState);
     }
 
-    private void renderFavoriteState(Set<String> favoriteIds) {
-        if (alertAdapter != null) {
-            alertAdapter.setFavoriteAlertIds(favoriteIds);
+    private void renderProfileState(UiState<HomeProfile> state) {
+        if (state == null || !state.isSuccess() || state.getData() == null) {
+            return;
         }
+
+        HomeProfile profile = state.getData();
+        Glide.with(this)
+                .load(profile.getUserPhotoUrl())
+                .placeholder(profile.getUserPhotoFallbackResId())
+                .error(profile.getUserPhotoFallbackResId())
+                .circleCrop()
+                .into(binding.layoutProfileHeader.ivUserProfile);
+        binding.layoutProfileHeader.tvUserGreeting.setText(
+                getString(R.string.home_greeting_format, profile.getUserDisplayName()));
+        binding.layoutProfileHeader.tvPetName.setText(profile.getPetName());
+        binding.layoutProfileHeader.tvPetInfo.setText(
+                getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
     }
 
     private void renderStatsState(UiState<HomeStats> state) {
@@ -211,7 +227,10 @@ public class HomeFragment extends BaseFragment {
         }
 
         if (state.isLoading()) {
-            binding.gridStats.setVisibility(View.GONE);
+            binding.vpStats.setVisibility(View.GONE);
+            binding.statsIndicator.setVisibility(View.GONE);
+            statCarouselAdapter.setItems(null);
+            detachStatsIndicator();
             showStateView(binding.statsStateContainer, R.layout.layout_loading, null);
             updateSwipeRefreshState();
             return;
@@ -221,7 +240,10 @@ public class HomeFragment extends BaseFragment {
         binding.statsStateContainer.removeAllViews();
 
         if (state.isError()) {
-            binding.gridStats.setVisibility(View.GONE);
+            binding.vpStats.setVisibility(View.GONE);
+            binding.statsIndicator.setVisibility(View.GONE);
+            statCarouselAdapter.setItems(null);
+            detachStatsIndicator();
             showStateView(binding.statsStateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
                 MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
@@ -233,15 +255,44 @@ public class HomeFragment extends BaseFragment {
         }
 
         if (state.isSuccess() && state.getData() != null) {
-            binding.gridStats.setVisibility(View.VISIBLE);
-            HomeStats stats = state.getData();
-            binding.tvStatProtectedValue.setText(String.valueOf(stats.getProtectedCount()));
-            binding.tvStatRescuedValue.setText(String.valueOf(stats.getRescuedTodayCount()));
-            binding.tvStatLostValue.setText(String.valueOf(stats.getLostReportCount()));
-            binding.tvStatFacilityValue.setText(String.valueOf(stats.getFacilityCount()));
+            binding.vpStats.setVisibility(View.VISIBLE);
+            binding.statsIndicator.setVisibility(View.VISIBLE);
+            statCarouselAdapter.setItems(buildStatSlides(state.getData()));
+            binding.vpStats.setCurrentItem(0, false);
+            attachStatsIndicator();
+            restartStatsAutoSlide();
         }
 
         updateSwipeRefreshState();
+    }
+
+    private List<HomeStatCarouselAdapter.StatSlide> buildStatSlides(HomeStats stats) {
+        List<HomeStatCarouselAdapter.StatSlide> slides = new ArrayList<>();
+        slides.add(new HomeStatCarouselAdapter.StatSlide(
+                String.valueOf(stats.getProtectedCount()),
+                getString(R.string.home_stats_protected),
+                HomeStatSlideImages.PROTECTED,
+                HomeStatSlideImages.fallbackForProtected(),
+                0x990F3D28));
+        slides.add(new HomeStatCarouselAdapter.StatSlide(
+                String.valueOf(stats.getRescuedTodayCount()),
+                getString(R.string.home_stats_rescued_today),
+                HomeStatSlideImages.RESCUED_TODAY,
+                HomeStatSlideImages.fallbackForRescued(),
+                0x991B3D5C));
+        slides.add(new HomeStatCarouselAdapter.StatSlide(
+                String.valueOf(stats.getLostReportCount()),
+                getString(R.string.home_stats_lost_report),
+                HomeStatSlideImages.LOST_REPORT,
+                HomeStatSlideImages.fallbackForLost(),
+                0x995C3A12));
+        slides.add(new HomeStatCarouselAdapter.StatSlide(
+                String.valueOf(stats.getFacilityCount()),
+                getString(R.string.home_stats_facilities),
+                HomeStatSlideImages.FACILITIES,
+                HomeStatSlideImages.fallbackForFacilities(),
+                0x993D2F6B));
+        return slides;
     }
 
     private void renderAlertsState(UiState<List<AlertNotification>> state) {
@@ -287,6 +338,46 @@ public class HomeFragment extends BaseFragment {
         updateSwipeRefreshState();
     }
 
+    private void startStatsAutoSlide() {
+        stopStatsAutoSlide();
+        if (binding == null || statCarouselAdapter == null || statCarouselAdapter.getItemCount() <= 1) {
+            return;
+        }
+        statSlideHandler.postDelayed(statSlideRunnable, STAT_AUTO_SLIDE_MS);
+    }
+
+    private void restartStatsAutoSlide() {
+        if (isResumed()) {
+            startStatsAutoSlide();
+        }
+    }
+
+    private void stopStatsAutoSlide() {
+        statSlideHandler.removeCallbacks(statSlideRunnable);
+    }
+
+    private void attachStatsIndicator() {
+        detachStatsIndicator();
+        statsTabMediator = new TabLayoutMediator(
+                binding.statsIndicator, binding.vpStats, (tab, position) -> { });
+        statsTabMediator.attach();
+    }
+
+    private void detachStatsIndicator() {
+        if (statsTabMediator != null) {
+            statsTabMediator.detach();
+            statsTabMediator = null;
+        }
+    }
+
+    private void advanceStatsCarousel() {
+        if (binding == null || statCarouselAdapter == null || statCarouselAdapter.getItemCount() == 0) {
+            return;
+        }
+        int nextItem = (binding.vpStats.getCurrentItem() + 1) % statCarouselAdapter.getItemCount();
+        binding.vpStats.setCurrentItem(nextItem, true);
+    }
+
     private void updateSwipeRefreshState() {
         if (binding == null || viewModel == null) {
             return;
@@ -315,7 +406,9 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        stopStatsAutoSlide();
+        detachStatsIndicator();
         binding = null;
+        super.onDestroyView();
     }
 }

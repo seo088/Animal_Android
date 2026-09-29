@@ -1,91 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.AnimalLoo.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_sm"
+    android:layout_marginBottom="@dimen/alert_card_spacing"
     android:clickable="true"
     android:focusable="true"
+    android:minHeight="@dimen/alert_card_min_height"
     app:rippleColor="@color/color_primary_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/alert_card_min_height"
         android:padding="@dimen/spacing_md">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_alert_image"
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
-            android:background="@drawable/bg_image_rounded"
+            android:layout_width="@dimen/alert_thumbnail_size"
+            android:layout_height="@dimen/alert_thumbnail_size"
             android:contentDescription="@string/cd_animal_photo"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.AnimalLoo.Rounded"
+            tools:src="@drawable/img_placeholder" />
 
         <TextView
             android:id="@+id/tv_alert_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
-            android:background="@drawable/bg_badge_success"
             android:paddingHorizontal="@dimen/spacing_sm"
             android:paddingVertical="@dimen/spacing_xs"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             android:textColor="@color/color_on_primary"
-            app:layout_constraintStart_toEndOf="@id/iv_alert_image"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btn_favorite"
-            android:layout_width="@dimen/min_touch_target"
-            android:layout_height="@dimen/min_touch_target"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/context_favorite"
-            android:src="@drawable/ic_favorite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_favorite_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_xs"
-            android:background="@drawable/bg_badge"
-            android:paddingHorizontal="@dimen/spacing_sm"
-            android:paddingVertical="@dimen/spacing_xs"
-            android:text="@string/home_alert_favorite_badge"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-            android:textColor="@color/color_primary"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/btn_favorite"
-            app:layout_constraintEnd_toStartOf="@id/btn_favorite"
-            app:layout_constraintTop_toTopOf="@id/btn_favorite" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/bg_badge_success"
+            tools:text="구조" />
 
         <TextView
             android:id="@+id/tv_animal_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_marginStart="@dimen/spacing_md"
             android:layout_marginEnd="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-            app:layout_constraintEnd_toStartOf="@id/tv_favorite_badge"
-            app:layout_constraintStart_toEndOf="@id/tv_alert_type"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/tv_alert_type"
+            app:layout_constraintStart_toEndOf="@id/iv_alert_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="말티즈" />
 
         <TextView
             android:id="@+id/tv_region"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
-            android:layout_marginTop="@dimen/spacing_xs"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
             android:textColor="@color/color_text_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_alert_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_animal_type" />
+            app:layout_constraintTop_toBottomOf="@id/tv_animal_type"
+            tools:text="서울 강남구" />
 
         <TextView
             android:id="@+id/tv_occurred_at"
@@ -94,20 +74,12 @@
             android:layout_marginStart="@dimen/spacing_md"
             android:layout_marginTop="@dimen/spacing_xs"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-            app:layout_constraintEnd_toStartOf="@id/tv_status"
-            app:layout_constraintStart_toEndOf="@id/iv_alert_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_region" />
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-            android:textColor="@color/color_primary"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_occurred_at"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_occurred_at" />
+            app:layout_constraintStart_toEndOf="@id/iv_alert_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_region"
+            app:layout_constraintVertical_bias="0"
+            tools:text="2026-09-09 08:30" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

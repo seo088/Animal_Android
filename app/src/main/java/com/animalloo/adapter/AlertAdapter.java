@@ -15,9 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHolder> {
 
@@ -25,12 +23,9 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
         void onAlertClick(AlertNotification alert);
 
         void onAlertLongClick(AlertNotification alert, View anchorView);
-
-        void onFavoriteClick(AlertNotification alert);
     }
 
     private final List<AlertNotification> items = new ArrayList<>();
-    private final Set<String> favoriteAlertIds = new HashSet<>();
     private OnAlertClickListener listener;
 
     public void setItems(List<AlertNotification> alerts) {
@@ -43,14 +38,6 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
 
     public void setOnAlertClickListener(OnAlertClickListener listener) {
         this.listener = listener;
-    }
-
-    public void setFavoriteAlertIds(Set<String> favoriteIds) {
-        favoriteAlertIds.clear();
-        if (favoriteIds != null) {
-            favoriteAlertIds.addAll(favoriteIds);
-        }
-        notifyDataSetChanged();
     }
 
     public AlertNotification getItem(int position) {
@@ -85,18 +72,9 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
         }
 
         void bind(AlertNotification alert) {
-            boolean isFavorite = favoriteAlertIds.contains(alert.getId());
-
             binding.tvAnimalType.setText(alert.getAnimalType());
             binding.tvRegion.setText(alert.getRegion());
             binding.tvOccurredAt.setText(alert.getOccurredAt());
-            binding.tvStatus.setText(alert.getStatus());
-            binding.tvFavoriteBadge.setVisibility(isFavorite ? View.VISIBLE : View.GONE);
-            binding.btnFavorite.setImageResource(isFavorite
-                    ? R.drawable.ic_favorite_filled
-                    : R.drawable.ic_favorite);
-            binding.btnFavorite.setContentDescription(binding.getRoot().getContext().getString(
-                    isFavorite ? R.string.context_unfavorite : R.string.context_favorite));
 
             if (alert.getType() == AlertType.RESCUE) {
                 binding.tvAlertType.setText(R.string.alert_type_rescue);
@@ -126,12 +104,6 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
                     listener.onAlertLongClick(alert, v);
                 }
                 return true;
-            });
-
-            binding.btnFavorite.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onFavoriteClick(alert);
-                }
             });
         }
     }

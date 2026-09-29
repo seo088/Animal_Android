@@ -64,87 +64,112 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
-        android:id="@+id/chip_scroll"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/layout_map_category"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:clipToPadding="false"
-        android:elevation="6dp"
-        android:paddingHorizontal="@dimen/spacing_md"
-        android:paddingVertical="@dimen/spacing_sm"
-        android:scrollbars="none"
+        android:layout_marginTop="@dimen/map_category_top_margin"
+        android:layout_marginEnd="@dimen/spacing_md"
+        android:elevation="8dp"
+        android:gravity="end"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_category"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="@dimen/map_category_button_size"
+            android:layout_height="@dimen/map_category_button_size"
+            android:background="@drawable/bg_map_category_toggle"
+            android:elevation="4dp">
+
+            <ImageButton
+                android:id="@+id/btn_category_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/map_category_button"
+                android:padding="@dimen/spacing_sm"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_map_category" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_category_items"
+            android:layout_width="@dimen/map_category_menu_width"
             android:layout_height="wrap_content"
-            app:selectionRequired="true"
-            app:singleSelection="true">
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:gravity="end"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_all"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_all" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_hospital"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_hospital" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pharmacy"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_pharmacy" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_shelter"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_shelter" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_restaurant"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_restaurant" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_cafe"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_cafe" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_hotel"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
+                android:layout_marginBottom="@dimen/map_category_chip_spacing"
                 android:text="@string/map_category_hotel" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_tourism"
-                style="@style/Widget.AnimalLoo.Chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AnimalLoo.Chip.MapCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_category_chip_height"
                 android:text="@string/map_category_tourism" />
 
-        </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
 
-    </HorizontalScrollView>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/map_state_container"
@@ -152,9 +177,10 @@
         android:layout_height="wrap_content"
         android:elevation="8dp"
         android:paddingHorizontal="@dimen/spacing_md"
+        android:paddingTop="@dimen/spacing_sm"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chip_scroll" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
