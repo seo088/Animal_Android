@@ -116,7 +116,7 @@ SplashActivity (애니메이션 + 효과음)
     → Home / Map / Diagnosis / Rescue / More
 ```
 
-**데모 계정:** `demo@animalloo.app` / `Demo1234!`
+**데모 계정:** `admin` / `1234`
 
 ---
 

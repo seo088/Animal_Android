@@ -73,7 +73,7 @@
                         android:layout_marginTop="@dimen/spacing_xs"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                         android:textColor="@color/color_text_secondary"
-                        tools:text="demo@animalloo.app" />
+                        tools:text="admin" />
 
                 </LinearLayout>
 

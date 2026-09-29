@@ -10,6 +10,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.data.model.User;
 import com.animalloo.data.repository.AuthRepository;
 import com.animalloo.data.repository.RepositoryCallback;
+import com.animalloo.util.AuthSessionHelper;
 import com.animalloo.util.RepositoryProvider;
 
 public class AuthViewModel extends ViewModel {
@@ -80,9 +81,9 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void login(String email, String password) {
-        AuthValidationError validationError = validateLogin(email, password);
-        if (validationError != null) {
-            this.validationError.setValue(validationError);
+        AuthValidationError error = validateLogin(email, password);
+        if (error != null) {
+            this.validationError.setValue(error);
             authState.setValue(null);
             return;
         }
@@ -105,10 +106,10 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void signUp(String displayName, String email, String password, String confirmPassword) {
-        AuthValidationError validationError = validateSignUp(
+        AuthValidationError error = validateSignUp(
                 displayName, email, password, confirmPassword);
-        if (validationError != null) {
-            this.validationError.setValue(validationError);
+        if (error != null) {
+            this.validationError.setValue(error);
             authState.setValue(null);
             return;
         }
@@ -139,8 +140,8 @@ public class AuthViewModel extends ViewModel {
         if (email == null || email.trim().isEmpty()) {
             return new AuthValidationError(AuthField.EMAIL, "이메일을 입력해 주세요.");
         }
-        if (!isValidEmail(email)) {
-            return new AuthValidationError(AuthField.EMAIL, "올바른 이메일 형식을 입력해 주세요.");
+        if (!AuthSessionHelper.isValidLoginId(email)) {
+            return new AuthValidationError(AuthField.EMAIL, "올바른 아이디 또는 이메일 형식을 입력해 주세요.");
         }
         if (password == null || password.isEmpty()) {
             return new AuthValidationError(AuthField.PASSWORD, "비밀번호를 입력해 주세요.");

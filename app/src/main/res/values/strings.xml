@@ -314,7 +314,7 @@
     <string name="auth_submitting">처리 중…</string>
     <string name="auth_go_to_sign_up">계정이 없으신가요? 회원가입</string>
     <string name="auth_go_to_login">이미 계정이 있으신가요? 로그인</string>
-    <string name="auth_demo_hint">데모 계정: demo@animalloo.app / Demo1234!</string>
+    <string name="auth_demo_hint">데모 계정: admin / 1234</string>
 
     <!-- Content Descriptions -->
     <string name="cd_app_logo">AnimalLoo 로고</string>

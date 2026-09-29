@@ -20,8 +20,9 @@ public final class AuthSessionHelper {
     private static final String KEY_USER_NAME_PREFIX = "user_name_";
     private static final String KEY_USER_PASSWORD_PREFIX = "user_password_";
 
-    public static final String DEMO_EMAIL = "demo@animalloo.app";
-    public static final String DEMO_PASSWORD = "Demo1234!";
+    public static final String DEMO_EMAIL = "admin";
+    public static final String DEMO_PASSWORD = "1234";
+    private static final String LEGACY_DEMO_EMAIL = "demo@animalloo.app";
     public static final String DEMO_DISPLAY_NAME = "데모 사용자";
     public static final String DEMO_USER_ID = "user_demo";
 
@@ -34,10 +35,8 @@ public final class AuthSessionHelper {
     }
 
     public static void ensureDemoAccount(Context context) {
-        SharedPreferences prefs = getPrefs(context);
-        if (!prefs.contains(KEY_USER_PASSWORD_PREFIX + normalizeEmail(DEMO_EMAIL))) {
-            saveAccount(context, DEMO_USER_ID, DEMO_DISPLAY_NAME, DEMO_EMAIL, DEMO_PASSWORD);
-        }
+        removeAccount(context, LEGACY_DEMO_EMAIL);
+        saveAccount(context, DEMO_USER_ID, DEMO_DISPLAY_NAME, DEMO_EMAIL, DEMO_PASSWORD);
     }
 
     public static void saveAccount(Context context, String userId, String displayName,
@@ -111,6 +110,43 @@ public final class AuthSessionHelper {
 
     public static String normalizeEmail(String email) {
         return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
+    }
+
+    public static boolean isValidLoginId(String loginId) {
+        if (loginId == null || loginId.trim().isEmpty()) {
+            return false;
+        }
+        String normalized = normalizeEmail(loginId);
+        return DEMO_EMAIL.equals(normalized)
+                || android.util.Patterns.EMAIL_ADDRESS.matcher(loginId.trim()).matches();
+    }
+
+    private static void removeAccount(Context context, String email) {
+        String normalizedEmail = normalizeEmail(email);
+        SharedPreferences prefs = getPrefs(context);
+        if (!prefs.contains(KEY_USER_PASSWORD_PREFIX + normalizedEmail)) {
+            return;
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(KEY_USER_ID_PREFIX + normalizedEmail);
+        editor.remove(KEY_USER_NAME_PREFIX + normalizedEmail);
+        editor.remove(KEY_USER_PASSWORD_PREFIX + normalizedEmail);
+
+        String registered = prefs.getString(KEY_REGISTERED_EMAILS, "");
+        if (registered != null && !registered.isEmpty()) {
+            StringBuilder updated = new StringBuilder();
+            for (String item : registered.split(",")) {
+                if (!item.equals(normalizedEmail)) {
+                    if (updated.length() > 0) {
+                        updated.append(',');
+                    }
+                    updated.append(item);
+                }
+            }
+            editor.putString(KEY_REGISTERED_EMAILS, updated.toString());
+        }
+        editor.apply();
     }
 
     private static boolean isEmailRegisteredInList(String registeredCsv, String normalizedEmail) {
