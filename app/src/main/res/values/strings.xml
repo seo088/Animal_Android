@@ -44,7 +44,7 @@
     <string name="map_category_cafe">동반카페</string>
     <string name="map_category_hotel">동반숙소</string>
     <string name="map_category_tourism">동반관광지</string>
-    <string name="map_no_api_key">지도를 사용할 수 없어 시설 목록을 표시합니다.</string>
+    <string name="map_no_api_key">카카오맵 API 키가 설정되지 않아 시설 목록을 표시합니다.</string>
     <string name="map_view_list">리스트 보기</string>
 
     <!-- Diagnosis -->
