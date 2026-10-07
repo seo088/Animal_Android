@@ -2,13 +2,14 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.AnimalLoo.Card.Flat"
+    style="@style/Widget.AnimalLoo.Card.Hero"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/card_shadow_inset"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="@dimen/corner_radius_lg"
     app:cardPreventCornerOverlap="false"
-    app:strokeWidth="0dp">
+    app:cardUseCompatPadding="true">
 
     <FrameLayout
         android:layout_width="match_parent"

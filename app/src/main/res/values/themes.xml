@@ -25,7 +25,13 @@
         <item name="colorOnSurface">@color/color_on_surface</item>
         <item name="colorSurfaceVariant">@color/color_surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/color_on_surface_variant</item>
+        <item name="colorSurfaceContainer">@color/color_surface</item>
+        <item name="colorSurfaceContainerLow">@color/color_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/color_surface</item>
+        <item name="colorSurfaceContainerHighest">@color/color_surface</item>
+        <item name="colorSurfaceContainerLowest">@color/color_surface</item>
         <item name="colorOutline">@color/color_outline</item>
+        <item name="elevationOverlayEnabled">false</item>
         <item name="android:statusBarColor">@color/color_background</item>
         <item name="android:navigationBarColor">@color/color_surface</item>
         <item name="android:windowLightStatusBar">true</item>

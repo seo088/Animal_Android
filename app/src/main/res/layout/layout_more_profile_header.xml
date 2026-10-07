@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.AnimalLoo.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_md">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_profile_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/cd_user_profile"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.AnimalLoo.Circle"
+            app:strokeColor="@color/color_border"
+            app:strokeWidth="1dp"
+            tools:src="@drawable/img_placeholder" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Title"
+                tools:text="데모 사용자" />
+
+            <TextView
+                android:id="@+id/tv_profile_pet_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                android:textColor="@color/color_text_secondary"
+                tools:text="몽이 · 말티즈 · 3살" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

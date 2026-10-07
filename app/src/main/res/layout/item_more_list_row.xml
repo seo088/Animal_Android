@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="@dimen/min_touch_target"
+    android:paddingHorizontal="@dimen/spacing_md"
+    android:paddingVertical="@dimen/spacing_md">
+
+    <TextView
+        android:id="@+id/tv_row_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        app:layout_constraintEnd_toStartOf="@id/tv_row_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="동반시설" />
+
+    <TextView
+        android:id="@+id/tv_row_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/barrier_row_end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_row_title"
+        tools:text="말티즈 · 3살"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_row_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_xs"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_text_secondary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_row_chevron"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="v1.0.0"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_row_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="tv_row_value,iv_row_chevron" />
+
+    <ImageView
+        android:id="@+id/iv_row_chevron"
+        android:layout_width="@dimen/icon_size_sm"
+        android:layout_height="@dimen/icon_size_sm"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_chevron_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

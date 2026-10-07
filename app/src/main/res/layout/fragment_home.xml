@@ -17,6 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="@dimen/spacing_lg">
 
@@ -89,7 +91,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_xs"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
+                android:paddingBottom="@dimen/card_shadow_inset"
                 android:visibility="gone"
                 tools:listitem="@layout/item_alert" />
 

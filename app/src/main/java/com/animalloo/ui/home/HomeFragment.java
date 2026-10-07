@@ -128,6 +128,8 @@ public class HomeFragment extends BaseFragment {
         if (recyclerView != null) {
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+            recyclerView.setClipChildren(false);
+            recyclerView.setClipToPadding(false);
         }
     }
 
