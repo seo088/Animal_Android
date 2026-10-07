@@ -4,28 +4,54 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
+import com.animalloo.adapter.RescueTimelineAdapter;
+import com.animalloo.data.model.AlertNotification;
+import com.animalloo.data.model.DetailType;
+import com.animalloo.data.model.HomeStats;
+import com.animalloo.data.model.LostAnimalReport;
+import com.animalloo.data.model.MatchResult;
+import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentRescueBinding;
+import com.animalloo.databinding.LayoutRescueStatsHeaderBinding;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.home.HomeFragment;
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.ChipGroup;
 
-public class RescueFragment extends BaseFragment implements RescueHost {
+import java.util.List;
 
-    private static final String TAG_LOST = "tag_lost_report";
+public class RescueFragment extends BaseFragment {
+
     private static final String TAG_RESCUED = "tag_rescued_animal";
-    private static final String TAG_MATCHING = "tag_matching_result";
 
     private FragmentRescueBinding binding;
-    private LostReportFragment lostReportFragment;
+    private LayoutRescueStatsHeaderBinding statsHeaderBinding;
+    private RescueViewModel rescueViewModel;
+    private LostReportViewModel lostReportViewModel;
+    private RescueTimelineAdapter timelineAdapter;
+    private DetailNavigator detailNavigator;
     private RescuedAnimalFragment rescuedAnimalFragment;
-    private int selectedTabIndex = HomeFragment.RESCUE_TAB_LOST;
+    private boolean pendingOpenLostReport;
+    private boolean pendingOpenRescued;
+
+    @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        if (context instanceof DetailNavigator) {
+            detailNavigator = (DetailNavigator) context;
+        } else {
+            throw new IllegalStateException("Host Activity must implement DetailNavigator");
+        }
+    }
 
     @Nullable
     @Override
@@ -39,125 +65,263 @@ public class RescueFragment extends BaseFragment implements RescueHost {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState != null) {
-            selectedTabIndex = savedInstanceState.getInt("selected_tab", HomeFragment.RESCUE_TAB_LOST);
-        }
+        rescueViewModel = new ViewModelProvider(this).get(RescueViewModel.class);
+        lostReportViewModel = new ViewModelProvider(this).get(LostReportViewModel.class);
 
-        initChildFragments(savedInstanceState);
-        setupTabLayout();
-        selectTab(selectedTabIndex);
-    }
+        statsHeaderBinding = LayoutRescueStatsHeaderBinding.bind(binding.rescueStatsHeader.getRoot());
+        setupTimeline();
+        setupFilterChips();
+        setupActionBar();
+        setupSwipeRefresh();
+        observeViewModels();
 
-    private void initChildFragments(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            lostReportFragment = new LostReportFragment();
             rescuedAnimalFragment = new RescuedAnimalFragment();
-
             getChildFragmentManager().beginTransaction()
-                    .add(R.id.rescue_child_container, lostReportFragment, TAG_LOST)
-                    .add(R.id.rescue_child_container, rescuedAnimalFragment, TAG_RESCUED)
-                    .hide(rescuedAnimalFragment)
+                    .add(R.id.rescued_overlay_container, rescuedAnimalFragment, TAG_RESCUED)
                     .commit();
         } else {
-            lostReportFragment = (LostReportFragment) getChildFragmentManager().findFragmentByTag(TAG_LOST);
-            rescuedAnimalFragment = (RescuedAnimalFragment) getChildFragmentManager().findFragmentByTag(TAG_RESCUED);
+            rescuedAnimalFragment = (RescuedAnimalFragment) getChildFragmentManager()
+                    .findFragmentByTag(TAG_RESCUED);
+            pendingOpenLostReport = savedInstanceState.getBoolean("pending_open_lost_report", false);
+            pendingOpenRescued = savedInstanceState.getBoolean("pending_open_rescued", false);
+            boolean rescuedVisible = savedInstanceState.getBoolean("rescued_overlay_visible", false);
+            if (rescuedVisible) {
+                showRescuedOverlay();
+            }
         }
+
+        rescueViewModel.loadData();
+        applyPendingActions();
     }
 
-    private void setupTabLayout() {
-        if (binding.tabLayoutRescue.getTabCount() == 0) {
-            binding.tabLayoutRescue.addTab(
-                    binding.tabLayoutRescue.newTab().setText(R.string.rescue_tab_lost));
-            binding.tabLayoutRescue.addTab(
-                    binding.tabLayoutRescue.newTab().setText(R.string.rescue_tab_rescued));
-        }
-
-        binding.tabLayoutRescue.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    private void setupTimeline() {
+        timelineAdapter = new RescueTimelineAdapter();
+        binding.rvRescueTimeline.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvRescueTimeline.setAdapter(timelineAdapter);
+        timelineAdapter.setOnTimelineActionListener(new RescueTimelineAdapter.OnTimelineActionListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                selectedTabIndex = tab.getPosition();
-                switchChildTab(selectedTabIndex);
+            public void onMyReportClick(LostAnimalReport report) {
+                detailNavigator.navigateToDetail(DetailType.LOST_ANIMAL, report.getId());
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // no-op
+            public void onViewMatchesClick(LostAnimalReport report) {
+                showMatchingBottomSheet();
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                // no-op
+            public void onTimelineEventClick(AlertNotification alert) {
+                detailNavigator.navigateToDetail(DetailType.ALERT, alert.getId());
             }
         });
     }
 
-    public void selectTab(int tabIndex) {
-        selectedTabIndex = tabIndex;
-        if (binding != null && binding.tabLayoutRescue.getTabCount() > tabIndex) {
-            TabLayout.Tab tab = binding.tabLayoutRescue.getTabAt(tabIndex);
-            if (tab != null && !tab.isSelected()) {
-                tab.select();
-            } else {
-                switchChildTab(tabIndex);
+    private void setupFilterChips() {
+        ChipGroup chipGroup = statsHeaderBinding.chipGroupRescueFilter;
+        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                return;
             }
-        }
+            int checkedId = checkedIds.get(0);
+            if (checkedId == R.id.chip_filter_rescue) {
+                rescueViewModel.setFilter(RescueTimelineFilter.RESCUE);
+            } else if (checkedId == R.id.chip_filter_lost) {
+                rescueViewModel.setFilter(RescueTimelineFilter.LOST);
+            } else {
+                rescueViewModel.setFilter(RescueTimelineFilter.ALL);
+            }
+        });
     }
 
-    private void switchChildTab(int tabIndex) {
-        if (lostReportFragment == null || rescuedAnimalFragment == null) {
+    private void setupActionBar() {
+        binding.btnLostReport.setOnClickListener(v -> showLostReportBottomSheet());
+        binding.btnViewRescued.setOnClickListener(v -> showRescuedOverlay());
+    }
+
+    private void setupSwipeRefresh() {
+        binding.swipeRefreshRescue.setColorSchemeResources(R.color.color_primary);
+        binding.swipeRefreshRescue.setOnRefreshListener(() -> rescueViewModel.refresh());
+    }
+
+    private void observeViewModels() {
+        rescueViewModel.getStatsState().observe(getViewLifecycleOwner(), this::renderStats);
+        rescueViewModel.getAlertsState().observe(getViewLifecycleOwner(), this::renderAlertsState);
+        rescueViewModel.getTimelineItems().observe(getViewLifecycleOwner(), items -> {
+            timelineAdapter.setItems(items);
+            binding.swipeRefreshRescue.setRefreshing(false);
+        });
+        rescueViewModel.getFilterType().observe(getViewLifecycleOwner(), filter -> {
+            if (filter == null) {
+                return;
+            }
+            int chipId;
+            switch (filter) {
+                case RESCUE:
+                    chipId = R.id.chip_filter_rescue;
+                    break;
+                case LOST:
+                    chipId = R.id.chip_filter_lost;
+                    break;
+                case ALL:
+                default:
+                    chipId = R.id.chip_filter_all;
+                    break;
+            }
+            if (statsHeaderBinding.chipGroupRescueFilter.getCheckedChipId() != chipId) {
+                statsHeaderBinding.chipGroupRescueFilter.check(chipId);
+            }
+        });
+
+        lostReportViewModel.getSubmitState().observe(getViewLifecycleOwner(), submitState -> {
+            UiState<List<MatchResult>> matchState = lostReportViewModel.getMatchResultsState().getValue();
+            if (submitState != null && submitState.isSuccess() && submitState.getData() != null) {
+                rescueViewModel.updateMyReport(submitState.getData(), matchState);
+            }
+        });
+        lostReportViewModel.getMatchResultsState().observe(getViewLifecycleOwner(), matchState -> {
+            LostAnimalReport report = lostReportViewModel.getLastSubmittedReport();
+            if (report != null) {
+                rescueViewModel.updateMyReport(report, matchState);
+            }
+        });
+    }
+
+    private void renderStats(UiState<HomeStats> state) {
+        if (state == null || !state.isSuccess() || state.getData() == null) {
+            statsHeaderBinding.tvRescueStats.setText(R.string.rescue_stats_loading);
+            return;
+        }
+        HomeStats stats = state.getData();
+        statsHeaderBinding.tvRescueStats.setText(getString(
+                R.string.rescue_stats_format,
+                stats.getRescuedTodayCount(),
+                stats.getLostReportCount()));
+    }
+
+    private void renderAlertsState(UiState<List<AlertNotification>> state) {
+        if (state == null) {
             return;
         }
 
-        if (getChildFragmentManager().getBackStackEntryCount() > 0) {
-            getChildFragmentManager().popBackStackImmediate();
+        binding.swipeRefreshRescue.setRefreshing(false);
+
+        if (state.isLoading()) {
+            binding.rvRescueTimeline.setVisibility(View.GONE);
+            showStateView(R.layout.layout_loading, null);
+            return;
         }
 
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        Fragment matchingFragment = getChildFragmentManager().findFragmentByTag(TAG_MATCHING);
-        if (matchingFragment != null) {
-            transaction.remove(matchingFragment);
+        hideStateView();
+
+        if (state.isError()) {
+            binding.rvRescueTimeline.setVisibility(View.GONE);
+            showStateView(R.layout.layout_error, stateView -> {
+                TextView messageView = stateView.findViewById(R.id.tv_error_message);
+                MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
+                messageView.setText(state.getErrorMessage());
+                retryButton.setOnClickListener(v -> rescueViewModel.refresh());
+            });
+            return;
         }
 
-        if (tabIndex == HomeFragment.RESCUE_TAB_RESCUED) {
-            transaction.hide(lostReportFragment).show(rescuedAnimalFragment);
+        binding.rvRescueTimeline.setVisibility(View.VISIBLE);
+    }
+
+    public void openAction(int actionIndex) {
+        if (actionIndex == HomeFragment.RESCUE_TAB_RESCUED) {
+            pendingOpenRescued = true;
+            pendingOpenLostReport = false;
         } else {
-            transaction.hide(rescuedAnimalFragment).show(lostReportFragment);
+            pendingOpenLostReport = true;
+            pendingOpenRescued = false;
         }
-        transaction.commit();
+        applyPendingActions();
     }
 
-    public void resetLostReportForm() {
-        if (lostReportFragment != null) {
-            lostReportFragment.resetFormFields();
+    private void applyPendingActions() {
+        if (binding == null) {
+            return;
+        }
+        if (pendingOpenLostReport) {
+            pendingOpenLostReport = false;
+            showLostReportBottomSheet();
+        } else if (pendingOpenRescued) {
+            pendingOpenRescued = false;
+            showRescuedOverlay();
         }
     }
 
-    @Override
-    public void showMatchingResults() {
-        if (lostReportFragment == null) {
-            return;
+    public void onLostReportSubmitted() {
+        LostAnimalReport report = lostReportViewModel.getLastSubmittedReport();
+        UiState<List<MatchResult>> matchState = lostReportViewModel.getMatchResultsState().getValue();
+        if (report != null) {
+            rescueViewModel.updateMyReport(report, matchState);
         }
-        if (getChildFragmentManager().findFragmentByTag(TAG_MATCHING) != null) {
-            return;
-        }
+    }
 
-        MatchingResultFragment matchingResultFragment = new MatchingResultFragment();
-        getChildFragmentManager().beginTransaction()
-                .hide(lostReportFragment)
-                .add(R.id.rescue_child_container, matchingResultFragment, TAG_MATCHING)
-                .addToBackStack(TAG_MATCHING)
-                .commit();
+    private void showLostReportBottomSheet() {
+        if (getChildFragmentManager().findFragmentByTag("lost_report_bottom_sheet") != null) {
+            return;
+        }
+        LostReportBottomSheet.newInstance().show(getChildFragmentManager(), "lost_report_bottom_sheet");
+    }
+
+    private void showMatchingBottomSheet() {
+        if (lostReportViewModel.getLastSubmittedReport() == null) {
+            return;
+        }
+        if (getChildFragmentManager().findFragmentByTag("matching_bottom_sheet") != null) {
+            return;
+        }
+        MatchingBottomSheet.newInstance().show(getChildFragmentManager(), "matching_bottom_sheet");
+    }
+
+    private void showRescuedOverlay() {
+        binding.rescueTimelineContainer.setVisibility(View.GONE);
+        binding.rescuedOverlayContainer.setVisibility(View.VISIBLE);
+        if (rescuedAnimalFragment != null) {
+            rescuedAnimalFragment.setOverlayMode(true, this::hideRescuedOverlay);
+        }
+    }
+
+    private void hideRescuedOverlay() {
+        binding.rescuedOverlayContainer.setVisibility(View.GONE);
+        binding.rescueTimelineContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void showStateView(int layoutRes, StateViewSetup setup) {
+        binding.rescueStateContainer.removeAllViews();
+        binding.rescueStateContainer.setVisibility(View.VISIBLE);
+        View stateView = getLayoutInflater().inflate(layoutRes, binding.rescueStateContainer, false);
+        binding.rescueStateContainer.addView(stateView);
+        if (setup != null) {
+            setup.setup(stateView);
+        }
+    }
+
+    private void hideStateView() {
+        binding.rescueStateContainer.removeAllViews();
+        binding.rescueStateContainer.setVisibility(View.GONE);
+    }
+
+    private interface StateViewSetup {
+        void setup(View stateView);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected_tab", selectedTabIndex);
+        outState.putBoolean("pending_open_lost_report", pendingOpenLostReport);
+        outState.putBoolean("pending_open_rescued", pendingOpenRescued);
+        outState.putBoolean("rescued_overlay_visible",
+                binding != null && binding.rescuedOverlayContainer.getVisibility() == View.VISIBLE);
     }
 
     @Override
     public void onDestroyView() {
         binding = null;
+        statsHeaderBinding = null;
         super.onDestroyView();
     }
 }

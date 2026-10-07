@@ -1,7 +1,5 @@
 package com.animalloo.ui.diagnosis;
 
-import android.graphics.Typeface;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +9,11 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
-import com.animalloo.adapter.DiagnosisResultAdapter;
-import com.animalloo.adapter.HospitalAdapter;
-import com.animalloo.data.model.DiagnosisResult;
+import com.animalloo.adapter.DiagnosisChatAdapter;
 import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.Hospital;
 import com.animalloo.data.model.Symptom;
@@ -26,6 +21,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentDiagnosisBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
+import com.animalloo.util.FacilityActions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
@@ -36,8 +32,7 @@ public class DiagnosisFragment extends BaseFragment {
 
     private FragmentDiagnosisBinding binding;
     private DiagnosisViewModel viewModel;
-    private DiagnosisResultAdapter diagnosisResultAdapter;
-    private HospitalAdapter hospitalAdapter;
+    private DiagnosisChatAdapter chatAdapter;
     private DetailNavigator detailNavigator;
     private boolean syncingChipSelection;
     private OnBackPressedCallback backPressedCallback;
@@ -54,33 +49,71 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public android.view.View onCreateView(@NonNull LayoutInflater inflater,
+                                          @Nullable ViewGroup container,
+                                          @Nullable android.os.Bundle savedInstanceState) {
         binding = FragmentDiagnosisBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable android.os.Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(DiagnosisViewModel.class);
-        setupRecyclerViews();
-        setupButtons();
+        setupChat();
+        setupSymptomPanel();
         setupBackNavigation();
         observeViewModel();
-        viewModel.ensureSymptomsLoaded();
+        viewModel.initialize();
+    }
+
+    private void setupChat() {
+        chatAdapter = new DiagnosisChatAdapter();
+        chatAdapter.setOnChatActionListener(new DiagnosisChatAdapter.OnChatActionListener() {
+            @Override
+            public void onFindHospitals() {
+                viewModel.loadNearbyHospitals();
+            }
+
+            @Override
+            public void onModifySymptoms() {
+                viewModel.modifySymptoms();
+            }
+        });
+        chatAdapter.setOnHospitalActionListener(new DiagnosisChatAdapter.OnHospitalActionListener() {
+            @Override
+            public void onCall(Hospital hospital) {
+                FacilityActions.dial(DiagnosisFragment.this, binding.getRoot(), hospital);
+            }
+
+            @Override
+            public void onDirections(Hospital hospital) {
+                FacilityActions.directions(DiagnosisFragment.this, binding.getRoot(), hospital);
+            }
+
+            @Override
+            public void onDetail(Hospital hospital) {
+                detailNavigator.navigateToDetail(DetailType.HOSPITAL, hospital.getId());
+            }
+        });
+        binding.rvChat.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvChat.setAdapter(chatAdapter);
+    }
+
+    private void setupSymptomPanel() {
+        binding.btnConfirmSymptoms.setOnClickListener(v -> viewModel.confirmSymptoms());
     }
 
     private void setupBackNavigation() {
         backPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
-                DiagnosisStep step = viewModel.getCurrentStep().getValue();
-                if (step == DiagnosisStep.HOSPITAL) {
+                DiagnosisChatPhase phase = viewModel.getChatPhase().getValue();
+                if (phase == DiagnosisChatPhase.HOSPITAL) {
                     viewModel.backToResults();
-                } else if (step == DiagnosisStep.RESULT) {
-                    viewModel.backToSymptoms();
+                } else if (phase == DiagnosisChatPhase.RESULT) {
+                    viewModel.modifySymptoms();
                 }
             }
         };
@@ -88,35 +121,15 @@ public class DiagnosisFragment extends BaseFragment {
                 .addCallback(getViewLifecycleOwner(), backPressedCallback);
     }
 
-    private void setupRecyclerViews() {
-        diagnosisResultAdapter = new DiagnosisResultAdapter();
-        binding.rvDiagnosisResults.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.rvDiagnosisResults.setAdapter(diagnosisResultAdapter);
-
-        hospitalAdapter = new HospitalAdapter();
-        binding.rvHospitals.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.rvHospitals.setAdapter(hospitalAdapter);
-        hospitalAdapter.setOnHospitalClickListener(hospital ->
-                detailNavigator.navigateToDetail(DetailType.HOSPITAL, hospital.getId()));
-    }
-
-    private void setupButtons() {
-        binding.btnDiagnose.setOnClickListener(v -> viewModel.diagnoseSelectedSymptoms());
-        binding.btnFindHospitals.setOnClickListener(v -> viewModel.loadNearbyHospitals());
-        binding.btnRetryDiagnosis.setOnClickListener(v -> viewModel.retryDiagnosis());
-        binding.btnBackToSymptoms.setOnClickListener(v -> viewModel.backToSymptoms());
-        binding.btnBackToResults.setOnClickListener(v -> viewModel.backToResults());
-        binding.btnRestartDiagnosis.setOnClickListener(v -> viewModel.restartDiagnosis());
-    }
-
     private void observeViewModel() {
-        viewModel.getCurrentStep().observe(getViewLifecycleOwner(), this::renderStep);
-        viewModel.getSymptomsState().observe(getViewLifecycleOwner(), state -> {
-            renderSymptomsState(state);
-            updateDiagnoseButtonState();
+        viewModel.getMessages().observe(getViewLifecycleOwner(), messages -> {
+            chatAdapter.setMessages(messages);
+            if (messages != null && !messages.isEmpty()) {
+                binding.rvChat.scrollToPosition(messages.size() - 1);
+            }
         });
-        viewModel.getDiagnosisState().observe(getViewLifecycleOwner(), this::renderDiagnosisState);
-        viewModel.getHospitalsState().observe(getViewLifecycleOwner(), this::renderHospitalsState);
+        viewModel.getChatPhase().observe(getViewLifecycleOwner(), this::renderChatPhase);
+        viewModel.getSymptomsState().observe(getViewLifecycleOwner(), this::renderSymptomsState);
         viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), this::syncChipSelection);
         viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
             if (TextUtils.isEmpty(message)) {
@@ -128,45 +141,29 @@ public class DiagnosisFragment extends BaseFragment {
         });
     }
 
-    private void updateDiagnoseButtonState() {
-        UiState<List<Symptom>> symptoms = viewModel.getSymptomsState().getValue();
-        if (symptoms != null && symptoms.isSuccess()) {
-            binding.btnDiagnose.setEnabled(true);
-        }
-    }
-
-    private void renderStep(DiagnosisStep step) {
-        if (step == null) {
+    private void renderChatPhase(DiagnosisChatPhase phase) {
+        if (phase == null) {
             return;
         }
 
-        binding.layoutStepSymptom.setVisibility(
-                step == DiagnosisStep.SYMPTOM ? View.VISIBLE : View.GONE);
-        binding.layoutStepResult.setVisibility(
-                step == DiagnosisStep.RESULT ? View.VISIBLE : View.GONE);
-        binding.layoutStepHospital.setVisibility(
-                step == DiagnosisStep.HOSPITAL ? View.VISIBLE : View.GONE);
-
-        binding.tvDisclaimer.setVisibility(
-                step == DiagnosisStep.SYMPTOM ? View.GONE : View.VISIBLE);
-
-        syncBackCallbackEnabled(step);
-
-        updateStepIndicator(step);
+        boolean showSymptomPanel = phase == DiagnosisChatPhase.SYMPTOM_SELECT
+                || phase == DiagnosisChatPhase.GREETING;
+        binding.layoutSymptomPanel.setVisibility(showSymptomPanel ? View.VISIBLE : View.GONE);
+        syncBackCallbackEnabled(phase);
     }
 
-    private void syncBackCallbackEnabled(@Nullable DiagnosisStep step) {
+    private void syncBackCallbackEnabled(DiagnosisChatPhase phase) {
         if (backPressedCallback == null) {
             return;
         }
-        if (step == null && viewModel != null) {
-            step = viewModel.getCurrentStep().getValue();
-        }
-        backPressedCallback.setEnabled(shouldHandleBack(step));
+        backPressedCallback.setEnabled(shouldHandleBack(phase));
     }
 
-    private boolean shouldHandleBack(@Nullable DiagnosisStep step) {
-        if (step == null || step == DiagnosisStep.SYMPTOM) {
+    private boolean shouldHandleBack(@Nullable DiagnosisChatPhase phase) {
+        if (phase == null
+                || phase == DiagnosisChatPhase.SYMPTOM_SELECT
+                || phase == DiagnosisChatPhase.GREETING
+                || phase == DiagnosisChatPhase.ANALYZING) {
             return false;
         }
         if (!isResumed() || isHidden() || !isVisible()) {
@@ -182,26 +179,15 @@ public class DiagnosisFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        syncBackCallbackEnabled(null);
+        DiagnosisChatPhase phase = viewModel != null ? viewModel.getChatPhase().getValue() : null;
+        syncBackCallbackEnabled(phase);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        syncBackCallbackEnabled(null);
-    }
-
-    private void updateStepIndicator(DiagnosisStep step) {
-        styleStepLabel(binding.tvStepSymptom, step == DiagnosisStep.SYMPTOM);
-        styleStepLabel(binding.tvStepResult, step == DiagnosisStep.RESULT);
-        styleStepLabel(binding.tvStepHospital, step == DiagnosisStep.HOSPITAL);
-    }
-
-    private void styleStepLabel(TextView textView, boolean active) {
-        int color = ContextCompat.getColor(requireContext(),
-                active ? R.color.color_primary : R.color.color_text_secondary);
-        textView.setTextColor(color);
-        textView.setTypeface(null, active ? Typeface.BOLD : Typeface.NORMAL);
+        DiagnosisChatPhase phase = viewModel != null ? viewModel.getChatPhase().getValue() : null;
+        syncBackCallbackEnabled(phase);
     }
 
     private void renderSymptomsState(UiState<List<Symptom>> state) {
@@ -211,7 +197,7 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isLoading()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
-            binding.btnDiagnose.setEnabled(false);
+            binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_loading, null);
             return;
         }
@@ -220,7 +206,7 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isError()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
-            binding.btnDiagnose.setEnabled(false);
+            binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
                 MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
@@ -232,13 +218,14 @@ public class DiagnosisFragment extends BaseFragment {
 
         if (state.isEmpty()) {
             binding.chipGroupSymptoms.setVisibility(View.GONE);
-            binding.btnDiagnose.setEnabled(false);
+            binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_empty, null);
             return;
         }
 
         if (state.isSuccess() && state.getData() != null) {
             binding.chipGroupSymptoms.setVisibility(View.VISIBLE);
+            binding.btnConfirmSymptoms.setEnabled(true);
             bindSymptomChips(state.getData());
         }
     }
@@ -268,96 +255,13 @@ public class DiagnosisFragment extends BaseFragment {
             chip.setText(symptom.getName());
             chip.setTag(symptom.getId());
             chip.setChecked(selectedIds != null && selectedIds.contains(symptom.getId()));
-
             chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (syncingChipSelection) {
                     return;
                 }
                 viewModel.toggleSymptomSelection(symptom.getId(), isChecked);
             });
-
             binding.chipGroupSymptoms.addView(chip);
-        }
-    }
-
-    private void renderDiagnosisState(UiState<List<DiagnosisResult>> state) {
-        if (state == null) {
-            binding.rvDiagnosisResults.setVisibility(View.GONE);
-            binding.btnFindHospitals.setVisibility(View.GONE);
-            hideStateView(binding.resultStateContainer);
-            return;
-        }
-
-        if (state.isLoading()) {
-            binding.rvDiagnosisResults.setVisibility(View.GONE);
-            binding.btnFindHospitals.setVisibility(View.GONE);
-            showStateView(binding.resultStateContainer, R.layout.layout_loading, null);
-            return;
-        }
-
-        hideStateView(binding.resultStateContainer);
-
-        if (state.isError()) {
-            binding.rvDiagnosisResults.setVisibility(View.GONE);
-            binding.btnFindHospitals.setVisibility(View.GONE);
-            showStateView(binding.resultStateContainer, R.layout.layout_error, stateView -> {
-                TextView messageView = stateView.findViewById(R.id.tv_error_message);
-                MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
-                messageView.setText(state.getErrorMessage());
-                retryButton.setOnClickListener(v -> viewModel.retryDiagnosis());
-            });
-            return;
-        }
-
-        if (state.isEmpty()) {
-            binding.rvDiagnosisResults.setVisibility(View.GONE);
-            binding.btnFindHospitals.setVisibility(View.GONE);
-            showStateView(binding.resultStateContainer, R.layout.layout_empty, null);
-            return;
-        }
-
-        if (state.isSuccess() && state.getData() != null) {
-            binding.rvDiagnosisResults.setVisibility(View.VISIBLE);
-            binding.btnFindHospitals.setVisibility(View.VISIBLE);
-            diagnosisResultAdapter.setItems(state.getData());
-        }
-    }
-
-    private void renderHospitalsState(UiState<List<Hospital>> state) {
-        if (state == null) {
-            binding.rvHospitals.setVisibility(View.GONE);
-            hideStateView(binding.hospitalStateContainer);
-            return;
-        }
-
-        if (state.isLoading()) {
-            binding.rvHospitals.setVisibility(View.GONE);
-            showStateView(binding.hospitalStateContainer, R.layout.layout_loading, null);
-            return;
-        }
-
-        hideStateView(binding.hospitalStateContainer);
-
-        if (state.isError()) {
-            binding.rvHospitals.setVisibility(View.GONE);
-            showStateView(binding.hospitalStateContainer, R.layout.layout_error, stateView -> {
-                TextView messageView = stateView.findViewById(R.id.tv_error_message);
-                MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
-                messageView.setText(state.getErrorMessage());
-                retryButton.setOnClickListener(v -> viewModel.loadNearbyHospitals());
-            });
-            return;
-        }
-
-        if (state.isEmpty()) {
-            binding.rvHospitals.setVisibility(View.GONE);
-            showStateView(binding.hospitalStateContainer, R.layout.layout_empty, null);
-            return;
-        }
-
-        if (state.isSuccess() && state.getData() != null) {
-            binding.rvHospitals.setVisibility(View.VISIBLE);
-            hospitalAdapter.setItems(state.getData());
         }
     }
 

@@ -73,6 +73,26 @@
     <string name="diagnosis_related_symptoms">관련 증상: %1$s</string>
     <string name="diagnosis_caution_label">주의사항</string>
     <string name="diagnosis_find_hospitals">인근 병원 보기</string>
+    <string name="diagnosis_chat_header_title">AnimalLoo 진단 도우미</string>
+    <string name="diagnosis_chat_bot_avatar">진단 도우미</string>
+    <string name="diagnosis_chat_intro">안녕하세요! AnimalLoo 진단 도우미입니다.</string>
+    <string name="diagnosis_chat_greeting_with_pet">%1$s에게 어떤 증상이 보이나요? (복수 선택 가능)</string>
+    <string name="diagnosis_chat_greeting_generic">반려동물에게 어떤 증상이 보이나요? (복수 선택 가능)</string>
+    <string name="diagnosis_chat_confirm_selection">선택 완료</string>
+    <string name="diagnosis_chat_select_symptom_validation">증상을 하나 이상 선택해 주세요.</string>
+    <string name="diagnosis_chat_analyzing">분석 중</string>
+    <string name="diagnosis_chat_analysis_complete">분석이 완료되었습니다.</string>
+    <string name="diagnosis_chat_find_hospitals_prompt">가까운 동물병원을 찾아드릴까요?</string>
+    <string name="diagnosis_chat_hospitals_loading">인근 동물병원을 찾고 있습니다…</string>
+    <string name="diagnosis_chat_hospitals_found">인근 동물병원을 찾았습니다.</string>
+    <string name="diagnosis_chat_hospitals_empty">조건에 맞는 병원이 없습니다.</string>
+    <string name="diagnosis_chat_result_empty">선택한 증상에 맞는 결과가 없습니다.</string>
+    <string name="diagnosis_chat_modify_symptoms">증상을 다시 선택해 주세요.</string>
+    <string name="diagnosis_chat_restart">처음부터 다시 시작합니다.</string>
+    <string name="diagnosis_chat_sheet_results_title">추정 결과</string>
+    <string name="diagnosis_chat_sheet_hospitals_title">인근 동물병원</string>
+    <string name="diagnosis_chat_hospital_detail">상세 보기</string>
+    <string name="diagnosis_chat_back_to_results">결과로 돌아가기</string>
     <string name="hospital_open">운영 중</string>
     <string name="hospital_closed">운영 종료</string>
 
@@ -80,6 +100,15 @@
     <string name="rescue_title">구조/분실</string>
     <string name="rescue_tab_lost">분실 신고</string>
     <string name="rescue_tab_rescued">구조동물</string>
+    <string name="rescue_stats_format">오늘 구조 %1$d건 · 분실 신고 %2$d건</string>
+    <string name="rescue_stats_loading">현황을 불러오는 중…</string>
+    <string name="rescue_timeline_section">최근 현황</string>
+    <string name="rescue_my_report_label">내 분실 신고</string>
+    <string name="rescue_my_report_name_format">%1$s · %2$s</string>
+    <string name="rescue_match_count_format">매칭 %1$d건</string>
+    <string name="rescue_view_matches">매칭 보기</string>
+    <string name="rescue_action_lost_report">+ 분실 신고</string>
+    <string name="rescue_action_view_rescued">구조동물 보기</string>
 
     <!-- Lost Report -->
     <string name="lost_report_title">분실 신고</string>

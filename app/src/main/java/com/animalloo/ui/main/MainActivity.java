@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
     public void navigateToRescueWithTab(int rescueTabIndex) {
         pendingRescueTabIndex = rescueTabIndex;
         if (activeFragment == rescueFragment) {
-            rescueFragment.selectTab(rescueTabIndex);
+            rescueFragment.openAction(rescueTabIndex);
             pendingRescueTabIndex = -1;
             binding.bottomNavigation.setSelectedItemId(R.id.nav_rescue);
         } else {
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
 
     private void applyPendingRescueTabIfNeeded() {
         if (pendingRescueTabIndex >= 0 && rescueFragment != null) {
-            rescueFragment.selectTab(pendingRescueTabIndex);
+            rescueFragment.openAction(pendingRescueTabIndex);
             pendingRescueTabIndex = -1;
         }
     }

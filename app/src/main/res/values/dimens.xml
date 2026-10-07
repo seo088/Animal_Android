@@ -34,6 +34,7 @@
     <dimen name="icon_size_sm">20dp</dimen>
     <dimen name="icon_size_md">28dp</dimen>
     <dimen name="icon_size_lg">40dp</dimen>
+    <dimen name="chat_bot_avatar_size">44dp</dimen>
     <dimen name="shortcut_icon_container">52dp</dimen>
     <dimen name="thumbnail_size">80dp</dimen>
     <dimen name="alert_thumbnail_size">120dp</dimen>

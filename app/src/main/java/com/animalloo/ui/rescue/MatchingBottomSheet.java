@@ -18,18 +18,22 @@ import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.MatchResult;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMatchingResultBinding;
-import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
-public class MatchingResultFragment extends BaseFragment {
+public class MatchingBottomSheet extends BottomSheetDialogFragment {
 
     private FragmentMatchingResultBinding binding;
     private LostReportViewModel viewModel;
     private MatchResultAdapter matchResultAdapter;
     private DetailNavigator detailNavigator;
+
+    public static MatchingBottomSheet newInstance() {
+        return new MatchingBottomSheet();
+    }
 
     @Override
     public void onAttach(@NonNull android.content.Context context) {
@@ -55,7 +59,7 @@ public class MatchingResultFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(requireParentFragment()).get(LostReportViewModel.class);
         setupRecyclerView();
-        binding.btnBackToReport.setOnClickListener(v -> backToReport());
+        binding.btnBackToReport.setVisibility(View.GONE);
         binding.btnViewReport.setOnClickListener(v -> openSubmittedReportDetail());
         binding.btnRetryMatching.setOnClickListener(v -> viewModel.retryMatching());
         observeViewModel();
@@ -74,7 +78,7 @@ public class MatchingResultFragment extends BaseFragment {
 
             @Override
             public void onMatchLongClick(MatchResult result, View anchorView) {
-                // Long-press reserved for future actions.
+                // Reserved for future actions.
             }
         });
     }
@@ -110,8 +114,8 @@ public class MatchingResultFragment extends BaseFragment {
             binding.btnRetryMatching.setVisibility(View.VISIBLE);
             showStateView(R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
-                MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
                 messageView.setText(state.getErrorMessage());
+                MaterialButton retryButton = stateView.findViewById(R.id.btn_retry);
                 retryButton.setVisibility(View.GONE);
             });
             return;
@@ -121,7 +125,7 @@ public class MatchingResultFragment extends BaseFragment {
             binding.rvMatchResults.setVisibility(View.GONE);
             showStateView(R.layout.layout_matching_empty, stateView ->
                     stateView.findViewById(R.id.btn_back_to_report_empty)
-                            .setOnClickListener(v -> backToReport()));
+                            .setOnClickListener(v -> dismiss()));
             return;
         }
 
@@ -135,15 +139,8 @@ public class MatchingResultFragment extends BaseFragment {
         LostAnimalReport report = viewModel.getLastSubmittedReport();
         if (report != null) {
             detailNavigator.navigateToDetail(DetailType.LOST_ANIMAL, report.getId());
+            dismiss();
         }
-    }
-
-    private void backToReport() {
-        viewModel.resetSubmissionState();
-        if (requireParentFragment() instanceof RescueFragment) {
-            ((RescueFragment) requireParentFragment()).resetLostReportForm();
-        }
-        requireParentFragment().getChildFragmentManager().popBackStack();
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {

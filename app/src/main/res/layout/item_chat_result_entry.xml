@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_disease_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
+        tools:text="급성 장염" />
+
+    <TextView
+        android:id="@+id/tv_probability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        tools:text="가능성 78%" />
+
+    <TextView
+        android:id="@+id/tv_related_symptoms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        tools:text="관련 증상: 구토, 설사" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:textColor="@color/color_text_secondary"
+        tools:text="장 점막 염증으로 인한 소화기 증상" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:text="@string/diagnosis_caution_label"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_error_text"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_caution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:textColor="@color/color_error_text"
+        tools:text="즉시 수의사 진료를 받으세요." />
+
+    <View
+        android:id="@+id/view_result_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:background="@color/color_divider" />
+
+</LinearLayout>

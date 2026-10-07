@@ -9,11 +9,29 @@
     android:padding="@dimen/spacing_md"
     tools:context=".ui.rescue.RescuedAnimalFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rescued_title"
-        android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/min_touch_target"
+            android:layout_height="@dimen/min_touch_target"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/more_back"
+            android:src="@drawable/ic_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_rescued_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rescued_title"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

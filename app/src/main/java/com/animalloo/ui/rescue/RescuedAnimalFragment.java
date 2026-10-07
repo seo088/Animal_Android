@@ -33,11 +33,16 @@ import java.util.Set;
 
 public class RescuedAnimalFragment extends BaseFragment {
 
+    public interface OnOverlayBackListener {
+        void onOverlayBack();
+    }
+
     private FragmentRescuedAnimalBinding binding;
     private RescuedAnimalViewModel viewModel;
     private RescuedAnimalAdapter rescuedAnimalAdapter;
     private RescuedAnimal contextMenuAnimal;
     private DetailNavigator detailNavigator;
+    private OnOverlayBackListener overlayBackListener;
 
     @Override
     public void onAttach(@NonNull android.content.Context context) {
@@ -62,6 +67,11 @@ public class RescuedAnimalFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(RescuedAnimalViewModel.class);
+        binding.btnBack.setOnClickListener(v -> {
+            if (overlayBackListener != null) {
+                overlayBackListener.onOverlayBack();
+            }
+        });
         setupFilters();
         setupRecyclerView();
         observeViewModel();
@@ -311,6 +321,13 @@ public class RescuedAnimalFragment extends BaseFragment {
         @Override
         public void onNothingSelected(android.widget.AdapterView<?> parent) {
             // no-op
+        }
+    }
+
+    public void setOverlayMode(boolean enabled, @Nullable OnOverlayBackListener listener) {
+        overlayBackListener = listener;
+        if (binding != null) {
+            binding.btnBack.setVisibility(enabled ? View.VISIBLE : View.GONE);
         }
     }
 

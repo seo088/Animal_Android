@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_hospital_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/tmoney_round_wind"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
+            tools:text="행복동물병원" />
+
+        <TextView
+            android:id="@+id/tv_hospital_open_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_success"
+            android:fontFamily="@font/tmoney_round_wind"
+            android:paddingHorizontal="@dimen/spacing_sm"
+            android:paddingVertical="@dimen/spacing_xs"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+            android:textColor="@color/color_on_primary"
+            tools:text="운영 중" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_hospital_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_primary"
+        tools:text="1.2km (샘플)" />
+
+    <TextView
+        android:id="@+id/tv_hospital_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        tools:text="02-1234-5678" />
+
+    <TextView
+        android:id="@+id/tv_hospital_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+        android:textColor="@color/color_text_secondary"
+        tools:text="서울시 송파구" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hospital_call"
+            style="@style/Widget.AnimalLoo.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_xs"
+            android:layout_weight="1"
+            android:text="@string/facility_call"
+            app:icon="@drawable/ic_call"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hospital_directions"
+            style="@style/Widget.AnimalLoo.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xs"
+            android:layout_weight="1"
+            android:text="@string/facility_directions"
+            app:icon="@drawable/ic_directions"
+            app:iconGravity="textStart" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_hospital_detail"
+        style="@style/Widget.AnimalLoo.Button.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:text="@string/diagnosis_chat_hospital_detail" />
+
+    <View
+        android:id="@+id/view_hospital_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:background="@color/color_divider" />
+
+</LinearLayout>

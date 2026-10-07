@@ -6,7 +6,7 @@
     android:background="@color/color_background"
     android:orientation="vertical"
     android:padding="@dimen/spacing_md"
-    tools:context=".ui.rescue.MatchingResultFragment">
+    tools:context=".ui.rescue.MatchingBottomSheet">
 
     <TextView
         android:layout_width="wrap_content"

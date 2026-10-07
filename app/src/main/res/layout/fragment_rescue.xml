@@ -1,41 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
-    android:orientation="vertical"
     tools:context=".ui.rescue.RescueFragment">
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.AnimalLoo.Card.Flat"
+    <LinearLayout
+        android:id="@+id/rescue_timeline_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_md"
-        android:layout_marginTop="@dimen/spacing_md"
-        app:cardBackgroundColor="@color/color_surface"
-        app:strokeWidth="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_rescue"
+        <include
+            android:id="@+id/rescue_stats_header"
+            layout="@layout/layout_rescue_stats_header" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_rescue"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_rescue_timeline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/spacing_sm"
+                    tools:listitem="@layout/item_alert" />
+
+                <FrameLayout
+                    android:id="@+id/rescue_state_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/rescue_action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:tabIndicatorColor="@color/color_primary"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="fixed"
-            app:tabRippleColor="@color/color_primary_light"
-            app:tabSelectedTextColor="@color/color_primary"
-            app:tabTextColor="@color/color_text_secondary" />
+            android:background="@color/color_surface"
+            android:elevation="@dimen/spacing_xs"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_md">
 
-    </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_lost_report"
+                style="@style/Widget.AnimalLoo.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="@string/rescue_action_lost_report" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_rescued"
+                style="@style/Widget.AnimalLoo.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rescue_action_view_rescued" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/rescue_child_container"
+        android:id="@+id/rescued_overlay_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_sm"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-</LinearLayout>
+</FrameLayout>

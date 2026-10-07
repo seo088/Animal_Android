@@ -65,6 +65,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_hospital_phone" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hospital_call"
+            style="@style/Widget.AnimalLoo.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_xs"
+            android:text="@string/facility_call"
+            app:icon="@drawable/ic_call"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toStartOf="@id/btn_hospital_directions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_hospital_address" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_hospital_directions"
+            style="@style/Widget.AnimalLoo.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xs"
+            android:text="@string/facility_directions"
+            app:icon="@drawable/ic_directions"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_hospital_call"
+            app:layout_constraintTop_toTopOf="@id/btn_hospital_call" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

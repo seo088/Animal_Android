@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/spacing_md"
+    android:paddingVertical="@dimen/spacing_xs">
+
+    <include
+        android:id="@+id/chat_bot_avatar"
+        layout="@layout/layout_chat_bot_avatar" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_sm"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_chat_find_hospitals"
+            style="@style/Widget.AnimalLoo.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/diagnosis_find_hospitals" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_chat_modify_symptoms"
+            style="@style/Widget.AnimalLoo.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/diagnosis_back_to_symptoms" />
+
+    </LinearLayout>
+
+</LinearLayout>

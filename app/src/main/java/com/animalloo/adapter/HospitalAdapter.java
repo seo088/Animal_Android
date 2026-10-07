@@ -19,8 +19,15 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
         void onHospitalClick(Hospital hospital);
     }
 
+    public interface OnHospitalActionListener {
+        void onCall(Hospital hospital);
+
+        void onDirections(Hospital hospital);
+    }
+
     private final List<Hospital> items = new ArrayList<>();
     private OnHospitalClickListener listener;
+    private OnHospitalActionListener actionListener;
 
     public void setItems(List<Hospital> hospitals) {
         items.clear();
@@ -32,6 +39,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
     public void setOnHospitalClickListener(OnHospitalClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnHospitalActionListener(OnHospitalActionListener actionListener) {
+        this.actionListener = actionListener;
     }
 
     @NonNull
@@ -80,6 +91,16 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onHospitalClick(hospital);
+                }
+            });
+            binding.btnHospitalCall.setOnClickListener(v -> {
+                if (actionListener != null) {
+                    actionListener.onCall(hospital);
+                }
+            });
+            binding.btnHospitalDirections.setOnClickListener(v -> {
+                if (actionListener != null) {
+                    actionListener.onDirections(hospital);
                 }
             });
         }
