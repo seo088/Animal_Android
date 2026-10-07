@@ -12,30 +12,22 @@ public class RescueTimelineItem {
     private final LostAnimalReport myReport;
     private final int matchCount;
     @Nullable
-    private final String sectionTitle;
-    @Nullable
     private final AlertNotification alert;
 
     private RescueTimelineItem(RescueTimelineItemType type, @Nullable LostAnimalReport myReport,
-                               int matchCount, @Nullable String sectionTitle,
-                               @Nullable AlertNotification alert) {
+                               int matchCount, @Nullable AlertNotification alert) {
         this.type = type;
         this.myReport = myReport;
         this.matchCount = matchCount;
-        this.sectionTitle = sectionTitle;
         this.alert = alert;
     }
 
     public static RescueTimelineItem myReport(LostAnimalReport report, int matchCount) {
-        return new RescueTimelineItem(RescueTimelineItemType.MY_REPORT, report, matchCount, null, null);
-    }
-
-    public static RescueTimelineItem sectionHeader(String title) {
-        return new RescueTimelineItem(RescueTimelineItemType.SECTION_HEADER, null, 0, title, null);
+        return new RescueTimelineItem(RescueTimelineItemType.MY_REPORT, report, matchCount, null);
     }
 
     public static RescueTimelineItem timelineEvent(AlertNotification alert) {
-        return new RescueTimelineItem(RescueTimelineItemType.TIMELINE_EVENT, null, 0, null, alert);
+        return new RescueTimelineItem(RescueTimelineItemType.TIMELINE_EVENT, null, 0, alert);
     }
 
     public RescueTimelineItemType getType() {
@@ -49,11 +41,6 @@ public class RescueTimelineItem {
 
     public int getMatchCount() {
         return matchCount;
-    }
-
-    @Nullable
-    public String getSectionTitle() {
-        return sectionTitle;
     }
 
     @Nullable

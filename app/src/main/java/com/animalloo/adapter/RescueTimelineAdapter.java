@@ -13,7 +13,6 @@ import com.animalloo.data.model.AlertType;
 import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.databinding.ItemAlertBinding;
 import com.animalloo.databinding.ItemRescueMyReportBinding;
-import com.animalloo.databinding.ItemRescueSectionHeaderBinding;
 import com.animalloo.ui.rescue.RescueTimelineItem;
 import com.animalloo.ui.rescue.RescueTimelineItemType;
 import com.bumptech.glide.Glide;
@@ -25,8 +24,7 @@ import java.util.List;
 public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int VIEW_TYPE_MY_REPORT = 0;
-    private static final int VIEW_TYPE_SECTION_HEADER = 1;
-    private static final int VIEW_TYPE_TIMELINE_EVENT = 2;
+    private static final int VIEW_TYPE_TIMELINE_EVENT = 1;
 
     public interface OnTimelineActionListener {
         void onMyReportClick(LostAnimalReport report);
@@ -53,16 +51,9 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        RescueTimelineItem item = items.get(position);
-        switch (item.getType()) {
-            case MY_REPORT:
-                return VIEW_TYPE_MY_REPORT;
-            case SECTION_HEADER:
-                return VIEW_TYPE_SECTION_HEADER;
-            case TIMELINE_EVENT:
-            default:
-                return VIEW_TYPE_TIMELINE_EVENT;
-        }
+        return items.get(position).getType() == RescueTimelineItemType.MY_REPORT
+                ? VIEW_TYPE_MY_REPORT
+                : VIEW_TYPE_TIMELINE_EVENT;
     }
 
     @NonNull
@@ -73,10 +64,6 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return new MyReportViewHolder(
                     ItemRescueMyReportBinding.inflate(inflater, parent, false));
         }
-        if (viewType == VIEW_TYPE_SECTION_HEADER) {
-            return new SectionHeaderViewHolder(
-                    ItemRescueSectionHeaderBinding.inflate(inflater, parent, false));
-        }
         return new TimelineEventViewHolder(
                 ItemAlertBinding.inflate(inflater, parent, false));
     }
@@ -86,8 +73,6 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         RescueTimelineItem item = items.get(position);
         if (holder instanceof MyReportViewHolder) {
             ((MyReportViewHolder) holder).bind(item);
-        } else if (holder instanceof SectionHeaderViewHolder) {
-            ((SectionHeaderViewHolder) holder).bind(item);
         } else if (holder instanceof TimelineEventViewHolder) {
             ((TimelineEventViewHolder) holder).bind(item.getAlert());
         }
@@ -135,23 +120,6 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    static class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        private final ItemRescueSectionHeaderBinding binding;
-
-        SectionHeaderViewHolder(ItemRescueSectionHeaderBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        void bind(RescueTimelineItem item) {
-            String title = item.getSectionTitle();
-            if (title != null) {
-                binding.getRoot().setText(title);
-            }
-        }
-    }
-
     class TimelineEventViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemAlertBinding binding;
@@ -190,7 +158,7 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) binding.getRoot().getLayoutParams();
             if (layoutParams != null) {
                 int horizontal = binding.getRoot().getResources()
-                        .getDimensionPixelSize(com.animalloo.R.dimen.spacing_md);
+                        .getDimensionPixelSize(R.dimen.spacing_md);
                 layoutParams.setMargins(horizontal, 0, horizontal, layoutParams.bottomMargin);
                 binding.getRoot().setLayoutParams(layoutParams);
             }

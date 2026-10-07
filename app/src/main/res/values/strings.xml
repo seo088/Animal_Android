@@ -100,6 +100,7 @@
     <string name="rescue_title">구조/분실</string>
     <string name="rescue_tab_lost">분실 신고</string>
     <string name="rescue_tab_rescued">구조동물</string>
+    <string name="rescue_live_label">실시간</string>
     <string name="rescue_stats_format">오늘 구조 %1$d건 · 분실 신고 %2$d건</string>
     <string name="rescue_stats_loading">현황을 불러오는 중…</string>
     <string name="rescue_timeline_section">최근 현황</string>

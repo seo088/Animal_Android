@@ -48,8 +48,7 @@
             android:id="@+id/rescue_action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_surface"
-            android:elevation="@dimen/spacing_xs"
+            android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:padding="@dimen/spacing_md">
 
