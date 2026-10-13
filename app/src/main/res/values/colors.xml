@@ -62,4 +62,13 @@
     <!-- Error / Empty state -->
     <color name="color_error_background">#FFF1F1</color>
     <color name="color_error_text">#B42318</color>
+
+    <!-- Map markers per FacilityCategory (FacilityMapController) -->
+    <color name="map_marker_hospital">#E5484D</color>
+    <color name="map_marker_pharmacy">#3E7BFA</color>
+    <color name="map_marker_shelter">#F08C00</color>
+    <color name="map_marker_restaurant">#D6409F</color>
+    <color name="map_marker_cafe">#8B5E3C</color>
+    <color name="map_marker_hotel">#7C4DFF</color>
+    <color name="map_marker_tourism">#1F8A5A</color>
 </resources>
