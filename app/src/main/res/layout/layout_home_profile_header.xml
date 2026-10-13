@@ -42,8 +42,10 @@
 
         <TextView
             android:id="@+id/tv_user_greeting"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
             tools:text="안녕하세요, 데모 사용자님" />
 
@@ -58,17 +60,21 @@
 
         <TextView
             android:id="@+id/tv_pet_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_sm"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
             tools:text="몽이" />
 
         <TextView
             android:id="@+id/tv_pet_info"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xs"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
             android:textColor="@color/color_text_secondary"
             tools:text="말티즈 · 3살" />
