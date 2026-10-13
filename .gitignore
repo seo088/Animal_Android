@@ -58,4 +58,7 @@ apikeys.properties
 AGENTS.md
 
 # Local git hook scripts (not for repository)
-scripts/
+/scripts/
+
+# Old copy of the project from an earlier download (not part of the repo)
+/Animal_Android-main/
