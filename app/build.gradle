@@ -23,6 +23,17 @@ if (kakaoMapKey.isEmpty()) {
     kakaoMapKey = 'YOUR_KAKAO_MAP_KEY_HERE'
 }
 
+// AnimalLoo backend (backend/). Emulator reaches the host machine at 10.0.2.2.
+def apiBaseUrl = resolveSecret(localProperties, 'API_BASE_URL', dotEnv)
+if (apiBaseUrl.isEmpty()) {
+    apiBaseUrl = 'http://10.0.2.2:8000/'
+}
+if (!apiBaseUrl.endsWith('/')) {
+    apiBaseUrl += '/'
+}
+// USE_MOCK_API=true runs the app on the in-app mock repositories without a server.
+def useMockApi = resolveSecret(localProperties, 'USE_MOCK_API', dotEnv).equalsIgnoreCase('true')
+
 android {
     namespace 'com.animalloo'
     compileSdk 34
@@ -42,6 +53,9 @@ android {
 
         buildConfigField "String", "KAKAO_MAP_KEY",
                 "\"${escapeForBuildConfig(kakaoMapKey)}\""
+        buildConfigField "String", "API_BASE_URL",
+                "\"${escapeForBuildConfig(apiBaseUrl)}\""
+        buildConfigField "boolean", "USE_MOCK_API", "${useMockApi}"
     }
 
     buildTypes {
