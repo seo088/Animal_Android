@@ -42,4 +42,9 @@ public class HomeProfile {
     public String getPetAge() {
         return petAge;
     }
+
+    /** False when the signed-in user hasn't registered a pet yet (pet fields are null). */
+    public boolean hasPet() {
+        return petName != null && !petName.isEmpty();
+    }
 }

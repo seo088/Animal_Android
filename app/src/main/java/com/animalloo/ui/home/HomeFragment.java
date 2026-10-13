@@ -217,9 +217,14 @@ public class HomeFragment extends BaseFragment {
                 .into(binding.layoutProfileHeader.ivUserProfile);
         binding.layoutProfileHeader.tvUserGreeting.setText(
                 getString(R.string.home_greeting_format, profile.getUserDisplayName()));
-        binding.layoutProfileHeader.tvPetName.setText(profile.getPetName());
-        binding.layoutProfileHeader.tvPetInfo.setText(
-                getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
+        if (profile.hasPet()) {
+            binding.layoutProfileHeader.tvPetName.setText(profile.getPetName());
+            binding.layoutProfileHeader.tvPetInfo.setText(
+                    getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
+        } else {
+            binding.layoutProfileHeader.tvPetName.setText(R.string.home_pet_not_registered);
+            binding.layoutProfileHeader.tvPetInfo.setText(R.string.home_pet_register_hint);
+        }
     }
 
     private void renderStatsState(UiState<HomeStats> state) {

@@ -21,6 +21,8 @@
     <string name="home_my_pet_title">내 강아지</string>
     <string name="home_greeting_format">안녕하세요, %1$s님</string>
     <string name="home_pet_info_format">%1$s · %2$s</string>
+    <string name="home_pet_not_registered">반려동물 미등록</string>
+    <string name="home_pet_register_hint">반려동물을 등록해 주세요</string>
     <string name="home_shortcuts_title">바로가기</string>
     <string name="home_alerts_title">실시간 현황</string>
     <string name="alert_type_rescue">구조</string>

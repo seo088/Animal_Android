@@ -281,14 +281,18 @@ public class MoreFragment extends BaseFragment implements MoreHost {
                 .into(binding.layoutProfileHeader.ivProfileAvatar);
 
         binding.layoutProfileHeader.tvProfileName.setText(profile.getUserDisplayName());
-        binding.layoutProfileHeader.tvProfilePetSummary.setText(
-                getString(R.string.more_pet_summary_format,
-                        profile.getPetName(),
-                        profile.getPetBreed(),
-                        profile.getPetAge()));
-
-        binding.rowPetProfile.tvRowSubtitle.setText(
-                getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
+        if (profile.hasPet()) {
+            binding.layoutProfileHeader.tvProfilePetSummary.setText(
+                    getString(R.string.more_pet_summary_format,
+                            profile.getPetName(),
+                            profile.getPetBreed(),
+                            profile.getPetAge()));
+            binding.rowPetProfile.tvRowSubtitle.setText(
+                    getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
+        } else {
+            binding.layoutProfileHeader.tvProfilePetSummary.setText(R.string.home_pet_not_registered);
+            binding.rowPetProfile.tvRowSubtitle.setText(R.string.home_pet_register_hint);
+        }
         binding.rowPetProfile.tvRowSubtitle.setVisibility(View.VISIBLE);
     }
 
