@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cleartext HTTP is allowed only for these hosts; everything else stays HTTPS-only. -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Local AnimalLoo backend: emulator → host (10.0.2.2) / adb reverse (localhost) -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <!-- 농림축산식품부 구조·분실동물 이미지 URL (http only) -->
+        <domain includeSubdomains="false">openapi.animal.go.kr</domain>
+    </domain-config>
+</network-security-config>
