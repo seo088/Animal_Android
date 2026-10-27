@@ -5,3 +5,7 @@
 ## Optional local override for Kakao Map key.
 ## Recommended setup for team members: copy `.env.example` to `.env` or export KAKAO_MAP_KEY.
 # KAKAO_MAP_KEY=YOUR_KAKAO_MAP_KEY_HERE
+
+## Android emulator -> existing local AnimalLoo backend
+API_BASE_URL=http://10.0.2.2:8000/
+USE_MOCK_API=false

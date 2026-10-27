@@ -2,9 +2,9 @@
 
 공공데이터 기반 반려동물 통합 지식그래프 플랫폼 **AnimalLoo** Android Native 앱입니다.
 
-대학 텀프로젝트 프론트엔드 저장소이며, **Java + XML + MVVM + Repository + Mock Data** 구조로 Android Studio에서 바로 빌드·실행할 수 있습니다.
+**Java + XML + MVVM + Repository** Android 앱과 FastAPI 앱 백엔드(`backend/`)를 포함합니다.
 
-> **현재 버전은 Mock Repository를 사용합니다.** 실제 백엔드 서버/API는 구현되어 있지 않으며, 향후 백엔드 팀원이 Repository 구현체만 교체하면 연동할 수 있도록 설계했습니다.
+> **기본 실행은 실제 백엔드 연동입니다.** `USE_MOCK_API=true`를 명시한 경우에만 예제 데이터를 사용합니다. API 서버가 꺼져 있으면 구조·분실동물·시설 목록을 불러올 수 없습니다.
 
 ---
 
@@ -15,12 +15,12 @@
 | **스플래시** | Circular Reveal, ObjectAnimator, AnimatorSet, MediaPlayer 짖는 효과음 |
 | **홈** | 통계 카드, 5개 바로가기, 실시간 구조/분실 알림 RecyclerView |
 | **지도** | Kakao Map + 7종 카테고리 Chip 필터, Marker, BottomSheet |
-| **증상진단** | 3단계(증상 → Mock 추론 결과 → 인근 병원) 단일 Fragment |
+| **증상진단** | 증상 선택 → 백엔드 지식그래프 조회 결과 → 인근 병원 |
 | **구조/분실** | 분실 신고 Form, Photo Picker, 캐시 저장, A/B/C 매칭, 구조동물 필터 |
 | **더보기** | 동반시설(리스트↔지도), 설정, 데이터 출처, 네트워크 데모 |
 | **상세** | 시설/병원/구조동물/알림/분실신고 공통 DetailFragment |
 | **알림** | FCM 수신 구조, NotificationChannel, 테스트 알림 |
-| **네트워크** | Retrofit `enqueue()` 기반 공공데이터 데모 API 호출 |
+| **네트워크** | Retrofit `enqueue()` 기반 AnimalLoo API 연동 |
 
 ---
 
@@ -35,7 +35,7 @@
 | 리스트 | RecyclerView, Adapter, ViewHolder |
 | 이미지 | Glide |
 | 지도 | Kakao Maps SDK v2 for Android |
-| 네트워크 | Retrofit 2 + OkHttp (데모), ExecutorService + Handler (Mock) |
+| 네트워크 | Retrofit 2 + OkHttp (실제 API), ExecutorService + Handler (선택적 Mock) |
 | 푸시 | Firebase Cloud Messaging (프론트 수신 구조) |
 | Gradle | Groovy DSL (`build.gradle`, `settings.gradle`) |
 | SDK | minSdk 26, targetSdk 34, compileSdk 34 |
@@ -53,7 +53,7 @@ app/src/main/
 │   │   ├── model/            # 데이터 모델, UiState, enum
 │   │   ├── repository/       # Repository 인터페이스
 │   │   ├── mock/             # MockRepository, MockDataProvider
-│   │   └── remote/           # Retrofit API, DTO (데모)
+│   │   └── remote/           # AnimalLoo API, DTO, Remote Repository
 │   ├── notification/         # FCM Service, NotificationHelper
 │   ├── ui/
 │   │   ├── splash/
@@ -92,6 +92,8 @@ cd Animal_Android
 ```
 
 Android Studio → **Open** → 프로젝트 루트 선택 → **Gradle Sync**
+
+다운로드 폴더가 중첩되어 있다면 `app/`, `backend/`, `.git/`이 함께 있는 상위 폴더를 엽니다. 이 PC의 실행 대상은 `C:\Users\jwon\Downloads\Animal_Android-main`이며, 그 안의 동명 폴더는 예전 Mock 버전 사본입니다.
 
 ### 3. local.properties 설정
 
@@ -137,6 +139,10 @@ KAKAO_MAP_KEY=발급받은_네이티브_앱_키
 
 ### 5. 빌드 및 실행
 
+- 먼저 기존 로컬 백엔드와 진단 서비스를 실행합니다: `./backend/start-local.ps1`
+- 이 스크립트는 기존 `.env`, PostgreSQL, `backend/fuseki-data/`를 사용하며 데이터를 초기화하거나 재적재하지 않습니다. 공공데이터 자동 동기화는 기본으로 끕니다(`-EnablePublicSync`를 지정했을 때만 기존 동기화 설정 사용).
+- 에뮬레이터 설정: `API_BASE_URL=http://10.0.2.2:8000/`, `USE_MOCK_API=false`. 상태 확인은 `http://127.0.0.1:8000/health`에서 `database`, `fuseki` 모두 `ok`인지 확인합니다.
+- 실기기에서는 `10.0.2.2`를 사용할 수 없습니다. 실기기용 서버 주소·통신 허용 범위는 별도로 설정해야 합니다.
 - Run ▶ 버튼 또는 `./gradlew assembleDebug`
 - 에뮬레이터/실기기(API 26+)에서 실행
 
@@ -144,12 +150,12 @@ KAKAO_MAP_KEY=발급받은_네이티브_앱_키
 
 ```
 SplashActivity (애니메이션 + 효과음)
-  → AuthActivity (로그인 / 회원가입, Mock 인증)
+  → AuthActivity (기존 AnimalLoo 백엔드 계정 로그인)
   → MainActivity (BottomNavigation 5탭)
     → Home / Map / Diagnosis / Rescue / More
 ```
 
-**데모 계정:** `admin` / `1234`
+계정과 DB를 새로 만들지 않고 기존 앱 백엔드 계정을 사용합니다. PetGraph 서버와 AnimalLoo 앱 백엔드는 API 형식과 인증 체계가 달라 서버 주소만 교체해서 연결할 수 없습니다.
 
 ---
 
@@ -193,6 +199,8 @@ cp app/google-services.json.example app/google-services.json
 
 ## Mock Data 구조
 
+아래 예제 데이터는 `USE_MOCK_API=true`인 경우에만 사용합니다.
+
 | Repository | Mock 구현체 | 데이터 규모 |
 |------------|-------------|-------------|
 | FacilityRepository | MockFacilityRepository | 시설 18개 |
@@ -211,11 +219,11 @@ ViewModel은 Mock List를 직접 읽지 않고 **반드시 Repository Interface*
 
 ---
 
-## 백엔드 연동 예정 지점
+## 백엔드 연동 구조
 
-백엔드 담당자는 아래 Interface의 Mock 구현체를 **Remote 구현체로 교체**하면 됩니다.
+아래 Interface의 **Remote 구현체가 이미 구현되어 있으며 기본으로 사용됩니다.**
 
-| Interface | 교체 대상 파일 (예시) |
+| Interface | 현재 Remote 구현체 |
 |-----------|----------------------|
 | `FacilityRepository` | `RemoteFacilityRepository` |
 | `HospitalRepository` | `RemoteHospitalRepository` |
@@ -225,17 +233,7 @@ ViewModel은 Mock List를 직접 읽지 않고 **반드시 Repository Interface*
 | `AlertRepository` | `RemoteAlertRepository` |
 | `HomeRepository` | `RemoteHomeRepository` |
 
-교체 위치: `RepositoryProvider.java`
-
-```java
-// 현재
-facilityRepository = new MockFacilityRepository();
-
-// 연동 후 (예시)
-facilityRepository = new RemoteFacilityRepository(apiService);
-```
-
-Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
+`RepositoryProvider.java`는 `BuildConfig.USE_MOCK_API`에 따라 Mock 또는 Remote 구현체를 선택합니다. `AnimalLooApi.java`의 요청·응답 형식은 `backend/`의 FastAPI 서버와 대응합니다. 연결 오류가 발생하면 먼저 서버 실행 상태와 빌드된 `API_BASE_URL`을 확인합니다.
 
 ---
 
@@ -263,7 +261,7 @@ Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
 | **커밋 금지** | `AGENTS.md`, `scripts/` (로컬 전용) |
 | **브랜치** | 기능별 feature branch → PR 권장 |
 | **Gradle Sync** | pull 후 Android Studio Gradle Sync 필수 |
-| **Mock 유지** | 백엔드 미완성 시 MockRepository 유지, Remote는 별도 구현체로 추가 |
+| **Mock 유지** | 오프라인 데모에만 명시적으로 사용하며 기본 실행은 Remote Repository |
 | **충돌 주의** | `RepositoryProvider`, `MainActivity`, `strings.xml` 동시 수정 시 주의 |
 
 ---
@@ -304,7 +302,7 @@ Retrofit Interface/DTO는 `data/remote/` 패키지에 추가하면 됩니다.
 ## 라이선스 / 데이터 안내
 
 - Mock 데이터의 시설명·지역 등은 **데모용 가상 데이터**입니다.
-- 실제 공공데이터 API 연동은 백엔드 완료 후 Remote Repository로 교체 예정입니다.
+- 실제 공공데이터는 `backend/`를 통해 조회하며 상세 실행·동기화 방법은 `backend/README.md`를 참고합니다.
 
 ---
 
