@@ -6,6 +6,23 @@ FastAPI + PostgreSQL + Apache Jena Fuseki 기반 AnimalLoo 앱 서버입니다.
 응답 JSON 필드는 앱의 `app/src/main/java/com/animalloo/data/model/*` 필드명과 같은 camelCase입니다.
 enum은 이름 그대로(`HOSPITAL`, `RESCUE`, `A`) 내려가므로 Gson으로 바로 매핑됩니다.
 
+## 기존 Windows 개발 환경 다시 실행
+
+이미 `.env`, `.venv/`, PostgreSQL 데이터와 `fuseki-data/`가 있는 환경에서는 저장소 루트에서 아래 명령만 실행합니다.
+
+```powershell
+.\backend\start-local.ps1
+```
+
+- 기존 DB 연결 설정을 유지하며 데이터 초기화·재적재를 하지 않습니다.
+- API는 `127.0.0.1:8000`, Fuseki는 localhost의 `3030`에서 실행합니다. Fuseki의 SPARQL 업데이트 API는 켜지 않습니다.
+- 기존 서비스가 있으면 재사용하고 `/health`의 DB·Fuseki 상태를 확인합니다.
+- 공공데이터 자동 수집은 기본으로 꺼집니다. 기존 자동 수집 정책을 사용하려면 서버를 시작할 때 `-EnablePublicSync`를 명시합니다. 이미 실행 중인 서버의 정책은 바꾸지 않습니다.
+- 로그는 `.runtime/`에 저장합니다. Fuseki 실행 파일 위치가 다르면 `-FusekiJar`, Java 실행 파일 위치가 다르면 `-Java`로 지정합니다.
+- Android Studio에는 `app/`과 `backend/`가 함께 있는 프로젝트 루트를 엽니다. 중첩된 예전 프로젝트 사본으로 실행하면 Mock 버전이 다시 설치됩니다.
+
+아래 최초 설치·적재 절차는 **신규 환경을 구성할 때만** 사용합니다. 연결 문제를 해결하려고 기존 데이터에 재실행하지 않습니다.
+
 ## 구조
 
 ```

@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 uploads/
 fuseki-data/
+.runtime/
+run/
