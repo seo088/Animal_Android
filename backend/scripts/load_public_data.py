@@ -1,8 +1,8 @@
 """Load the already-downloaded public data snapshots into PostgreSQL.
 
-    python -m scripts.load_public_data --data-dir C:/Users/jwon/Downloads/preprocessed_data
+    python -m scripts.load_public_data
 
-Re-runnable: facility rows and public lost reports are replaced per source,
+Reads backend/data/ (committed snapshot) unless --data-dir is given. Re-runnable: facility rows and public lost reports are replaced per source,
 rescued animals are upserted. Creates tables and the demo account (admin / 1234).
 """
 
@@ -28,6 +28,8 @@ from scripts.common import (
     upsert_lost_reports,
     upsert_rescued,
 )
+
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
 def facility(id, source, category, name, address, **extra) -> dict:
@@ -241,9 +243,11 @@ def seed_demo_user(db) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--data-dir", type=Path, required=True, help="preprocessed_data 폴더")
-    parser.add_argument("--hospital-hours", type=Path, help="동물병원_전국.csv (진료시간 OPR_TIME_INFO)")
+    parser.add_argument("--data-dir", type=Path, default=DATA_DIR, help="preprocessed_data 폴더 (기본: backend/data)")
+    parser.add_argument("--hospital-hours", type=Path, help="동물병원_전국.csv (진료시간 OPR_TIME_INFO, 기본: <data-dir>/hospital_hours.csv)")
     args = parser.parse_args()
+    if args.hospital_hours is None and (args.data_dir / "hospital_hours.csv").exists():
+        args.hospital_hours = args.data_dir / "hospital_hours.csv"
 
     Base.metadata.create_all(engine)
     with SessionLocal() as db:

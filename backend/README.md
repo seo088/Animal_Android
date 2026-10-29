@@ -37,6 +37,7 @@ backend/
 │  ├─ matching.py        # 분실신고 ↔ 구조동물 매칭 (앱 Mock과 같은 점수 규칙)
 │  ├─ sparql.py          # Fuseki 클라이언트
 │  └─ routers/           # 기능별 API
+├─ data/                       # 공공데이터 CSV/JSON 스냅샷 (load_public_data 기본 입력)
 └─ scripts/
    ├─ load_public_data.py      # 이미 받아 둔 공공데이터 CSV/JSON → Postgres
    ├─ sync_rescued_animals.py  # 농식품부 구조동물 OpenAPI → Postgres
@@ -60,8 +61,9 @@ copy .env.example .env   # DATABASE_URL 등 채우기
    ```
 2. **공공데이터 적재** (테이블 생성 + 데모 계정 `admin / 1234` 포함, 재실행 가능)
    ```powershell
-   .venv\Scripts\python -m scripts.load_public_data --data-dir C:\Users\jwon\Downloads\preprocessed_data --hospital-hours C:\Users\jwon\Downloads\동물병원_전국.csv
+   .venv\Scripts\python -m scripts.load_public_data
    ```
+   저장소에 포함된 `backend/data/` 스냅샷을 읽습니다(다른 폴더는 `--data-dir`, `--hospital-hours`로 지정). 공개 저장소이므로 `09_lost_animal.csv`의 보호자 이름·전화번호(`CallName`, `CallTel`)는 비웠고, 구조·분실 데이터의 자유 입력란에 있던 휴대전화 번호는 `[연락처 삭제]`로 가렸습니다. 연락처가 있는 최신 분실동물은 서버 자동 동기화(`ANIMAL_API_KEY` 필요)로 받습니다.
 3. **Fuseki 실행 + 지식그래프 적재** (Java 17+ 필요)
    ```powershell
    java -jar <fuseki>\fuseki-server.jar --localhost --update --tdb2 --loc=fuseki-data /animalloo
@@ -112,7 +114,7 @@ copy .env.example .env   # DATABASE_URL 등 채우기
 | | KISTI 동물질병 증상분류 | Fuseki `/animalloo` | `load_fuseki` |
 | 공공데이터 (OpenAPI 연동) | 농식품부 구조동물 (`abandonmentPublicService_v2`) | rescued_animals | 스냅샷: `load_public_data`, 최신: 서버 자동 동기화 / `sync_rescued_animals` |
 | | 농식품부 분실동물 (`lossInfoService/lossInfo`) | lost_reports (`source=public`) | 스냅샷: `load_public_data`, 최신: 서버 자동 동기화 / `sync_lost_animals` |
-| 공공데이터 (파일, 보조) | 동물병원 진료시간 (`동물병원_전국.csv`) | facilities.opening_hours | `load_public_data --hospital-hours` |
+| 공공데이터 (파일, 보조) | 동물병원 진료시간 (`data/hospital_hours.csv`, 원본명 `동물병원_전국.csv`) | facilities.opening_hours | `load_public_data` |
 | 자체 데이터 | 회원, 반려동물 프로필, 분실신고, 즐겨찾기 | users, pets, lost_reports (`source=user`), favorites | API |
 
 ### 매핑 규칙과 알려진 한계
