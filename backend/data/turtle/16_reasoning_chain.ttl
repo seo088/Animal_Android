@@ -1,0 +1,365 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix def:    <https://knowledgemap.kr/koah/def/> .
+@prefix id:     <https://knowledgemap.kr/koah/id/> .
+@prefix doc:    <https://knowledgemap.kr/koah/doc/> .
+@prefix set:    <https://knowledgemap.kr/koah/set/> .
+
+<https://knowledgemap.kr/koah/id/symptom-category/a>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/ophthalmology> ;
+  def:deptHint "청각기관 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/b>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "심혈관계 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/c>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "소화기계" .
+<https://knowledgemap.kr/koah/id/symptom-category/d>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/ophthalmology> ;
+  def:deptHint "안과 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/e>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "전신종합 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/f>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/surgery> ;
+  def:deptHint "근골격계" .
+<https://knowledgemap.kr/koah/id/symptom-category/g>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "신경계 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/h>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/surgery> ;
+  def:deptHint "통증 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/i>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "호흡기계 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/j>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/dermatology> ;
+  def:deptHint "피부/외피계 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/k>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/surgery> ;
+  def:deptHint "생식기계 증상" .
+<https://knowledgemap.kr/koah/id/symptom-category/l>
+  a def:SymptomCategory ;
+  def:mapsTo <https://knowledgemap.kr/koah/id/department/internal> ;
+  def:deptHint "비뇨기계 증상" .
+<https://knowledgemap.kr/koah/id/symptom/i012>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i012> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i008> .
+<https://knowledgemap.kr/koah/id/symptom/i009>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i009> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/c003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/5> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c003> .
+<https://knowledgemap.kr/koah/id/symptom/i012>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/6> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i012> .
+<https://knowledgemap.kr/koah/id/symptom/i011>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/6> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i011> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/6> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i008> .
+<https://knowledgemap.kr/koah/id/symptom/i009>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/6> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i009> .
+<https://knowledgemap.kr/koah/id/symptom/i004>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/6> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i004> .
+<https://knowledgemap.kr/koah/id/symptom/c036>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c036> .
+<https://knowledgemap.kr/koah/id/symptom/c038>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c038> .
+<https://knowledgemap.kr/koah/id/symptom/c003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c003> .
+<https://knowledgemap.kr/koah/id/symptom/c050>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c050> .
+<https://knowledgemap.kr/koah/id/symptom/c055>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c055> .
+<https://knowledgemap.kr/koah/id/symptom/c056>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/8> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c056> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/12> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/12> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/g003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/12> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g003> .
+<https://knowledgemap.kr/koah/id/symptom/g023>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/12> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g023> .
+<https://knowledgemap.kr/koah/id/symptom/g024>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/12> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g024> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/g023>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g023> .
+<https://knowledgemap.kr/koah/id/symptom/g024>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g024> .
+<https://knowledgemap.kr/koah/id/symptom/f003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/f003> .
+<https://knowledgemap.kr/koah/id/symptom/f004>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/18> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/f004> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/22> .
+<https://knowledgemap.kr/koah/id/disease/22>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/22> .
+<https://knowledgemap.kr/koah/id/disease/22>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/22> .
+<https://knowledgemap.kr/koah/id/disease/22>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i008> .
+<https://knowledgemap.kr/koah/id/symptom/i012>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/22> .
+<https://knowledgemap.kr/koah/id/disease/22>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i012> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/42> .
+<https://knowledgemap.kr/koah/id/disease/42>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/42> .
+<https://knowledgemap.kr/koah/id/disease/42>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/42> .
+<https://knowledgemap.kr/koah/id/disease/42>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e001> .
+<https://knowledgemap.kr/koah/id/symptom/k001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/55> .
+<https://knowledgemap.kr/koah/id/disease/55>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/k001> .
+<https://knowledgemap.kr/koah/id/symptom/k002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/55> .
+<https://knowledgemap.kr/koah/id/disease/55>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/k002> .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/55> .
+<https://knowledgemap.kr/koah/id/disease/55>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e001> .
+<https://knowledgemap.kr/koah/id/symptom/e002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/55> .
+<https://knowledgemap.kr/koah/id/disease/55>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e002> .
+<https://knowledgemap.kr/koah/id/symptom/i012>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/61> .
+<https://knowledgemap.kr/koah/id/disease/61>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i012> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/61> .
+<https://knowledgemap.kr/koah/id/disease/61>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i008> .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/61> .
+<https://knowledgemap.kr/koah/id/disease/61>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e001> .
+<https://knowledgemap.kr/koah/id/symptom/e002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/61> .
+<https://knowledgemap.kr/koah/id/disease/61>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e002> .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/91> .
+<https://knowledgemap.kr/koah/id/disease/91>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g001> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/91> .
+<https://knowledgemap.kr/koah/id/disease/91>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/g002> .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/91> .
+<https://knowledgemap.kr/koah/id/disease/91>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e001> .
+<https://knowledgemap.kr/koah/id/symptom/e002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/91> .
+<https://knowledgemap.kr/koah/id/disease/91>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e002> .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/107> .
+<https://knowledgemap.kr/koah/id/disease/107>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e001> .
+<https://knowledgemap.kr/koah/id/symptom/e002>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/107> .
+<https://knowledgemap.kr/koah/id/disease/107>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/e002> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/107> .
+<https://knowledgemap.kr/koah/id/disease/107>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i008> .
+<https://knowledgemap.kr/koah/id/symptom/i009>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/107> .
+<https://knowledgemap.kr/koah/id/disease/107>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/i009> .
+<https://knowledgemap.kr/koah/id/symptom/c050>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/109> .
+<https://knowledgemap.kr/koah/id/disease/109>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c050> .
+<https://knowledgemap.kr/koah/id/symptom/c003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/109> .
+<https://knowledgemap.kr/koah/id/disease/109>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c003> .
+<https://knowledgemap.kr/koah/id/symptom/c038>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/109> .
+<https://knowledgemap.kr/koah/id/disease/109>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c038> .
+<https://knowledgemap.kr/koah/id/symptom/c036>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/115> .
+<https://knowledgemap.kr/koah/id/disease/115>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c036> .
+<https://knowledgemap.kr/koah/id/symptom/c038>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/115> .
+<https://knowledgemap.kr/koah/id/disease/115>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c038> .
+<https://knowledgemap.kr/koah/id/symptom/c003>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/115> .
+<https://knowledgemap.kr/koah/id/disease/115>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c003> .
+<https://knowledgemap.kr/koah/id/symptom/c050>
+  def:indicatesDisease <https://knowledgemap.kr/koah/id/disease/115> .
+<https://knowledgemap.kr/koah/id/disease/115>
+  def:hasSymptom <https://knowledgemap.kr/koah/id/symptom/c050> .
+<https://knowledgemap.kr/koah/id/disease/5>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/6>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/8>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/12>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/18>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/22>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/42>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/55>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/61>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/91>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/107>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/109>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/disease/115>
+  def:treatedByDept <https://knowledgemap.kr/koah/id/department/internal> .
+<https://knowledgemap.kr/koah/id/department/ophthalmology>
+  a def:VetDepartment ;
+  rdfs:label "안과"@ko, "ophthalmology"@en ;
+  def:handledBy <https://knowledgemap.kr/koah/def/AnimalHospital> .
+<https://knowledgemap.kr/koah/id/department/surgery>
+  a def:VetDepartment ;
+  rdfs:label "외과"@ko, "surgery"@en ;
+  def:handledBy <https://knowledgemap.kr/koah/def/AnimalHospital> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  a def:VetDepartment ;
+  rdfs:label "내과"@ko, "internal"@en ;
+  def:handledBy <https://knowledgemap.kr/koah/def/AnimalHospital> .
+<https://knowledgemap.kr/koah/id/department/dermatology>
+  a def:VetDepartment ;
+  rdfs:label "피부과"@ko, "dermatology"@en ;
+  def:handledBy <https://knowledgemap.kr/koah/def/AnimalHospital> .
+<https://knowledgemap.kr/koah/id/department/dentistry>
+  a def:VetDepartment ;
+  rdfs:label "치과"@ko, "dentistry"@en ;
+  def:handledBy <https://knowledgemap.kr/koah/def/AnimalHospital> .
+<https://knowledgemap.kr/koah/id/department/dentistry>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/department/dentistry>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/department/dermatology>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/department/internal>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/department/ophthalmology>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/department/ophthalmology>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/department/surgery>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/department/surgery>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/department/surgery>
+  def:treatsSympCategory <https://knowledgemap.kr/koah/id/symptom-category/k> .

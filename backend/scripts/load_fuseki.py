@@ -1,6 +1,8 @@
 """Upload the symptom/disease knowledge graph to the Fuseki dataset.
 
-    python -m scripts.load_fuseki --turtle-dir C:/Users/jwon/Downloads/turtle
+    python -m scripts.load_fuseki
+
+Reads backend/data/turtle/ (committed snapshot) unless --turtle-dir is given.
 
 Fuseki must already be running with an updatable /animalloo dataset, e.g.
     fuseki-server --update --tdb2 --loc=<backend>/fuseki-data /animalloo
@@ -15,11 +17,12 @@ import httpx
 from app.config import settings
 
 FILES = ("13_symptoms.ttl", "15_diseases.ttl", "16_reasoning_chain.ttl")
+TURTLE_DIR = Path(__file__).resolve().parent.parent / "data" / "turtle"
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--turtle-dir", type=Path, required=True)
+    parser.add_argument("--turtle-dir", type=Path, default=TURTLE_DIR, help="TTL 폴더 (기본: backend/data/turtle)")
     args = parser.parse_args()
 
     data_url = settings.fuseki_query_url.rsplit("/", 1)[0] + "/data"
