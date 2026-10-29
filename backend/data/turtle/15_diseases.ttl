@@ -1,0 +1,89 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix def:    <https://knowledgemap.kr/koah/def/> .
+@prefix id:     <https://knowledgemap.kr/koah/id/> .
+@prefix doc:    <https://knowledgemap.kr/koah/doc/> .
+@prefix set:    <https://knowledgemap.kr/koah/set/> .
+
+<https://knowledgemap.kr/koah/id/disease/5>
+  a def:Disease ;
+  rdfs:label "개디스템퍼"@ko ;
+  rdfs:label "Canine distemper"@en ;
+  def:targetAnimal "개" ;
+  def:causeClass "바이러스" .
+<https://knowledgemap.kr/koah/id/disease/6>
+  a def:Disease ;
+  rdfs:label "개보데텔라폐렴"@ko ;
+  rdfs:label "Pneumonic bordetellosis of dogs"@en ;
+  def:targetAnimal "개" ;
+  def:causeClass "세균" .
+<https://knowledgemap.kr/koah/id/disease/8>
+  a def:Disease ;
+  rdfs:label "개파보바이러스감염증"@ko ;
+  rdfs:label "Canine parvovirus infection"@en ;
+  def:targetAnimal "개" ;
+  def:causeClass "바이러스" .
+<https://knowledgemap.kr/koah/id/disease/12>
+  a def:Disease ;
+  rdfs:label "광견병"@ko ;
+  rdfs:label "Rabies"@en ;
+  def:targetAnimal "소,고양이,기타 미분류" ;
+  def:causeClass "바이러스" .
+<https://knowledgemap.kr/koah/id/disease/18>
+  a def:Disease ;
+  rdfs:label "네오스포라병"@ko ;
+  rdfs:label "Neosporosis"@en ;
+  def:targetAnimal "소,개,면양,기타 미분류" ;
+  def:causeClass "기생충" .
+<https://knowledgemap.kr/koah/id/disease/22>
+  a def:Disease ;
+  rdfs:label "니파바이러스감염증"@ko ;
+  rdfs:label "Nipahvirus infection"@en ;
+  def:targetAnimal "고양이,개,돼지,산양,면양,쥐-랫트" ;
+  def:causeClass "기타" .
+<https://knowledgemap.kr/koah/id/disease/42>
+  a def:Disease ;
+  rdfs:label "리스테리아병"@ko ;
+  rdfs:label "Listeriosis"@en ;
+  def:targetAnimal "닭,소,개,너구리,면양,기타 미분류,돼지,야생동물,산양,면양,쥐-랫트" ;
+  def:causeClass "세균" .
+<https://knowledgemap.kr/koah/id/disease/55>
+  a def:Disease ;
+  rdfs:label "브루셀라병"@ko ;
+  rdfs:label "Brucellosis"@en ;
+  def:targetAnimal "소,개,기타 미분류,돼지,야생동물" ;
+  def:causeClass "세균" .
+<https://knowledgemap.kr/koah/id/disease/61>
+  a def:Disease ;
+  rdfs:label "소결핵병"@ko ;
+  rdfs:label "Tuberculosis"@en ;
+  def:targetAnimal "소,오소리,고양이,사슴,개,너구리,면양,기타 미분류,돼지,쥐-랫트" ;
+  def:causeClass "세균" .
+<https://knowledgemap.kr/koah/id/disease/91>
+  a def:Disease ;
+  rdfs:label "웨스트나일열"@ko ;
+  rdfs:label "West nile fever"@en ;
+  def:targetAnimal "소,고양이,개,토끼,너구리,야생조류,기타 미분류" ;
+  def:causeClass "기타" .
+<https://knowledgemap.kr/koah/id/disease/107>
+  a def:Disease ;
+  rdfs:label "큐열"@ko ;
+  rdfs:label "Q fever"@en ;
+  def:targetAnimal "소,고양이,사슴,개,면양,산양,면양" ;
+  def:causeClass "세균" .
+<https://knowledgemap.kr/koah/id/disease/109>
+  a def:Disease ;
+  rdfs:label "크립토스포리디움증"@ko ;
+  rdfs:label "Cryptosporidiosis"@en ;
+  def:targetAnimal "소,고양이,개,면양,기타 미분류,쥐-마우스,쥐-랫트" ;
+  def:causeClass "기타" .
+<https://knowledgemap.kr/koah/id/disease/115>
+  a def:Disease ;
+  rdfs:label "개코로나바이러스감염증"@ko ;
+  rdfs:label "Canine coronavirus infection"@en ;
+  def:targetAnimal "개" ;
+  def:causeClass "바이러스" .

@@ -37,3 +37,8 @@
 - 팀원이 저장소만으로 데이터를 적재할 수 있도록 공공데이터 스냅샷(동물병원·약국·보호소·문화시설·관광공사 동반여행·휴게소·구조동물·분실동물·병원 진료시간, 약 19MB)을 backend/data/에 추가했습니다.
 - 공개 저장소이므로 분실동물 데이터의 보호자 이름·전화번호 열을 비우고, 구조·분실 데이터 자유 입력란의 휴대전화 번호를 [연락처 삭제]로 가렸습니다.
 - load_public_data가 인자 없이 backend/data/와 hospital_hours.csv를 기본으로 읽도록 변경하고 README 적재 절차를 갱신했습니다.
+
+### [2026-10-29 19:16:12]
+
+- 팀원 환경에서도 증상 진단이 동작하도록 진단용 지식그래프 TTL 3개(13_symptoms, 15_diseases, 16_reasoning_chain)를 backend/data/turtle/에 추가했습니다.
+- load_fuseki가 인자 없이 backend/data/turtle/을 기본으로 읽도록 변경하고 README 적재 절차를 갱신했습니다.

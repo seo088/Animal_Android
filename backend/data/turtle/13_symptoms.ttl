@@ -1,0 +1,2123 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix def:    <https://knowledgemap.kr/koah/def/> .
+@prefix id:     <https://knowledgemap.kr/koah/id/> .
+@prefix doc:    <https://knowledgemap.kr/koah/doc/> .
+@prefix set:    <https://knowledgemap.kr/koah/set/> .
+
+<https://knowledgemap.kr/koah/id/symptom-category/a>
+  a def:SymptomCategory ;
+  rdfs:label "청각기관 증상"@ko ;
+  rdfs:label "Acoustic"@en .
+<https://knowledgemap.kr/koah/id/symptom/a001>
+  a def:Symptom ;
+  rdfs:label "난청, 귀머거리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/symptom/a002>
+  a def:Symptom ;
+  rdfs:label "이음향반사"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/symptom/a003>
+  a def:Symptom ;
+  rdfs:label "귀의 화농성, 점액성 분비물, 과도한 이구(귀밥), 악취"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/symptom/a004>
+  a def:Symptom ;
+  rdfs:label "귀의 진드기, 응애, 기생충"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/symptom/a005>
+  a def:Symptom ;
+  rdfs:label "귀를 긁음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/a> .
+<https://knowledgemap.kr/koah/id/symptom-category/b>
+  a def:SymptomCategory ;
+  rdfs:label "심혈관계 증상"@ko ;
+  rdfs:label "Cardiovascular"@en .
+<https://knowledgemap.kr/koah/id/symptom/b001>
+  a def:Symptom ;
+  rdfs:label "빈맥, 빠른 맥박, 높은 심박수"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b002>
+  a def:Symptom ;
+  rdfs:label "동성 부정맥"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b003>
+  a def:Symptom ;
+  rdfs:label "동 정지"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b004>
+  a def:Symptom ;
+  rdfs:label "동 빈맥"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b005>
+  a def:Symptom ;
+  rdfs:label "유주 심박조율기, 향도잡이"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b006>
+  a def:Symptom ;
+  rdfs:label "심방 조기 박동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b007>
+  a def:Symptom ;
+  rdfs:label "심방 조동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b008>
+  a def:Symptom ;
+  rdfs:label "심방 세동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b009>
+  a def:Symptom ;
+  rdfs:label "심방 빈맥"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b010>
+  a def:Symptom ;
+  rdfs:label "심실 기외 수축, 다발성 혹은 단발성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b011>
+  a def:Symptom ;
+  rdfs:label "심실성 빈맥, 다발성 혹은 단발성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b012>
+  a def:Symptom ;
+  rdfs:label "심실 세동, 조동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b013>
+  a def:Symptom ;
+  rdfs:label "심실 이탈 박동, 심실 보충 수축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b014>
+  a def:Symptom ;
+  rdfs:label "부정맥, 불규칙한 심박수, 맥박"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b015>
+  a def:Symptom ;
+  rdfs:label "서맥, 느린 심박동, 맥박"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b016>
+  a def:Symptom ;
+  rdfs:label "1도 방실 심 차단"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b017>
+  a def:Symptom ;
+  rdfs:label "2도 방실 심 차단"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b018>
+  a def:Symptom ;
+  rdfs:label "3도 방실 심 완전차단"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b019>
+  a def:Symptom ;
+  rdfs:label "각차단, 왼쪽, 오른쪽 혹은 양쪽"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b020>
+  a def:Symptom ;
+  rdfs:label "이상심음, 심외 잡음, 진전음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b021>
+  a def:Symptom ;
+  rdfs:label "약맥, 소맥"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b022>
+  a def:Symptom ;
+  rdfs:label "경정맥 박동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b023>
+  a def:Symptom ;
+  rdfs:label "분마율동, 분마성 리듬"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b024>
+  a def:Symptom ;
+  rdfs:label "말초정맥확장, 경정맥확장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b025>
+  a def:Symptom ;
+  rdfs:label "모세혈관 재충만 시간 지연"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b026>
+  a def:Symptom ;
+  rdfs:label "심낭음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b027>
+  a def:Symptom ;
+  rdfs:label "맥박 강도 증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b028>
+  a def:Symptom ;
+  rdfs:label "맥박 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b029>
+  a def:Symptom ;
+  rdfs:label "심전도 전압 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b030>
+  a def:Symptom ;
+  rdfs:label "심전도의 진폭이 줄어듦, 감소된 전압"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b031>
+  a def:Symptom ;
+  rdfs:label "P파 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b032>
+  a def:Symptom ;
+  rdfs:label "심방확장, 좌심,우심 혹은 양쪽의"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b033>
+  a def:Symptom ;
+  rdfs:label "심실확장, 좌심,우심 혹은 양쪽의"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b034>
+  a def:Symptom ;
+  rdfs:label "심음의 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b035>
+  a def:Symptom ;
+  rdfs:label "심잡음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b036>
+  a def:Symptom ;
+  rdfs:label "수축기 클릭"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom/b037>
+  a def:Symptom ;
+  rdfs:label "명치(전흉부)부위 진전"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/b> .
+<https://knowledgemap.kr/koah/id/symptom-category/c>
+  a def:SymptomCategory ;
+  rdfs:label "소화기계"@ko ;
+  rdfs:label "Digestive"@en .
+<https://knowledgemap.kr/koah/id/symptom/c001>
+  a def:Symptom ;
+  rdfs:label "분변내 기생충"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c002>
+  a def:Symptom ;
+  rdfs:label "다식증, 다식증, 과도한 식욕"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c003>
+  a def:Symptom ;
+  rdfs:label "식욕부진, 식욕감소, 식욕절폐"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c004>
+  a def:Symptom ;
+  rdfs:label "이식증, 이기증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c005>
+  a def:Symptom ;
+  rdfs:label "저작곤란, 잘 씹지 못함"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c006>
+  a def:Symptom ;
+  rdfs:label "부리개폐 불능, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c007>
+  a def:Symptom ;
+  rdfs:label "개구장애, 개구곤란, 턱과 입을 열고 닫지못함"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c008>
+  a def:Symptom ;
+  rdfs:label "턱의 기형, 하악단소증, 상악전돌증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c009>
+  a def:Symptom ;
+  rdfs:label "구개열, 구순열"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c010>
+  a def:Symptom ;
+  rdfs:label "부리의 기형, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c011>
+  a def:Symptom ;
+  rdfs:label "부리의 종창, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c012>
+  a def:Symptom ;
+  rdfs:label "금이간 부리, 깨진 부리, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c013>
+  a def:Symptom ;
+  rdfs:label "부리의 비정상적인 색깔, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c014>
+  a def:Symptom ;
+  rdfs:label "구강점막의 건조"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c015>
+  a def:Symptom ;
+  rdfs:label "구강점막의 울혈, 홍반, 발적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c016>
+  a def:Symptom ;
+  rdfs:label "구강점막의궤양, 수포, 플라크(반), 농포, 미란, 열창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c017>
+  a def:Symptom ;
+  rdfs:label "과도한 유연, 침흘림, 타액분비과다, 입에거품"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c018>
+  a def:Symptom ;
+  rdfs:label "흔들거리는 치아, 풍치"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c019>
+  a def:Symptom ;
+  rdfs:label "광잉치아"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c020>
+  a def:Symptom ;
+  rdfs:label "치아의 수가 줄어듦, 치아의 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c021>
+  a def:Symptom ;
+  rdfs:label "유치잔존"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c022>
+  a def:Symptom ;
+  rdfs:label "과도한 또는 불규칙한 치아 마모"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c023>
+  a def:Symptom ;
+  rdfs:label "치아의 교합부전"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c024>
+  a def:Symptom ;
+  rdfs:label "비정상적인 치아의 색깔"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c025>
+  a def:Symptom ;
+  rdfs:label "움푹패인 치아, 치아 우식증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c026>
+  a def:Symptom ;
+  rdfs:label "이갈이, 알치(軌齒), 이빨을 가는것"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c027>
+  a def:Symptom ;
+  rdfs:label "금이간 치아, 치아파열"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c028>
+  a def:Symptom ;
+  rdfs:label "혀의 무력증, 부전마비, 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c029>
+  a def:Symptom ;
+  rdfs:label "혀의 궤양, 수포, 미란, 궤양, 물집, 열상, 열창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c030>
+  a def:Symptom ;
+  rdfs:label "혀의 돌출, 혀를 내밀고 있는것"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c031>
+  a def:Symptom ;
+  rdfs:label "인두의 홍반, 발적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c032>
+  a def:Symptom ;
+  rdfs:label "인두의 궤양, 수포, 미란, 구진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c033>
+  a def:Symptom ;
+  rdfs:label "연하곤란, 연하장애"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c034>
+  a def:Symptom ;
+  rdfs:label "식도폐쇄"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c035>
+  a def:Symptom ;
+  rdfs:label "연하빈도 증가, 연하증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c036>
+  a def:Symptom ;
+  rdfs:label "구토, 역류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c037>
+  a def:Symptom ;
+  rdfs:label "토혈증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c038>
+  a def:Symptom ;
+  rdfs:label "구역질, 구토"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c039>
+  a def:Symptom ;
+  rdfs:label "1위운동성의 횟수와 강도 증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c040>
+  a def:Symptom ;
+  rdfs:label "1위의 저운동성, 위무력증, 위운동성의 횟수와 강도 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c041>
+  a def:Symptom ;
+  rdfs:label "복부팽만"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c042>
+  a def:Symptom ;
+  rdfs:label "복수"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c043>
+  a def:Symptom ;
+  rdfs:label "고창증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c044>
+  a def:Symptom ;
+  rdfs:label "좌측의 핑사운드, 가스가 차있는 내장 청진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c045>
+  a def:Symptom ;
+  rdfs:label "우측의 핑사운드, 가스가 차있는 내장 청진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c046>
+  a def:Symptom ;
+  rdfs:label "양쪽의 핑사운드, 복부양쪽에 가스 차있는 내장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c047>
+  a def:Symptom ;
+  rdfs:label "복명의 증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c048>
+  a def:Symptom ;
+  rdfs:label "복명의 감소, 장폐색증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c049>
+  a def:Symptom ;
+  rdfs:label "배변량 감소, 변비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c050>
+  a def:Symptom ;
+  rdfs:label "설사"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c051>
+  a def:Symptom ;
+  rdfs:label "조류에서 비정상적인 분변의 색깔, 흰색, 녹색, 황색 분변"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c052>
+  a def:Symptom ;
+  rdfs:label "지방변증, 지방변"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c053>
+  a def:Symptom ;
+  rdfs:label "어두운 색깔의 분변"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c054>
+  a def:Symptom ;
+  rdfs:label "점액변, 점액양분변"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c055>
+  a def:Symptom ;
+  rdfs:label "혈변, 분변내에 잠혈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c056>
+  a def:Symptom ;
+  rdfs:label "혈변, 혈변배설"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c057>
+  a def:Symptom ;
+  rdfs:label "변의 비정상적인 냄새, 악취"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c058>
+  a def:Symptom ;
+  rdfs:label "분실금"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c059>
+  a def:Symptom ;
+  rdfs:label "고창, 방귀, 팽만"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c060>
+  a def:Symptom ;
+  rdfs:label "항문,직장 협착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c061>
+  a def:Symptom ;
+  rdfs:label "간 비장 종대, 비장종대, 간종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c062>
+  a def:Symptom ;
+  rdfs:label "직장탈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c063>
+  a def:Symptom ;
+  rdfs:label "확장된 장의 촉진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom/c064>
+  a def:Symptom ;
+  rdfs:label "모이주머니가가 비어있음, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/c> .
+<https://knowledgemap.kr/koah/id/symptom-category/d>
+  a def:SymptomCategory ;
+  rdfs:label "안과 증상"@ko ;
+  rdfs:label "Ophthalmology"@en .
+<https://knowledgemap.kr/koah/id/symptom/d001>
+  a def:Symptom ;
+  rdfs:label "실명, 시력상실"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d002>
+  a def:Symptom ;
+  rdfs:label "위협반사반응에 무반응 또는 감소, 실명은 아님"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d003>
+  a def:Symptom ;
+  rdfs:label "눈의 화농성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d004>
+  a def:Symptom ;
+  rdfs:label "사시, 사팔뜨기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d005>
+  a def:Symptom ;
+  rdfs:label "안구진탕"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d006>
+  a def:Symptom ;
+  rdfs:label "안검내번, 눈꺼풀 속말림"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d007>
+  a def:Symptom ;
+  rdfs:label "안검외번, 눈꺼풀 겉말림"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d008>
+  a def:Symptom ;
+  rdfs:label "안검하수"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d009>
+  a def:Symptom ;
+  rdfs:label "제3안검 탈출, 순막의 돌출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d010>
+  a def:Symptom ;
+  rdfs:label "속눈썹 비정상적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d011>
+  a def:Symptom ;
+  rdfs:label "결막부종, 결막 공막의 부종"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d012>
+  a def:Symptom ;
+  rdfs:label "결막, 공막의 발적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d013>
+  a def:Symptom ;
+  rdfs:label "결막, 공막의 충혈, 비정상적인 혈관"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d014>
+  a def:Symptom ;
+  rdfs:label "결막, 공막의 열상, 열창, 손상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d015>
+  a def:Symptom ;
+  rdfs:label "결막, 공막의 구진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d016>
+  a def:Symptom ;
+  rdfs:label "각막의 종창, 종괴, 결절"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d017>
+  a def:Symptom ;
+  rdfs:label "각막의 부종, 각막 혼탁"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d018>
+  a def:Symptom ;
+  rdfs:label "각막의 비정상적인 색소침착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d019>
+  a def:Symptom ;
+  rdfs:label "각막혈관신생, 판누스"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d020>
+  a def:Symptom ;
+  rdfs:label "각막의 궤양, 미란"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d021>
+  a def:Symptom ;
+  rdfs:label "각막손상, 각막의 열상, 열창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d022>
+  a def:Symptom ;
+  rdfs:label "눈물흘림, 유루, 장액성 안구 분비물, 젖은눈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d023>
+  a def:Symptom ;
+  rdfs:label "눈물의 감소, 안구건조증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d024>
+  a def:Symptom ;
+  rdfs:label "순막샘의 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d025>
+  a def:Symptom ;
+  rdfs:label "비루관의 폐쇄"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d026>
+  a def:Symptom ;
+  rdfs:label "안구돌출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d027>
+  a def:Symptom ;
+  rdfs:label "안구함몰"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d028>
+  a def:Symptom ;
+  rdfs:label "백내장, 수정체 혼탁"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d029>
+  a def:Symptom ;
+  rdfs:label "수정체 이탈, 변위"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d030>
+  a def:Symptom ;
+  rdfs:label "망막혈관 크기 비정상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d031>
+  a def:Symptom ;
+  rdfs:label "망막출혈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d032>
+  a def:Symptom ;
+  rdfs:label "망막반사 비정상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d033>
+  a def:Symptom ;
+  rdfs:label "망막 박리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d034>
+  a def:Symptom ;
+  rdfs:label "망막의 비정상적 색소침착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d035>
+  a def:Symptom ;
+  rdfs:label "망막주름, 융기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d036>
+  a def:Symptom ;
+  rdfs:label "축동, 동공축소, 동공 수축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d037>
+  a def:Symptom ;
+  rdfs:label "산동, 확장된 동공"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d038>
+  a def:Symptom ;
+  rdfs:label "동공 형태 비정상, 홍채의 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d039>
+  a def:Symptom ;
+  rdfs:label "전방축농, 안구전방의 지질이나 섬유소 축적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d040>
+  a def:Symptom ;
+  rdfs:label "유착증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d041>
+  a def:Symptom ;
+  rdfs:label "홍채의 비정상적인 색소침착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d042>
+  a def:Symptom ;
+  rdfs:label "동공의 빛에대한 비정상적인 반응"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d043>
+  a def:Symptom ;
+  rdfs:label "전방출혈, 안구전방에 혈액"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d044>
+  a def:Symptom ;
+  rdfs:label "눈의 외부 또는 내부 기생충"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d045>
+  a def:Symptom ;
+  rdfs:label "동공부동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d046>
+  a def:Symptom ;
+  rdfs:label "신경 위축, 크기감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d047>
+  a def:Symptom ;
+  rdfs:label "시신경 유두부종, 크기 증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d048>
+  a def:Symptom ;
+  rdfs:label "신경 출혈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d049>
+  a def:Symptom ;
+  rdfs:label "눈부심, 수명"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d050>
+  a def:Symptom ;
+  rdfs:label "안검연축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d051>
+  a def:Symptom ;
+  rdfs:label "소안구증, 작은 안구증, 각막,안구의 위축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d052>
+  a def:Symptom ;
+  rdfs:label "대안구증, 커진안구, 녹내장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom/d053>
+  a def:Symptom ;
+  rdfs:label "유리체의 혼탁 또는 침전물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/d> .
+<https://knowledgemap.kr/koah/id/symptom-category/e>
+  a def:SymptomCategory ;
+  rdfs:label "전신종합 증상"@ko ;
+  rdfs:label "General"@en .
+<https://knowledgemap.kr/koah/id/symptom/e001>
+  a def:Symptom ;
+  rdfs:label "진전, 전율, 떨림"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e002>
+  a def:Symptom ;
+  rdfs:label "불안감, 안절부절, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e003>
+  a def:Symptom ;
+  rdfs:label "발열, 고열, 고체온"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e004>
+  a def:Symptom ;
+  rdfs:label "저체온증, 낮은체온"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e005>
+  a def:Symptom ;
+  rdfs:label "운동기피, 쉽게 지침"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e006>
+  a def:Symptom ;
+  rdfs:label "탈수"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e007>
+  a def:Symptom ;
+  rdfs:label "다한증, 과도한 발한, 땀 흘림"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e008>
+  a def:Symptom ;
+  rdfs:label "다음, 과도한 체액의 소모, 지나친 갈증, 목마름"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e009>
+  a def:Symptom ;
+  rdfs:label "갈증 감소, 무갈증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e010>
+  a def:Symptom ;
+  rdfs:label "발한 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e011>
+  a def:Symptom ;
+  rdfs:label "성장의 정체, 성장이 지연, 발육이 멈춤"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e012>
+  a def:Symptom ;
+  rdfs:label "비만, 체중과다, 과체중"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e013>
+  a def:Symptom ;
+  rdfs:label "체중미달, 수척, 건강상태 불량, 증체율 불량"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e014>
+  a def:Symptom ;
+  rdfs:label "체중감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e015>
+  a def:Symptom ;
+  rdfs:label "음경, 음경꺼풀(포피), 고환, 음낭의 종대, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e016>
+  a def:Symptom ;
+  rdfs:label "칠면조에서 전두돌기의 종창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e017>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 귀, 턱, 코의 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e018>
+  a def:Symptom ;
+  rdfs:label "텅빈 복강 촉진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e019>
+  a def:Symptom ;
+  rdfs:label "안와, 안와주위, 눈주위, 결막 부종, 안구 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e020>
+  a def:Symptom ;
+  rdfs:label "구강, 혀의 종창, 입안의 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e021>
+  a def:Symptom ;
+  rdfs:label "목이 부어오름, 경부의 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e022>
+  a def:Symptom ;
+  rdfs:label "인두, 기관, 후두의 종창, 인두, 후두, 기관의 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e023>
+  a def:Symptom ;
+  rdfs:label "흉부 종창, 종괴, 흉부, 가슴, 늑골, 흉골"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e024>
+  a def:Symptom ;
+  rdfs:label "등쪽이 부어오름, 등부위에 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e025>
+  a def:Symptom ;
+  rdfs:label "벼슬, 고기수염(육수) 퇴축, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e026>
+  a def:Symptom ;
+  rdfs:label "벼슬, 고기수염(육수)의 종창, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e027>
+  a def:Symptom ;
+  rdfs:label "복강 외부 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e028>
+  a def:Symptom ;
+  rdfs:label "복강내부 종괴, 종창. 복부의 유착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e029>
+  a def:Symptom ;
+  rdfs:label "날개의 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e030>
+  a def:Symptom ;
+  rdfs:label "총배설강의 종창, 종괴, 탈출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e031>
+  a def:Symptom ;
+  rdfs:label "꼬리의 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e032>
+  a def:Symptom ;
+  rdfs:label "외음부, 음핵의 종대, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e033>
+  a def:Symptom ;
+  rdfs:label "질 종창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e034>
+  a def:Symptom ;
+  rdfs:label "자궁경부의 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e035>
+  a def:Symptom ;
+  rdfs:label "자궁종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e036>
+  a def:Symptom ;
+  rdfs:label "난소의 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e037>
+  a def:Symptom ;
+  rdfs:label "난관의 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e038>
+  a def:Symptom ;
+  rdfs:label "유선의 종대, 유방의 비대, 여성형 유방"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e039>
+  a def:Symptom ;
+  rdfs:label "항문직장부위 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e040>
+  a def:Symptom ;
+  rdfs:label "골반 혹은 회음부의 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e041>
+  a def:Symptom ;
+  rdfs:label "림프절 종대, 림프절 병증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e042>
+  a def:Symptom ;
+  rdfs:label "피부 또는 피하의 종창, 종괴, 결절, 덩어리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e043>
+  a def:Symptom ;
+  rdfs:label "다리, 발 종창, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e044>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 종창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e045>
+  a def:Symptom ;
+  rdfs:label "앞발 종창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e046>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e047>
+  a def:Symptom ;
+  rdfs:label "뒷발 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e048>
+  a def:Symptom ;
+  rdfs:label "안구 종창, 눈 내부 종창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e049>
+  a def:Symptom ;
+  rdfs:label "전립선 비대, 종창, 종괴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e050>
+  a def:Symptom ;
+  rdfs:label "급사, 돌연사"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e051>
+  a def:Symptom ;
+  rdfs:label "계군에서 폐사율 증가"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e052>
+  a def:Symptom ;
+  rdfs:label "코눈물관(비루관)의 과잉 개방"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e053>
+  a def:Symptom ;
+  rdfs:label "과잉유두, 부유두"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e054>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 턱, 혀 위축, 수척, 야윔"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e055>
+  a def:Symptom ;
+  rdfs:label "목, 흉부 위축, 수척, 야윔"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e056>
+  a def:Symptom ;
+  rdfs:label "등부위 위축, 수척"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e057>
+  a def:Symptom ;
+  rdfs:label "골반위축, 둔부위축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e058>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 위축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e059>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 위축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e060>
+  a def:Symptom ;
+  rdfs:label "목의 경직, 확장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e061>
+  a def:Symptom ;
+  rdfs:label "앞다리 파행, 경직, 절름발이"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e062>
+  a def:Symptom ;
+  rdfs:label "뒷다리 파행, 경직, 절름발이"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e063>
+  a def:Symptom ;
+  rdfs:label "전신파행, 경직, 절름발이"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e064>
+  a def:Symptom ;
+  rdfs:label "파행, 경직, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e065>
+  a def:Symptom ;
+  rdfs:label "목 무력증, 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e066>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 무력증, 전지 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e067>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 무력, 후지마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e068>
+  a def:Symptom ;
+  rdfs:label "꼬리 무력, 마비, 천골미골부위의 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e069>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 귀, 턱 무력, 처짐, 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e070>
+  a def:Symptom ;
+  rdfs:label "전신무력, 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e071>
+  a def:Symptom ;
+  rdfs:label "사지마비, 무력"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e072>
+  a def:Symptom ;
+  rdfs:label "부전마비, 무력, 양쪽 뒷다리(후지) 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e073>
+  a def:Symptom ;
+  rdfs:label "편측 부전마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e074>
+  a def:Symptom ;
+  rdfs:label "다리무력, 마비"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e075>
+  a def:Symptom ;
+  rdfs:label "날개무력, 마비, 처짐"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e076>
+  a def:Symptom ;
+  rdfs:label "기립불능, 쇠약"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e077>
+  a def:Symptom ;
+  rdfs:label "토끼처럼 뜀"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e078>
+  a def:Symptom ;
+  rdfs:label "운동조정곤란(거리측정의 이상), 측정과대증(운동범위 과대증), 측정과소증(운동범위과소증)"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e079>
+  a def:Symptom ;
+  rdfs:label "운동실조, 협조불능, 절뚝거림, 전도"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e080>
+  a def:Symptom ;
+  rdfs:label "이동거부"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e081>
+  a def:Symptom ;
+  rdfs:label "횃대에서 움직이려하지 않음, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e082>
+  a def:Symptom ;
+  rdfs:label "비정상적 위치선정, 지관절후방결절형성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e083>
+  a def:Symptom ;
+  rdfs:label "사경, 목이 비틀어짐"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e084>
+  a def:Symptom ;
+  rdfs:label "후궁반장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e085>
+  a def:Symptom ;
+  rdfs:label "척추후만증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e086>
+  a def:Symptom ;
+  rdfs:label "척추전만증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e087>
+  a def:Symptom ;
+  rdfs:label "척추측만증, 척주옆굽이증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e088>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 목의 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e089>
+  a def:Symptom ;
+  rdfs:label "눈꺼풀 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e090>
+  a def:Symptom ;
+  rdfs:label "각막 또는 안구 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e091>
+  a def:Symptom ;
+  rdfs:label "흉부 또는 복부 이물, 흉강, 늑골, 복강"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e092>
+  a def:Symptom ;
+  rdfs:label "골반 또는 회음부 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e093>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e094>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e095>
+  a def:Symptom ;
+  rdfs:label "다리, 발의 이물, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e096>
+  a def:Symptom ;
+  rdfs:label "귀의 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e097>
+  a def:Symptom ;
+  rdfs:label "손톱, 발톱, 발굽, 갈퀴의 이물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e098>
+  a def:Symptom ;
+  rdfs:label "출혈, 응고부전"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e099>
+  a def:Symptom ;
+  rdfs:label "이급후증, 배변곤란"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e100>
+  a def:Symptom ;
+  rdfs:label "황달"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e101>
+  a def:Symptom ;
+  rdfs:label "청색증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e102>
+  a def:Symptom ;
+  rdfs:label "피부, 점막의 창백, 빈혈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e103>
+  a def:Symptom ;
+  rdfs:label "점상 또는 반상출혈, 타박상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e104>
+  a def:Symptom ;
+  rdfs:label "벼슬, 고기수염(육수) 창백, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom/e105>
+  a def:Symptom ;
+  rdfs:label "점막의 갈색조"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/e> .
+<https://knowledgemap.kr/koah/id/symptom-category/f>
+  a def:SymptomCategory ;
+  rdfs:label "근골격계"@ko ;
+  rdfs:label "Musculoskeletal"@en .
+<https://knowledgemap.kr/koah/id/symptom/f001>
+  a def:Symptom ;
+  rdfs:label "날개 구축(拘縮), 만곡"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f002>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 구축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f003>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 경련"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f004>
+  a def:Symptom ;
+  rdfs:label "사지, 다리, 발 구축, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f005>
+  a def:Symptom ;
+  rdfs:label "사지, 다리, 발 경련, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f006>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지)관절 이완, 탈구"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f007>
+  a def:Symptom ;
+  rdfs:label "뒷다리 및 골반부, 염발음. 후지마찰음, 골반"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f008>
+  a def:Symptom ;
+  rdfs:label "사지, 다리, 발 이완 또는 탈구, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f009>
+  a def:Symptom ;
+  rdfs:label "뒷다리뼈 노출, 후지골 노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f010>
+  a def:Symptom ;
+  rdfs:label "탈구, 뒷다리 비관절부의 비정상적 운동성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f011>
+  a def:Symptom ;
+  rdfs:label "발가락 구축, 굽은 발가락, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f012>
+  a def:Symptom ;
+  rdfs:label "뒷다리관절 운동성 감소, 뒷다리관절 만곡"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f013>
+  a def:Symptom ;
+  rdfs:label "앞다리 구축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f014>
+  a def:Symptom ;
+  rdfs:label "앞다리 경련, 근경련"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f015>
+  a def:Symptom ;
+  rdfs:label "조류에서 사지, 다리, 발 뼈노출, 골노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f016>
+  a def:Symptom ;
+  rdfs:label "날개뼈 노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f017>
+  a def:Symptom ;
+  rdfs:label "앞다리 관절 이완, 탈구"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f018>
+  a def:Symptom ;
+  rdfs:label "앞다리 염발음, 앞다리 마찰음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f019>
+  a def:Symptom ;
+  rdfs:label "앞다리뼈 노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f020>
+  a def:Symptom ;
+  rdfs:label "탈구, 앞다리 비관절부의 비정상적 운동성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f021>
+  a def:Symptom ;
+  rdfs:label "관절강직증, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f022>
+  a def:Symptom ;
+  rdfs:label "앞다리 관절의 운동성 감소, 앞다리관절만곡증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f023>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴의 편위, 만곡"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f024>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 목의 경련, 근경련"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f025>
+  a def:Symptom ;
+  rdfs:label "머리 또는 목관절의 이완, 탈구"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f026>
+  a def:Symptom ;
+  rdfs:label "머리, 목의 염발음, 마찰음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f027>
+  a def:Symptom ;
+  rdfs:label "머리, 목관절의 운동성 감소, 결여"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f028>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴 뼈노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f029>
+  a def:Symptom ;
+  rdfs:label "등쪽 경련, 근경련"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f030>
+  a def:Symptom ;
+  rdfs:label "등, 흉부 염발음, 가슴 늑골부 마찰음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f031>
+  a def:Symptom ;
+  rdfs:label "흉골, 가슴, 흉부의 기형"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f032>
+  a def:Symptom ;
+  rdfs:label "등, 흉부, 가슴, 늑골의 뼈 노출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f033>
+  a def:Symptom ;
+  rdfs:label "등부위 관절부 운동성 감소, 결여"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f034>
+  a def:Symptom ;
+  rdfs:label "비정상적 뒷다리 만곡, 경사, 편위"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f035>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 상대적 단축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f036>
+  a def:Symptom ;
+  rdfs:label "다리 단축, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f037>
+  a def:Symptom ;
+  rdfs:label "비정상적 다리 만곡, 경사, 편위, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f038>
+  a def:Symptom ;
+  rdfs:label "비정상적 앞다리 만곡, 경사, 편위"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom/f039>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 상대적 단축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/f> .
+<https://knowledgemap.kr/koah/id/symptom-category/g>
+  a def:SymptomCategory ;
+  rdfs:label "신경계 증상"@ko ;
+  rdfs:label "Nervous"@en .
+<https://knowledgemap.kr/koah/id/symptom/g001>
+  a def:Symptom ;
+  rdfs:label "진전"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g002>
+  a def:Symptom ;
+  rdfs:label "혼수, 혼미"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g003>
+  a def:Symptom ;
+  rdfs:label "방향 감각 상실, 기억력 소실"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g004>
+  a def:Symptom ;
+  rdfs:label "머리를 기울임, 두부경사"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g005>
+  a def:Symptom ;
+  rdfs:label "선회운동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g006>
+  a def:Symptom ;
+  rdfs:label "머리 박치기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g007>
+  a def:Symptom ;
+  rdfs:label "보행중 앞으로 넘어지기, 목적없이 배회"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g008>
+  a def:Symptom ;
+  rdfs:label "계속 소리 지르기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g009>
+  a def:Symptom ;
+  rdfs:label "지각과민, 예민함, 과다운동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g010>
+  a def:Symptom ;
+  rdfs:label "비정상적, 공격적 행동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g011>
+  a def:Symptom ;
+  rdfs:label "무기력, 침울, 졸림, 생기없는, 불안"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g012>
+  a def:Symptom ;
+  rdfs:label "흥분, 헛소리, 광분"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g013>
+  a def:Symptom ;
+  rdfs:label "발작, 실신, 경련, 간질발작, 허탈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g014>
+  a def:Symptom ;
+  rdfs:label "강직성 경련, 테타니"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g015>
+  a def:Symptom ;
+  rdfs:label "머리 흔들기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g016>
+  a def:Symptom ;
+  rdfs:label "수면과다 또는 수면감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g017>
+  a def:Symptom ;
+  rdfs:label "머리, 얼굴, 목, 혀 지각감퇴, 무감각증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g018>
+  a def:Symptom ;
+  rdfs:label "흉부 또는 복부 지각감퇴"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g019>
+  a def:Symptom ;
+  rdfs:label "등쪽 지각감퇴, 무감각증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g020>
+  a def:Symptom ;
+  rdfs:label "꼬리, 항문 지각감퇴, 회음부, 항문 무감각증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g021>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 지각감퇴, 앞다리(전지) 무감각증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g022>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 지각감퇴, 뒷다리(후지) 무감각증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g023>
+  a def:Symptom ;
+  rdfs:label "근육긴장저하"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g024>
+  a def:Symptom ;
+  rdfs:label "근육 과잉 긴장, 근긴장증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g025>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 비정상 반사 증가나 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g026>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 비정상 반사 증가나 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g027>
+  a def:Symptom ;
+  rdfs:label "항문, 회음부, 꼬리 비정상 반사 증가나 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom/g028>
+  a def:Symptom ;
+  rdfs:label "근육 조직층 비정상 반사 증가나 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/g> .
+<https://knowledgemap.kr/koah/id/symptom-category/h>
+  a def:SymptomCategory ;
+  rdfs:label "통증 증상"@ko ;
+  rdfs:label "Pain"@en .
+<https://knowledgemap.kr/koah/id/symptom/h001>
+  a def:Symptom ;
+  rdfs:label "통증, 동통 머리, 얼굴, 턱, 귀"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h002>
+  a def:Symptom ;
+  rdfs:label "눈의 통증, 안통"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h003>
+  a def:Symptom ;
+  rdfs:label "구강 통증, 구강점막 및 혀의 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h004>
+  a def:Symptom ;
+  rdfs:label "목, 경부, 목구멍 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h005>
+  a def:Symptom ;
+  rdfs:label "인두, 후두, 기관의 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h006>
+  a def:Symptom ;
+  rdfs:label "요통, 허리 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h007>
+  a def:Symptom ;
+  rdfs:label "꼬리, 항문, 회음부 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h008>
+  a def:Symptom ;
+  rdfs:label "외측의 복압증가에 따른 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h009>
+  a def:Symptom ;
+  rdfs:label "산통, 복통"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h010>
+  a def:Symptom ;
+  rdfs:label "배꼽 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h011>
+  a def:Symptom ;
+  rdfs:label "유방, 흉부, 늑골, 흉골의 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h012>
+  a def:Symptom ;
+  rdfs:label "촉진시 신장, 요관의 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h013>
+  a def:Symptom ;
+  rdfs:label "외음부, 질의 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h014>
+  a def:Symptom ;
+  rdfs:label "배설강 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h015>
+  a def:Symptom ;
+  rdfs:label "유선, 유방 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h016>
+  a def:Symptom ;
+  rdfs:label "음경 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h017>
+  a def:Symptom ;
+  rdfs:label "음낭 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h018>
+  a def:Symptom ;
+  rdfs:label "고환 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h019>
+  a def:Symptom ;
+  rdfs:label "포피 통증, 음경꺼풀 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h020>
+  a def:Symptom ;
+  rdfs:label "정낭 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h021>
+  a def:Symptom ;
+  rdfs:label "전립선 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h022>
+  a def:Symptom ;
+  rdfs:label "피부 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h023>
+  a def:Symptom ;
+  rdfs:label "골반, 둔부 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h024>
+  a def:Symptom ;
+  rdfs:label "앞다리(전지) 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h025>
+  a def:Symptom ;
+  rdfs:label "앞발 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h026>
+  a def:Symptom ;
+  rdfs:label "뒷다리(후지) 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h027>
+  a def:Symptom ;
+  rdfs:label "뒷발 통증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom/h028>
+  a def:Symptom ;
+  rdfs:label "사지, 다리, 발 통증, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/h> .
+<https://knowledgemap.kr/koah/id/symptom-category/i>
+  a def:SymptomCategory ;
+  rdfs:label "호흡기계 증상"@ko ;
+  rdfs:label "Respiratory"@en .
+<https://knowledgemap.kr/koah/id/symptom/i001>
+  a def:Symptom ;
+  rdfs:label "비강점막의 궤양, 수포, 미란, 열상, 열창, 구진, 농포"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i002>
+  a def:Symptom ;
+  rdfs:label "비출혈, 코피"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i003>
+  a def:Symptom ;
+  rdfs:label "화농성 비강 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i004>
+  a def:Symptom ;
+  rdfs:label "점액성, 장액성, 수양성 비강 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i005>
+  a def:Symptom ;
+  rdfs:label "비도내 섭취물(음식물)"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i006>
+  a def:Symptom ;
+  rdfs:label "호흡시 비정상적인 냄새, 구강의 악취"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i007>
+  a def:Symptom ;
+  rdfs:label "부비동 타진시 둔탁함"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i008>
+  a def:Symptom ;
+  rdfs:label "호흡곤란, 개구호흡, 그르렁거림, 가쁜호흡"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i009>
+  a def:Symptom ;
+  rdfs:label "호흡수 증가, 다호흡, 빠른호흡(빈호흡), 과호흡"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i010>
+  a def:Symptom ;
+  rdfs:label "호흡수 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i011>
+  a def:Symptom ;
+  rdfs:label "재채기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i012>
+  a def:Symptom ;
+  rdfs:label "기침"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i013>
+  a def:Symptom ;
+  rdfs:label "기침시 객혈"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i014>
+  a def:Symptom ;
+  rdfs:label "상부기도에서의 비정상 호흡음, 공기흐름폐쇄, 코고는 소리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i015>
+  a def:Symptom ;
+  rdfs:label "비정상적인 폐, 흉강의 소리, 수포음, 약설음, 씨근거리는 소리, 마찰음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i016>
+  a def:Symptom ;
+  rdfs:label "감소된, 약한 폐음, 호흡음 결여"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i017>
+  a def:Symptom ;
+  rdfs:label "목소리 변성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i018>
+  a def:Symptom ;
+  rdfs:label "허스키한 지저귐, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i019>
+  a def:Symptom ;
+  rdfs:label "흉부, 흉강 타진시 확장된 폐"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i020>
+  a def:Symptom ;
+  rdfs:label "흉부,흉강 타진시 둔탁한 부위"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom/i021>
+  a def:Symptom ;
+  rdfs:label "흉부,흉강 타진시 핑사운드"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/i> .
+<https://knowledgemap.kr/koah/id/symptom-category/j>
+  a def:SymptomCategory ;
+  rdfs:label "피부/외피계 증상"@ko ;
+  rdfs:label "Integumentary"@en .
+<https://knowledgemap.kr/koah/id/symptom/j001>
+  a def:Symptom ;
+  rdfs:label "피부결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j002>
+  a def:Symptom ;
+  rdfs:label "피부 색소 침착 과잉"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j003>
+  a def:Symptom ;
+  rdfs:label "피부저색소침착, 백반증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j004>
+  a def:Symptom ;
+  rdfs:label "피부의 화농성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j005>
+  a def:Symptom ;
+  rdfs:label "피부의 악취"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j006>
+  a def:Symptom ;
+  rdfs:label "피부홍반, 염증, 발적"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j007>
+  a def:Symptom ;
+  rdfs:label "피부의 소양감, 가려움"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j008>
+  a def:Symptom ;
+  rdfs:label "모낭의 종대, 조류"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j009>
+  a def:Symptom ;
+  rdfs:label "피부 구진"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j010>
+  a def:Symptom ;
+  rdfs:label "피부 농포"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j011>
+  a def:Symptom ;
+  rdfs:label "피부 수포, 소수포, 물집"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j012>
+  a def:Symptom ;
+  rdfs:label "피부 플라크(반)"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j013>
+  a def:Symptom ;
+  rdfs:label "피부 팽진, 두드러기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j014>
+  a def:Symptom ;
+  rdfs:label "피부 부종"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j015>
+  a def:Symptom ;
+  rdfs:label "피하 염발음, 피하기종"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j016>
+  a def:Symptom ;
+  rdfs:label "피부 누관, 동"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j017>
+  a def:Symptom ;
+  rdfs:label "피부의 열상, 열창, 교상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j018>
+  a def:Symptom ;
+  rdfs:label "피부의 궤양, 미란, 찰과상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j019>
+  a def:Symptom ;
+  rdfs:label "피부, 근육의 압흔, 눌림, 함요"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j020>
+  a def:Symptom ;
+  rdfs:label "피부, 털의 건조"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j021>
+  a def:Symptom ;
+  rdfs:label "지루성 피부, 털, 깃털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j022>
+  a def:Symptom ;
+  rdfs:label "피부 인설, 비듬"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j023>
+  a def:Symptom ;
+  rdfs:label "피부의 가피, 딱지"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j024>
+  a def:Symptom ;
+  rdfs:label "피부 괴사, 딱지, 괴저"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j025>
+  a def:Symptom ;
+  rdfs:label "피부 반흔"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j026>
+  a def:Symptom ;
+  rdfs:label "피부의 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j027>
+  a def:Symptom ;
+  rdfs:label "피부의 냉감, 차가운 귀, 사지의 냉감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j028>
+  a def:Symptom ;
+  rdfs:label "과각화증, 두꺼운 피부"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j029>
+  a def:Symptom ;
+  rdfs:label "얇은 피부, 위축"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j030>
+  a def:Symptom ;
+  rdfs:label "주름진 피부"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j031>
+  a def:Symptom ;
+  rdfs:label "과신전, 과탄력성 피부"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j032>
+  a def:Symptom ;
+  rdfs:label "축축한 피부, 털, 깃털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j033>
+  a def:Symptom ;
+  rdfs:label "피부 균열, 열구"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j034>
+  a def:Symptom ;
+  rdfs:label "갈라진 발톱, 갈퀴, 발굽, 깨지기 쉬운 발톱"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j035>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 과도한 성장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j036>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 농양, 궤양"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j037>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 짓무름, 박리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j038>
+  a def:Symptom ;
+  rdfs:label "갈퀴, 발굽의 박리"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j039>
+  a def:Symptom ;
+  rdfs:label "합지증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j040>
+  a def:Symptom ;
+  rdfs:label "다지증, 발가락결손증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j041>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 성장 장애"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j042>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j043>
+  a def:Symptom ;
+  rdfs:label "발톱, 갈퀴, 발굽의 냉감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j044>
+  a def:Symptom ;
+  rdfs:label "탈모, 쉽게 빠지는 털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j045>
+  a def:Symptom ;
+  rdfs:label "깃털이 빠짐, 성긴 깃털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j046>
+  a def:Symptom ;
+  rdfs:label "깃털의 오물, 항문의 깃털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j047>
+  a def:Symptom ;
+  rdfs:label "깃털을 세움"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j048>
+  a def:Symptom ;
+  rdfs:label "조류에서 항문의 오물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j049>
+  a def:Symptom ;
+  rdfs:label "꺽이거나 손상된 깃털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j050>
+  a def:Symptom ;
+  rdfs:label "광택이 없고 더러운 털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j051>
+  a def:Symptom ;
+  rdfs:label "과도한 털의 색소침착, 전신성 혹은 국소성"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j052>
+  a def:Symptom ;
+  rdfs:label "털의 색소침착 감소, 전신성 혹은 국소성, 백모증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j053>
+  a def:Symptom ;
+  rdfs:label "다모증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j054>
+  a def:Symptom ;
+  rdfs:label "거친 피모, 곤두선 털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j055>
+  a def:Symptom ;
+  rdfs:label "지나치게 곧은 털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j056>
+  a def:Symptom ;
+  rdfs:label "지나치게 곱슬거리는 털"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom/j057>
+  a def:Symptom ;
+  rdfs:label "피부, 털, 깃털에 기생충"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/j> .
+<https://knowledgemap.kr/koah/id/symptom-category/k>
+  a def:SymptomCategory ;
+  rdfs:label "생식기계 증상"@ko ;
+  rdfs:label "Reproductive"@en .
+<https://knowledgemap.kr/koah/id/symptom/k001>
+  a def:Symptom ;
+  rdfs:label "발정휴지기, 발정주기 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k002>
+  a def:Symptom ;
+  rdfs:label "길거나 짧은 비정상적인 발정주기, 불규칙적인 발정사이기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k003>
+  a def:Symptom ;
+  rdfs:label "비정상적인 발정기간"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k004>
+  a def:Symptom ;
+  rdfs:label "외음부 궤양, 수포, 미란, 열창, 열상, 구진, 농포"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k005>
+  a def:Symptom ;
+  rdfs:label "외음부, 질의 점액성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k006>
+  a def:Symptom ;
+  rdfs:label "외음부, 질의 화농성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k007>
+  a def:Symptom ;
+  rdfs:label "외음부, 질의 악취나는 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k008>
+  a def:Symptom ;
+  rdfs:label "질, 자궁경부의 궤양, 수포, 열창, 구진, 농포"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k009>
+  a def:Symptom ;
+  rdfs:label "질, 외음부의 괴사"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k010>
+  a def:Symptom ;
+  rdfs:label "질탈, 질외번"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k011>
+  a def:Symptom ;
+  rdfs:label "자궁, 자궁경부의 화농성, 점액성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k012>
+  a def:Symptom ;
+  rdfs:label "자궁, 난소의 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k013>
+  a def:Symptom ;
+  rdfs:label "자궁 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k014>
+  a def:Symptom ;
+  rdfs:label "자궁, 자궁경부의 크기 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k015>
+  a def:Symptom ;
+  rdfs:label "자궁내 액체"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k016>
+  a def:Symptom ;
+  rdfs:label "자궁, 난소, 자궁경부의 유착"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k017>
+  a def:Symptom ;
+  rdfs:label "미이라, 태자 미이라화"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k018>
+  a def:Symptom ;
+  rdfs:label "자궁탈, 자궁경부탈출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k019>
+  a def:Symptom ;
+  rdfs:label "자궁, 질, 자궁경부의 염발음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k020>
+  a def:Symptom ;
+  rdfs:label "종대된, 단단한 난소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k021>
+  a def:Symptom ;
+  rdfs:label "종대된, 말랑말랑한 난소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k022>
+  a def:Symptom ;
+  rdfs:label "작아진 난소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k023>
+  a def:Symptom ;
+  rdfs:label "암컷의 불임증, 리핏 브리더"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k024>
+  a def:Symptom ;
+  rdfs:label "한배 새끼 수가 적음, 산자수가 적음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k025>
+  a def:Symptom ;
+  rdfs:label "난산"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k026>
+  a def:Symptom ;
+  rdfs:label "유산, 사산, 허약한 새끼"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k027>
+  a def:Symptom ;
+  rdfs:label "태반, 태자막 잔존"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k028>
+  a def:Symptom ;
+  rdfs:label "임신기간 연장"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k029>
+  a def:Symptom ;
+  rdfs:label "유선, 유방의 부종"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k030>
+  a def:Symptom ;
+  rdfs:label "유두의 손상, 열상, 열창"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k031>
+  a def:Symptom ;
+  rdfs:label "유방염, 비정상유"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k032>
+  a def:Symptom ;
+  rdfs:label "혈액성 우유, 적색유, 갈색유"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k033>
+  a def:Symptom ;
+  rdfs:label "유즙분비과다"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k034>
+  a def:Symptom ;
+  rdfs:label "유선, 유방의 냉감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k035>
+  a def:Symptom ;
+  rdfs:label "유선, 유방의 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k036>
+  a def:Symptom ;
+  rdfs:label "유선, 유방의 종기(짓무름)"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k037>
+  a def:Symptom ;
+  rdfs:label "유즙분비 정지"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k038>
+  a def:Symptom ;
+  rdfs:label "딱딱한 유선, 유방"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k039>
+  a def:Symptom ;
+  rdfs:label "무유증, 유즙생산감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k040>
+  a def:Symptom ;
+  rdfs:label "산란율 저하"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k041>
+  a def:Symptom ;
+  rdfs:label "수컷 불임"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k042>
+  a def:Symptom ;
+  rdfs:label "성욕, 발기 부전"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k043>
+  a def:Symptom ;
+  rdfs:label "혈정액증, 적색정액"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k044>
+  a def:Symptom ;
+  rdfs:label "음경, 포피에 구진, 농포, 수포, 궤양"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k045>
+  a def:Symptom ;
+  rdfs:label "음경의 열상, 열창 손상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k046>
+  a def:Symptom ;
+  rdfs:label "음낭, 고환의 열창, 열상, 손상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k047>
+  a def:Symptom ;
+  rdfs:label "포피의 열상, 열창, 손상"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k048>
+  a def:Symptom ;
+  rdfs:label "음경, 포피의 화농성 분비물"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k049>
+  a def:Symptom ;
+  rdfs:label "포피탈출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k050>
+  a def:Symptom ;
+  rdfs:label "음경 편위"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k051>
+  a def:Symptom ;
+  rdfs:label "포경"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k052>
+  a def:Symptom ;
+  rdfs:label "음경강직, 감돈포경, 발기 지속"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k053>
+  a def:Symptom ;
+  rdfs:label "음낭, 고환의 비정상적인 크기"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k054>
+  a def:Symptom ;
+  rdfs:label "고환, 부고환의 결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k055>
+  a def:Symptom ;
+  rdfs:label "고화, 부고환의 촉진시 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k056>
+  a def:Symptom ;
+  rdfs:label "포피 촉진시 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k057>
+  a def:Symptom ;
+  rdfs:label "음경 촉진시 열감"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k058>
+  a def:Symptom ;
+  rdfs:label "연난각, 박난각, 계란 껍질이 얇음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k059>
+  a def:Symptom ;
+  rdfs:label "난각결손"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k060>
+  a def:Symptom ;
+  rdfs:label "흐물흐물한 난황, 얇은 난백"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom/k061>
+  a def:Symptom ;
+  rdfs:label "부화율 감소"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/k> .
+<https://knowledgemap.kr/koah/id/symptom-category/l>
+  a def:SymptomCategory ;
+  rdfs:label "비뇨기계 증상"@ko ;
+  rdfs:label "Urinary"@en .
+<https://knowledgemap.kr/koah/id/symptom/l001>
+  a def:Symptom ;
+  rdfs:label "혈뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l002>
+  a def:Symptom ;
+  rdfs:label "적색뇨, 갈색뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l003>
+  a def:Symptom ;
+  rdfs:label "단백뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l004>
+  a def:Symptom ;
+  rdfs:label "혈색소뇨, 근색소뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l005>
+  a def:Symptom ;
+  rdfs:label "빈뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l006>
+  a def:Symptom ;
+  rdfs:label "거품섞인 오줌, 기뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l007>
+  a def:Symptom ;
+  rdfs:label "당뇨"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l008>
+  a def:Symptom ;
+  rdfs:label "배뇨곤란"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l009>
+  a def:Symptom ;
+  rdfs:label "요실금"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l010>
+  a def:Symptom ;
+  rdfs:label "다뇨증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l011>
+  a def:Symptom ;
+  rdfs:label "핍뇨, 무뇨증"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l012>
+  a def:Symptom ;
+  rdfs:label "촉진가능한 결석, 종창, 종괴, 방광"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l013>
+  a def:Symptom ;
+  rdfs:label "방광 염발음"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l014>
+  a def:Symptom ;
+  rdfs:label "종대, 확장된 방광"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l015>
+  a def:Symptom ;
+  rdfs:label "방광탈출"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l016>
+  a def:Symptom ;
+  rdfs:label "신장 종대, 촉진시"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l017>
+  a def:Symptom ;
+  rdfs:label "작은 신장, 촉진시"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .
+<https://knowledgemap.kr/koah/id/symptom/l018>
+  a def:Symptom ;
+  rdfs:label "요관 종대"@ko ;
+  def:categoryOf <https://knowledgemap.kr/koah/id/symptom-category/l> .

@@ -38,6 +38,7 @@ backend/
 │  ├─ sparql.py          # Fuseki 클라이언트
 │  └─ routers/           # 기능별 API
 ├─ data/                       # 공공데이터 CSV/JSON 스냅샷 (load_public_data 기본 입력)
+│  └─ turtle/                  # 증상·질병 지식그래프 TTL (load_fuseki 기본 입력)
 └─ scripts/
    ├─ load_public_data.py      # 이미 받아 둔 공공데이터 CSV/JSON → Postgres
    ├─ sync_rescued_animals.py  # 농식품부 구조동물 OpenAPI → Postgres
@@ -67,8 +68,9 @@ copy .env.example .env   # DATABASE_URL 등 채우기
 3. **Fuseki 실행 + 지식그래프 적재** (Java 17+ 필요)
    ```powershell
    java -jar <fuseki>\fuseki-server.jar --localhost --update --tdb2 --loc=fuseki-data /animalloo
-   .venv\Scripts\python -m scripts.load_fuseki --turtle-dir C:\Users\jwon\Downloads\turtle
+   .venv\Scripts\python -m scripts.load_fuseki
    ```
+   저장소에 포함된 `backend/data/turtle/`(증상·질병·추론 TTL 3개)을 올립니다. 다른 폴더는 `--turtle-dir`로 지정합니다.
    `fuseki-data/`에 저장되므로 적재는 한 번이면 됩니다. 다시 넣을 때는 Fuseki를 끄고 폴더를 지운 뒤 적재합니다.
 4. **API 서버**
    ```powershell
