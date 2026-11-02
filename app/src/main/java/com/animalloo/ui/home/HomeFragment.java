@@ -28,11 +28,14 @@ import com.animalloo.data.model.HomeProfile;
 import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentHomeBinding;
+import com.animalloo.databinding.DialogPetRegistrationBinding;
+import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.main.MainNavigator;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -91,6 +94,8 @@ public class HomeFragment extends BaseFragment {
         setupStatsCarousel();
         setupAlertsRecyclerView();
         setupSwipeRefresh();
+        binding.layoutProfileHeader.btnPetRegister.setOnClickListener(v ->
+                startActivity(new android.content.Intent(requireContext(), com.animalloo.ui.pet.PetProfileActivity.class)));
         observeViewModel();
         viewModel.loadHomeData();
     }
@@ -218,13 +223,65 @@ public class HomeFragment extends BaseFragment {
         binding.layoutProfileHeader.tvUserGreeting.setText(
                 getString(R.string.home_greeting_format, profile.getUserDisplayName()));
         if (profile.hasPet()) {
+            binding.layoutProfileHeader.tvPetName.setVisibility(View.VISIBLE);
+            binding.layoutProfileHeader.tvPetInfo.setVisibility(View.VISIBLE);
+            binding.layoutProfileHeader.btnPetRegister.setVisibility(View.GONE);
             binding.layoutProfileHeader.tvPetName.setText(profile.getPetName());
             binding.layoutProfileHeader.tvPetInfo.setText(
                     getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
         } else {
-            binding.layoutProfileHeader.tvPetName.setText(R.string.home_pet_not_registered);
-            binding.layoutProfileHeader.tvPetInfo.setText(R.string.home_pet_register_hint);
+            binding.layoutProfileHeader.tvPetName.setVisibility(View.GONE);
+            binding.layoutProfileHeader.tvPetInfo.setVisibility(View.GONE);
+            binding.layoutProfileHeader.btnPetRegister.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showPetRegistrationDialog() {
+        DialogPetRegistrationBinding dialogBinding = DialogPetRegistrationBinding.inflate(getLayoutInflater());
+        androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.pet_registration_title)
+                .setView(dialogBinding.getRoot())
+                .setNegativeButton(R.string.pet_registration_cancel, null)
+                .setPositiveButton(R.string.pet_registration_save, null)
+                .create();
+
+        dialog.setOnShowListener(ignored -> dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(v -> registerPet(dialog, dialogBinding)));
+        dialog.show();
+    }
+
+    private void registerPet(androidx.appcompat.app.AlertDialog dialog,
+                             DialogPetRegistrationBinding dialogBinding) {
+        String name = textOf(dialogBinding.etPetName);
+        if (name.isEmpty()) {
+            dialogBinding.layoutPetName.setError(getString(R.string.pet_registration_name_required));
+            return;
+        }
+
+        dialogBinding.layoutPetName.setError(null);
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        viewModel.registerPet(name, nullIfEmpty(textOf(dialogBinding.etPetBreed)),
+                nullIfEmpty(textOf(dialogBinding.etPetAge)), new RepositoryCallback<HomeProfile>() {
+                    @Override
+                    public void onSuccess(HomeProfile data) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        dialogBinding.layoutPetName.setError(message);
+                    }
+                });
+    }
+
+    private static String textOf(android.widget.EditText editText) {
+        return editText.getText() == null ? "" : editText.getText().toString().trim();
+    }
+
+    @Nullable
+    private static String nullIfEmpty(String value) {
+        return value.isEmpty() ? null : value;
     }
 
     private void renderStatsState(UiState<HomeStats> state) {

@@ -138,6 +138,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void setupLogoutAction() {
+        binding.btnEditPet.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.animalloo.ui.pet.PetProfileActivity.class)));
         binding.btnLogout.setOnClickListener(v -> showLogoutConfirmation());
         binding.btnRetryAccount.setOnClickListener(v -> viewModel.loadAccount());
     }

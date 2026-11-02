@@ -79,6 +79,15 @@
             android:textColor="@color/color_text_secondary"
             tools:text="말티즈 · 3살" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_pet_register"
+            style="@style/Widget.AnimalLoo.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/home_pet_register"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </LinearLayout>

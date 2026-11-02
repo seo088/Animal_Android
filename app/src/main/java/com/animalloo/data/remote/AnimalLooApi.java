@@ -14,6 +14,7 @@ import com.animalloo.data.remote.dto.HomeProfileResponse;
 import com.animalloo.data.remote.dto.InferRequest;
 import com.animalloo.data.remote.dto.LoginRequest;
 import com.animalloo.data.remote.dto.LostReportMatchRequest;
+import com.animalloo.data.remote.dto.PetRequest;
 import com.animalloo.data.remote.dto.SignUpRequest;
 
 import java.util.List;
@@ -52,6 +53,13 @@ public interface AnimalLooApi {
 
     @GET("home/profile")
     Call<HomeProfileResponse> getHomeProfile();
+
+    @PUT("home/pet")
+    Call<HomeProfileResponse> upsertPet(@Body PetRequest body);
+
+    @Multipart
+    @POST("home/pet/photo")
+    Call<HomeProfileResponse> uploadPetPhoto(@Part MultipartBody.Part photo);
 
     @GET("alerts")
     Call<List<AlertNotification>> getAlerts(@Query("limit") Integer limit);

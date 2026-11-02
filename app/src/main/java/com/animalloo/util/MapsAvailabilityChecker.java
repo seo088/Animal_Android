@@ -12,11 +12,20 @@ public final class MapsAvailabilityChecker {
 
     private static final String PLACEHOLDER_KEY = "YOUR_KAKAO_MAP_KEY_HERE";
     private static final String META_DATA_KEY = "com.kakao.vectormap.APP_KEY";
+    private static boolean sdkInitialized;
 
     private MapsAvailabilityChecker() {
     }
 
     public static boolean isMapsAvailable(Context context) {
+        return sdkInitialized && isKeyConfigured(context);
+    }
+
+    public static void setSdkInitialized(boolean initialized) {
+        sdkInitialized = initialized;
+    }
+
+    public static boolean isKeyConfigured(Context context) {
         try {
             ApplicationInfo applicationInfo = context.getPackageManager()
                     .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
