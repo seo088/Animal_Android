@@ -50,12 +50,25 @@ class HomeProfileOut(CamelModel):
     pet_name: str | None
     pet_breed: str | None
     pet_age: str | None
+    pet_species: str | None
+    pet_gender: str | None
+    pet_neutered: str | None
+    pet_weight_kg: float | None
+    pet_birth_date: str | None
+    pet_adoption_date: str | None
+    pet_photo_url: str | None
 
 
 class PetIn(CamelModel):
     name: str = Field(min_length=1, max_length=100)
     breed: str | None = None
     age: str | None = None
+    species: str | None = None
+    gender: str | None = None
+    neutered: str | None = None
+    weight_kg: float | None = None
+    birth_date: str | None = None
+    adoption_date: str | None = None
 
 
 # --- alerts -----------------------------------------------------------------

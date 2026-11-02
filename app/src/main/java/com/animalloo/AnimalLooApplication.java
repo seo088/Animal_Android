@@ -1,6 +1,7 @@
 package com.animalloo;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
 
 import com.animalloo.notification.FcmTokenStore;
@@ -25,11 +26,30 @@ public class AnimalLooApplication extends Application {
     }
 
     private void initKakaoMapSdk() {
-        if (!MapsAvailabilityChecker.isMapsAvailable(this)) {
+        if (!isKakaoMapSupportedAbi()) {
+            Log.w(TAG, "Kakao Map is unavailable on this device ABI: "
+                    + String.join(", ", Build.SUPPORTED_ABIS));
+            return;
+        }
+        if (!MapsAvailabilityChecker.isKeyConfigured(this)) {
             Log.i(TAG, "Kakao Map key is not configured. Set KAKAO_MAP_KEY in .env or environment variables.");
             return;
         }
-        KakaoMapSdk.init(this, BuildConfig.KAKAO_MAP_KEY);
+        try {
+            KakaoMapSdk.init(this, BuildConfig.KAKAO_MAP_KEY);
+            MapsAvailabilityChecker.setSdkInitialized(true);
+        } catch (UnsatisfiedLinkError error) {
+            Log.w(TAG, "Kakao Map native library is unavailable; using the facility list.", error);
+        }
+    }
+
+    private boolean isKakaoMapSupportedAbi() {
+        for (String abi : Build.SUPPORTED_ABIS) {
+            if ("arm64-v8a".equals(abi) || "armeabi-v7a".equals(abi)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void registerFcmTokenIfAvailable() {

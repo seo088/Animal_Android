@@ -26,6 +26,17 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="AnimalLoo API", version="0.1.0", lifespan=lifespan)
 
+def migrate_pet_columns():
+    columns = {
+        "species": "VARCHAR(20)", "gender": "VARCHAR(20)", "neutered": "VARCHAR(20)",
+        "weight_kg": "DOUBLE PRECISION", "birth_date": "DATE", "adoption_date": "DATE", "photo_url": "TEXT",
+    }
+    with engine.begin() as conn:
+        for name, definition in columns.items():
+            conn.execute(text(f"ALTER TABLE pets ADD COLUMN IF NOT EXISTS {name} {definition}"))
+
+migrate_pet_columns()
+
 for router in (auth, home, alerts, facilities, hospitals, diagnosis, animals, lost_reports, favorites):
     app.include_router(router.router)
 

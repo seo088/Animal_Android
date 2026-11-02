@@ -10,6 +10,8 @@ public class HomeProfileResponse {
     private String petName;
     private String petBreed;
     private String petAge;
+    private String petSpecies, petGender, petNeutered, petBirthDate, petAdoptionDate, petPhotoUrl;
+    private Double petWeightKg;
 
     public String getUserDisplayName() {
         return userDisplayName;
@@ -30,4 +32,11 @@ public class HomeProfileResponse {
     public String getPetAge() {
         return petAge;
     }
+    public String getPetSpecies() { return petSpecies; }
+    public String getPetGender() { return petGender; }
+    public String getPetNeutered() { return petNeutered; }
+    public Double getPetWeightKg() { return petWeightKg; }
+    public String getPetBirthDate() { return petBirthDate; }
+    public String getPetAdoptionDate() { return petAdoptionDate; }
+    public String getPetPhotoUrl() { return petPhotoUrl; }
 }

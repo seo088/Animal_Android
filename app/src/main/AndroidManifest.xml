@@ -43,6 +43,12 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".ui.pet.PetProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AnimalLoo" />
+
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
             android:launchMode="singleTop"

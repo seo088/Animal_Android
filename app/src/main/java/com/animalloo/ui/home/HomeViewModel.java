@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.animalloo.data.model.AlertNotification;
 import com.animalloo.data.model.HomeProfile;
 import com.animalloo.data.model.HomeStats;
+import com.animalloo.data.model.PetProfileInput;
+import java.io.File;
 import com.animalloo.data.model.UiState;
 import com.animalloo.data.model.User;
 import com.animalloo.data.repository.AlertRepository;
@@ -116,6 +118,29 @@ public class HomeViewModel extends ViewModel {
 
     public void refresh() {
         loadHomeData();
+    }
+
+    public void registerPet(String name, String breed, String age,
+                            RepositoryCallback<HomeProfile> callback) {
+        homeRepository.upsertPet(name, breed, age, new RepositoryCallback<HomeProfile>() {
+            @Override
+            public void onSuccess(HomeProfile data) {
+                profileState.setValue(UiState.success(data));
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public void registerPet(PetProfileInput pet, File photo, RepositoryCallback<HomeProfile> callback) {
+        homeRepository.upsertPet(pet, photo, new RepositoryCallback<HomeProfile>() {
+            @Override public void onSuccess(HomeProfile data) { profileState.setValue(UiState.success(data)); callback.onSuccess(data); }
+            @Override public void onError(String message) { callback.onError(message); }
+        });
     }
 
     public boolean isAlertFavorite(String alertId) {

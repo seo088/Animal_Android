@@ -7,6 +7,18 @@
     android:background="@color/color_background"
     tools:context=".ui.detail.DetailFragment">
 
+    <ImageButton
+        android:id="@+id/btn_detail_back"
+        android:layout_width="@dimen/min_touch_target"
+        android:layout_height="@dimen/min_touch_target"
+        android:layout_marginStart="@dimen/spacing_sm"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/more_back"
+        android:padding="@dimen/spacing_sm"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/state_container"
         android:layout_width="0dp"
@@ -14,7 +26,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btn_detail_back" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/layout_content"

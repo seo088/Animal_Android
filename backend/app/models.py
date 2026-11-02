@@ -30,6 +30,13 @@ class Pet(Base):
     name: Mapped[str] = mapped_column(String(100))
     breed: Mapped[str | None] = mapped_column(String(100))
     age: Mapped[str | None] = mapped_column(String(50))
+    species: Mapped[str | None] = mapped_column(String(20))
+    gender: Mapped[str | None] = mapped_column(String(20))
+    neutered: Mapped[str | None] = mapped_column(String(20))
+    weight_kg: Mapped[float | None] = mapped_column(Float)
+    birth_date: Mapped[date | None] = mapped_column(Date)
+    adoption_date: Mapped[date | None] = mapped_column(Date)
+    photo_url: Mapped[str | None] = mapped_column(Text)
 
 
 class Facility(Base):

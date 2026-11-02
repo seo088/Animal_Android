@@ -21,8 +21,17 @@
     <string name="home_my_pet_title">내 강아지</string>
     <string name="home_greeting_format">안녕하세요, %1$s님</string>
     <string name="home_pet_info_format">%1$s · %2$s</string>
+    <string name="home_pet_register">반려동물 등록하기</string>
     <string name="home_pet_not_registered">반려동물 미등록</string>
     <string name="home_pet_register_hint">반려동물을 등록해 주세요</string>
+    <string name="pet_registration_title">반려동물 등록</string>
+    <string name="pet_registration_name">이름</string>
+    <string name="pet_registration_breed">품종 (선택)</string>
+    <string name="pet_registration_age">나이 (선택)</string>
+    <string name="pet_registration_save">등록</string>
+    <string name="pet_registration_name_required">반려동물 이름을 입력해 주세요.</string>
+    <string name="pet_registration_cancel">취소</string>
+    <string name="pet_profile_title">우리 아이 등록하기</string><string name="pet_photo_select">사진 추가하기</string><string name="pet_species">종 (예: 강아지)</string><string name="pet_gender">성별 (수컷/암컷)</string><string name="pet_neutered">중성화 여부</string><string name="pet_weight">몸무게 (kg)</string><string name="pet_birth_date">생년월일</string><string name="pet_adoption_date">입양일</string><string name="pet_profile_save">반려동물 저장하기</string><string name="pet_weight_invalid">몸무게는 숫자로 입력해 주세요.</string><string name="settings_edit_pet">반려동물 정보 수정</string>
     <string name="home_shortcuts_title">바로가기</string>
     <string name="home_alerts_title">실시간 현황</string>
     <string name="alert_type_rescue">구조</string>
@@ -51,7 +60,7 @@
     <string name="map_category_cafe">동반카페</string>
     <string name="map_category_hotel">동반숙소</string>
     <string name="map_category_tourism">동반관광지</string>
-    <string name="map_no_api_key">카카오맵 API 키가 설정되지 않아 시설 목록을 표시합니다.</string>
+    <string name="map_no_api_key">카카오맵을 사용할 수 없어 시설 목록을 표시합니다.</string>
     <string name="map_view_list">리스트 보기</string>
 
     <!-- Diagnosis -->
