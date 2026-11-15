@@ -47,6 +47,7 @@
     <string name="home_personality_compatibility_title">나와 반려견 궁합 테스트</string>
     <string name="home_personality_compatibility_desc">보호자와 반려견의 성향 궁합 확인</string>
     <string name="home_personality_available_in_more">더보기에서 확인하기 →</string>
+    <string name="home_personality_start">테스트 시작하기 →</string>
     <string name="home_personality_coming_soon">더보기에서 준비 중</string>
     <string name="home_life_service_title">반려생활 서비스</string>
     <string name="home_today_status_title">오늘의 현황</string>
@@ -380,6 +381,9 @@
     <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려동물 유형을 찾아보세요.</string>
     <string name="pet_match_result_title">추천 결과</string>
     <string name="pet_match_save_note">결과는 참고용입니다. 실제 입양 전에는 활동량, 건강 상태, 가족 구성원의 동의를 꼭 확인해 주세요.</string>
+    <string name="pet_match_previous">이전</string>
+    <string name="pet_match_reason_title">이렇게 잘 맞아요</string>
+    <string name="pet_match_consideration_title">입양 전 확인할 점</string>
 
     <!-- Options Menu -->
     <string name="menu_refresh">새로고침</string>
