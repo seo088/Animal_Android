@@ -29,6 +29,7 @@ import com.animalloo.data.model.HomeStats;
 import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentHomeBinding;
 import com.animalloo.databinding.DialogPetRegistrationBinding;
+import com.animalloo.databinding.ItemHomePersonalityBinding;
 import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
@@ -93,6 +94,7 @@ public class HomeFragment extends BaseFragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         setupStatsCarousel();
         setupAlertsRecyclerView();
+        setupPersonalityPreview();
         setupSwipeRefresh();
         binding.layoutProfileHeader.btnPetRegister.setOnClickListener(v ->
                 startActivity(new android.content.Intent(requireContext(), com.animalloo.ui.pet.PetProfileActivity.class)));
@@ -155,6 +157,31 @@ public class HomeFragment extends BaseFragment {
                 showAlertContextMenu(alert, anchorView);
             }
         });
+    }
+
+    /** Home introduces the three tests only. Test flows stay in the More tab. */
+    private void setupPersonalityPreview() {
+        bindPersonalityCard(binding.cardPersonalityRecommendation,
+                R.string.home_personality_recommendation_title,
+                R.string.home_personality_recommendation_desc,
+                R.string.home_personality_coming_soon);
+        bindPersonalityCard(binding.cardPersonalityMbti,
+                R.string.home_personality_mbti_title,
+                R.string.home_personality_mbti_desc,
+                R.string.home_personality_available_in_more);
+        bindPersonalityCard(binding.cardPersonalityCompatibility,
+                R.string.home_personality_compatibility_title,
+                R.string.home_personality_compatibility_desc,
+                R.string.home_personality_coming_soon);
+    }
+
+    private void bindPersonalityCard(ItemHomePersonalityBinding card, int titleRes,
+                                     int descriptionRes, int actionRes) {
+        card.tvPersonalityCardTitle.setText(titleRes);
+        card.tvPersonalityCardDescription.setText(descriptionRes);
+        card.tvPersonalityCardAction.setText(actionRes);
+        card.getRoot().setClickable(false);
+        card.getRoot().setFocusable(false);
     }
 
     private void showAlertContextMenu(AlertNotification alert, View anchorView) {

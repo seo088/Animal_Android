@@ -49,6 +49,12 @@
             android:theme="@style/Theme.AnimalLoo" />
 
         <activity
+            android:name=".ui.mbti.PetMbtiActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AnimalLoo" />
+
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
             android:launchMode="singleTop"
