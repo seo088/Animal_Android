@@ -101,6 +101,7 @@ public class HomeFragment extends BaseFragment {
         setupSwipeRefresh();
         binding.ivHomeProfile.setOnClickListener(v -> openPetProfile());
         binding.cardHomePetEntry.setOnClickListener(v -> openPetProfile());
+        binding.layoutProfileHeader.btnPetRegister.setOnClickListener(v -> openPetProfile());
         observeViewModel();
         viewModel.loadHomeData();
     }
