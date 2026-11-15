@@ -42,3 +42,6 @@
 
 - 팀원 환경에서도 증상 진단이 동작하도록 진단용 지식그래프 TTL 3개(13_symptoms, 15_diseases, 16_reasoning_chain)를 backend/data/turtle/에 추가했습니다.
 - load_fuseki가 인자 없이 backend/data/turtle/을 기본으로 읽도록 변경하고 README 적재 절차를 갱신했습니다.
+
+### [2026-11-15 20:51:14]
+- 팀원이 진단 증상 표기 개선과 궁합·맞춤 추천·반려동물 MBTI 기능을 이어서 구현할 수 있도록 데이터 사용 원칙, 인수 조건, 작업 카드 및 완료 보고 절차를 문서화했습니다.
