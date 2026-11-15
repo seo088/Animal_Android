@@ -166,7 +166,7 @@ public class HomeFragment extends BaseFragment {
         bindPersonalityCard(binding.cardPersonalityRecommendation,
                 R.string.home_personality_recommendation_title,
                 R.string.home_personality_recommendation_desc,
-                R.string.home_personality_coming_soon, R.drawable.ic_favorite,
+                R.string.home_personality_available_in_more, R.drawable.ic_favorite,
                 R.color.color_home_icon_blue, R.color.color_badge_info);
         bindPersonalityCard(binding.cardPersonalityMbti,
                 R.string.home_personality_mbti_title,

@@ -27,6 +27,7 @@ import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.home.HomeFragment;
 import com.animalloo.ui.main.MainNavigator;
 import com.animalloo.ui.mbti.PetMbtiActivity;
+import com.animalloo.ui.match.PetMatchActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -181,6 +182,12 @@ public class MoreFragment extends BaseFragment implements MoreHost {
                 getString(R.string.more_pet_mbti),
                 getString(R.string.more_pet_mbti_desc),
                 () -> startActivity(new Intent(requireContext(), PetMbtiActivity.class)));
+
+        setupNavigationRow(
+                binding.rowPetMatch,
+                getString(R.string.more_pet_match),
+                getString(R.string.more_pet_match_desc),
+                () -> startActivity(new Intent(requireContext(), PetMatchActivity.class)));
 
         setupNavigationRow(
                 binding.rowDataSource,

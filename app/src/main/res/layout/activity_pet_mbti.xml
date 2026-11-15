@@ -112,6 +112,7 @@
                     android:padding="@dimen/spacing_lg">
 
                     <TextView
+                        android:id="@+id/tv_mbti_result_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/pet_mbti_result_title"
