@@ -23,6 +23,9 @@
     <color name="color_home_icon_blue">#E9F2FF</color>
     <color name="color_home_icon_purple">#F2E9FF</color>
     <color name="color_home_icon_red">#FFF0F0</color>
+    <color name="color_test_background">#F8FAF9</color>
+    <color name="color_test_mint">#E8F5ED</color>
+    <color name="color_test_primary">#218653</color>
     <color name="color_on_surface">#1B2430</color>
     <color name="color_on_surface_variant">#5C6B7A</color>
 

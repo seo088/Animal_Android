@@ -33,6 +33,8 @@ import com.animalloo.databinding.ItemHomePersonalityBinding;
 import com.animalloo.databinding.ItemHomeServiceBinding;
 import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.ui.common.BaseFragment;
+import com.animalloo.ui.match.PetMatchActivity;
+import com.animalloo.ui.mbti.PetMbtiActivity;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.main.MainNavigator;
 import com.bumptech.glide.Glide;
@@ -161,23 +163,24 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    /** Home introduces the three tests only. Test flows stay in the More tab. */
     private void setupPersonalityPreview() {
         bindPersonalityCard(binding.cardPersonalityRecommendation,
                 R.string.home_personality_recommendation_title,
                 R.string.home_personality_recommendation_desc,
-                R.string.home_personality_available_in_more, R.drawable.ic_favorite,
-                R.color.color_home_icon_blue, R.color.color_badge_info);
+                R.string.home_personality_start, R.drawable.ic_favorite,
+                R.color.color_home_icon_blue, R.color.color_badge_info,
+                v -> startActivity(new Intent(requireContext(), PetMatchActivity.class)));
         bindPersonalityCard(binding.cardPersonalityMbti,
                 R.string.home_personality_mbti_title,
                 R.string.home_personality_mbti_desc,
-                R.string.home_personality_available_in_more, R.drawable.ic_pet_friendly,
-                R.color.color_home_icon_purple, R.color.color_stat_facility_text);
+                R.string.home_personality_start, R.drawable.ic_pet_friendly,
+                R.color.color_home_icon_purple, R.color.color_stat_facility_text,
+                v -> startActivity(new Intent(requireContext(), PetMbtiActivity.class)));
         bindPersonalityCard(binding.cardPersonalityCompatibility,
                 R.string.home_personality_compatibility_title,
                 R.string.home_personality_compatibility_desc,
                 R.string.home_personality_coming_soon, R.drawable.ic_favorite,
-                R.color.color_home_icon_red, R.color.color_badge_error);
+                R.color.color_home_icon_red, R.color.color_badge_error, null);
 
         bindServiceCard(binding.cardServiceNearby, R.string.home_service_nearby_title,
                 R.string.home_service_nearby_desc, R.drawable.ic_map,
@@ -195,7 +198,8 @@ public class HomeFragment extends BaseFragment {
 
     private void bindPersonalityCard(ItemHomePersonalityBinding card, int titleRes,
                                      int descriptionRes, int actionRes, int iconRes,
-                                     int iconBackgroundRes, int iconTintRes) {
+                                     int iconBackgroundRes, int iconTintRes,
+                                     @Nullable View.OnClickListener clickListener) {
         card.tvPersonalityCardTitle.setText(titleRes);
         card.tvPersonalityCardDescription.setText(descriptionRes);
         card.tvPersonalityCardAction.setText(actionRes);
@@ -203,8 +207,9 @@ public class HomeFragment extends BaseFragment {
         card.ivPersonalityIcon.setColorFilter(ContextCompat.getColor(requireContext(), iconTintRes));
         card.cardPersonalityIcon.setCardBackgroundColor(
                 ContextCompat.getColor(requireContext(), iconBackgroundRes));
-        card.getRoot().setClickable(false);
-        card.getRoot().setFocusable(false);
+        card.getRoot().setOnClickListener(clickListener);
+        card.getRoot().setClickable(clickListener != null);
+        card.getRoot().setFocusable(clickListener != null);
     }
 
     private void bindServiceCard(ItemHomeServiceBinding card, int titleRes, int descriptionRes,
