@@ -18,6 +18,11 @@
     <color name="color_background">#FFFFFF</color>
     <color name="color_surface">#FFFFFF</color>
     <color name="color_surface_variant">#EEF2F7</color>
+    <color name="color_home_card">#F7F7F7</color>
+    <color name="color_home_banner">#EEF6F2</color>
+    <color name="color_home_icon_blue">#E9F2FF</color>
+    <color name="color_home_icon_purple">#F2E9FF</color>
+    <color name="color_home_icon_red">#FFF0F0</color>
     <color name="color_on_surface">#1B2430</color>
     <color name="color_on_surface_variant">#5C6B7A</color>
 
