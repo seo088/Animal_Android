@@ -97,8 +97,8 @@ public class HomeFragment extends BaseFragment {
         setupAlertsRecyclerView();
         setupPersonalityPreview();
         setupSwipeRefresh();
-        binding.layoutProfileHeader.btnPetRegister.setOnClickListener(v ->
-                startActivity(new android.content.Intent(requireContext(), com.animalloo.ui.pet.PetProfileActivity.class)));
+        binding.ivHomeProfile.setOnClickListener(v -> openPetProfile());
+        binding.cardHomePetEntry.setOnClickListener(v -> openPetProfile());
         observeViewModel();
         viewModel.loadHomeData();
     }
@@ -107,6 +107,7 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         startStatsAutoSlide();
+        viewModel.loadHomeData();
     }
 
     @Override
@@ -276,21 +277,19 @@ public class HomeFragment extends BaseFragment {
                 .placeholder(profile.getUserPhotoFallbackResId())
                 .error(profile.getUserPhotoFallbackResId())
                 .circleCrop()
-                .into(binding.layoutProfileHeader.ivUserProfile);
-        binding.layoutProfileHeader.tvUserGreeting.setText(
-                getString(R.string.home_greeting_format, profile.getUserDisplayName()));
+                .into(binding.ivHomeProfile);
         if (profile.hasPet()) {
-            binding.layoutProfileHeader.tvPetName.setVisibility(View.VISIBLE);
-            binding.layoutProfileHeader.tvPetInfo.setVisibility(View.VISIBLE);
-            binding.layoutProfileHeader.btnPetRegister.setVisibility(View.GONE);
-            binding.layoutProfileHeader.tvPetName.setText(profile.getPetName());
-            binding.layoutProfileHeader.tvPetInfo.setText(
+            binding.tvHomeProfileSummary.setText(getString(R.string.home_pet_edit_prompt));
+            binding.tvHomePetSummary.setText(
                     getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
         } else {
-            binding.layoutProfileHeader.tvPetName.setVisibility(View.GONE);
-            binding.layoutProfileHeader.tvPetInfo.setVisibility(View.GONE);
-            binding.layoutProfileHeader.btnPetRegister.setVisibility(View.VISIBLE);
+            binding.tvHomeProfileSummary.setText(getString(R.string.home_pet_register_prompt));
+            binding.tvHomePetSummary.setText(R.string.home_pet_register_hint);
         }
+    }
+
+    private void openPetProfile() {
+        startActivity(new Intent(requireContext(), com.animalloo.ui.pet.PetProfileActivity.class));
     }
 
     private void showPetRegistrationDialog() {
@@ -342,6 +341,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void renderStatsState(UiState<HomeStats> state) {
+        binding.vpStats.setVisibility(View.GONE);
+        binding.statsIndicator.setVisibility(View.GONE);
+        binding.statsStateContainer.setVisibility(View.GONE);
+        updateSwipeRefreshState();
+        return;
+
+        /*
         if (state == null) {
             updateSwipeRefreshState();
             return;
@@ -385,6 +391,7 @@ public class HomeFragment extends BaseFragment {
         }
 
         updateSwipeRefreshState();
+        */
     }
 
     private List<HomeStatCarouselAdapter.StatSlide> buildStatSlides(HomeStats stats) {
@@ -417,6 +424,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void renderAlertsState(UiState<List<AlertNotification>> state) {
+        binding.rvAlerts.setVisibility(View.GONE);
+        binding.alertsStateContainer.setVisibility(View.GONE);
+        updateSwipeRefreshState();
+        return;
+
+        /*
         if (state == null) {
             updateSwipeRefreshState();
             return;
@@ -457,6 +470,7 @@ public class HomeFragment extends BaseFragment {
         }
 
         updateSwipeRefreshState();
+        */
     }
 
     private void startStatsAutoSlide() {
