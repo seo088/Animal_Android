@@ -44,12 +44,14 @@ public class AnimalLooApplication extends Application {
     }
 
     private boolean isKakaoMapSupportedAbi() {
-        for (String abi : Build.SUPPORTED_ABIS) {
-            if ("arm64-v8a".equals(abi) || "armeabi-v7a".equals(abi)) {
-                return true;
-            }
+        // The emulator may list arm64-v8a as a translated secondary ABI while its
+        // actual process ABI is x86_64. Kakao Map's native library cannot load in
+        // that environment, so only the primary ABI is a valid compatibility check.
+        if (Build.SUPPORTED_ABIS == null || Build.SUPPORTED_ABIS.length == 0) {
+            return false;
         }
-        return false;
+        String primaryAbi = Build.SUPPORTED_ABIS[0];
+        return "arm64-v8a".equals(primaryAbi) || "armeabi-v7a".equals(primaryAbi);
     }
 
     private void registerFcmTokenIfAvailable() {
