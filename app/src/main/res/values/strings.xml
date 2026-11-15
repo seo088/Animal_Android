@@ -211,6 +211,8 @@
     <string name="more_pet_friendly_desc">반려동물 동반 가능 시설을 필터링해 조회합니다.</string>
     <string name="more_pet_mbti">반려동물 MBTI</string>
     <string name="more_pet_mbti_desc">우리 아이의 행동 성향을 재미있게 알아보세요.</string>
+    <string name="more_pet_match">나에게 맞는 반려동물 찾기</string>
+    <string name="more_pet_match_desc">생활환경과 돌봄 스타일로 추천 유형을 알아보세요.</string>
     <string name="more_settings">설정</string>
     <string name="more_settings_desc">구조/분실/위치 알림 및 앱 정보를 관리합니다.</string>
     <string name="more_data_source">데이터 출처</string>
@@ -374,6 +376,10 @@
     <string name="pet_mbti_save_note">결과가 저장되었습니다. 이후 궁합 기능에서 활용할 수 있어요.</string>
     <string name="pet_mbti_retry">다시 테스트하기</string>
     <string name="pet_mbti_close">닫기</string>
+    <string name="pet_match_title">나에게 맞는 반려동물</string>
+    <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려동물 유형을 찾아보세요.</string>
+    <string name="pet_match_result_title">추천 결과</string>
+    <string name="pet_match_save_note">결과는 참고용입니다. 실제 입양 전에는 활동량, 건강 상태, 가족 구성원의 동의를 꼭 확인해 주세요.</string>
 
     <!-- Options Menu -->
     <string name="menu_refresh">새로고침</string>
