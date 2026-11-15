@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_md"
-                app:cardBackgroundColor="@color/color_home_banner"
+                app:cardBackgroundColor="@color/color_surface_variant"
                 app:cardCornerRadius="@dimen/corner_radius_lg"
                 app:strokeWidth="0dp">
 
@@ -40,11 +40,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_md">
+                    android:padding="@dimen/spacing_sm">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pet_friendly"
+                            app:tint="@color/color_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_xs"
+                            android:layout_weight="1"
+                            android:text="@string/home_personality_banner_title"
+                            android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                            android:textColor="@color/color_text_primary"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_home_profile"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/cd_user_profile"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_profile_placeholder"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.AnimalLoo.Circle" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_home_pet_entry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        app:cardBackgroundColor="@color/color_home_banner"
+                        app:cardCornerRadius="@dimen/corner_radius_md"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/spacing_sm"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -55,17 +99,20 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_home_profile_summary"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/home_personality_banner_title"
+                                android:text="@string/home_pet_register_prompt"
                                 android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
-                                android:textColor="@color/color_primary" />
+                                android:textColor="@color/color_text_primary"
+                                android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_home_pet_summary"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_xs"
-                                android:text="@string/home_personality_banner_body"
+                                android:text="@string/home_pet_register_hint"
                                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                                 android:textSize="11sp"
                                 android:textColor="@color/color_text_secondary" />
@@ -78,6 +125,7 @@
                             android:src="@drawable/ic_pet_friendly"
                             app:tint="@color/color_primary" />
                     </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -176,7 +224,8 @@
                 android:layout_marginTop="@dimen/spacing_md"
                 android:text="@string/home_today_status_title"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Section"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_stats"
@@ -220,7 +269,8 @@
                 android:layout_marginStart="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:text="@string/home_alerts_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section"
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/alerts_state_container"
