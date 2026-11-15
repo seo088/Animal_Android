@@ -26,6 +26,7 @@ import com.animalloo.ui.auth.AuthActivity;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.home.HomeFragment;
 import com.animalloo.ui.main.MainNavigator;
+import com.animalloo.ui.mbti.PetMbtiActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -174,6 +175,12 @@ public class MoreFragment extends BaseFragment implements MoreHost {
                 getString(R.string.more_pet_friendly),
                 null,
                 () -> openSection(SECTION_PET_FRIENDLY));
+
+        setupNavigationRow(
+                binding.rowPetMbti,
+                getString(R.string.more_pet_mbti),
+                getString(R.string.more_pet_mbti_desc),
+                () -> startActivity(new Intent(requireContext(), PetMbtiActivity.class)));
 
         setupNavigationRow(
                 binding.rowDataSource,
