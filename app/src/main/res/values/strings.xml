@@ -46,6 +46,16 @@
     <string name="home_personality_compatibility_desc">보호자와 반려견의 성향 궁합 확인</string>
     <string name="home_personality_available_in_more">더보기에서 확인하기 →</string>
     <string name="home_personality_coming_soon">더보기에서 준비 중</string>
+    <string name="home_life_service_title">반려생활 서비스</string>
+    <string name="home_today_status_title">오늘의 현황</string>
+    <string name="home_service_nearby_title">주변 시설 찾기</string>
+    <string name="home_service_nearby_desc">동물병원·반려시설</string>
+    <string name="home_service_diagnosis_title">AI 증상 진단</string>
+    <string name="home_service_diagnosis_desc">증상 확인 및 안내</string>
+    <string name="home_service_rescue_title">구조 동물 조회</string>
+    <string name="home_service_rescue_desc">보호 중인 동물</string>
+    <string name="home_service_lost_title">실종 신고</string>
+    <string name="home_service_lost_desc">실종 동물 등록</string>
     <string name="alert_type_rescue">구조</string>
     <string name="alert_type_lost">분실</string>
     <string name="home_alert_shared">알림 정보를 공유했습니다.</string>

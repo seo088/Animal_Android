@@ -24,14 +24,15 @@
 
             <include
                 android:id="@+id/layout_profile_header"
-                layout="@layout/layout_home_profile_header" />
+                layout="@layout/layout_home_profile_header"
+                android:visibility="gone" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_md"
-                app:cardBackgroundColor="@color/color_surface_variant"
+                app:cardBackgroundColor="@color/color_home_banner"
                 app:cardCornerRadius="@dimen/corner_radius_lg"
                 app:strokeWidth="0dp">
 
@@ -41,20 +42,42 @@
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_md">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_personality_banner_title"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Title"
-                        android:textColor="@color/color_primary" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_xs"
-                        android:text="@string/home_personality_banner_body"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
-                        android:textColor="@color/color_text_secondary" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/home_personality_banner_title"
+                                android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                                android:textColor="@color/color_primary" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_xs"
+                                android:text="@string/home_personality_banner_body"
+                                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                                android:textSize="11sp"
+                                android:textColor="@color/color_text_secondary" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_lg"
+                            android:layout_height="@dimen/icon_size_lg"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pet_friendly"
+                            app:tint="@color/color_primary" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -64,7 +87,8 @@
                 android:layout_marginStart="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:text="@string/home_personality_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,6 +97,7 @@
                 android:layout_marginTop="@dimen/spacing_xs"
                 android:text="@string/home_personality_subtitle"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                android:textSize="11sp"
                 android:textColor="@color/color_text_secondary" />
 
             <LinearLayout
@@ -99,9 +124,59 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/home_life_service_title"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/card_service_nearby"
+                    layout="@layout/item_home_service" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="1dp" />
+
+                <include
+                    android:id="@+id/card_service_diagnosis"
+                    layout="@layout/item_home_service" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/card_service_rescue"
+                    layout="@layout/item_home_service" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="1dp" />
+
+                <include
+                    android:id="@+id/card_service_lost"
+                    layout="@layout/item_home_service" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_md"
                 android:layout_marginTop="@dimen/spacing_md"
-                android:text="@string/home_stats_title"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
+                android:text="@string/home_today_status_title"
+                android:textAppearance="@style/TextAppearance.AnimalLoo.Section"
+                android:textSize="16sp" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_stats"

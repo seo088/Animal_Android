@@ -30,6 +30,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentHomeBinding;
 import com.animalloo.databinding.DialogPetRegistrationBinding;
 import com.animalloo.databinding.ItemHomePersonalityBinding;
+import com.animalloo.databinding.ItemHomeServiceBinding;
 import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.detail.DetailNavigator;
@@ -164,24 +165,53 @@ public class HomeFragment extends BaseFragment {
         bindPersonalityCard(binding.cardPersonalityRecommendation,
                 R.string.home_personality_recommendation_title,
                 R.string.home_personality_recommendation_desc,
-                R.string.home_personality_coming_soon);
+                R.string.home_personality_coming_soon, R.drawable.ic_favorite,
+                R.color.color_home_icon_blue, R.color.color_badge_info);
         bindPersonalityCard(binding.cardPersonalityMbti,
                 R.string.home_personality_mbti_title,
                 R.string.home_personality_mbti_desc,
-                R.string.home_personality_available_in_more);
+                R.string.home_personality_available_in_more, R.drawable.ic_pet_friendly,
+                R.color.color_home_icon_purple, R.color.color_stat_facility_text);
         bindPersonalityCard(binding.cardPersonalityCompatibility,
                 R.string.home_personality_compatibility_title,
                 R.string.home_personality_compatibility_desc,
-                R.string.home_personality_coming_soon);
+                R.string.home_personality_coming_soon, R.drawable.ic_favorite,
+                R.color.color_home_icon_red, R.color.color_badge_error);
+
+        bindServiceCard(binding.cardServiceNearby, R.string.home_service_nearby_title,
+                R.string.home_service_nearby_desc, R.drawable.ic_map,
+                v -> mainNavigator.navigateToTab(R.id.nav_map));
+        bindServiceCard(binding.cardServiceDiagnosis, R.string.home_service_diagnosis_title,
+                R.string.home_service_diagnosis_desc, R.drawable.ic_diagnosis,
+                v -> mainNavigator.navigateToTab(R.id.nav_diagnosis));
+        bindServiceCard(binding.cardServiceRescue, R.string.home_service_rescue_title,
+                R.string.home_service_rescue_desc, R.drawable.ic_rescue,
+                v -> mainNavigator.navigateToTab(R.id.nav_rescue));
+        bindServiceCard(binding.cardServiceLost, R.string.home_service_lost_title,
+                R.string.home_service_lost_desc, R.drawable.ic_dog_bark,
+                v -> mainNavigator.navigateToTab(R.id.nav_rescue));
     }
 
     private void bindPersonalityCard(ItemHomePersonalityBinding card, int titleRes,
-                                     int descriptionRes, int actionRes) {
+                                     int descriptionRes, int actionRes, int iconRes,
+                                     int iconBackgroundRes, int iconTintRes) {
         card.tvPersonalityCardTitle.setText(titleRes);
         card.tvPersonalityCardDescription.setText(descriptionRes);
         card.tvPersonalityCardAction.setText(actionRes);
+        card.ivPersonalityIcon.setImageResource(iconRes);
+        card.ivPersonalityIcon.setColorFilter(ContextCompat.getColor(requireContext(), iconTintRes));
+        card.cardPersonalityIcon.setCardBackgroundColor(
+                ContextCompat.getColor(requireContext(), iconBackgroundRes));
         card.getRoot().setClickable(false);
         card.getRoot().setFocusable(false);
+    }
+
+    private void bindServiceCard(ItemHomeServiceBinding card, int titleRes, int descriptionRes,
+                                 int iconRes, View.OnClickListener clickListener) {
+        card.tvServiceTitle.setText(titleRes);
+        card.tvServiceDescription.setText(descriptionRes);
+        card.ivServiceIcon.setImageResource(iconRes);
+        card.getRoot().setOnClickListener(clickListener);
     }
 
     private void showAlertContextMenu(AlertNotification alert, View anchorView) {
