@@ -71,9 +71,13 @@ public class PetMatchActivity extends AppCompatActivity {
         UserProfile user = buildUserProfile(); binding.layoutMatchQuestion.setVisibility(View.GONE); binding.layoutMatchResult.setVisibility(View.VISIBLE); binding.btnMatchPrevious.setVisibility(View.GONE); binding.btnMatchNext.setVisibility(View.GONE); binding.btnMatchRetry.setVisibility(View.VISIBLE);
         if (user.needsPreparation) {
             binding.tvMatchResultType.setText(R.string.pet_match_preparation_title); binding.tvMatchResultDescription.setText(R.string.pet_match_preparation_description); binding.tvMatchAlternatives.setText(R.string.pet_match_preparation_next); binding.tvMatchResultNote.setText(R.string.pet_match_preparation_note);
+            binding.tvMatchBreedTraitsTitle.setVisibility(View.GONE); binding.tvMatchBreedTraits.setVisibility(View.GONE);
         } else {
             List<BreedScore> results = calculateRecommendations(user); BreedScore first = results.get(0); binding.tvMatchResultType.setText(first.breed.name); binding.tvMatchResultDescription.setText(buildReasons(user, first.breed));
             binding.tvMatchAlternatives.setText(getString(R.string.pet_match_alternatives_format, results.get(1).breed.name, results.get(2).breed.name)); binding.tvMatchResultNote.setText(first.breed.consideration);
+            BreedFeatures features = featuresFor(first.breed.name);
+            binding.tvMatchBreedTraitsTitle.setVisibility(View.VISIBLE); binding.tvMatchBreedTraits.setVisibility(View.VISIBLE);
+            binding.tvMatchBreedTraitsTitle.setText(getString(R.string.pet_match_breed_traits_format, first.breed.name)); binding.tvMatchBreedTraits.setText(features.bullets);
         }
         binding.scrollMatch.post(() -> binding.scrollMatch.fullScroll(View.FOCUS_UP));
     }
@@ -100,6 +104,33 @@ public class PetMatchActivity extends AppCompatActivity {
         return getString(R.string.pet_match_reason_format, labels[axes.get(0)], labels[axes.get(1)], labels[axes.get(2)]);
     }
 
+    private BreedFeatures featuresFor(String breed) {
+        switch (breed) {
+            case "진돗개": return f("• 주인에 대한 충성심이 강하고 영리한 편이에요.\n• 낯선 사람에게는 경계심을 보일 수 있어요.\n• 빠르고 민첩해 규칙적인 산책과 활동이 필요해요.");
+            case "래브라도 리트리버": return f("• 사람을 좋아하고 활발한 대형견이에요.\n• 학습 능력이 높아 훈련을 함께하기 좋아요.\n• 매일 산책과 놀이로 에너지를 풀어줘야 해요.");
+            case "저먼 셰퍼드": return f("• 영리하고 충성심이 강해 훈련 능력이 뛰어나요.\n• 보호자와 깊은 유대와 일관된 교육이 중요해요.\n• 어릴 때부터 사회화 경험을 충분히 만들어 주세요.");
+            case "골든 리트리버": return f("• 온순하고 사교적인 성향으로 가족과 잘 어울려요.\n• 어린이와 다른 반려동물에게도 친근한 편이에요.\n• 호기심이 많아 산책·놀이 시간을 좋아해요.");
+            case "시베리안 허스키": return f("• 사람을 좋아하고 활발한 성향의 대형견이에요.\n• 에너지와 지구력이 높아 충분한 운동이 필요해요.\n• 관심과 활동이 부족하면 고집스러워질 수 있어요.");
+            case "비글": return f("• 냄새를 추적하는 것을 좋아하는 하운드견이에요.\n• 호기심이 많고 활발해 후각 놀이와 산책을 즐겨요.\n• 정기적인 활동으로 에너지를 해소해 주는 것이 좋아요.");
+            case "푸들": return f("• 지능이 높고 사람과의 교감을 좋아해요.\n• 배우는 속도가 빨라 다양한 훈련과 놀이를 즐겨요.\n• 곱슬 털은 정기적인 빗질과 미용이 필요해요.");
+            case "닥스훈트": return f("• 밝고 사람을 좋아해 초보 보호자와도 잘 지낼 수 있어요.\n• 모질에 따라 성향 차이가 있으며 단호한 훈련이 필요해요.\n• 긴 허리에 부담이 가지 않도록 생활환경을 관리해 주세요.");
+            case "시추": return f("• 작은 체구지만 자존심이 있고 고집을 보일 수 있어요.\n• 보호자에게 애교를 보이며 사람을 잘 따르는 편이에요.\n• 긴 털을 위한 꾸준한 빗질과 미용이 필요해요.");
+            case "치와와": return f("• 세계적으로 체구가 매우 작은 견종이에요.\n• 보호자와의 유대가 깊고 경계심을 보일 수 있어요.\n• 작은 몸을 고려한 안전한 실내 환경이 중요해요.");
+            case "포메라니안": return f("• 작은 체구지만 당당하고 호기심이 많아요.\n• 학습 의욕이 높아 일관된 교육이 도움이 돼요.\n• 풍성한 이중모는 매일 빗질해 주는 것이 좋아요.");
+            case "보스턴 테리어": return f("• 튼튼하고 쾌활하며 사람과 잘 어울리는 편이에요.\n• 기본적인 생활 훈련을 비교적 잘 따라와요.\n• 더운 날에는 무리한 활동을 피하는 것이 좋아요.");
+            case "비숑프리제": return f("• 밝고 사교적이며 보호자에 대한 애정이 깊어요.\n• 영리해 여러 훈련과 놀이를 함께할 수 있어요.\n• 곱슬 털의 미용과 꾸준한 운동이 필요해요.");
+            case "미니어처 핀셔": return f("• 작은 체구지만 경쾌하고 활발한 성향이에요.\n• 에너지가 높아 매일 산책과 놀이가 필요해요.\n• 경계심을 보일 수 있어 어릴 때 사회화가 중요해요.");
+            case "불독": return f("• 애정이 많고 침착하며 보호자에게 잘 따르는 편이에요.\n• 활동을 귀찮아할 수 있어 체중 관리가 중요해요.\n• 더위에 약할 수 있어 산책 시간과 온도를 조절해 주세요.");
+            case "아메리칸 코커스패니얼": return f("• 명랑하고 온화하며 사교성이 좋은 편이에요.\n• 보호자와 함께할 때 훈련을 잘 따라와요.\n• 귀와 풍성한 털을 꾸준히 관리해 주세요.");
+            case "웰시 코기 펨브로크": return f("• 친근하고 영리하며 운동량이 많은 견종이에요.\n• 충분한 활동과 훈련을 통해 스트레스를 풀어줘야 해요.\n• 짧은 산책만으로는 부족할 수 있어요.");
+            case "샤페이": return f("• 낯선 사람에게 경계심을 보일 수 있는 독립적인 견종이에요.\n• 가족과의 안정적인 관계와 일관된 사회화가 중요해요.\n• 피부 주름을 청결하게 관리해 주세요.");
+            case "재패니즈 스피츠": return f("• 사람과 잘 지내고 밝은 성향을 가진 소형견이에요.\n• 불필요하게 짖지 않도록 어릴 때부터 훈련해 주세요.\n• 풍성한 털을 위한 정기적인 빗질이 필요해요.");
+            default: return f("• 개체별 성격과 성장 환경에 따라 특징이 달라질 수 있어요.\n• 실제 만남과 보호소 상담으로 성향을 확인해 주세요.");
+        }
+    }
+
+    private BreedFeatures f(String bullets) { return new BreedFeatures(bullets); }
+
     private List<BreedProfile> breedProfiles() {
         List<BreedProfile> breeds = new ArrayList<>();
         breeds.add(b("진돗개",4,3,4,2,3,4,2,"낯선 사람·다른 반려동물과의 관계 및 충분한 산책 계획을 확인해 주세요.")); breeds.add(b("래브라도 리트리버",4,5,2,5,4,4,3,"매일 활동과 사람·동물과의 사회화 시간을 확보해 주세요."));
@@ -123,4 +154,5 @@ public class PetMatchActivity extends AppCompatActivity {
     private static class UserProfile { final float[] values; final boolean needsPreparation; UserProfile(float[] v,boolean p){values=v;needsPreparation=p;} }
     private static class BreedProfile { final String name,consideration; final int[] values; BreedProfile(String n,int[] v,String c){name=n;values=v;consideration=c;} }
     private static class BreedScore { final BreedProfile breed; final float score; BreedScore(BreedProfile b,float s){breed=b;score=s;} }
+    private static class BreedFeatures { final String bullets; BreedFeatures(String value){bullets=value;} }
 }
