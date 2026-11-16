@@ -225,6 +225,15 @@
                             android:textColor="@color/color_text_secondary"
                             android:textSize="15sp" />
                         <TextView
+                            android:id="@+id/tv_match_alternatives"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@color/color_test_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_match_result_note"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
