@@ -34,6 +34,7 @@ import com.animalloo.databinding.ItemHomeServiceBinding;
 import com.animalloo.data.repository.RepositoryCallback;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.ui.match.PetMatchActivity;
+import com.animalloo.ui.compatibility.PetCompatibilityActivity;
 import com.animalloo.ui.mbti.PetMbtiActivity;
 import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.ui.main.MainNavigator;
@@ -179,8 +180,9 @@ public class HomeFragment extends BaseFragment {
         bindPersonalityCard(binding.cardPersonalityCompatibility,
                 R.string.home_personality_compatibility_title,
                 R.string.home_personality_compatibility_desc,
-                R.string.home_personality_coming_soon, R.drawable.ic_favorite,
-                R.color.color_home_icon_red, R.color.color_badge_error, null);
+                R.string.home_personality_start, R.drawable.ic_favorite,
+                R.color.color_home_icon_red, R.color.color_badge_error,
+                v -> startActivity(new Intent(requireContext(), PetCompatibilityActivity.class)));
 
         bindServiceCard(binding.cardServiceNearby, R.string.home_service_nearby_title,
                 R.string.home_service_nearby_desc, R.drawable.ic_map,
