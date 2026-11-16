@@ -377,13 +377,19 @@
     <string name="pet_mbti_save_note">결과가 저장되었습니다. 이후 궁합 기능에서 활용할 수 있어요.</string>
     <string name="pet_mbti_retry">다시 테스트하기</string>
     <string name="pet_mbti_close">닫기</string>
-    <string name="pet_match_title">나에게 맞는 반려동물</string>
-    <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려동물 유형을 찾아보세요.</string>
+    <string name="pet_match_title">나에게 맞는 반려견</string>
+    <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려견 품종을 찾아보세요.</string>
     <string name="pet_match_result_title">추천 결과</string>
     <string name="pet_match_save_note">결과는 참고용입니다. 실제 입양 전에는 활동량, 건강 상태, 가족 구성원의 동의를 꼭 확인해 주세요.</string>
     <string name="pet_match_previous">이전</string>
     <string name="pet_match_reason_title">이렇게 잘 맞아요</string>
     <string name="pet_match_consideration_title">입양 전 확인할 점</string>
+    <string name="pet_match_alternatives_format">함께 검토할 품종: %1$s · %2$s</string>
+    <string name="pet_match_reason_format">%1$s, %2$s, %3$s의 생활 패턴이 이 견종과 잘 맞아요.</string>
+    <string name="pet_match_preparation_title">추천 전 준비 확인</string>
+    <string name="pet_match_preparation_description">현재 선택한 생활 패턴에서는 특정 품종보다 돌봄 시간과 비상시 돌봄 계획을 먼저 점검하는 것이 좋아요.</string>
+    <string name="pet_match_preparation_next">준비가 된 뒤 다시 테스트하면 더 알맞은 품종을 추천해 드릴 수 있어요.</string>
+    <string name="pet_match_preparation_note">매일 필요한 산책·놀이 시간, 가족의 돌봄 분담, 갑작스러운 외출 시 돌봄 계획을 확인해 주세요.</string>
 
     <!-- Options Menu -->
     <string name="menu_refresh">새로고침</string>
