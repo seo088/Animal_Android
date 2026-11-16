@@ -77,7 +77,8 @@ public class PetMatchActivity extends AppCompatActivity {
             binding.tvMatchAlternatives.setText(getString(R.string.pet_match_alternatives_format, results.get(1).breed.name, results.get(2).breed.name)); binding.tvMatchResultNote.setText(first.breed.consideration);
             BreedFeatures features = featuresFor(first.breed.name);
             binding.tvMatchBreedTraitsTitle.setVisibility(View.VISIBLE); binding.tvMatchBreedTraits.setVisibility(View.VISIBLE);
-            binding.tvMatchBreedTraitsTitle.setText(getString(R.string.pet_match_breed_traits_format, first.breed.name)); binding.tvMatchBreedTraits.setText(features.bullets);
+            binding.tvMatchBreedTraitsTitle.setText(getString(R.string.pet_match_breed_traits_format, first.breed.name));
+            binding.tvMatchBreedTraits.setText(features.bullets.replace("\n", "\n\n"));
         }
         binding.scrollMatch.post(() -> binding.scrollMatch.fullScroll(View.FOCUS_UP));
     }

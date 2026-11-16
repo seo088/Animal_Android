@@ -388,9 +388,9 @@
     <string name="pet_match_reason_format">%1$s, %2$s, %3$s의 생활 패턴이 이 견종과 잘 맞아요.</string>
     <string name="pet_match_breed_traits_format">%1$s의 특징</string>
     <string name="pet_match_preparation_title">추천 전 준비 확인</string>
-    <string name="pet_match_preparation_description">현재 선택한 생활 패턴에서는 특정 품종보다 돌봄 시간과 비상시 돌봄 계획을 먼저 점검하는 것이 좋아요.</string>
-    <string name="pet_match_preparation_next">준비가 된 뒤 다시 테스트하면 더 알맞은 품종을 추천해 드릴 수 있어요.</string>
-    <string name="pet_match_preparation_note">매일 필요한 산책·놀이 시간, 가족의 돌봄 분담, 갑작스러운 외출 시 돌봄 계획을 확인해 주세요.</string>
+    <string name="pet_match_preparation_description">현재 선택한 생활 패턴에서는\n\n특정 품종보다 돌봄 시간과 비상시 돌봄 계획을\n먼저 점검하는 것이 좋아요.</string>
+    <string name="pet_match_preparation_next">준비가 된 뒤 다시 테스트하면\n\n더 알맞은 품종을 추천해 드릴 수 있어요.</string>
+    <string name="pet_match_preparation_note">매일 필요한 산책·놀이 시간, 가족의 돌봄 분담,\n\n갑작스러운 외출 시 돌봄 계획을 확인해 주세요.</string>
 
     <!-- Options Menu -->
     <string name="menu_refresh">새로고침</string>
