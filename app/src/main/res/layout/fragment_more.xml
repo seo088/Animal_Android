@@ -117,6 +117,16 @@
                         android:background="@drawable/divider_more_list" />
 
                     <include
+                        android:id="@+id/row_pet_compatibility"
+                        layout="@layout/item_more_list_row" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:background="@drawable/divider_more_list" />
+
+                    <include
                         android:id="@+id/row_pet_match"
                         layout="@layout/item_more_list_row" />
                 </LinearLayout>
