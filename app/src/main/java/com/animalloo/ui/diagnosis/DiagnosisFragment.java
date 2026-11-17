@@ -36,6 +36,7 @@ public class DiagnosisFragment extends BaseFragment {
     private DiagnosisChatAdapter chatAdapter;
     private DetailNavigator detailNavigator;
     private boolean syncingChipSelection;
+    private boolean diagnosisNoticeVisible;
     private OnBackPressedCallback backPressedCallback;
 
     @Override
@@ -67,19 +68,25 @@ public class DiagnosisFragment extends BaseFragment {
         setupBackNavigation();
         observeViewModel();
         viewModel.initialize();
-        showDiagnosisNotice();
     }
 
-    private void showDiagnosisNotice() {
+    /** Called by the activity only after the user explicitly enters the diagnosis feature. */
+    public void showDiagnosisNotice() {
+        if (binding == null || diagnosisNoticeVisible) {
+            return;
+        }
         binding.getRoot().post(() -> {
-            if (!isAdded() || getActivity() == null) {
+            if (!isAdded() || getActivity() == null || diagnosisNoticeVisible) {
                 return;
             }
-            new MaterialAlertDialogBuilder(requireContext())
+            diagnosisNoticeVisible = true;
+            androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.diagnosis_notice_title)
                     .setMessage(R.string.diagnosis_notice_dialog_message)
                     .setPositiveButton(R.string.diagnosis_notice_confirm, null)
-                    .show();
+                    .create();
+            dialog.setOnDismissListener(ignored -> diagnosisNoticeVisible = false);
+            dialog.show();
         });
     }
 

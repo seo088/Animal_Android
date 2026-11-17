@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
+import com.animalloo.AnimalLooApplication;
 import com.animalloo.adapter.FacilityListAdapter;
 import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.FacilityCategory;
@@ -25,7 +26,6 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMapBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.util.FacilityMapController;
-import com.animalloo.util.MapsAvailabilityChecker;
 import com.animalloo.util.PermissionHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -67,7 +67,8 @@ public class MapFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(MapViewModel.class);
-        mapsAvailable = MapsAvailabilityChecker.isMapsAvailable(requireContext());
+        mapsAvailable = ((AnimalLooApplication) requireActivity().getApplication())
+                .ensureKakaoMapSdkInitialized();
 
         FacilityCategory category = viewModel.getSelectedCategory().getValue();
         if (savedInstanceState != null) {
