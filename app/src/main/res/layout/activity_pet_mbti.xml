@@ -1,158 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_background"
-    android:padding="@dimen/spacing_md">
-
-    <ImageButton
-        android:id="@+id/btn_mbti_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/more_back"
-        android:src="@drawable/ic_back"
-        app:tint="@color/color_text_primary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_mbti_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_sm"
-        android:text="@string/pet_mbti_title"
-        android:textAppearance="@style/TextAppearance.AnimalLoo.Headline"
-        app:layout_constraintBottom_toBottomOf="@id/btn_mbti_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_mbti_back"
-        app:layout_constraintTop_toTopOf="@id/btn_mbti_back" />
-
-    <ScrollView
-        android:id="@+id/mbti_content"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_md"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/btn_mbti_next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_mbti_back">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_mbti_intro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_lg"
-                android:text="@string/pet_mbti_intro"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
-                android:textColor="@color/color_text_secondary" />
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress_mbti"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:max="8"
-                app:trackCornerRadius="4dp" />
-
-            <TextView
-                android:id="@+id/tv_mbti_progress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_sm"
-                android:gravity="end"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                android:textColor="@color/color_text_secondary" />
-
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.AnimalLoo.Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_md">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_lg">
-
-                    <TextView
-                        android:id="@+id/tv_mbti_question"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Title"
-                        android:textColor="@color/color_text_primary" />
-
-                    <RadioGroup
-                        android:id="@+id/group_mbti_answers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md" />
-                </LinearLayout>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/color_test_background">
+    <ScrollView android:id="@+id/scroll_mbti" android:layout_width="0dp" android:layout_height="0dp" android:clipToPadding="false" android:fillViewport="true" android:padding="16dp" app:layout_constraintBottom_toTopOf="@id/layout_mbti_actions" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="180dp" app:cardBackgroundColor="@color/color_test_mint" app:cardCornerRadius="20dp" app:cardElevation="0dp">
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                    <ImageButton android:id="@+id/btn_mbti_back" android:layout_width="40dp" android:layout_height="40dp" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/more_back" android:src="@drawable/ic_back" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:tint="@color/color_text_primary" />
+                    <TextView android:id="@+id/tv_mbti_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:ellipsize="end" android:maxLines="1" android:text="@string/pet_mbti_title" android:textColor="@color/color_text_primary" android:textSize="19sp" android:textStyle="bold" app:layout_constraintBottom_toBottomOf="@id/btn_mbti_back" app:layout_constraintEnd_toStartOf="@id/iv_mbti_puppy" app:layout_constraintStart_toEndOf="@id/btn_mbti_back" app:layout_constraintTop_toTopOf="@id/btn_mbti_back" />
+                    <TextView android:id="@+id/tv_mbti_intro" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/pet_mbti_intro" android:textColor="@color/color_text_secondary" android:textSize="14sp" app:layout_constraintEnd_toStartOf="@id/iv_mbti_puppy" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/btn_mbti_back" />
+                    <ImageView android:id="@+id/iv_mbti_puppy" android:layout_width="116dp" android:layout_height="132dp" android:contentDescription="@null" android:scaleType="centerInside" android:src="@drawable/img_pet_match_puppy" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_mbti_result"
-                style="@style/Widget.AnimalLoo.Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_md"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_lg">
-
-                    <TextView
-                        android:id="@+id/tv_mbti_result_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pet_mbti_result_title"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Section" />
-
-                    <TextView
-                        android:id="@+id/tv_mbti_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_sm"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Display"
-                        android:textColor="@color/color_primary" />
-
-                    <TextView
-                        android:id="@+id/tv_mbti_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_sm"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Body" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/pet_mbti_save_note"
-                        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                        android:textColor="@color/color_text_secondary" />
+            <LinearLayout android:id="@+id/layout_mbti_question" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                    <LinearLayout android:id="@+id/layout_mbti_steps" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="horizontal" />
+                    <TextView android:id="@+id/tv_mbti_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:textColor="@color/color_text_secondary" android:textSize="14sp" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/color_surface" app:cardCornerRadius="20dp" app:cardElevation="3dp" app:strokeColor="@color/color_divider" app:strokeWidth="1dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                        <TextView android:id="@+id/tv_mbti_category" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_match_option_selected" android:paddingStart="12dp" android:paddingTop="5dp" android:paddingEnd="12dp" android:paddingBottom="5dp" android:textColor="@color/color_test_primary" android:textSize="13sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tv_mbti_question" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textColor="@color/color_text_primary" android:textSize="21sp" android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <LinearLayout android:id="@+id/layout_mbti_options" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/layout_mbti_result" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical" android:visibility="gone">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="@string/pet_mbti_result_title" android:textColor="@color/color_text_primary" android:textSize="18sp" android:textStyle="bold" />
+                <TextView android:id="@+id/tv_mbti_type" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:textColor="@color/color_test_primary" android:textSize="30sp" android:textStyle="bold" />
+                <ImageView android:layout_width="match_parent" android:layout_height="170dp" android:contentDescription="@null" android:scaleType="centerInside" android:src="@drawable/img_pet_match_puppy" />
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardBackgroundColor="@color/color_surface" app:cardCornerRadius="20dp" app:cardElevation="2dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                        <TextView android:id="@+id/tv_mbti_nickname" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/color_test_primary" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tv_mbti_description" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:lineSpacingExtra="5dp" android:textColor="@color/color_text_secondary" android:textSize="16sp" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/pet_mbti_save_note" android:textColor="@color/color_text_secondary" android:textSize="14sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_mbti_next"
-        style="@style/Widget.AnimalLoo.Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_sm"
-        android:text="@string/pet_mbti_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout android:id="@+id/layout_mbti_actions" android:layout_width="0dp" android:layout_height="wrap_content" android:background="@color/color_test_background" android:gravity="center_vertical" android:orientation="horizontal" android:padding="16dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_mbti_previous" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginEnd="8dp" android:layout_weight="1" android:text="@string/pet_match_previous" android:textColor="@color/color_text_secondary" android:visibility="invisible" app:backgroundTint="@color/color_surface_variant" app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_mbti_next" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/pet_mbti_next" android:textColor="@color/color_on_primary" app:backgroundTint="@color/color_test_primary" app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_mbti_retry" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/pet_mbti_retry" android:textColor="@color/color_on_primary" android:visibility="gone" app:backgroundTint="@color/color_test_primary" app:cornerRadius="14dp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -218,6 +218,8 @@
     <string name="more_pet_friendly_desc">반려동물 동반 가능 시설을 필터링해 조회합니다.</string>
     <string name="more_pet_mbti">반려동물 MBTI</string>
     <string name="more_pet_mbti_desc">우리 아이의 행동 성향을 재미있게 알아보세요.</string>
+    <string name="more_pet_compatibility">나와 반려견 궁합 테스트</string>
+    <string name="more_pet_compatibility_desc">보호자와 반려견의 생활 성향 궁합을 확인해 보세요.</string>
     <string name="more_pet_match">나에게 맞는 반려동물 찾기</string>
     <string name="more_pet_match_desc">생활환경과 돌봄 스타일로 추천 유형을 알아보세요.</string>
     <string name="more_settings">설정</string>
@@ -373,23 +375,37 @@
     <string name="retry">다시 시도</string>
 
     <!-- Pet MBTI -->
-    <string name="pet_mbti_title">반려동물 MBTI</string>
-    <string name="pet_mbti_intro">평소 모습을 떠올리며 답해 보세요. 의료 진단이 아닌 재미를 위한 성향 테스트입니다.</string>
+    <string name="pet_mbti_title">우리 강아지 MBTI</string>
+    <string name="pet_mbti_intro">평소 우리 아이의 모습을 떠올리며 답해 보세요. 재미를 위한 성향 테스트입니다.</string>
     <string name="pet_mbti_progress_format">%1$d / %2$d</string>
     <string name="pet_mbti_next">다음</string>
     <string name="pet_mbti_result">결과 보기</string>
     <string name="pet_mbti_select_answer">답변을 선택해 주세요.</string>
-    <string name="pet_mbti_result_title">우리 아이의 성향 결과</string>
-    <string name="pet_mbti_save_note">결과가 저장되었습니다. 이후 궁합 기능에서 활용할 수 있어요.</string>
+    <string name="pet_mbti_result_title">우리 아이의 MBTI 결과</string>
+    <string name="pet_mbti_save_note">결과는 참고용이에요. 실제 행동과 환경에 따라 다를 수 있어요.</string>
     <string name="pet_mbti_retry">다시 테스트하기</string>
     <string name="pet_mbti_close">닫기</string>
-    <string name="pet_match_title">나에게 맞는 반려동물</string>
-    <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려동물 유형을 찾아보세요.</string>
+    <string name="pet_compatibility_title">나와 우리 강아지 궁합</string>
+    <string name="pet_compatibility_intro">보호자와 우리 아이의 생활 성향이 얼마나 잘 맞는지 알아보세요.</string>
+    <string name="pet_compatibility_result_title">궁합 결과</string>
+    <string name="compatibility_score_format">%1$d%%</string>
+    <string name="compatibility_match_format">잘 맞는 부분 · %1$s</string>
+    <string name="compatibility_adjust_format">함께 맞춰 갈 부분 · %1$s</string>
+    <string name="pet_compatibility_note">결과는 참고용이에요. 반려견의 컨디션과 환경을 살피며 함께하는 방법을 찾아보세요.</string>
+    <string name="pet_match_title">나에게 맞는 반려견</string>
+    <string name="pet_match_intro">생활환경과 여가 스타일을 바탕으로 잘 맞는 반려견 품종을 찾아보세요.</string>
     <string name="pet_match_result_title">추천 결과</string>
     <string name="pet_match_save_note">결과는 참고용입니다. 실제 입양 전에는 활동량, 건강 상태, 가족 구성원의 동의를 꼭 확인해 주세요.</string>
     <string name="pet_match_previous">이전</string>
     <string name="pet_match_reason_title">이렇게 잘 맞아요</string>
     <string name="pet_match_consideration_title">입양 전 확인할 점</string>
+    <string name="pet_match_alternatives_format">함께 검토할 품종: %1$s · %2$s</string>
+    <string name="pet_match_reason_format">%1$s, %2$s, %3$s의 생활 패턴이 이 견종과 잘 맞아요.</string>
+    <string name="pet_match_breed_traits_format">%1$s의 특징</string>
+    <string name="pet_match_preparation_title">추천 전 준비 확인</string>
+    <string name="pet_match_preparation_description">현재 선택한 생활 패턴에서는\n\n특정 품종보다 돌봄 시간과 비상시 돌봄 계획을\n먼저 점검하는 것이 좋아요.</string>
+    <string name="pet_match_preparation_next">준비가 된 뒤 다시 테스트하면\n\n더 알맞은 품종을 추천해 드릴 수 있어요.</string>
+    <string name="pet_match_preparation_note">매일 필요한 산책·놀이 시간, 가족의 돌봄 분담,\n\n갑작스러운 외출 시 돌봄 계획을 확인해 주세요.</string>
 
     <!-- Options Menu -->
     <string name="menu_refresh">새로고침</string>

@@ -55,6 +55,12 @@
             android:theme="@style/Theme.AnimalLoo" />
 
         <activity
+            android:name=".ui.compatibility.PetCompatibilityActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AnimalLoo" />
+
+        <activity
             android:name=".ui.match.PetMatchActivity"
             android:exported="false"
             android:screenOrientation="portrait"
