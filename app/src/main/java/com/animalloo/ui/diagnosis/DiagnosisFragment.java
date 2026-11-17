@@ -24,6 +24,7 @@ import com.animalloo.ui.detail.DetailNavigator;
 import com.animalloo.util.FacilityActions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.Set;
@@ -66,6 +67,20 @@ public class DiagnosisFragment extends BaseFragment {
         setupBackNavigation();
         observeViewModel();
         viewModel.initialize();
+        showDiagnosisNotice();
+    }
+
+    private void showDiagnosisNotice() {
+        binding.getRoot().post(() -> {
+            if (!isAdded() || getActivity() == null) {
+                return;
+            }
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.diagnosis_notice_title)
+                    .setMessage(R.string.diagnosis_notice_dialog_message)
+                    .setPositiveButton(R.string.diagnosis_notice_confirm, null)
+                    .show();
+        });
     }
 
     private void setupChat() {

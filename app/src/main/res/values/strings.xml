@@ -114,6 +114,10 @@
     <string name="diagnosis_caution_label">주의사항</string>
     <string name="diagnosis_find_hospitals">인근 병원 보기</string>
     <string name="diagnosis_chat_header_title">AnimalLoo 진단 도우미</string>
+    <string name="diagnosis_notice_title">증상 안내 참고 기능</string>
+    <string name="diagnosis_notice_summary">이 기능은 의료 진단이 아닌 참고용 안내입니다.</string>
+    <string name="diagnosis_notice_dialog_message">AnimalLoo의 증상 안내는 반려동물의 상태를 살펴보기 위한 참고 기능이며, 수의사의 진단이나 치료를 대신하지 않습니다. 호흡 곤란, 경련, 심한 출혈 등 응급 증상이 있거나 걱정되는 경우에는 즉시 가까운 동물병원에 문의해 주세요.</string>
+    <string name="diagnosis_notice_confirm">확인했어요</string>
     <string name="diagnosis_chat_bot_avatar">진단 도우미</string>
     <string name="diagnosis_chat_intro">안녕하세요! AnimalLoo 진단 도우미입니다.</string>
     <string name="diagnosis_chat_greeting_with_pet">%1$s에게 어떤 증상이 보이나요? (복수 선택 가능)</string>
