@@ -18,22 +18,32 @@ public class AnimalLooApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initKakaoMapSdk();
+        ensureKakaoMapSdkInitialized();
         RepositoryProvider.init(this);
         NotificationHelper.createNotificationChannels(this);
         registerFcmTokenIfAvailable();
     }
 
-    private void initKakaoMapSdk() {
+    /**
+     * Rechecks the map SDK when a map screen is opened. This avoids keeping a
+     * failed startup attempt as the permanent reason for showing the list UI.
+     */
+    public boolean ensureKakaoMapSdkInitialized() {
+        if (MapsAvailabilityChecker.isMapsAvailable(this)) {
+            return true;
+        }
         if (!MapsAvailabilityChecker.isKeyConfigured(this)) {
             Log.i(TAG, "Kakao Map key is not configured. Set KAKAO_MAP_KEY in .env or environment variables.");
-            return;
+            return false;
         }
         try {
             KakaoMapSdk.init(this, BuildConfig.KAKAO_MAP_KEY);
             MapsAvailabilityChecker.setSdkInitialized(true);
+            return true;
         } catch (UnsatisfiedLinkError error) {
+            MapsAvailabilityChecker.setSdkInitialized(false);
             Log.w(TAG, "Kakao Map native library is unavailable; using the facility list.", error);
+            return false;
         }
     }
 

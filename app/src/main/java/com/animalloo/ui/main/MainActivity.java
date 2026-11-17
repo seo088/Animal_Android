@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
                     switchFragment(mapFragment);
                     return true;
                 } else if (itemId == R.id.nav_diagnosis) {
-                    switchFragment(diagnosisFragment);
+                    openDiagnosis();
                     return true;
                 } else if (itemId == R.id.nav_rescue) {
                     switchFragment(rescueFragment);
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
         if (bottomNavItemId == R.id.nav_map) {
             switchFragment(mapFragment);
         } else if (bottomNavItemId == R.id.nav_diagnosis) {
-            switchFragment(diagnosisFragment);
+            openDiagnosis();
         } else if (bottomNavItemId == R.id.nav_rescue) {
             switchFragment(rescueFragment);
             applyPendingRescueTabIfNeeded();
@@ -365,6 +365,14 @@ public class MainActivity extends AppCompatActivity implements MainNavigator, De
             return moreFragment;
         }
         return homeFragment;
+    }
+
+    private void openDiagnosis() {
+        boolean enteredDiagnosis = activeFragment != diagnosisFragment;
+        switchFragment(diagnosisFragment);
+        if (enteredDiagnosis) {
+            binding.fragmentContainer.post(diagnosisFragment::showDiagnosisNotice);
+        }
     }
 
     @Override
