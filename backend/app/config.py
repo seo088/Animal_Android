@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     upload_dir: str = "uploads"
     public_base_url: str = "http://10.0.2.2:8000"
     animal_api_key: str = ""
+    animal_route_api_base_url: str = "https://animalroute.co.kr/api/public/v1"
+    animal_route_api_key: str = ""
     sync_interval_minutes: int = 60
 
     @property
