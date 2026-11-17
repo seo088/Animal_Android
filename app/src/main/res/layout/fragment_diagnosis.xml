@@ -8,6 +8,59 @@
     android:orientation="vertical"
     tools:context=".ui.diagnosis.DiagnosisFragment">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_diagnosis_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_md"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:layout_marginEnd="@dimen/spacing_md"
+        app:cardBackgroundColor="@color/color_surface_variant"
+        app:cardCornerRadius="@dimen/radius_md"
+        app:strokeColor="@color/color_primary_light"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_sm">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/diagnosis_notice_title"
+                android:text="⚠"
+                android:textColor="@color/color_primary"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/diagnosis_notice_title"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+                    android:textColor="@color/color_text_primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/diagnosis_notice_summary"
+                    android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+                    android:textColor="@color/color_text_secondary" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat"
         android:layout_width="match_parent"
