@@ -4,23 +4,26 @@
     style="@style/Widget.AnimalLoo.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_sm"
-    app:cardBackgroundColor="@color/color_home_card"
-    app:strokeWidth="0dp">
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/color_surface"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="3dp"
+    app:strokeColor="@color/color_divider"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="64dp"
+        android:minHeight="106dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="14dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_personality_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:cardCornerRadius="@dimen/corner_radius_sm"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:cardCornerRadius="18dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp">
 
@@ -29,13 +32,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:padding="9dp" />
+                android:padding="16dp" />
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="14dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -44,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/color_text_primary" />
 
             <TextView
@@ -53,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textColor="@color/color_text_secondary" />
 
             <TextView
@@ -62,8 +65,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/color_primary" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_chevron_right" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
