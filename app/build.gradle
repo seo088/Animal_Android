@@ -74,6 +74,14 @@ android {
         viewBinding true
         buildConfig true
     }
+
+    // Kakao Map ships ARM native libraries. Legacy packaging extracts them so
+    // Android's ARM translation layer can load them on compatible x86 emulators.
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
 }
 
 dependencies {
