@@ -101,7 +101,7 @@ public class HomeFragment extends BaseFragment {
         setupPersonalityPreview();
         setupSwipeRefresh();
         binding.ivHomeProfile.setOnClickListener(v -> openPetProfile());
-        binding.cardHomePetEntry.setOnClickListener(v -> openPetProfile());
+        binding.btnHomePetAction.setOnClickListener(v -> openPetProfile());
         observeViewModel();
         viewModel.loadHomeData();
     }
@@ -195,7 +195,7 @@ public class HomeFragment extends BaseFragment {
                 v -> mainNavigator.navigateToTab(R.id.nav_rescue));
         bindServiceCard(binding.cardServiceLost, R.string.home_service_lost_title,
                 R.string.home_service_lost_desc, R.drawable.ic_dog_bark,
-                v -> mainNavigator.navigateToTab(R.id.nav_rescue));
+                v -> mainNavigator.navigateToRescueWithTab(RESCUE_TAB_LOST));
     }
 
     private void bindPersonalityCard(ItemHomePersonalityBinding card, int titleRes,
