@@ -105,10 +105,10 @@ public interface AnimalLooApi {
     @GET("hospitals/{id}")
     Call<Hospital> getHospital(@Path("id") String id);
 
-    @GET("symptoms")
-    Call<List<Symptom>> getSymptoms();
+    @GET("diagnosis/symptoms")
+    Call<List<Symptom>> getSymptoms(@Query("species") String species);
 
-    @POST("diagnosis/infer")
+    @POST("diagnosis/relations")
     Call<List<DiagnosisResult>> inferDisease(@Body InferRequest body);
 
     @GET("diagnosis/{id}")

@@ -10,6 +10,8 @@ public class DiagnosisResult {
     private final List<String> relatedSymptoms;
     private final String description;
     private final String caution;
+    private final String sourceTitle;
+    private final String sourceUrl;
 
     public DiagnosisResult(String id, String diseaseName, int probabilityPercent,
                            List<String> relatedSymptoms, String description, String caution) {
@@ -19,6 +21,8 @@ public class DiagnosisResult {
         this.relatedSymptoms = relatedSymptoms;
         this.description = description;
         this.caution = caution;
+        this.sourceTitle = null;
+        this.sourceUrl = null;
     }
 
     public String getId() {
@@ -43,5 +47,13 @@ public class DiagnosisResult {
 
     public String getCaution() {
         return caution;
+    }
+
+    public String getSourceTitle() {
+        return sourceTitle;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
     }
 }

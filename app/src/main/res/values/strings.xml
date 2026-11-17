@@ -107,6 +107,12 @@
     <string name="diagnosis_symptom_guide">반려동물의 증상을 선택해 주세요. (복수 선택 가능)</string>
     <string name="diagnosis_probability_format">가능성 %1$d%%</string>
     <string name="diagnosis_related_symptoms">관련 증상: %1$s</string>
+    <string name="diagnosis_possible_disease">가능성이 있는 질환: %1$s</string>
+    <string name="diagnosis_literature_relation">문헌 기반 참고 관계</string>
+    <string name="diagnosis_relation_not_probability">이 정보는 진단 또는 발병 확률이 아닙니다.</string>
+    <string name="diagnosis_source_format">출처: %1$s\n%2$s</string>
+    <string name="diagnosis_species_required">반려동물 등록에서 종류를 개 또는 고양이로 저장한 뒤 증상 안내를 이용해 주세요.</string>
+    <string name="diagnosis_max_symptom_selection">증상은 최대 %1$d개까지 선택할 수 있어요.</string>
     <string name="diagnosis_caution_label">주의사항</string>
     <string name="diagnosis_find_hospitals">인근 병원 보기</string>
     <string name="diagnosis_chat_header_title">응급 증상 안내</string>

@@ -12,6 +12,7 @@ import re
 from fastapi import APIRouter, HTTPException, Query, status
 
 from app import schemas
+from app.animal_route import animal_route_client
 from app.sparql import DISEASE_NS, SYMPTOM_NS, local_id, select
 
 router = APIRouter(tags=["증상 확인"])
@@ -20,6 +21,10 @@ _SYMPTOM_ID = re.compile(r"^[a-z]\d{3}$")
 _DISEASE_ID = re.compile(r"^\d+$")
 _MAX_RESULTS = 5
 _DISCLAIMER = "이 결과는 참고용이며, 정확한 진단은 반드시 수의사 진료를 통해 받으세요."
+_ANIMAL_ROUTE_DISCLAIMER = (
+    "문헌 기반 증상-질환 관계 안내이며 진단 또는 발병 확률이 아닙니다. "
+    "관계가 없더라도 질환이 없다는 뜻은 아니므로, 증상이 지속되거나 위급하면 수의사 진료를 받으세요."
+)
 
 # Pet diseases only: the first entry of the source's 주요 감염동물 list must be 개 or 고양이.
 # Livestock-first diseases (소결핵병, 큐열, and also 광견병 whose list starts with 소) are excluded.
@@ -44,6 +49,57 @@ def symptoms(all_symptoms: bool = Query(False, alias="all", description="false�
         schemas.SymptomOut(id=local_id(r["s"], SYMPTOM_NS), name=r["name"], category=r.get("category"))
         for r in rows
     ]
+
+
+@router.get("/diagnosis/symptoms", response_model=list[schemas.SymptomOut])
+def animal_route_symptoms(species: str = Query(pattern="^(dog|cat)$")):
+    """Return Animal-Route's active, species-specific standard symptom list."""
+    items = animal_route_client.symptoms(species)
+    return [
+        schemas.SymptomOut(
+            id=str(item.get("code", "")),
+            name=str(item.get("name", "")),
+            category=item.get("category"),
+        )
+        for item in items
+        if item.get("code") and item.get("name")
+    ]
+
+
+def _required_input_text(value: object) -> str:
+    if not isinstance(value, dict) or not value:
+        return "추가로 확인할 정보가 없습니다."
+    return " · ".join(f"{key}: {item}" for key, item in value.items())
+
+
+@router.post("/diagnosis/relations", response_model=list[schemas.DiagnosisResultOut])
+def animal_route_relations(body: schemas.AnimalRouteRelationRequest):
+    """Proxy approved Animal-Route literature relations without exposing its API key."""
+    results: dict[str, schemas.DiagnosisResultOut] = {}
+    for symptom_code in dict.fromkeys(body.symptom_ids):
+        for item in animal_route_client.relations(body.species, symptom_code):
+            disease = item.get("disease") if isinstance(item.get("disease"), dict) else {}
+            source = item.get("source") if isinstance(item.get("source"), dict) else {}
+            relation_id = str(item.get("id", ""))
+            disease_name = str(disease.get("name", ""))
+            if not relation_id or not disease_name:
+                continue
+            conditions = str(item.get("conditions") or "적용 조건 정보가 없습니다.")
+            description = f"적용 조건: {conditions}\n추가 확인: {_required_input_text(item.get('required_input'))}"
+            results.setdefault(
+                relation_id,
+                schemas.DiagnosisResultOut(
+                    id=relation_id,
+                    disease_name=disease_name,
+                    probability_percent=0,
+                    related_symptoms=[],
+                    description=description,
+                    caution=_ANIMAL_ROUTE_DISCLAIMER,
+                    source_title=str(source.get("title")) if source.get("title") else None,
+                    source_url=str(source.get("url")) if source.get("url") else None,
+                ),
+            )
+    return list(results.values())
 
 
 def _description(cause: str | None, target: str | None) -> str:

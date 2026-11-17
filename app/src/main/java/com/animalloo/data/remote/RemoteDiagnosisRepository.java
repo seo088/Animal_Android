@@ -9,8 +9,7 @@ import com.animalloo.data.repository.RepositoryCallback;
 import java.util.List;
 
 /**
- * GET /symptoms, POST /diagnosis/infer, GET /diagnosis/{id} (KISTI knowledge graph).
- * Symptom ids are KISTI codes such as "i012", as returned by /symptoms.
+ * Server-side Animal-Route proxy. The API key never reaches this Android client.
  */
 public class RemoteDiagnosisRepository implements DiagnosisRepository {
 
@@ -21,13 +20,14 @@ public class RemoteDiagnosisRepository implements DiagnosisRepository {
     }
 
     @Override
-    public void getSymptoms(RepositoryCallback<List<Symptom>> callback) {
-        api.getSymptoms().enqueue(ApiCallbacks.of(callback));
+    public void getSymptoms(String species, RepositoryCallback<List<Symptom>> callback) {
+        api.getSymptoms(species).enqueue(ApiCallbacks.of(callback));
     }
 
     @Override
-    public void inferDisease(List<String> symptomIds, RepositoryCallback<List<DiagnosisResult>> callback) {
-        api.inferDisease(new InferRequest(symptomIds)).enqueue(ApiCallbacks.of(callback));
+    public void inferDisease(String species, List<String> symptomIds,
+                             RepositoryCallback<List<DiagnosisResult>> callback) {
+        api.inferDisease(new InferRequest(species, symptomIds)).enqueue(ApiCallbacks.of(callback));
     }
 
     @Override

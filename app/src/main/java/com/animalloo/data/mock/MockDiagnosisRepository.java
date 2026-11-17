@@ -22,12 +22,13 @@ public class MockDiagnosisRepository implements DiagnosisRepository {
     }
 
     @Override
-    public void getSymptoms(RepositoryCallback<List<Symptom>> callback) {
+    public void getSymptoms(String species, RepositoryCallback<List<Symptom>> callback) {
         asyncHelper.execute(() -> new ArrayList<>(dataProvider.getSymptoms()), callback);
     }
 
     @Override
-    public void inferDisease(List<String> symptomIds, RepositoryCallback<List<DiagnosisResult>> callback) {
+    public void inferDisease(String species, List<String> symptomIds,
+                              RepositoryCallback<List<DiagnosisResult>> callback) {
         asyncHelper.execute(() -> {
             if (symptomIds == null || symptomIds.isEmpty()) {
                 throw new IllegalArgumentException("증상을 하나 이상 선택해 주세요.");

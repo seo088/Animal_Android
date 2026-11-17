@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/tmoney_round_wind"
         android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-        tools:text="급성 장염" />
+        tools:text="가능성이 있는 질환: 급성 장염" />
 
     <TextView
         android:id="@+id/tv_probability"
@@ -22,7 +22,7 @@
         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
         android:textColor="@color/color_primary"
         android:textStyle="bold"
-        tools:text="가능성 78%" />
+        tools:text="문헌 기반 참고 관계" />
 
     <TextView
         android:id="@+id/tv_related_symptoms"
@@ -31,7 +31,7 @@
         android:layout_marginTop="@dimen/spacing_sm"
         android:fontFamily="@font/tmoney_round_wind"
         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
-        tools:text="관련 증상: 구토, 설사" />
+        tools:text="적용 조건: 특정 조건에서 관찰될 수 있습니다." />
 
     <TextView
         android:id="@+id/tv_description"
@@ -41,7 +41,19 @@
         android:fontFamily="@font/tmoney_round_wind"
         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
         android:textColor="@color/color_text_secondary"
-        tools:text="장 점막 염증으로 인한 소화기 증상" />
+        tools:text="추가 확인: 연령, 지속 시간" />
+
+    <TextView
+        android:id="@+id/tv_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:autoLink="web"
+        android:fontFamily="@font/tmoney_round_wind"
+        android:linksClickable="true"
+        android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
+        android:textColor="@color/color_primary"
+        tools:text="출처: Merck Veterinary Manual\nhttps://example.com" />
 
     <TextView
         android:layout_width="wrap_content"

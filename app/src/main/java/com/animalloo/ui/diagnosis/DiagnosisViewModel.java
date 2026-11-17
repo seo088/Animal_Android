@@ -29,6 +29,8 @@ import java.util.UUID;
 
 public class DiagnosisViewModel extends AndroidViewModel {
 
+    private static final int MAX_SELECTED_SYMPTOMS = 5;
+
     private final DiagnosisRepository diagnosisRepository;
     private final HospitalRepository hospitalRepository;
     private final HomeRepository homeRepository;
@@ -47,6 +49,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
     private int hospitalRequestGeneration;
     private boolean conversationStarted;
     private String petName;
+    private String animalRouteSpecies;
     private String loadingMessageId;
 
     public DiagnosisViewModel(@NonNull Application application) {
@@ -87,7 +90,6 @@ public class DiagnosisViewModel extends AndroidViewModel {
     }
 
     public void initialize() {
-        ensureSymptomsLoaded();
         if (!conversationStarted) {
             loadPetProfileAndStartConversation();
         }
@@ -102,6 +104,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
                 if (data != null && data.getPetName() != null && !data.getPetName().isEmpty()) {
                     petName = data.getPetName();
                 }
+                animalRouteSpecies = data == null ? null : toAnimalRouteSpecies(data.getPetSpecies());
                 startConversationIfNeeded();
             }
 
@@ -123,6 +126,13 @@ public class DiagnosisViewModel extends AndroidViewModel {
         chatPhase.setValue(DiagnosisChatPhase.SYMPTOM_SELECT);
         addBotMessage(getApplication().getString(R.string.diagnosis_chat_intro));
         addBotMessage(getSymptomPromptText());
+        if (animalRouteSpecies == null) {
+            symptomsState.setValue(UiState.error(
+                    getApplication().getString(R.string.diagnosis_species_required)));
+            addBotMessage(getApplication().getString(R.string.diagnosis_species_required));
+            return;
+        }
+        loadSymptoms();
     }
 
     private String getSymptomPromptText() {
@@ -140,8 +150,13 @@ public class DiagnosisViewModel extends AndroidViewModel {
     }
 
     public void loadSymptoms() {
+        if (animalRouteSpecies == null) {
+            symptomsState.setValue(UiState.error(
+                    getApplication().getString(R.string.diagnosis_species_required)));
+            return;
+        }
         symptomsState.setValue(UiState.loading());
-        diagnosisRepository.getSymptoms(new RepositoryCallback<List<Symptom>>() {
+        diagnosisRepository.getSymptoms(animalRouteSpecies, new RepositoryCallback<List<Symptom>>() {
             @Override
             public void onSuccess(List<Symptom> data) {
                 if (data == null || data.isEmpty()) {
@@ -161,6 +176,12 @@ public class DiagnosisViewModel extends AndroidViewModel {
     public void toggleSymptomSelection(String symptomId, boolean selected) {
         Set<String> current = new HashSet<>(getSelectedIdsSnapshot());
         if (selected) {
+            if (current.size() >= MAX_SELECTED_SYMPTOMS) {
+                symptomValidationMessage.setValue(getApplication().getString(
+                        R.string.diagnosis_max_symptom_selection, MAX_SELECTED_SYMPTOMS));
+                selectedSymptomIds.setValue(current);
+                return;
+            }
             current.add(symptomId);
         } else {
             current.remove(symptomId);
@@ -204,7 +225,14 @@ public class DiagnosisViewModel extends AndroidViewModel {
         hospitalsState.setValue(null);
         int generation = ++diagnosisRequestGeneration;
 
-        diagnosisRepository.inferDisease(symptomIds, new RepositoryCallback<List<DiagnosisResult>>() {
+        if (animalRouteSpecies == null) {
+            removeLoadingMessage();
+            diagnosisState.setValue(UiState.error(
+                    getApplication().getString(R.string.diagnosis_species_required)));
+            chatPhase.setValue(DiagnosisChatPhase.ERROR);
+            return;
+        }
+        diagnosisRepository.inferDisease(animalRouteSpecies, symptomIds, new RepositoryCallback<List<DiagnosisResult>>() {
             @Override
             public void onSuccess(List<DiagnosisResult> data) {
                 if (generation != diagnosisRequestGeneration) {
@@ -376,6 +404,20 @@ public class DiagnosisViewModel extends AndroidViewModel {
             return new HashSet<>();
         }
         return new HashSet<>(current);
+    }
+
+    private String toAnimalRouteSpecies(String petSpecies) {
+        if (petSpecies == null) {
+            return null;
+        }
+        String normalized = petSpecies.trim().toLowerCase();
+        if ("개".equals(normalized) || "dog".equals(normalized)) {
+            return "dog";
+        }
+        if ("고양이".equals(normalized) || "cat".equals(normalized)) {
+            return "cat";
+        }
+        return null;
     }
 
     private List<Hospital> filterOpenHospitals(List<Hospital> hospitals, int limit) {

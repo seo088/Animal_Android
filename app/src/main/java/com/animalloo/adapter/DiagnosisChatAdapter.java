@@ -1,6 +1,7 @@
 package com.animalloo.adapter;
 
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -218,18 +219,24 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
             TextView probability = entry.findViewById(R.id.tv_probability);
             TextView relatedSymptoms = entry.findViewById(R.id.tv_related_symptoms);
             TextView description = entry.findViewById(R.id.tv_description);
+            TextView source = entry.findViewById(R.id.tv_source);
             TextView caution = entry.findViewById(R.id.tv_caution);
 
-            diseaseName.setText(result.getDiseaseName());
-            probability.setText(
-                    entry.getContext().getString(
-                            R.string.diagnosis_probability_format,
-                            result.getProbabilityPercent()));
-            relatedSymptoms.setText(
-                    entry.getContext().getString(
-                            R.string.diagnosis_related_symptoms,
-                            TextUtils.join(", ", result.getRelatedSymptoms())));
-            description.setText(result.getDescription());
+            diseaseName.setText(entry.getContext().getString(
+                    R.string.diagnosis_possible_disease, result.getDiseaseName()));
+            probability.setText(R.string.diagnosis_literature_relation);
+            relatedSymptoms.setText(result.getDescription());
+            description.setText(R.string.diagnosis_relation_not_probability);
+            String sourceText = result.getSourceTitle();
+            if (!TextUtils.isEmpty(result.getSourceUrl())) {
+                sourceText = TextUtils.isEmpty(sourceText)
+                        ? result.getSourceUrl()
+                        : entry.getContext().getString(
+                                R.string.diagnosis_source_format, sourceText, result.getSourceUrl());
+            }
+            source.setText(sourceText);
+            source.setVisibility(TextUtils.isEmpty(sourceText) ? View.GONE : View.VISIBLE);
+            source.setMovementMethod(LinkMovementMethod.getInstance());
             caution.setText(result.getCaution());
         }
     }

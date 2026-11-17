@@ -131,6 +131,11 @@ class InferRequest(CamelModel):
     symptom_ids: list[str] = Field(min_length=1, max_length=30)
 
 
+class AnimalRouteRelationRequest(CamelModel):
+    species: Literal["dog", "cat"]
+    symptom_ids: list[str] = Field(min_length=1, max_length=5)
+
+
 class DiagnosisResultOut(CamelModel):
     id: str
     disease_name: str
@@ -138,6 +143,8 @@ class DiagnosisResultOut(CamelModel):
     related_symptoms: list[str]
     description: str
     caution: str
+    source_title: str | None = None
+    source_url: str | None = None
 
 
 # --- rescued animals / lost reports -----------------------------------------------

@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface DiagnosisRepository {
 
-    void getSymptoms(RepositoryCallback<List<Symptom>> callback);
+    void getSymptoms(String species, RepositoryCallback<List<Symptom>> callback);
 
-    void inferDisease(List<String> symptomIds, RepositoryCallback<List<DiagnosisResult>> callback);
+    void inferDisease(String species, List<String> symptomIds,
+                      RepositoryCallback<List<DiagnosisResult>> callback);
 
     void getDiagnosisById(String id, RepositoryCallback<DiagnosisResult> callback);
 }
