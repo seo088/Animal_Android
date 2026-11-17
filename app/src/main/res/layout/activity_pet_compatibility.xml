@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_test_background">
+
+    <ScrollView
+        android:id="@+id/scroll_compatibility"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@id/layout_compatibility_actions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="180dp" app:cardBackgroundColor="@color/color_test_mint" app:cardCornerRadius="20dp" app:cardElevation="0dp">
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                    <ImageButton android:id="@+id/btn_compatibility_back" android:layout_width="40dp" android:layout_height="40dp" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/more_back" android:src="@drawable/ic_back" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:tint="@color/color_text_primary" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:ellipsize="end" android:maxLines="1" android:text="@string/pet_compatibility_title" android:textColor="@color/color_text_primary" android:textSize="19sp" android:textStyle="bold" app:layout_constraintBottom_toBottomOf="@id/btn_compatibility_back" app:layout_constraintEnd_toStartOf="@id/iv_compatibility_puppy" app:layout_constraintStart_toEndOf="@id/btn_compatibility_back" app:layout_constraintTop_toTopOf="@id/btn_compatibility_back" />
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/pet_compatibility_intro" android:textColor="@color/color_text_secondary" android:textSize="14sp" app:layout_constraintEnd_toStartOf="@id/iv_compatibility_puppy" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/btn_compatibility_back" />
+                    <ImageView android:id="@+id/iv_compatibility_puppy" android:layout_width="116dp" android:layout_height="132dp" android:contentDescription="@null" android:scaleType="centerInside" android:src="@drawable/img_pet_match_puppy" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout android:id="@+id/layout_compatibility_question" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                    <LinearLayout android:id="@+id/layout_compatibility_steps" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="horizontal" />
+                    <TextView android:id="@+id/tv_compatibility_progress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:textColor="@color/color_text_secondary" android:textSize="14sp" />
+                </LinearLayout>
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/color_surface" app:cardCornerRadius="20dp" app:cardElevation="3dp" app:strokeColor="@color/color_divider" app:strokeWidth="1dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                        <TextView android:id="@+id/tv_compatibility_category" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_match_option_selected" android:paddingStart="12dp" android:paddingTop="5dp" android:paddingEnd="12dp" android:paddingBottom="5dp" android:textColor="@color/color_test_primary" android:textSize="13sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tv_compatibility_question" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textColor="@color/color_text_primary" android:textSize="21sp" android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <LinearLayout android:id="@+id/layout_compatibility_options" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/layout_compatibility_result" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical" android:visibility="gone">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="@string/pet_compatibility_result_title" android:textColor="@color/color_text_primary" android:textSize="18sp" android:textStyle="bold" />
+                <ImageView android:layout_width="match_parent" android:layout_height="112dp" android:contentDescription="@null" android:scaleType="centerInside" android:src="@drawable/img_pet_match_puppy" />
+                <TextView android:id="@+id/tv_compatibility_score" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/color_test_primary" android:textSize="34sp" android:textStyle="bold" />
+                <TextView android:id="@+id/tv_compatibility_grade" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:gravity="center" android:textColor="@color/color_text_primary" android:textSize="22sp" android:textStyle="bold" />
+                <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:cardBackgroundColor="@color/color_surface" app:cardCornerRadius="20dp" app:cardElevation="2dp" app:strokeColor="@color/color_divider" app:strokeWidth="1dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                        <TextView android:id="@+id/tv_compatibility_description" android:layout_width="match_parent" android:layout_height="wrap_content" android:lineSpacingExtra="5dp" android:textColor="@color/color_text_secondary" android:textSize="16sp" />
+                        <TextView android:id="@+id/tv_compatibility_match" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textColor="@color/color_test_primary" android:textSize="15sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tv_compatibility_adjust" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="@color/color_text_primary" android:textSize="15sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tv_compatibility_tip" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:lineSpacingExtra="4dp" android:textColor="@color/color_text_secondary" android:textSize="15sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/pet_compatibility_note" android:textColor="@color/color_text_secondary" android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout android:id="@+id/layout_compatibility_actions" android:layout_width="0dp" android:layout_height="wrap_content" android:background="@color/color_test_background" android:gravity="center_vertical" android:orientation="horizontal" android:padding="16dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_compatibility_previous" android:layout_width="0dp" android:layout_height="52dp" android:layout_marginEnd="8dp" android:layout_weight="1" android:text="@string/pet_match_previous" android:textColor="@color/color_text_secondary" android:visibility="invisible" app:backgroundTint="@color/color_surface_variant" app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_compatibility_next" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/pet_mbti_next" android:textColor="@color/color_on_primary" app:backgroundTint="@color/color_test_primary" app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_compatibility_retry" android:layout_width="0dp" android:layout_height="52dp" android:layout_weight="1" android:text="@string/pet_mbti_retry" android:textColor="@color/color_on_primary" android:visibility="gone" app:backgroundTint="@color/color_test_primary" app:cornerRadius="14dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
