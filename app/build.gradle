@@ -31,7 +31,7 @@ if (apiBaseUrl.isEmpty()) {
 if (!apiBaseUrl.endsWith('/')) {
     apiBaseUrl += '/'
 }
-// USE_MOCK_API=true runs the app on the in-app mock repositories without a server.
+// USE_MOCK_API=true runs release builds on the in-app repositories without a server.
 def useMockApi = resolveSecret(localProperties, 'USE_MOCK_API', dotEnv).equalsIgnoreCase('true')
 
 android {
@@ -65,6 +65,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            // A debug APK must remain demonstrable even when the optional
+            // local FastAPI/Fuseki stack is not running. Release builds keep
+            // the API_BASE_URL setting supplied in local configuration.
+            buildConfigField "boolean", "USE_MOCK_API", "true"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
