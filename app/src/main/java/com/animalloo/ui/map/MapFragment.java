@@ -279,8 +279,12 @@ public class MapFragment extends BaseFragment {
         if (state.isError()) {
             if (mapsAvailable && mapController != null) {
                 mapController.clearMarkers();
-            }
-            if (!mapsAvailable) {
+                // Facility data is optional for the base map. Keep the Kakao
+                // map usable instead of covering it with a server-error panel.
+                hideOverlayState(stateContainer);
+                Snackbar.make(binding.getRoot(), state.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+                return;
+            } else {
                 facilityListAdapter.setItems(null);
             }
             showOverlayState(stateContainer, R.layout.layout_error, stateView -> {

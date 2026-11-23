@@ -47,6 +47,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        // The Kakao Map SDK provides ARM native code only. Keep one 64-bit ARM
+        // variant so ARM-translation emulators consistently select and extract it.
+        ndk {
+            abiFilters "arm64-v8a"
+        }
+
         manifestPlaceholders = [
                 KAKAO_MAP_KEY: kakaoMapKey
         ]
