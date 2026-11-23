@@ -31,6 +31,10 @@ import java.util.Set;
 
 public class DiagnosisFragment extends BaseFragment {
 
+    private static final String NOTICE_PREFS = "diagnosis_notice_preferences";
+    private static final String KEY_NOTICE_HIDDEN_UNTIL = "notice_hidden_until";
+    private static final long NOTICE_HIDE_DURATION_MS = 24L * 60L * 60L * 1000L;
+
     private FragmentDiagnosisBinding binding;
     private DiagnosisViewModel viewModel;
     private DiagnosisChatAdapter chatAdapter;
@@ -75,15 +79,31 @@ public class DiagnosisFragment extends BaseFragment {
         if (binding == null || diagnosisNoticeVisible) {
             return;
         }
+        if (requireContext().getSharedPreferences(NOTICE_PREFS, android.content.Context.MODE_PRIVATE)
+                .getLong(KEY_NOTICE_HIDDEN_UNTIL, 0L) > System.currentTimeMillis()) {
+            return;
+        }
         binding.getRoot().post(() -> {
             if (!isAdded() || getActivity() == null || diagnosisNoticeVisible) {
                 return;
             }
             diagnosisNoticeVisible = true;
+            boolean[] skipForToday = {false};
             androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.diagnosis_notice_title)
                     .setMessage(R.string.diagnosis_notice_dialog_message)
-                    .setPositiveButton(R.string.diagnosis_notice_confirm, null)
+                    .setMultiChoiceItems(new String[]{getString(R.string.diagnosis_notice_skip_today)},
+                            new boolean[]{false}, (dialogInterface, which, isChecked) ->
+                                    skipForToday[0] = isChecked)
+                    .setPositiveButton(R.string.diagnosis_notice_confirm, (dialogInterface, which) -> {
+                        if (skipForToday[0]) {
+                            requireContext().getSharedPreferences(NOTICE_PREFS, android.content.Context.MODE_PRIVATE)
+                                    .edit()
+                                    .putLong(KEY_NOTICE_HIDDEN_UNTIL,
+                                            System.currentTimeMillis() + NOTICE_HIDE_DURATION_MS)
+                                    .apply();
+                        }
+                    })
                     .create();
             dialog.setOnDismissListener(ignored -> diagnosisNoticeVisible = false);
             dialog.show();

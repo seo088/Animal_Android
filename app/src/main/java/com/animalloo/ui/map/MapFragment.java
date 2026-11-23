@@ -3,6 +3,8 @@ package com.animalloo.ui.map;
 import android.Manifest;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +35,16 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class MapFragment extends BaseFragment {
-
-    private static final long CATEGORY_ANIMATION_MS = 180L;
 
     private FragmentMapBinding binding;
     private MapViewModel viewModel;
     private FacilityMapController mapController;
     private FacilityListAdapter facilityListAdapter;
+    private FacilityListAdapter recommendationAdapter;
+    private final List<Facility> displayedFacilities = new ArrayList<>();
     private boolean mapsAvailable;
     private boolean categoryMenuExpanded;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
@@ -74,20 +77,15 @@ public class MapFragment extends BaseFragment {
         if (savedInstanceState != null) {
             String savedCategory = savedInstanceState.getString("selected_category");
             category = savedCategory == null ? null : FacilityCategory.valueOf(savedCategory);
-            categoryMenuExpanded = savedInstanceState.getBoolean("category_menu_expanded", false);
         }
 
         setupCategoryMenu();
         restoreCategorySelection(category);
         setupFallbackList();
+        setupRecommendationList();
+        setupSearch();
         setupMapContainer();
         observeViewModel();
-
-        if (categoryMenuExpanded) {
-            showCategoryMenu(false);
-        } else {
-            hideCategoryMenu(false);
-        }
 
         viewModel.loadFacilities(category);
     }
@@ -130,9 +128,25 @@ public class MapFragment extends BaseFragment {
                 facility -> showFacilityBottomSheet(facility.getId()));
     }
 
-    private void setupCategoryMenu() {
-        binding.btnCategoryToggle.setOnClickListener(v -> toggleCategoryMenu());
+    private void setupRecommendationList() {
+        recommendationAdapter = new FacilityListAdapter();
+        binding.rvMapRecommendations.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvMapRecommendations.setAdapter(recommendationAdapter);
+        recommendationAdapter.setOnFacilityClickListener(
+                facility -> showFacilityBottomSheet(facility.getId()));
+    }
 
+    private void setupSearch() {
+        binding.etMapSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterFacilities(s == null ? "" : s.toString());
+            }
+            @Override public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    private void setupCategoryMenu() {
         setupCategoryChip(binding.chipAll, null);
         setupCategoryChip(binding.chipHospital, FacilityCategory.HOSPITAL);
         setupCategoryChip(binding.chipPharmacy, FacilityCategory.PHARMACY);
@@ -149,59 +163,7 @@ public class MapFragment extends BaseFragment {
         chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         chip.setOnClickListener(v -> {
             selectCategory(category, chip);
-            hideCategoryMenu(true);
         });
-    }
-
-    private void toggleCategoryMenu() {
-        if (categoryMenuExpanded) {
-            hideCategoryMenu(true);
-        } else {
-            showCategoryMenu(true);
-        }
-    }
-
-    private void showCategoryMenu(boolean animate) {
-        categoryMenuExpanded = true;
-        View menu = binding.layoutCategoryItems;
-        menu.setVisibility(View.VISIBLE);
-
-        if (!animate) {
-            menu.setAlpha(1f);
-            menu.setTranslationY(0f);
-            return;
-        }
-
-        menu.setAlpha(0f);
-        menu.setTranslationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm));
-        menu.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(CATEGORY_ANIMATION_MS)
-                .start();
-    }
-
-    private void hideCategoryMenu(boolean animate) {
-        categoryMenuExpanded = false;
-        View menu = binding.layoutCategoryItems;
-
-        if (!animate || menu.getVisibility() != View.VISIBLE) {
-            menu.setVisibility(View.GONE);
-            menu.setAlpha(1f);
-            menu.setTranslationY(0f);
-            return;
-        }
-
-        menu.animate()
-                .alpha(0f)
-                .translationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm))
-                .setDuration(CATEGORY_ANIMATION_MS)
-                .withEndAction(() -> {
-                    menu.setVisibility(View.GONE);
-                    menu.setAlpha(1f);
-                    menu.setTranslationY(0f);
-                })
-                .start();
     }
 
     private void selectCategory(@Nullable FacilityCategory category, Chip selectedChip) {
@@ -308,12 +270,30 @@ public class MapFragment extends BaseFragment {
         }
 
         if (state.isSuccess() && state.getData() != null) {
-            List<Facility> facilities = state.getData();
-            if (mapsAvailable && mapController != null) {
-                mapController.updateFacilities(facilities);
-            } else {
-                facilityListAdapter.setItems(facilities);
+            displayedFacilities.clear();
+            displayedFacilities.addAll(state.getData());
+            filterFacilities(binding.etMapSearch.getText() == null
+                    ? "" : binding.etMapSearch.getText().toString());
+        }
+    }
+
+    private void filterFacilities(String keyword) {
+        if (binding == null) return;
+        String query = keyword == null ? "" : keyword.trim().toLowerCase();
+        List<Facility> filtered = new ArrayList<>();
+        for (Facility facility : displayedFacilities) {
+            if (query.isEmpty()
+                    || facility.getName().toLowerCase().contains(query)
+                    || facility.getAddress().toLowerCase().contains(query)) {
+                filtered.add(facility);
             }
+        }
+        if (mapsAvailable && mapController != null) {
+            mapController.updateFacilities(filtered);
+            recommendationAdapter.setItems(filtered);
+            binding.cardMapRecommendations.setVisibility(filtered.isEmpty() ? View.GONE : View.VISIBLE);
+        } else {
+            facilityListAdapter.setItems(filtered);
         }
     }
 
@@ -328,7 +308,6 @@ public class MapFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
         FacilityCategory category = viewModel.getSelectedCategory().getValue();
         outState.putString("selected_category", category == null ? null : category.name());
-        outState.putBoolean("category_menu_expanded", categoryMenuExpanded);
     }
 
     private void handleLocationPermissionResult(Map<String, Boolean> result) {
