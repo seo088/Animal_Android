@@ -17,29 +17,39 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_md">
 
-        <LinearLayout
-            android:id="@+id/stats_indicator_row"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:text="구조·분실 동물"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:orientation="horizontal">
 
-            <View
-                android:id="@+id/view_live_dot"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="@drawable/bg_live_indicator_dot"
-                android:contentDescription="@string/rescue_stats_loading" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/color_primary_light">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/spacing_sm">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="오늘 구조" android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+                    <TextView android:id="@+id/tv_rescued_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.AnimalLoo.Title" android:textColor="@color/color_primary" tools:text="7건" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/tv_rescue_stats"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_sm"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-                tools:text="오늘 구조 7건 · 분실 신고 23건" />
-
+                android:layout_weight="1">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/spacing_sm">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="오늘 분실 신고" android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+                    <TextView android:id="@+id/tv_lost_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.AnimalLoo.Title" tools:text="23건" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -48,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_md"
             android:background="@android:color/transparent"
-            app:tabIndicatorColor="@color/color_primary"
+            app:tabIndicatorHeight="0dp"
             app:tabIndicatorFullWidth="false"
             app:tabMode="fixed"
             app:tabRippleColor="@color/color_primary_light"

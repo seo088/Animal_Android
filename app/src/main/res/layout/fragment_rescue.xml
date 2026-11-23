@@ -53,6 +53,12 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+            <FrameLayout
+                android:id="@+id/rescued_overlay_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
             <LinearLayout
                 android:id="@+id/rescue_action_bar"
                 android:layout_width="match_parent"
@@ -66,32 +72,15 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_lost_report"
-                    style="@style/Widget.AnimalLoo.Button.Outlined"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_sm"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/color_surface"
-                    android:text="@string/rescue_action_lost_report" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_view_rescued"
                     style="@style/Widget.AnimalLoo.Button"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/rescue_action_view_rescued" />
+                    android:text="@string/rescue_action_lost_report" />
 
             </LinearLayout>
 
         </FrameLayout>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/rescued_overlay_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
 </FrameLayout>

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,8 +45,6 @@ public class RescueFragment extends BaseFragment {
     private boolean pendingOpenLostReport;
     private boolean pendingOpenRescued;
 
-    private Animation livePulseAnimation;
-    private Animation statsGlowAnimation;
     private ValueAnimator statsCountAnimator;
     private int displayedRescuedCount = -1;
     private int displayedLostCount = -1;
@@ -97,10 +93,7 @@ public class RescueFragment extends BaseFragment {
             pendingOpenRescued = savedInstanceState.getBoolean("pending_open_rescued", false);
             displayedRescuedCount = savedInstanceState.getInt("displayed_rescued_count", -1);
             displayedLostCount = savedInstanceState.getInt("displayed_lost_count", -1);
-            boolean rescuedVisible = savedInstanceState.getBoolean("rescued_overlay_visible", false);
-            if (rescuedVisible) {
-                showRescuedOverlay();
-            }
+            showRescuedOverlay();
         }
 
         rescueViewModel.loadData();
@@ -153,8 +146,10 @@ public class RescueFragment extends BaseFragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
                     rescueViewModel.setFilter(RescueTimelineFilter.LOST);
+                    hideRescuedOverlay();
                 } else {
                     rescueViewModel.setFilter(RescueTimelineFilter.RESCUE);
+                    showRescuedOverlay();
                 }
             }
 
@@ -179,7 +174,6 @@ public class RescueFragment extends BaseFragment {
 
     private void setupActionBar() {
         binding.btnLostReport.setOnClickListener(v -> showLostReportBottomSheet());
-        binding.btnViewRescued.setOnClickListener(v -> showRescuedOverlay());
     }
 
     private void setupSwipeRefresh() {
@@ -224,7 +218,8 @@ public class RescueFragment extends BaseFragment {
             return;
         }
         if (state == null || !state.isSuccess() || state.getData() == null) {
-            statsHeaderBinding.tvRescueStats.setText(R.string.rescue_stats_loading);
+            statsHeaderBinding.tvRescuedCount.setText("-");
+            statsHeaderBinding.tvLostCount.setText("-");
             return;
         }
 
@@ -263,37 +258,15 @@ public class RescueFragment extends BaseFragment {
         if (statsHeaderBinding == null) {
             return;
         }
-        statsHeaderBinding.tvRescueStats.setText(getString(
-                R.string.rescue_stats_format,
-                rescuedCount,
-                lostCount));
+        statsHeaderBinding.tvRescuedCount.setText(rescuedCount + "건");
+        statsHeaderBinding.tvLostCount.setText(lostCount + "건");
     }
 
     private void startRealtimeAnimations() {
-        if (statsHeaderBinding == null) {
-            return;
-        }
-
-        if (livePulseAnimation == null) {
-            livePulseAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.anim_live_pulse);
-        }
-        if (statsGlowAnimation == null) {
-            statsGlowAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.anim_stats_realtime_glow);
-        }
-
-        statsHeaderBinding.viewLiveDot.clearAnimation();
-        statsHeaderBinding.tvRescueStats.clearAnimation();
-
-        statsHeaderBinding.viewLiveDot.startAnimation(livePulseAnimation);
-        statsHeaderBinding.tvRescueStats.startAnimation(statsGlowAnimation);
+        // Counts are intentionally static to keep the compact summary readable.
     }
 
     private void stopRealtimeAnimations() {
-        if (statsHeaderBinding == null) {
-            return;
-        }
-        statsHeaderBinding.viewLiveDot.clearAnimation();
-        statsHeaderBinding.tvRescueStats.clearAnimation();
         if (statsCountAnimator != null) {
             statsCountAnimator.cancel();
         }
@@ -378,16 +351,16 @@ public class RescueFragment extends BaseFragment {
     }
 
     private void showRescuedOverlay() {
-        binding.rescueTimelineContainer.setVisibility(View.GONE);
         binding.rescuedOverlayContainer.setVisibility(View.VISIBLE);
+        binding.swipeRefreshRescue.setVisibility(View.GONE);
         if (rescuedAnimalFragment != null) {
-            rescuedAnimalFragment.setOverlayMode(true, this::hideRescuedOverlay);
+            rescuedAnimalFragment.setOverlayMode(false, null);
         }
     }
 
     private void hideRescuedOverlay() {
         binding.rescuedOverlayContainer.setVisibility(View.GONE);
-        binding.rescueTimelineContainer.setVisibility(View.VISIBLE);
+        binding.swipeRefreshRescue.setVisibility(View.VISIBLE);
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {
@@ -414,8 +387,6 @@ public class RescueFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
         outState.putBoolean("pending_open_lost_report", pendingOpenLostReport);
         outState.putBoolean("pending_open_rescued", pendingOpenRescued);
-        outState.putBoolean("rescued_overlay_visible",
-                binding != null && binding.rescuedOverlayContainer.getVisibility() == View.VISIBLE);
         outState.putInt("displayed_rescued_count", displayedRescuedCount);
         outState.putInt("displayed_lost_count", displayedLostCount);
     }
@@ -425,8 +396,6 @@ public class RescueFragment extends BaseFragment {
         stopRealtimeAnimations();
         binding = null;
         statsHeaderBinding = null;
-        livePulseAnimation = null;
-        statsGlowAnimation = null;
         super.onDestroyView();
     }
 }

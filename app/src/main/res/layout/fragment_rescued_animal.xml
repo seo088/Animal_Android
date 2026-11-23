@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rescued_title"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Title"
+            android:visibility="gone" />
 
     </LinearLayout>
 
