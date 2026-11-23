@@ -18,7 +18,6 @@ public class AnimalLooApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ensureKakaoMapSdkInitialized();
         RepositoryProvider.init(this);
         NotificationHelper.createNotificationChannels(this);
         registerFcmTokenIfAvailable();

@@ -10,14 +10,14 @@
         <EditText android:id="@+id/et_map_search" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="@dimen/spacing_sm" android:background="@drawable/bg_map_search" android:hint="@string/map_search_hint" android:imeOptions="actionSearch" android:inputType="text" android:paddingStart="@dimen/spacing_md" android:paddingEnd="@dimen/spacing_md" android:singleLine="true" android:textColor="@color/color_text_primary" android:textColorHint="@color/color_text_hint" android:textSize="14sp" />
         <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_sm" android:clipToPadding="false" android:scrollbars="none">
             <com.google.android.material.chip.ChipGroup android:layout_width="wrap_content" android:layout_height="wrap_content" app:chipSpacingHorizontal="@dimen/spacing_sm" app:singleLine="true">
-                <com.google.android.material.chip.Chip android:id="@+id/chip_all" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_all" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_hospital" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_hospital" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_pharmacy" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_pharmacy" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_shelter" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_shelter" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_restaurant" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_restaurant" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_cafe" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_cafe" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_hotel" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_hotel" />
-                <com.google.android.material.chip.Chip android:id="@+id/chip_tourism" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:text="@string/map_category_tourism" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_all" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_all" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_hospital" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_hospital" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_pharmacy" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_pharmacy" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_shelter" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_shelter" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_restaurant" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_restaurant" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_cafe" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_cafe" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_hotel" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_hotel" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip_tourism" style="@style/Widget.AnimalLoo.Chip.MapCategory" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/map_category_tourism" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
     </LinearLayout>

@@ -70,8 +70,7 @@ public class MapFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(MapViewModel.class);
-        mapsAvailable = ((AnimalLooApplication) requireActivity().getApplication())
-                .ensureKakaoMapSdkInitialized();
+        mapsAvailable = false;
 
         FacilityCategory category = viewModel.getSelectedCategory().getValue();
         if (savedInstanceState != null) {
@@ -84,10 +83,7 @@ public class MapFragment extends BaseFragment {
         setupFallbackList();
         setupRecommendationList();
         setupSearch();
-        setupMapContainer();
         observeViewModel();
-
-        viewModel.loadFacilities(category);
     }
 
     @Override
@@ -117,6 +113,24 @@ public class MapFragment extends BaseFragment {
         } else {
             binding.mapContainer.setVisibility(View.GONE);
             binding.layoutMapFallback.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void startMapIfVisible(@Nullable FacilityCategory category) {
+        if (binding == null || mapController != null || mapsAvailable) {
+            return;
+        }
+        mapsAvailable = ((AnimalLooApplication) requireActivity().getApplication())
+                .ensureKakaoMapSdkInitialized();
+        setupMapContainer();
+        viewModel.loadFacilities(category);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            startMapIfVisible(viewModel == null ? null : viewModel.getSelectedCategory().getValue());
         }
     }
 
