@@ -25,6 +25,7 @@ import com.animalloo.adapter.FacilityListAdapter;
 import com.animalloo.data.model.Facility;
 import com.animalloo.data.model.FacilityCategory;
 import com.animalloo.data.model.UiState;
+import com.animalloo.data.mock.MockDataProvider;
 import com.animalloo.databinding.FragmentMapBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.util.FacilityMapController;
@@ -254,11 +255,8 @@ public class MapFragment extends BaseFragment {
 
         if (state.isError()) {
             if (mapsAvailable && mapController != null) {
-                mapController.clearMarkers();
-                // Facility data is optional for the base map. Keep the Kakao
-                // map usable instead of covering it with a server-error panel.
+                showLocalFacilityMarkers();
                 hideOverlayState(stateContainer);
-                Snackbar.make(binding.getRoot(), state.getErrorMessage(), Snackbar.LENGTH_LONG).show();
                 return;
             } else {
                 facilityListAdapter.setItems(null);
@@ -289,6 +287,19 @@ public class MapFragment extends BaseFragment {
             filterFacilities(binding.etMapSearch.getText() == null
                     ? "" : binding.etMapSearch.getText().toString());
         }
+    }
+
+    /** Keeps the map demonstrable when the optional facility API is temporarily offline. */
+    private void showLocalFacilityMarkers() {
+        displayedFacilities.clear();
+        FacilityCategory selected = viewModel.getSelectedCategory().getValue();
+        for (Facility facility : MockDataProvider.getInstance().getFacilities()) {
+            if (selected == null || facility.getCategory() == selected) {
+                displayedFacilities.add(facility);
+            }
+        }
+        filterFacilities(binding.etMapSearch.getText() == null
+                ? "" : binding.etMapSearch.getText().toString());
     }
 
     private void filterFacilities(String keyword) {
