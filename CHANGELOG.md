@@ -42,3 +42,8 @@
 
 - 팀원 환경에서도 증상 진단이 동작하도록 진단용 지식그래프 TTL 3개(13_symptoms, 15_diseases, 16_reasoning_chain)를 backend/data/turtle/에 추가했습니다.
 - load_fuseki가 인자 없이 backend/data/turtle/을 기본으로 읽도록 변경하고 README 적재 절차를 갱신했습니다.
+
+### [2026-11-24 21:38:00]
+
+- 커밋 메시지의 Claude 공동작성자(Co-Authored-By) 줄을 main·Backend·test 브랜치 기록에서 제거했습니다. 코드·작성자·날짜·커밋 수는 그대로이고 커밋 ID만 바뀌었습니다.
+- 기록 정리 이전에 받은 사본을 맞추는 방법을 docs/git-history-sync-guide.md에 정리했습니다.
