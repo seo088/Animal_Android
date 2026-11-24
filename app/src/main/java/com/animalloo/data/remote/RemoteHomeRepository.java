@@ -37,19 +37,20 @@ public class RemoteHomeRepository implements HomeRepository {
     @Override
     public void getHomeProfile(String userDisplayName, RepositoryCallback<HomeProfile> callback) {
         String fallbackName = userDisplayName == null || userDisplayName.isEmpty() ? "게스트" : userDisplayName;
+        HomeProfile cached = sessionStore.getCachedPetProfile(fallbackName);
         if (sessionStore.getToken() == null) {
-            callback.onSuccess(toProfile(null, fallbackName));
+            callback.onSuccess(cached != null ? cached : toProfile(null, fallbackName));
             return;
         }
         api.getHomeProfile().enqueue(ApiCallbacks.map(new RepositoryCallback<HomeProfile>() {
             @Override
             public void onSuccess(HomeProfile data) {
-                callback.onSuccess(data);
+                callback.onSuccess(mergeWithCachedPet(data, cached));
             }
 
             @Override
             public void onError(String message) {
-                callback.onSuccess(toProfile(null, fallbackName));
+                callback.onSuccess(cached != null ? cached : toProfile(null, fallbackName));
             }
         }, response -> toProfile(response, fallbackName)));
     }
@@ -67,15 +68,58 @@ public class RemoteHomeRepository implements HomeRepository {
 
     @Override
     public void upsertPet(PetProfileInput pet, File photo, RepositoryCallback<HomeProfile> callback) {
-        if (sessionStore.getToken() == null) { callback.onError("로그인 후 반려동물을 등록할 수 있습니다."); return; }
+        sessionStore.savePet(pet, photo == null ? null : photo.getAbsolutePath());
+        if (sessionStore.getToken() == null) {
+            callback.onSuccess(sessionStore.getCachedPetProfile("게스트"));
+            return;
+        }
         api.upsertPet(new PetRequest(pet.name, pet.breed, pet.age, pet.species, pet.gender, pet.neutered, pet.weightKg, pet.birthDate, pet.adoptionDate)).enqueue(ApiCallbacks.map(new RepositoryCallback<HomeProfile>() {
             @Override public void onSuccess(HomeProfile profile) {
-                if (photo == null || !photo.exists()) { callback.onSuccess(profile); return; }
+                if (photo == null || !photo.exists()) {
+                    callback.onSuccess(sessionStore.getCachedPetProfile("게스트"));
+                    return;
+                }
                 RequestBody body = RequestBody.create(photo, MediaType.get("image/jpeg"));
-                api.uploadPetPhoto(MultipartBody.Part.createFormData("photo", photo.getName(), body)).enqueue(ApiCallbacks.map(callback, response -> toProfile(response, profile.getUserDisplayName())));
+                api.uploadPetPhoto(MultipartBody.Part.createFormData("photo", photo.getName(), body)).enqueue(ApiCallbacks.map(new RepositoryCallback<HomeProfile>() {
+                    @Override public void onSuccess(HomeProfile ignored) {
+                        callback.onSuccess(sessionStore.getCachedPetProfile("게스트"));
+                    }
+
+                    @Override public void onError(String message) {
+                        callback.onSuccess(sessionStore.getCachedPetProfile("게스트"));
+                    }
+                }, response -> toProfile(response, profile.getUserDisplayName())));
             }
-            @Override public void onError(String message) { callback.onError(message); }
+            @Override public void onError(String message) {
+                callback.onSuccess(sessionStore.getCachedPetProfile("게스트"));
+            }
         }, response -> toProfile(response, "게스트")));
+    }
+
+    /**
+     * A few deployed backend versions return only part of the pet payload. Keep a locally saved
+     * field when that field is absent from the response, but always accept a real server value.
+     */
+    private static HomeProfile mergeWithCachedPet(HomeProfile remote, HomeProfile cached) {
+        if (cached == null || !cached.hasPet()) return remote;
+        return new HomeProfile(
+                valueOr(remote.getUserDisplayName(), cached.getUserDisplayName()),
+                valueOr(remote.getUserPhotoUrl(), cached.getUserPhotoUrl()),
+                remote.getUserPhotoFallbackResId(),
+                valueOr(remote.getPetName(), cached.getPetName()),
+                valueOr(remote.getPetBreed(), cached.getPetBreed()),
+                valueOr(remote.getPetAge(), cached.getPetAge()),
+                valueOr(remote.getPetSpecies(), cached.getPetSpecies()),
+                valueOr(remote.getPetGender(), cached.getPetGender()),
+                valueOr(remote.getPetNeutered(), cached.getPetNeutered()),
+                remote.getPetWeightKg() != null ? remote.getPetWeightKg() : cached.getPetWeightKg(),
+                valueOr(remote.getPetBirthDate(), cached.getPetBirthDate()),
+                valueOr(remote.getPetAdoptionDate(), cached.getPetAdoptionDate()),
+                valueOr(remote.getPetPhotoUrl(), cached.getPetPhotoUrl()));
+    }
+
+    private static String valueOr(String value, String fallback) {
+        return value == null || value.isEmpty() || EMPTY_VALUE.equals(value) ? fallback : value;
     }
 
     /** Pet fields stay null when no pet is registered; see HomeProfile.hasPet(). */

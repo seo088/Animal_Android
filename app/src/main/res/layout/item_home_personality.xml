@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="64dp"
+        android:minHeight="88dp"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_personality_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             app:cardCornerRadius="@dimen/corner_radius_sm"
             app:cardElevation="0dp"
             app:strokeWidth="0dp">
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/color_text_primary" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/color_text_secondary" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/color_primary" />
         </LinearLayout>
     </LinearLayout>

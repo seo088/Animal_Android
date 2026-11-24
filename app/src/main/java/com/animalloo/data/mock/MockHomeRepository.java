@@ -52,6 +52,13 @@ public class MockHomeRepository implements HomeRepository {
     }
 
     @Override public void upsertPet(PetProfileInput pet, File photo, RepositoryCallback<HomeProfile> callback) {
-        upsertPet(pet.name, pet.breed, pet.age, callback);
+        asyncHelper.execute(() -> {
+            HomeProfile current = profile == null ? dataProvider.getHomeProfile(null) : profile;
+            profile = new HomeProfile(current.getUserDisplayName(), current.getUserPhotoUrl(),
+                    current.getUserPhotoFallbackResId(), pet.name, pet.breed, pet.age,
+                    pet.species, pet.gender, pet.neutered, pet.weightKg, pet.birthDate,
+                    pet.adoptionDate, photo == null ? current.getPetPhotoUrl() : photo.getAbsolutePath());
+            return profile;
+        }, callback);
     }
 }
