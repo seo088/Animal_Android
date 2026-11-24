@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/data_source_mock_notice"
+                    android:text="@string/data_source_live_notice"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_info_banner"
                     android:padding="@dimen/spacing_md"
-                    android:text="@string/network_demo_info_banner"
+                    android:text="@string/public_data_status_info_banner"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
@@ -91,14 +91,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/network_demo_section"
+                    android:text="@string/public_data_status_section"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="@string/network_demo_description"
+                    android:text="@string/public_data_status_description"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_sm"
-                    android:text="@string/network_demo_endpoint"
+                    android:text="@string/public_data_status_endpoint"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                     android:textColor="@color/color_text_secondary" />
 
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:text="@string/network_demo_disclaimer"
+                    android:text="@string/public_data_status_disclaimer"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
@@ -123,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/network_demo_fetch" />
+                    android:text="@string/public_data_status_fetch" />
 
                 <TextView
                     android:id="@+id/tv_network_prompt"
@@ -133,7 +133,7 @@
                     android:background="@drawable/bg_empty_state"
                     android:gravity="center"
                     android:padding="@dimen/spacing_md"
-                    android:text="@string/network_demo_prompt"
+                    android:text="@string/public_data_status_prompt"
                     android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                     android:textColor="@color/color_text_secondary" />
 
@@ -160,7 +160,7 @@
                         android:background="@drawable/bg_badge_success"
                         android:paddingHorizontal="@dimen/spacing_sm"
                         android:paddingVertical="@dimen/spacing_xs"
-                        android:text="@string/network_demo_success_badge"
+                        android:text="@string/public_data_status_success_badge"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                         android:textColor="@color/color_on_primary" />
 
@@ -171,13 +171,13 @@
                         android:layout_marginTop="@dimen/spacing_sm"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                         android:textColor="@color/color_primary"
-                        tools:text="출처: JSONPlaceholder" />
+                        tools:text="출처: AnimalLoo 백엔드 공공데이터" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_xs"
-                        android:text="@string/network_demo_result_notice"
+                        android:text="@string/public_data_status_result_notice"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
                         android:textColor="@color/color_text_secondary" />
 
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_sm"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-                        tools:text="데모 응답 제목" />
+                        tools:text="시설 0건 · 구조 0건 · 분실 0건" />
 
                     <TextView
                         android:id="@+id/tv_network_summary"
@@ -196,7 +196,7 @@
                         android:layout_marginTop="@dimen/spacing_xs"
                         android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
                         android:textColor="@color/color_text_secondary"
-                        tools:text="데모 응답 본문" />
+                        tools:text="최근 구조·분실 데이터 상태" />
 
                     <TextView
                         android:id="@+id/tv_network_fetched_at"

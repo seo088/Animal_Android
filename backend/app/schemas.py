@@ -44,6 +44,15 @@ class HomeStatsOut(CamelModel):
     facility_count: int
 
 
+class PublicDataStatusOut(CamelModel):
+    facility_count: int
+    rescued_animal_count: int
+    public_lost_report_count: int
+    latest_rescued_date: str | None
+    latest_lost_date: str | None
+    public_data_sync_configured: bool
+
+
 class HomeProfileOut(CamelModel):
     user_display_name: str
     user_photo_url: str | None

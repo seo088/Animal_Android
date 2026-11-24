@@ -39,7 +39,7 @@ public class DataSourceFragment extends BaseFragment {
 
         viewModel = new ViewModelProvider(this).get(DataSourceViewModel.class);
 
-        binding.btnFetchPublicData.setOnClickListener(v -> viewModel.fetchDemoPublicData());
+        binding.btnFetchPublicData.setOnClickListener(v -> viewModel.fetchPublicDataStatus());
         observeViewModel();
         renderPublicDataState(viewModel.getPublicDataState().getValue());
     }
@@ -52,8 +52,8 @@ public class DataSourceFragment extends BaseFragment {
         boolean loading = state != null && state.isLoading();
         binding.btnFetchPublicData.setEnabled(!loading);
         binding.btnFetchPublicData.setText(loading
-                ? R.string.network_demo_fetching
-                : R.string.network_demo_fetch);
+                ? R.string.public_data_status_fetching
+                : R.string.public_data_status_fetch);
 
         binding.layoutNetworkResult.setVisibility(View.GONE);
         binding.networkStateContainer.setVisibility(View.GONE);
@@ -77,7 +77,7 @@ public class DataSourceFragment extends BaseFragment {
             TextView messageView = errorView.findViewById(R.id.tv_error_message);
             MaterialButton retryButton = errorView.findViewById(R.id.btn_retry);
             messageView.setText(state.getErrorMessage());
-            retryButton.setOnClickListener(v -> viewModel.fetchDemoPublicData());
+            retryButton.setOnClickListener(v -> viewModel.fetchPublicDataStatus());
             binding.networkStateContainer.addView(errorView);
             return;
         }
@@ -88,11 +88,11 @@ public class DataSourceFragment extends BaseFragment {
             View emptyView = getLayoutInflater().inflate(
                     R.layout.layout_empty, binding.networkStateContainer, false);
             TextView messageView = emptyView.findViewById(R.id.tv_empty_message);
-            messageView.setText(R.string.network_demo_empty);
+            messageView.setText(R.string.public_data_status_empty);
             MaterialButton retryButton = emptyView.findViewById(R.id.btn_retry_empty);
             if (retryButton != null) {
                 retryButton.setVisibility(View.VISIBLE);
-                retryButton.setOnClickListener(v -> viewModel.fetchDemoPublicData());
+                retryButton.setOnClickListener(v -> viewModel.fetchPublicDataStatus());
             }
             binding.networkStateContainer.addView(emptyView);
             return;
@@ -103,11 +103,11 @@ public class DataSourceFragment extends BaseFragment {
             PublicDataInfo info = state.getData();
             binding.layoutNetworkResult.setVisibility(View.VISIBLE);
             binding.tvNetworkSource.setText(getString(
-                    R.string.network_demo_source_format, info.getSourceName()));
+                    R.string.public_data_status_source_format, info.getSourceName()));
             binding.tvNetworkTitle.setText(info.getTitle());
             binding.tvNetworkSummary.setText(info.getSummary());
             binding.tvNetworkFetchedAt.setText(getString(
-                    R.string.network_demo_fetched_at_format,
+                    R.string.public_data_status_fetched_at_format,
                     DateFormat.getDateTimeInstance().format(new Date(info.getFetchedAtMillis()))));
         }
     }

@@ -316,27 +316,27 @@
     <string name="notification_channel_general">일반 알림</string>
     <string name="notification_channel_general_desc">위치 기반 및 기타 AnimalLoo 알림</string>
 
-    <!-- Network Demo -->
-    <string name="network_demo_section">네트워크 구조 데모</string>
-    <string name="network_demo_description">Retrofit enqueue로 외부 샘플 API를 호출합니다. AnimalLoo 기능 데이터가 아닌 연결 구조 시연용입니다.</string>
-    <string name="network_demo_endpoint">호출 엔드포인트: GET jsonplaceholder.typicode.com/posts/1</string>
-    <string name="network_demo_disclaimer">※ JSONPlaceholder 응답은 반려동물 공공데이터가 아닌 샘플 콘텐츠입니다.</string>
-    <string name="network_demo_prompt">아래 버튼을 눌러 Retrofit enqueue 네트워크 데모를 실행하세요.</string>
-    <string name="network_demo_fetch">데모 API 호출</string>
-    <string name="network_demo_fetching">데모 API 호출 중…</string>
-    <string name="network_demo_info_banner">이 섹션은 Retrofit 네트워크 연결 구조를 시연합니다. AnimalLoo 실제 데이터와는 연결되지 않습니다.</string>
-    <string name="network_demo_success_badge">호출 성공</string>
-    <string name="network_demo_result_notice">아래 내용은 샘플 API 응답이며 AnimalLoo 화면 데이터와 연결되지 않습니다.</string>
-    <string name="network_demo_source_format">출처: %1$s</string>
-    <string name="network_demo_fetched_at_format">조회 시각: %1$s</string>
-    <string name="network_demo_empty">표시할 데모 데이터가 없습니다.</string>
+    <!-- Public data status -->
+    <string name="public_data_status_section">공공데이터 연결 상태</string>
+    <string name="public_data_status_description">AnimalLoo 백엔드에 저장된 시설·구조·분실 공공데이터의 실제 보유 상태를 확인합니다.</string>
+    <string name="public_data_status_endpoint">호출 엔드포인트: GET /data-status</string>
+    <string name="public_data_status_disclaimer">※ 조회 결과는 서버가 실제로 보유한 건수와 최신 원천 날짜입니다.</string>
+    <string name="public_data_status_prompt">아래 버튼을 눌러 현재 공공데이터 상태를 확인하세요.</string>
+    <string name="public_data_status_fetch">공공데이터 상태 확인</string>
+    <string name="public_data_status_fetching">공공데이터 상태 확인 중…</string>
+    <string name="public_data_status_info_banner">외부 샘플 API를 호출하지 않습니다. AnimalLoo 백엔드의 실제 저장 상태만 표시합니다.</string>
+    <string name="public_data_status_success_badge">연결 확인됨</string>
+    <string name="public_data_status_result_notice">자동 동기화가 미설정이면 표시된 값은 서버에 보관된 최신 스냅샷입니다.</string>
+    <string name="public_data_status_source_format">출처: %1$s</string>
+    <string name="public_data_status_fetched_at_format">확인 시각: %1$s</string>
+    <string name="public_data_status_empty">서버에서 공공데이터 상태를 반환하지 않았습니다.</string>
 
     <!-- Data Source -->
     <string name="data_source_title">데이터 출처 안내</string>
     <string name="data_source_description">AnimalLoo는 공공데이터 기반 반려동물 통합 지식그래프 플랫폼입니다.</string>
-    <string name="data_source_mock_notice">현재 버전은 Mock 데이터를 사용하며, 향후 백엔드 API와 연동될 예정입니다. 실제 공공데이터 API 호출 여부를 과장해서 표시하지 않습니다.</string>
+    <string name="data_source_live_notice">시설·구조·분실 목록은 AnimalLoo 백엔드에서 불러옵니다. 자동 동기화는 서버에 공공데이터 API 키가 설정된 경우에만 동작합니다.</string>
     <string name="data_source_list_title">활용 예정 공공데이터</string>
-    <string name="data_source_list_body">• 농림축산식품부 동물보호 관련 공공데이터\n• 지자체 유기동물 보호/입양 정보\n• 반려동물 동반 가능 시설 정보\n• 동물병원 및 약국 위치 정보\n\n※ 위 항목은 서비스 기획 기준이며, 현재 앱에서는 Mock Repository로 대체됩니다.</string>
+    <string name="data_source_list_body">• 농림축산식품부 동물보호 관련 공공데이터\n• 지자체 유기동물 보호/입양 정보\n• 반려동물 동반 가능 시설 정보\n• 동물병원 및 약국 위치 정보\n\n※ 화면의 공공데이터 상태 확인에서 서버 보유 건수와 자동 동기화 설정 여부를 확인할 수 있습니다.</string>
 
     <!-- Detail -->
     <string name="detail_title">상세 정보</string>
@@ -369,6 +369,14 @@
     <string name="detail_alert_title_format">%1$s %2$s 알림</string>
 
     <!-- Common UI States -->
+    <string name="diagnosis_notice_title">증상 안내</string>
+    <string name="diagnosis_notice_summary">입력한 증상을 바탕으로 참고할 정보를 안내합니다. 정확한 진단은 동물병원에서 확인해 주세요.</string>
+    <string name="home_pet_profile_action">반려동물 정보 등록</string>
+    <string name="home_life_service_subtitle">우리 아이와 함께 이용할 수 있는 생활 서비스를 찾아보세요.</string>
+    <string name="map_nearby_title">내 주변 반려동물 시설</string>
+    <string name="map_search_hint">장소 또는 지역을 검색하세요</string>
+    <string name="map_recommendation_title">반려동물 동반 추천 장소</string>
+    <string name="map_recommendation_subtitle">현재 위치와 조건에 맞는 장소를 확인하세요.</string>
     <string name="loading">불러오는 중…</string>
     <string name="empty_data">표시할 데이터가 없습니다.</string>
     <string name="error_generic">오류가 발생했습니다. 다시 시도해 주세요.</string>

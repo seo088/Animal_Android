@@ -30,7 +30,7 @@ public class DataSourceViewModel extends ViewModel {
         return isFetching;
     }
 
-    public void fetchDemoPublicData() {
+    public void fetchPublicDataStatus() {
         if (isFetching) {
             return;
         }
@@ -39,7 +39,7 @@ public class DataSourceViewModel extends ViewModel {
         int generation = ++requestGeneration;
         publicDataState.setValue(UiState.loading());
 
-        publicDataRepository.fetchDemoPublicData(new RepositoryCallback<PublicDataInfo>() {
+        publicDataRepository.fetchPublicDataStatus(new RepositoryCallback<PublicDataInfo>() {
             @Override
             public void onSuccess(PublicDataInfo data) {
                 if (generation != requestGeneration) {

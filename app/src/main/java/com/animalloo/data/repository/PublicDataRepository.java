@@ -4,5 +4,5 @@ import com.animalloo.data.model.PublicDataInfo;
 
 public interface PublicDataRepository {
 
-    void fetchDemoPublicData(RepositoryCallback<PublicDataInfo> callback);
+    void fetchPublicDataStatus(RepositoryCallback<PublicDataInfo> callback);
 }

@@ -9,6 +9,7 @@ import com.animalloo.data.model.LostAnimalReport;
 import com.animalloo.data.model.MatchResult;
 import com.animalloo.data.model.RescuedAnimal;
 import com.animalloo.data.model.Symptom;
+import com.animalloo.data.remote.dto.PublicDataStatusResponse;
 import com.animalloo.data.remote.dto.AuthResponse;
 import com.animalloo.data.remote.dto.HomeProfileResponse;
 import com.animalloo.data.remote.dto.InferRequest;
@@ -60,6 +61,9 @@ public interface AnimalLooApi {
     @Multipart
     @POST("home/pet/photo")
     Call<HomeProfileResponse> uploadPetPhoto(@Part MultipartBody.Part photo);
+
+    @GET("data-status")
+    Call<PublicDataStatusResponse> getPublicDataStatus();
 
     @GET("alerts")
     Call<List<AlertNotification>> getAlerts(@Query("limit") Integer limit);

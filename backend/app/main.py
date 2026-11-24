@@ -10,7 +10,7 @@ from sqlalchemy import text
 from app import scheduler
 from app.config import settings
 from app.db import engine
-from app.routers import alerts, animals, auth, diagnosis, facilities, favorites, home, hospitals, lost_reports
+from app.routers import alerts, animals, auth, data_status, diagnosis, facilities, favorites, home, hospitals, lost_reports
 
 logging.getLogger("animalloo").setLevel(logging.INFO)
 logging.getLogger("animalloo").addHandler(logging.StreamHandler())
@@ -37,7 +37,7 @@ def migrate_pet_columns():
 
 migrate_pet_columns()
 
-for router in (auth, home, alerts, facilities, hospitals, diagnosis, animals, lost_reports, favorites):
+for router in (auth, home, alerts, facilities, hospitals, diagnosis, animals, lost_reports, favorites, data_status):
     app.include_router(router.router)
 
 settings.upload_path.mkdir(parents=True, exist_ok=True)

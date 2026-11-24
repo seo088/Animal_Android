@@ -210,7 +210,7 @@ cp app/google-services.json.example app/google-services.json
 | DiagnosisRepository | MockDiagnosisRepository | 질병 추론 8건 |
 | LostAnimalRepository | MockLostAnimalRepository | 분실 신고 + 매칭 |
 | HomeRepository | MockHomeRepository | 홈 통계 |
-| PublicDataRepository | RetrofitPublicDataRepository | JSONPlaceholder 데모 API |
+| PublicDataRepository | RetrofitPublicDataRepository | AnimalLoo 백엔드 공공데이터 상태 |
 
 Mock 데이터는 `MockDataProvider`에서 중앙 관리합니다.  
 ViewModel은 Mock List를 직접 읽지 않고 **반드시 Repository Interface**를 통해 접근합니다.

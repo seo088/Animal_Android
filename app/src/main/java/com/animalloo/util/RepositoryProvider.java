@@ -59,8 +59,6 @@ public final class RepositoryProvider {
 
     private RepositoryProvider(Application application) {
         this.application = application;
-        publicDataRepository = new RetrofitPublicDataRepository();
-
         if (BuildConfig.USE_MOCK_API) {
             facilityRepository = new MockFacilityRepository();
             hospitalRepository = new MockHospitalRepository();
@@ -71,11 +69,13 @@ public final class RepositoryProvider {
             homeRepository = new MockHomeRepository();
             authRepository = new MockAuthRepository(application);
             favoriteRepository = new MockFavoriteRepository(application);
+            publicDataRepository = callback -> callback.onError("실데이터 모드가 꺼져 있습니다. USE_MOCK_API=false로 다시 빌드해 주세요.");
             return;
         }
 
         SessionStore sessionStore = new SessionStore(application);
         AnimalLooApi api = AnimalLooApiClient.create(sessionStore);
+        publicDataRepository = new RetrofitPublicDataRepository(api);
         RemoteFavoriteRepository remoteFavorites = new RemoteFavoriteRepository(api, sessionStore, application);
         facilityRepository = new RemoteFacilityRepository(api, application);
         hospitalRepository = new RemoteHospitalRepository(api, application);
