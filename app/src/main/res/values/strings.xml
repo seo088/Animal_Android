@@ -21,6 +21,8 @@
     <string name="home_my_pet_title">내 강아지</string>
     <string name="home_greeting_format">안녕하세요, %1$s님</string>
     <string name="home_pet_info_format">%1$s · %2$s</string>
+    <string name="home_pet_name_format">%1$s 🐾</string>
+    <string name="home_pet_detail_format">%1$s · 생일 %2$s</string>
     <string name="home_pet_register">반려동물 등록하기</string>
     <string name="home_pet_not_registered">반려동물 미등록</string>
     <string name="home_pet_register_hint">반려동물을 등록해 주세요</string>
@@ -371,7 +373,7 @@
     <!-- Common UI States -->
     <string name="diagnosis_notice_title">증상 안내</string>
     <string name="diagnosis_notice_summary">입력한 증상을 바탕으로 참고할 정보를 안내합니다. 정확한 진단은 동물병원에서 확인해 주세요.</string>
-    <string name="home_pet_profile_action">반려동물 정보 등록</string>
+    <string name="home_pet_profile_action">프로필 변경하기</string>
     <string name="home_life_service_subtitle">우리 아이와 함께 이용할 수 있는 생활 서비스를 찾아보세요.</string>
     <string name="map_nearby_title">내 주변 반려동물 시설</string>
     <string name="map_search_hint">장소 또는 지역을 검색하세요</string>

@@ -100,9 +100,9 @@ public class HomeFragment extends BaseFragment {
         setupAlertsRecyclerView();
         setupPersonalityPreview();
         setupSwipeRefresh();
-        binding.ivHomeProfile.setOnClickListener(v -> openPetProfile());
-        binding.cardHomePetEntry.setOnClickListener(v -> openPetProfile());
-        binding.layoutProfileHeader.btnPetRegister.setOnClickListener(v -> openPetProfile());
+        binding.layoutLegacyPetCard.ivHomeProfile.setOnClickListener(v -> openPetProfile());
+        binding.layoutLegacyPetCard.cardHomePetEntry.setOnClickListener(v -> openPetProfile());
+        binding.layoutLegacyPetCard.btnHomePetAction.setOnClickListener(v -> openPetProfile());
         observeViewModel();
         viewModel.loadHomeData();
     }
@@ -280,20 +280,40 @@ public class HomeFragment extends BaseFragment {
         }
 
         HomeProfile profile = state.getData();
-        Glide.with(this)
-                .load(profile.getUserPhotoUrl())
-                .placeholder(profile.getUserPhotoFallbackResId())
-                .error(profile.getUserPhotoFallbackResId())
-                .circleCrop()
-                .into(binding.ivHomeProfile);
         if (profile.hasPet()) {
-            binding.tvHomeProfileSummary.setText(getString(R.string.home_pet_edit_prompt));
-            binding.tvHomePetSummary.setText(
-                    getString(R.string.home_pet_info_format, profile.getPetBreed(), profile.getPetAge()));
+            binding.layoutLegacyPetCard.tvHomeProfileSummary.setText(
+                    getString(R.string.home_pet_name_format, profile.getPetName()));
+            binding.layoutLegacyPetCard.tvHomePetSummary.setText(buildPetDetail(profile));
+            binding.layoutLegacyPetCard.btnHomePetAction.setText(R.string.home_pet_profile_action);
+            if (profile.getPetPhotoUrl() == null || profile.getPetPhotoUrl().trim().isEmpty()) {
+                binding.layoutLegacyPetCard.ivHomePetPhoto.setImageResource(R.drawable.img_pet_match_puppy);
+            } else {
+                Glide.with(this).load(profile.getPetPhotoUrl())
+                        .placeholder(R.drawable.img_pet_match_puppy)
+                        .error(R.drawable.img_pet_match_puppy)
+                        .into(binding.layoutLegacyPetCard.ivHomePetPhoto);
+            }
         } else {
-            binding.tvHomeProfileSummary.setText(getString(R.string.home_pet_register_prompt));
-            binding.tvHomePetSummary.setText(R.string.home_pet_register_hint);
+            binding.layoutLegacyPetCard.tvHomeProfileSummary.setText(R.string.home_pet_register_prompt);
+            binding.layoutLegacyPetCard.tvHomePetSummary.setText(R.string.home_pet_register_hint);
+            binding.layoutLegacyPetCard.btnHomePetAction.setText(R.string.home_pet_register);
+            binding.layoutLegacyPetCard.ivHomePetPhoto.setImageResource(R.drawable.img_pet_match_puppy);
         }
+    }
+
+    private String buildPetDetail(HomeProfile profile) {
+        String age = profile.getPetAge();
+        String birthDate = profile.getPetBirthDate();
+        if (age != null && !age.isEmpty() && birthDate != null && !birthDate.isEmpty()) {
+            return getString(R.string.home_pet_detail_format, age, birthDate);
+        }
+        if (age != null && !age.isEmpty()) {
+            return age;
+        }
+        if (profile.getPetBreed() != null && !profile.getPetBreed().isEmpty()) {
+            return profile.getPetBreed();
+        }
+        return getString(R.string.home_pet_edit_prompt);
     }
 
     private void openPetProfile() {
