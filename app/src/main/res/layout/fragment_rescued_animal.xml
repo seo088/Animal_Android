@@ -53,13 +53,31 @@
                 android:text="@string/rescued_filter_breed"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
 
-            <Spinner
-                android:id="@+id/spinner_filter_breed"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_profile_photo"
-                android:paddingHorizontal="@dimen/spacing_sm"
-                android:minHeight="@dimen/min_touch_target" />
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:background="@drawable/bg_rescue_filter">
+
+                <Spinner
+                    android:id="@+id/spinner_filter_breed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="@dimen/spacing_md"
+                    android:paddingEnd="44dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:clickable="false"
+                    android:contentDescription="@null"
+                    android:focusable="false"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_arrow_drop_down" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -75,13 +93,31 @@
                 android:text="@string/rescued_filter_region"
                 android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
 
-            <Spinner
-                android:id="@+id/spinner_filter_region"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_profile_photo"
-                android:paddingHorizontal="@dimen/spacing_sm"
-                android:minHeight="@dimen/min_touch_target" />
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:background="@drawable/bg_rescue_filter">
+
+                <Spinner
+                    android:id="@+id/spinner_filter_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="@dimen/spacing_md"
+                    android:paddingEnd="44dp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:clickable="false"
+                    android:contentDescription="@null"
+                    android:focusable="false"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_arrow_drop_down" />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>
