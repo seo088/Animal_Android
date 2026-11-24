@@ -3,6 +3,7 @@ package com.animalloo.ui.map;
 import android.Manifest;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import java.util.Map;
 
 public class MapFragment extends BaseFragment {
 
+    private static final String TAG = "MapFragment";
     private static final long CATEGORY_ANIMATION_MS = 180L;
 
     private FragmentMapBinding binding;
@@ -80,6 +82,7 @@ public class MapFragment extends BaseFragment {
         restoreCategorySelection(category);
         setupFallbackList();
         setupMapContainer();
+        binding.btnMapRetry.setOnClickListener(v -> retryMap());
         observeViewModel();
 
         if (categoryMenuExpanded) {
@@ -111,13 +114,60 @@ public class MapFragment extends BaseFragment {
         if (mapsAvailable) {
             binding.layoutMapFallback.setVisibility(View.GONE);
             binding.mapContainer.setVisibility(View.VISIBLE);
+            binding.layoutMapCategory.setVisibility(View.VISIBLE);
             mapController = new FacilityMapController(binding.mapContainer);
             mapController.setOnFacilityClickListener(this::showFacilityBottomSheet);
+            mapController.setOnMapErrorListener(this::handleMapError);
             mapController.start();
             promptLocationPermissionIfNeeded();
         } else {
-            binding.mapContainer.setVisibility(View.GONE);
-            binding.layoutMapFallback.setVisibility(View.VISIBLE);
+            showMapFallback(false);
+        }
+    }
+
+    private void handleMapError(@NonNull Exception error) {
+        Log.w(TAG, "Kakao Map rendering failed; switching to the facility list.", error);
+        if (binding == null || !isAdded()) {
+            return;
+        }
+        requireActivity().runOnUiThread(() -> {
+            if (binding != null) {
+                showMapFallback(true);
+            }
+        });
+    }
+
+    private void showMapFallback(boolean mapLoadFailed) {
+        mapsAvailable = false;
+        if (mapController != null) {
+            mapController.destroy();
+            mapController = null;
+        }
+        binding.mapContainer.setVisibility(View.GONE);
+        binding.layoutMapCategory.setVisibility(View.GONE);
+        binding.layoutMapFallback.setVisibility(View.VISIBLE);
+        binding.tvMapFallbackMessage.setText(mapLoadFailed
+                ? R.string.map_load_failed
+                : R.string.map_no_api_key);
+        binding.btnMapRetry.setVisibility(mapLoadFailed ? View.VISIBLE : View.GONE);
+        hideOverlayState(binding.mapStateContainer);
+
+        UiState<List<Facility>> state = viewModel.getFacilitiesState().getValue();
+        if (state != null) {
+            renderFacilitiesState(state);
+        }
+    }
+
+    private void retryMap() {
+        if (!MapsAvailabilityChecker.isMapsAvailable(requireContext())) {
+            showMapFallback(false);
+            return;
+        }
+        mapsAvailable = true;
+        setupMapContainer();
+        UiState<List<Facility>> state = viewModel.getFacilitiesState().getValue();
+        if (state != null) {
+            renderFacilitiesState(state);
         }
     }
 

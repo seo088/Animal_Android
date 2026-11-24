@@ -51,6 +51,10 @@ public final class FacilityMapController {
         void onFacilityClick(@NonNull String facilityId);
     }
 
+    public interface OnMapErrorListener {
+        void onMapError(@NonNull Exception error);
+    }
+
     private static final LatLng DEFAULT_SEOUL = LatLng.from(37.5665, 126.9780);
     private static final int DEFAULT_ZOOM = 11;
     private static final int MAP_PADDING_PX = 120;
@@ -75,6 +79,7 @@ public final class FacilityMapController {
     private final List<Label> labels = new ArrayList<>();
     private final List<Facility> facilities = new ArrayList<>();
     private OnFacilityClickListener facilityClickListener;
+    private OnMapErrorListener mapErrorListener;
     private List<Facility> pendingFacilities;
     private boolean mapStarted;
     private int renderedZoom = -1;
@@ -85,6 +90,10 @@ public final class FacilityMapController {
 
     public void setOnFacilityClickListener(@Nullable OnFacilityClickListener listener) {
         this.facilityClickListener = listener;
+    }
+
+    public void setOnMapErrorListener(@Nullable OnMapErrorListener listener) {
+        this.mapErrorListener = listener;
     }
 
     public void start() {
@@ -107,6 +116,9 @@ public final class FacilityMapController {
             @Override
             public void onMapError(@NonNull Exception error) {
                 mapStarted = false;
+                if (mapErrorListener != null) {
+                    mapErrorListener.onMapError(error);
+                }
             }
         }, new KakaoMapReadyCallback() {
             @Override
@@ -226,6 +238,7 @@ public final class FacilityMapController {
         defaultMarkerStyles = null;
         clusterStyles.clear();
         pendingFacilities = null;
+        mapErrorListener = null;
         renderedZoom = -1;
         if (mapView != null) {
             container.removeView(mapView);
