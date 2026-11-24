@@ -411,10 +411,14 @@ public class DiagnosisViewModel extends AndroidViewModel {
             return null;
         }
         String normalized = petSpecies.trim().toLowerCase();
-        if ("개".equals(normalized) || "dog".equals(normalized)) {
+        if ("개".equals(normalized) || "dog".equals(normalized) || normalized.contains("강아지")
+                || normalized.contains("견") || "말티즈".equals(normalized) || "푸들".equals(normalized)
+                || normalized.contains("리트리버")) {
             return "dog";
         }
-        if ("고양이".equals(normalized) || "cat".equals(normalized)) {
+        if ("고양이".equals(normalized) || "cat".equals(normalized) || normalized.contains("냥")
+                || "코리안숏헤어".equals(normalized) || "러시안블루".equals(normalized)
+                || "페르시안".equals(normalized)) {
             return "cat";
         }
         return null;
