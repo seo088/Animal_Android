@@ -34,7 +34,6 @@ import java.util.List;
 
 public class RescueFragment extends BaseFragment {
 
-    private static final String TAG_RESCUED = "tag_rescued_animal";
     private static final long STATS_COUNT_ANIMATION_MS = 700L;
 
     private FragmentRescueBinding binding;
@@ -43,9 +42,7 @@ public class RescueFragment extends BaseFragment {
     private LostReportViewModel lostReportViewModel;
     private RescueTimelineAdapter timelineAdapter;
     private DetailNavigator detailNavigator;
-    private RescuedAnimalFragment rescuedAnimalFragment;
     private boolean pendingOpenLostReport;
-    private boolean pendingOpenRescued;
 
     private Animation livePulseAnimation;
     private Animation statsGlowAnimation;
@@ -87,22 +84,10 @@ public class RescueFragment extends BaseFragment {
         setupSwipeRefresh();
         observeViewModels();
 
-        if (savedInstanceState == null) {
-            rescuedAnimalFragment = new RescuedAnimalFragment();
-            getChildFragmentManager().beginTransaction()
-                    .add(R.id.rescued_overlay_container, rescuedAnimalFragment, TAG_RESCUED)
-                    .commit();
-        } else {
-            rescuedAnimalFragment = (RescuedAnimalFragment) getChildFragmentManager()
-                    .findFragmentByTag(TAG_RESCUED);
+        if (savedInstanceState != null) {
             pendingOpenLostReport = savedInstanceState.getBoolean("pending_open_lost_report", false);
-            pendingOpenRescued = savedInstanceState.getBoolean("pending_open_rescued", false);
             displayedRescuedCount = savedInstanceState.getInt("displayed_rescued_count", -1);
             displayedLostCount = savedInstanceState.getInt("displayed_lost_count", -1);
-            boolean rescuedVisible = savedInstanceState.getBoolean("rescued_overlay_visible", false);
-            if (rescuedVisible) {
-                showRescuedOverlay();
-            }
         }
 
         rescueViewModel.loadData();
@@ -155,12 +140,10 @@ public class RescueFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
-                    showRescuedOverlay();
+                    rescueViewModel.setFilter(RescueTimelineFilter.RESCUE);
                 } else if (tab.getPosition() == 2) {
-                    hideRescuedOverlay();
                     rescueViewModel.setFilter(RescueTimelineFilter.LOST);
                 } else {
-                    hideRescuedOverlay();
                     rescueViewModel.setFilter(RescueTimelineFilter.ALL);
                 }
             }
@@ -177,7 +160,7 @@ public class RescueFragment extends BaseFragment {
         });
 
         RescueTimelineFilter currentFilter = rescueViewModel.getFilterType().getValue();
-        int tabIndex = currentFilter == RescueTimelineFilter.LOST ? 2 : 0;
+        int tabIndex = tabIndexFor(currentFilter);
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
         if (tab != null && !tab.isSelected()) {
             tab.select();
@@ -204,7 +187,7 @@ public class RescueFragment extends BaseFragment {
             if (filter == null || statsHeaderBinding == null) {
                 return;
             }
-            int tabIndex = filter == RescueTimelineFilter.LOST ? 2 : 0;
+            int tabIndex = tabIndexFor(filter);
             TabLayout.Tab tab = statsHeaderBinding.tabLayoutRescueFilter.getTabAt(tabIndex);
             if (tab != null && !tab.isSelected()) {
                 tab.select();
@@ -336,11 +319,9 @@ public class RescueFragment extends BaseFragment {
 
     public void openAction(int actionIndex) {
         if (actionIndex == HomeFragment.RESCUE_TAB_RESCUED) {
-            pendingOpenRescued = true;
-            pendingOpenLostReport = false;
+            rescueViewModel.setFilter(RescueTimelineFilter.RESCUE);
         } else {
             pendingOpenLostReport = true;
-            pendingOpenRescued = false;
         }
         applyPendingActions();
     }
@@ -361,9 +342,6 @@ public class RescueFragment extends BaseFragment {
         if (pendingOpenLostReport) {
             pendingOpenLostReport = false;
             showLostReportBottomSheet();
-        } else if (pendingOpenRescued) {
-            pendingOpenRescued = false;
-            showRescuedOverlay();
         }
     }
 
@@ -392,17 +370,10 @@ public class RescueFragment extends BaseFragment {
         MatchingBottomSheet.newInstance().show(getChildFragmentManager(), "matching_bottom_sheet");
     }
 
-    private void showRescuedOverlay() {
-        binding.rescueTimelineContainer.setVisibility(View.GONE);
-        binding.rescuedOverlayContainer.setVisibility(View.VISIBLE);
-        if (rescuedAnimalFragment != null) {
-            rescuedAnimalFragment.setOverlayMode(true, this::hideRescuedOverlay);
-        }
-    }
-
-    private void hideRescuedOverlay() {
-        binding.rescuedOverlayContainer.setVisibility(View.GONE);
-        binding.rescueTimelineContainer.setVisibility(View.VISIBLE);
+    private static int tabIndexFor(RescueTimelineFilter filter) {
+        if (filter == RescueTimelineFilter.RESCUE) return 1;
+        if (filter == RescueTimelineFilter.LOST) return 2;
+        return 0;
     }
 
     private void showStateView(int layoutRes, StateViewSetup setup) {
@@ -428,9 +399,6 @@ public class RescueFragment extends BaseFragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("pending_open_lost_report", pendingOpenLostReport);
-        outState.putBoolean("pending_open_rescued", pendingOpenRescued);
-        outState.putBoolean("rescued_overlay_visible",
-                binding != null && binding.rescuedOverlayContainer.getVisibility() == View.VISIBLE);
         outState.putInt("displayed_rescued_count", displayedRescuedCount);
         outState.putInt("displayed_lost_count", displayedLostCount);
     }

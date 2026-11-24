@@ -58,12 +58,6 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/rescued_overlay_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_lost_report"
         android:layout_width="wrap_content"
