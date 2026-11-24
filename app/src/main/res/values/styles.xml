@@ -129,6 +129,20 @@
         <item name="android:textColor">@color/color_primary</item>
     </style>
 
+    <style name="Widget.AnimalLoo.ProfileInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+    </style>
+
+    <style name="Widget.AnimalLoo.ProfileDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+    </style>
+
     <!-- Chip -->
     <style name="Widget.AnimalLoo.Chip" parent="Widget.Material3.Chip.Filter">
         <item name="android:fontFamily">@font/tmoney_round_wind</item>
