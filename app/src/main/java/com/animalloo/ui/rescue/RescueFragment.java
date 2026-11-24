@@ -90,6 +90,7 @@ public class RescueFragment extends BaseFragment {
             getChildFragmentManager().beginTransaction()
                     .add(R.id.rescued_overlay_container, rescuedAnimalFragment, TAG_RESCUED)
                     .commit();
+            binding.getRoot().post(this::showRescuedOverlay);
         } else {
             rescuedAnimalFragment = (RescuedAnimalFragment) getChildFragmentManager()
                     .findFragmentByTag(TAG_RESCUED);

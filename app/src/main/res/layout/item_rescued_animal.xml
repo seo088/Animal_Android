@@ -4,7 +4,7 @@
     style="@style/Widget.AnimalLoo.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_sm"
+    android:layout_marginBottom="@dimen/spacing_md"
     android:clickable="true"
     android:focusable="true">
 
@@ -15,8 +15,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_animal_image"
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:contentDescription="@string/cd_animal_photo"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.AnimalLoo.Rounded"
@@ -76,6 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
             android:layout_marginTop="@dimen/spacing_xs"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_animal_image"
@@ -86,6 +88,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_animal_image"
@@ -96,6 +100,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_md"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
             app:layout_constraintEnd_toStartOf="@id/tv_protection_status"
             app:layout_constraintStart_toEndOf="@id/iv_animal_image"
