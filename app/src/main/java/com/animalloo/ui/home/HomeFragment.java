@@ -2,6 +2,7 @@ package com.animalloo.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -302,18 +303,22 @@ public class HomeFragment extends BaseFragment {
     }
 
     private String buildPetDetail(HomeProfile profile) {
+        List<String> details = new ArrayList<>();
         String age = profile.getPetAge();
-        String birthDate = profile.getPetBirthDate();
-        if (age != null && !age.isEmpty() && birthDate != null && !birthDate.isEmpty()) {
-            return getString(R.string.home_pet_detail_format, age, birthDate);
-        }
         if (age != null && !age.isEmpty()) {
-            return age;
+            details.add(age.endsWith("살") ? age : age + "살");
         }
-        if (profile.getPetBreed() != null && !profile.getPetBreed().isEmpty()) {
-            return profile.getPetBreed();
+        String gender = profile.getPetGender();
+        if ("수컷".equals(gender)) {
+            details.add("♂");
+        } else if ("암컷".equals(gender)) {
+            details.add("♀");
         }
-        return getString(R.string.home_pet_edit_prompt);
+        String breed = profile.getPetBreed();
+        if (breed != null && !breed.isEmpty()) {
+            details.add(breed);
+        }
+        return details.isEmpty() ? getString(R.string.home_pet_edit_prompt) : TextUtils.join(" · ", details);
     }
 
     private void openPetProfile() {
