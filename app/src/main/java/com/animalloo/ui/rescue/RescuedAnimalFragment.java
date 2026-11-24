@@ -27,6 +27,7 @@ import com.animalloo.ui.detail.DetailNavigator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 import java.util.Set;
@@ -67,11 +68,7 @@ public class RescuedAnimalFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(RescuedAnimalViewModel.class);
-        binding.btnBack.setOnClickListener(v -> {
-            if (overlayBackListener != null) {
-                overlayBackListener.onOverlayBack();
-            }
-        });
+        setupAnimalTypeTabs();
         setupFilters();
         setupRecyclerView();
         observeViewModel();
@@ -100,29 +97,24 @@ public class RescuedAnimalFragment extends BaseFragment {
         binding.spinnerFilterRegion.setOnItemSelectedListener(new SimpleItemSelectedListener(value ->
                 viewModel.setRegionFilter(value)));
 
-        String gender = viewModel.getSelectedGender().getValue();
-        if (getString(R.string.gender_male).equals(gender)) {
-            binding.chipGroupGender.check(R.id.chip_gender_male);
-        } else if (getString(R.string.gender_female).equals(gender)) {
-            binding.chipGroupGender.check(R.id.chip_gender_female);
-        } else {
-            binding.chipGroupGender.check(R.id.chip_gender_all);
-        }
+    }
 
-        binding.chipGroupGender.setOnCheckedStateChangeListener(
-                (ChipGroup group, List<Integer> checkedIds) -> {
-                    if (checkedIds.isEmpty()) {
-                        return;
-                    }
-                    int checkedId = checkedIds.get(0);
-                    if (checkedId == R.id.chip_gender_male) {
-                        viewModel.setGenderFilter(getString(R.string.gender_male));
-                    } else if (checkedId == R.id.chip_gender_female) {
-                        viewModel.setGenderFilter(getString(R.string.gender_female));
-                    } else {
-                        viewModel.setGenderFilter("전체");
-                    }
-                });
+    private void setupAnimalTypeTabs() {
+        TabLayout tabs = binding.tabLayoutAnimalType;
+        tabs.addTab(tabs.newTab().setText(R.string.rescue_tab_all));
+        tabs.addTab(tabs.newTab().setText(R.string.rescue_tab_rescued), true);
+        tabs.addTab(tabs.newTab().setText(R.string.rescue_tab_lost_animals));
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() != 1 && getParentFragment() instanceof RescueFragment) {
+                    ((RescueFragment) getParentFragment()).selectAnimalTypeTab(tab.getPosition());
+                }
+            }
+
+            @Override public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override public void onTabReselected(TabLayout.Tab tab) { }
+        });
     }
 
     private void setupRecyclerView() {
@@ -254,13 +246,14 @@ public class RescuedAnimalFragment extends BaseFragment {
         if (state.isSuccess() && state.getData() != null) {
             binding.rvRescuedAnimals.setVisibility(View.VISIBLE);
             rescuedAnimalAdapter.setItems(state.getData());
+            binding.tvRescueResultCount.setText(getString(
+                    R.string.rescue_result_count_format, state.getData().size()));
         }
     }
 
     private void resetFilterUi() {
         binding.spinnerFilterBreed.setSelection(0);
         binding.spinnerFilterRegion.setSelection(0);
-        binding.chipGroupGender.check(R.id.chip_gender_all);
         scrollToTop();
     }
 
@@ -326,9 +319,6 @@ public class RescuedAnimalFragment extends BaseFragment {
 
     public void setOverlayMode(boolean enabled, @Nullable OnOverlayBackListener listener) {
         overlayBackListener = listener;
-        if (binding != null) {
-            binding.btnBack.setVisibility(enabled ? View.VISIBLE : View.GONE);
-        }
     }
 
     @Override

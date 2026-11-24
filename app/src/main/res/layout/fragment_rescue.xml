@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -63,35 +64,16 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/rescue_action_bar"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_lost_report"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
-        android:clickable="false"
-        android:focusable="false"
-        android:orientation="horizontal"
-        android:padding="@dimen/spacing_md">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_lost_report"
-            style="@style/Widget.AnimalLoo.Button.Outlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_sm"
-            android:layout_weight="1"
-            android:backgroundTint="@color/color_surface"
-            android:text="@string/rescue_action_lost_report" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_view_rescued"
-            style="@style/Widget.AnimalLoo.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/rescue_action_view_rescued" />
-
-    </LinearLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/spacing_md"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:text="@string/rescue_action_lost_report"
+        android:textColor="@color/color_on_primary"
+        app:backgroundTint="@color/color_primary"
+        app:iconTint="@color/color_on_primary" />
 
 </FrameLayout>

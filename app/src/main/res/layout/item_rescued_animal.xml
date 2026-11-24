@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.AnimalLoo.Card"
+    style="@style/Widget.AnimalLoo.Card.Flat"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/spacing_md"
+    android:layout_marginBottom="@dimen/spacing_sm"
     android:clickable="true"
     android:focusable="true">
 
@@ -33,32 +33,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/btn_share"
-            android:layout_width="@dimen/min_touch_target"
-            android:layout_height="@dimen/min_touch_target"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/context_share"
-            android:src="@drawable/ic_share"
-            app:layout_constraintEnd_toStartOf="@id/btn_favorite"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_favorite_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_xs"
-            android:background="@drawable/bg_badge"
-            android:paddingHorizontal="@dimen/spacing_sm"
-            android:paddingVertical="@dimen/spacing_xs"
-            android:text="@string/home_alert_favorite_badge"
-            android:textAppearance="@style/TextAppearance.AnimalLoo.Caption"
-            android:textColor="@color/color_primary"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/btn_favorite"
-            app:layout_constraintEnd_toStartOf="@id/btn_share"
-            app:layout_constraintTop_toTopOf="@id/btn_favorite" />
-
         <TextView
             android:id="@+id/tv_breed"
             android:layout_width="0dp"
@@ -66,7 +40,7 @@
             android:layout_marginStart="@dimen/spacing_md"
             android:layout_marginEnd="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-            app:layout_constraintEnd_toStartOf="@id/tv_favorite_badge"
+            app:layout_constraintEnd_toStartOf="@id/btn_favorite"
             app:layout_constraintStart_toEndOf="@id/iv_animal_image"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,17 +93,6 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_rescued_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_rescued_date" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_detail"
-            style="@style/Widget.AnimalLoo.Button.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
-            android:layout_marginTop="@dimen/spacing_xs"
-            android:text="@string/detail_view_more"
-            app:layout_constraintStart_toEndOf="@id/iv_animal_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_rescued_date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

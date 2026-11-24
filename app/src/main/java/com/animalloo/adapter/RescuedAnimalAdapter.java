@@ -96,7 +96,6 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
             binding.tvRegion.setText(animal.getRegion());
             binding.tvRescuedDate.setText(animal.getRescuedDate());
             binding.tvProtectionStatus.setText(animal.getProtectionStatus());
-            binding.tvFavoriteBadge.setVisibility(isFavorite ? View.VISIBLE : View.GONE);
             binding.btnFavorite.setImageResource(isFavorite
                     ? R.drawable.ic_favorite_filled
                     : R.drawable.ic_favorite);
@@ -109,12 +108,6 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
                     .error(R.drawable.img_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.ivAnimalImage);
-
-            binding.btnDetail.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onAnimalClick(animal);
-                }
-            });
 
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) {
@@ -135,11 +128,6 @@ public class RescuedAnimalAdapter extends RecyclerView.Adapter<RescuedAnimalAdap
                 }
             });
 
-            binding.btnShare.setOnClickListener(v -> {
-                if (actionListener != null) {
-                    actionListener.onShareClick(animal);
-                }
-            });
         }
     }
 }

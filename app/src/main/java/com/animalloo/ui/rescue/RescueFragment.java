@@ -79,6 +79,8 @@ public class RescueFragment extends BaseFragment {
         lostReportViewModel = new ViewModelProvider(this).get(LostReportViewModel.class);
 
         statsHeaderBinding = LayoutRescueStatsHeaderBinding.bind(binding.rescueStatsHeader.getRoot());
+        statsHeaderBinding.getRoot().findViewById(R.id.layout_rescue_brand)
+                .setOnClickListener(v -> requireActivity().findViewById(R.id.nav_home).performClick());
         setupTimeline();
         setupFilterTabs();
         setupActionBar();
@@ -90,7 +92,6 @@ public class RescueFragment extends BaseFragment {
             getChildFragmentManager().beginTransaction()
                     .add(R.id.rescued_overlay_container, rescuedAnimalFragment, TAG_RESCUED)
                     .commit();
-            binding.getRoot().post(this::showRescuedOverlay);
         } else {
             rescuedAnimalFragment = (RescuedAnimalFragment) getChildFragmentManager()
                     .findFragmentByTag(TAG_RESCUED);
@@ -145,17 +146,22 @@ public class RescueFragment extends BaseFragment {
     private void setupFilterTabs() {
         TabLayout tabLayout = statsHeaderBinding.tabLayoutRescueFilter;
         if (tabLayout.getTabCount() == 0) {
-            tabLayout.addTab(tabLayout.newTab().setText(R.string.alert_type_rescue));
-            tabLayout.addTab(tabLayout.newTab().setText(R.string.alert_type_lost));
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.rescue_tab_all));
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.rescue_tab_rescued));
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.rescue_tab_lost_animals));
         }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
+                    showRescuedOverlay();
+                } else if (tab.getPosition() == 2) {
+                    hideRescuedOverlay();
                     rescueViewModel.setFilter(RescueTimelineFilter.LOST);
                 } else {
-                    rescueViewModel.setFilter(RescueTimelineFilter.RESCUE);
+                    hideRescuedOverlay();
+                    rescueViewModel.setFilter(RescueTimelineFilter.ALL);
                 }
             }
 
@@ -171,7 +177,7 @@ public class RescueFragment extends BaseFragment {
         });
 
         RescueTimelineFilter currentFilter = rescueViewModel.getFilterType().getValue();
-        int tabIndex = currentFilter == RescueTimelineFilter.LOST ? 1 : 0;
+        int tabIndex = currentFilter == RescueTimelineFilter.LOST ? 2 : 0;
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
         if (tab != null && !tab.isSelected()) {
             tab.select();
@@ -179,8 +185,7 @@ public class RescueFragment extends BaseFragment {
     }
 
     private void setupActionBar() {
-        binding.btnLostReport.setOnClickListener(v -> showLostReportBottomSheet());
-        binding.btnViewRescued.setOnClickListener(v -> showRescuedOverlay());
+        binding.fabLostReport.setOnClickListener(v -> showLostReportBottomSheet());
     }
 
     private void setupSwipeRefresh() {
@@ -199,7 +204,7 @@ public class RescueFragment extends BaseFragment {
             if (filter == null || statsHeaderBinding == null) {
                 return;
             }
-            int tabIndex = filter == RescueTimelineFilter.LOST ? 1 : 0;
+            int tabIndex = filter == RescueTimelineFilter.LOST ? 2 : 0;
             TabLayout.Tab tab = statsHeaderBinding.tabLayoutRescueFilter.getTabAt(tabIndex);
             if (tab != null && !tab.isSelected()) {
                 tab.select();
@@ -338,6 +343,15 @@ public class RescueFragment extends BaseFragment {
             pendingOpenRescued = false;
         }
         applyPendingActions();
+    }
+
+    public void selectAnimalTypeTab(int position) {
+        TabLayout.Tab tab = statsHeaderBinding == null
+                ? null
+                : statsHeaderBinding.tabLayoutRescueFilter.getTabAt(position);
+        if (tab != null) {
+            tab.select();
+        }
     }
 
     private void applyPendingActions() {

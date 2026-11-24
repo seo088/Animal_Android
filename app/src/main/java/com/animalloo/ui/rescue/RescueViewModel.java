@@ -28,7 +28,7 @@ public class RescueViewModel extends ViewModel {
     private final MutableLiveData<UiState<HomeStats>> statsState = new MutableLiveData<>();
     private final MutableLiveData<UiState<List<AlertNotification>>> alertsState = new MutableLiveData<>();
     private final MutableLiveData<RescueTimelineFilter> filterType =
-            new MutableLiveData<>(RescueTimelineFilter.RESCUE);
+            new MutableLiveData<>(RescueTimelineFilter.ALL);
     private final MediatorLiveData<List<RescueTimelineItem>> timelineItems = new MediatorLiveData<>();
 
     @Nullable
@@ -144,12 +144,13 @@ public class RescueViewModel extends ViewModel {
 
         RescueTimelineFilter filter = filterType.getValue();
         if (filter == null) {
-            filter = RescueTimelineFilter.RESCUE;
+            filter = RescueTimelineFilter.ALL;
         }
 
         List<AlertNotification> filtered = new ArrayList<>();
         for (AlertNotification alert : state.getData()) {
-            if (filter == RescueTimelineFilter.RESCUE && alert.getType() == AlertType.RESCUE) {
+            if (filter == RescueTimelineFilter.ALL
+                    || (filter == RescueTimelineFilter.RESCUE && alert.getType() == AlertType.RESCUE)) {
                 filtered.add(alert);
             } else if (filter == RescueTimelineFilter.LOST && alert.getType() == AlertType.LOST) {
                 filtered.add(alert);
