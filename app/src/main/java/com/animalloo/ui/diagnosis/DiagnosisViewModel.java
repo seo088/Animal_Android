@@ -86,6 +86,10 @@ public class DiagnosisViewModel extends AndroidViewModel {
         return selectedSymptomIds;
     }
 
+    public int getMaxSelectedSymptoms() {
+        return MAX_SELECTED_SYMPTOMS;
+    }
+
     public LiveData<String> getSymptomValidationMessage() {
         return symptomValidationMessage;
     }

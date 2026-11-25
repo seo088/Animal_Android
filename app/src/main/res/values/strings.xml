@@ -113,7 +113,8 @@
     <string name="diagnosis_related_symptoms">관련 증상: %1$s</string>
     <string name="diagnosis_possible_disease">가능성이 있는 질환: %1$s</string>
     <string name="diagnosis_literature_relation">문헌 기반 참고 관계</string>
-    <string name="diagnosis_selected_count">선택한 증상 %1$d개</string>
+    <string name="diagnosis_selected_count">선택한 증상 %1$d / 최대 %2$d개</string>
+    <string name="diagnosis_confirm_selected">참고 정보 확인하기 (%1$d)</string>
     <string name="diagnosis_relation_not_probability">이 정보는 진단 또는 발병 확률이 아닙니다.</string>
     <string name="diagnosis_source_format">출처: %1$s\n%2$s</string>
     <string name="diagnosis_species_required">반려동물 등록에서 종류를 개 또는 고양이로 저장한 뒤 증상 안내를 이용해 주세요.</string>

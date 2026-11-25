@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
 import com.animalloo.adapter.DiagnosisChatAdapter;
+import com.animalloo.adapter.SymptomSelectionAdapter;
 import com.animalloo.data.model.DetailType;
 import com.animalloo.data.model.Hospital;
 import com.animalloo.data.model.Symptom;
@@ -34,7 +35,8 @@ public class DiagnosisFragment extends BaseFragment {
     private DiagnosisViewModel viewModel;
     private DiagnosisChatAdapter chatAdapter;
     private DetailNavigator detailNavigator;
-    private boolean syncingChipSelection;
+    private SymptomSelectionAdapter symptomSelectionAdapter;
+    private List<Symptom> displayedSymptoms;
     private OnBackPressedCallback backPressedCallback;
 
     @Override
@@ -106,6 +108,11 @@ public class DiagnosisFragment extends BaseFragment {
         binding.btnConfirmSymptoms.setOnClickListener(v -> viewModel.confirmSymptoms());
         binding.btnSpeciesDogChat.setOnClickListener(v -> viewModel.selectSpecies("dog"));
         binding.btnSpeciesCatChat.setOnClickListener(v -> viewModel.selectSpecies("cat"));
+        symptomSelectionAdapter = new SymptomSelectionAdapter();
+        symptomSelectionAdapter.setOnSelectionChangeListener(
+                (symptom, selected) -> viewModel.toggleSymptomSelection(symptom.getId(), selected));
+        binding.rvSymptomSelection.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvSymptomSelection.setAdapter(symptomSelectionAdapter);
     }
 
     private void setupBackNavigation() {
@@ -133,14 +140,14 @@ public class DiagnosisFragment extends BaseFragment {
         });
         viewModel.getChatPhase().observe(getViewLifecycleOwner(), this::renderChatPhase);
         viewModel.getSymptomsState().observe(getViewLifecycleOwner(), this::renderSymptomsState);
-        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), this::syncChipSelection);
-        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), selected ->
-                binding.tvSelectedSymptomCount.setText(getString(R.string.diagnosis_selected_count,
-                        selected == null ? 0 : selected.size())));
+        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), this::renderSelectedSymptoms);
         viewModel.getSpeciesSelectionRequired().observe(getViewLifecycleOwner(), required -> {
             boolean showChoice = Boolean.TRUE.equals(required);
             binding.layoutSpeciesChoice.setVisibility(showChoice ? View.VISIBLE : View.GONE);
-            binding.chipGroupSymptoms.setVisibility(showChoice ? View.GONE : binding.chipGroupSymptoms.getVisibility());
+            binding.rvSymptomSelection.setVisibility(showChoice ? View.GONE : binding.rvSymptomSelection.getVisibility());
+            binding.tvSymptomPanelGuide.setVisibility(showChoice ? View.GONE : View.VISIBLE);
+            binding.scrollSelectedSymptoms.setVisibility(showChoice ? View.GONE : binding.scrollSelectedSymptoms.getVisibility());
+            binding.tvSelectedSymptomCount.setVisibility(showChoice ? View.GONE : binding.tvSelectedSymptomCount.getVisibility());
             binding.btnConfirmSymptoms.setVisibility(showChoice ? View.GONE : View.VISIBLE);
         });
         viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
@@ -208,7 +215,7 @@ public class DiagnosisFragment extends BaseFragment {
         }
 
         if (state.isLoading()) {
-            binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.rvSymptomSelection.setVisibility(View.GONE);
             binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_loading, null);
             return;
@@ -217,7 +224,7 @@ public class DiagnosisFragment extends BaseFragment {
         hideStateView(binding.symptomStateContainer);
 
         if (state.isError()) {
-            binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.rvSymptomSelection.setVisibility(View.GONE);
             binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_error, stateView -> {
                 TextView messageView = stateView.findViewById(R.id.tv_error_message);
@@ -229,52 +236,55 @@ public class DiagnosisFragment extends BaseFragment {
         }
 
         if (state.isEmpty()) {
-            binding.chipGroupSymptoms.setVisibility(View.GONE);
+            binding.rvSymptomSelection.setVisibility(View.GONE);
             binding.btnConfirmSymptoms.setEnabled(false);
             showStateView(binding.symptomStateContainer, R.layout.layout_empty, null);
             return;
         }
 
         if (state.isSuccess() && state.getData() != null) {
-            binding.chipGroupSymptoms.setVisibility(View.VISIBLE);
+            binding.rvSymptomSelection.setVisibility(View.VISIBLE);
             binding.btnConfirmSymptoms.setEnabled(true);
-            bindSymptomChips(state.getData());
+            bindSymptomRows(state.getData());
         }
     }
 
-    private void syncChipSelection(Set<String> selectedIds) {
-        syncingChipSelection = true;
-        for (int i = 0; i < binding.chipGroupSymptoms.getChildCount(); i++) {
-            View child = binding.chipGroupSymptoms.getChildAt(i);
-            if (child instanceof Chip) {
-                Chip chip = (Chip) child;
-                Object tag = chip.getTag();
-                if (tag instanceof String) {
-                    chip.setChecked(selectedIds != null && selectedIds.contains((String) tag));
-                }
-            }
-        }
-        syncingChipSelection = false;
+    private void bindSymptomRows(List<Symptom> symptoms) {
+        displayedSymptoms = symptoms;
+        symptomSelectionAdapter.submit(symptoms, viewModel.getSelectedSymptomIds().getValue());
     }
 
-    private void bindSymptomChips(List<Symptom> symptoms) {
-        binding.chipGroupSymptoms.removeAllViews();
-        Set<String> selectedIds = viewModel.getSelectedSymptomIds().getValue();
+    private void renderSelectedSymptoms(Set<String> selectedIds) {
+        int count = selectedIds == null ? 0 : selectedIds.size();
+        binding.tvSelectedSymptomCount.setText(getString(R.string.diagnosis_selected_count,
+                count, viewModel.getMaxSelectedSymptoms()));
+        binding.btnConfirmSymptoms.setText(getString(R.string.diagnosis_confirm_selected, count));
+        binding.btnConfirmSymptoms.setEnabled(count > 0);
+        if (symptomSelectionAdapter != null) {
+            symptomSelectionAdapter.updateSelection(selectedIds);
+        }
+
+        binding.chipGroupSelectedSymptoms.removeAllViews();
+        if (displayedSymptoms == null || selectedIds == null || selectedIds.isEmpty()) {
+            binding.scrollSelectedSymptoms.setVisibility(View.GONE);
+            return;
+        }
 
         LayoutInflater inflater = LayoutInflater.from(requireContext());
-        for (Symptom symptom : symptoms) {
-            Chip chip = (Chip) inflater.inflate(R.layout.item_symptom_chip, binding.chipGroupSymptoms, false);
+        for (Symptom symptom : displayedSymptoms) {
+            if (!selectedIds.contains(symptom.getId())) {
+                continue;
+            }
+            Chip chip = (Chip) inflater.inflate(R.layout.item_symptom_chip,
+                    binding.chipGroupSelectedSymptoms, false);
             chip.setText(symptom.getName());
-            chip.setTag(symptom.getId());
-            chip.setChecked(selectedIds != null && selectedIds.contains(symptom.getId()));
-            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (syncingChipSelection) {
-                    return;
-                }
-                viewModel.toggleSymptomSelection(symptom.getId(), isChecked);
-            });
-            binding.chipGroupSymptoms.addView(chip);
+            chip.setCloseIconVisible(true);
+            chip.setOnCloseIconClickListener(v -> viewModel.toggleSymptomSelection(symptom.getId(), false));
+            chip.setContentDescription(symptom.getName() + ", 선택 해제");
+            binding.chipGroupSelectedSymptoms.addView(chip);
         }
+        binding.scrollSelectedSymptoms.setVisibility(
+                binding.chipGroupSelectedSymptoms.getChildCount() > 0 ? View.VISIBLE : View.GONE);
     }
 
     private void showStateView(ViewGroup container, int layoutRes, StateViewSetup setup) {

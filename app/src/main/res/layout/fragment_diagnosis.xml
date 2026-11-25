@@ -44,11 +44,22 @@
             <com.google.android.material.button.MaterialButton android:id="@+id/btn_species_cat_chat" style="@style/Widget.AnimalLoo.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_marginStart="4dp" android:layout_weight="1" android:text="고양이" />
         </LinearLayout>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_symptoms"
+        <TextView
+            android:id="@+id/tv_symptom_panel_guide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleSelection="false" />
+            android:layout_marginBottom="@dimen/spacing_sm"
+            android:text="지금 보이는 증상을 골라 주세요. 복수 선택할 수 있어요."
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
+            android:textColor="@color/color_text_secondary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_symptom_selection"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_xs"
+            tools:listitem="@layout/item_symptom_selection" />
 
         <TextView
             android:id="@+id/tv_selected_symptom_count"
@@ -57,7 +68,22 @@
             android:layout_marginTop="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
             android:textColor="@color/color_primary"
-            tools:text="선택한 증상 3개" />
+            tools:text="선택한 증상 3 / 최대 5개" />
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_selected_symptoms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_selected_symptoms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false" />
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/tv_symptom_validation"
