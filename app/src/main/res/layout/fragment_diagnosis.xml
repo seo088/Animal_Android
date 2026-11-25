@@ -39,6 +39,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout android:id="@+id/layout_species_choice" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:visibility="gone">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_species_dog_chat" style="@style/Widget.AnimalLoo.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_marginEnd="4dp" android:layout_weight="1" android:text="강아지" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_species_cat_chat" style="@style/Widget.AnimalLoo.Button.Outlined" android:layout_width="0dp" android:layout_height="48dp" android:layout_marginStart="4dp" android:layout_weight="1" android:text="고양이" />
+        </LinearLayout>
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_symptoms"
             android:layout_width="match_parent"

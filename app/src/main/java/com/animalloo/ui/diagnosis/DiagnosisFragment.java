@@ -104,6 +104,8 @@ public class DiagnosisFragment extends BaseFragment {
 
     private void setupSymptomPanel() {
         binding.btnConfirmSymptoms.setOnClickListener(v -> viewModel.confirmSymptoms());
+        binding.btnSpeciesDogChat.setOnClickListener(v -> viewModel.selectSpecies("dog"));
+        binding.btnSpeciesCatChat.setOnClickListener(v -> viewModel.selectSpecies("cat"));
     }
 
     private void setupBackNavigation() {
@@ -135,6 +137,12 @@ public class DiagnosisFragment extends BaseFragment {
         viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), selected ->
                 binding.tvSelectedSymptomCount.setText(getString(R.string.diagnosis_selected_count,
                         selected == null ? 0 : selected.size())));
+        viewModel.getSpeciesSelectionRequired().observe(getViewLifecycleOwner(), required -> {
+            boolean showChoice = Boolean.TRUE.equals(required);
+            binding.layoutSpeciesChoice.setVisibility(showChoice ? View.VISIBLE : View.GONE);
+            binding.chipGroupSymptoms.setVisibility(showChoice ? View.GONE : binding.chipGroupSymptoms.getVisibility());
+            binding.btnConfirmSymptoms.setVisibility(showChoice ? View.GONE : View.VISIBLE);
+        });
         viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
             if (TextUtils.isEmpty(message)) {
                 binding.tvSymptomValidation.setVisibility(View.GONE);

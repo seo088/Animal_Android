@@ -44,6 +44,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
     private final MutableLiveData<UiState<List<Hospital>>> hospitalsState = new MutableLiveData<>();
     private final MutableLiveData<Set<String>> selectedSymptomIds = new MutableLiveData<>(new HashSet<>());
     private final MutableLiveData<String> symptomValidationMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> speciesSelectionRequired = new MutableLiveData<>(false);
 
     private int diagnosisRequestGeneration;
     private int hospitalRequestGeneration;
@@ -89,6 +90,10 @@ public class DiagnosisViewModel extends AndroidViewModel {
         return symptomValidationMessage;
     }
 
+    public LiveData<Boolean> getSpeciesSelectionRequired() {
+        return speciesSelectionRequired;
+    }
+
     public void initialize() {
         if (!conversationStarted) {
             loadPetProfileAndStartConversation();
@@ -105,6 +110,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
                     petName = data.getPetName();
                 }
                 animalRouteSpecies = data == null ? null : toAnimalRouteSpecies(data.getPetSpecies());
+                speciesSelectionRequired.setValue(animalRouteSpecies == null);
                 startConversationIfNeeded();
             }
 
@@ -127,9 +133,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
         addBotMessage(getApplication().getString(R.string.diagnosis_chat_intro));
         addBotMessage(getSymptomPromptText());
         if (animalRouteSpecies == null) {
-            symptomsState.setValue(UiState.error(
-                    getApplication().getString(R.string.diagnosis_species_required)));
-            addBotMessage(getApplication().getString(R.string.diagnosis_species_required));
+            addBotMessage("우리 아이는 강아지인가요, 고양이인가요? 아래에서 선택해 주세요.");
             return;
         }
         loadSymptoms();
@@ -151,8 +155,6 @@ public class DiagnosisViewModel extends AndroidViewModel {
 
     public void loadSymptoms() {
         if (animalRouteSpecies == null) {
-            symptomsState.setValue(UiState.error(
-                    getApplication().getString(R.string.diagnosis_species_required)));
             return;
         }
         symptomsState.setValue(UiState.loading());
@@ -171,6 +173,15 @@ public class DiagnosisViewModel extends AndroidViewModel {
                 symptomsState.setValue(UiState.error(message));
             }
         });
+    }
+
+    public void selectSpecies(String species) {
+        if (!"dog".equals(species) && !"cat".equals(species)) return;
+        animalRouteSpecies = species;
+        speciesSelectionRequired.setValue(false);
+        addUserMessage("dog".equals(species) ? "강아지" : "고양이");
+        addBotMessage("선택했어요. 지금 보이는 증상을 골라 주세요.");
+        loadSymptoms();
     }
 
     public void toggleSymptomSelection(String symptomId, boolean selected) {
