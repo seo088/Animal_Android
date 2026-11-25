@@ -38,14 +38,11 @@ import java.util.Map;
 public class MapFragment extends BaseFragment {
 
     private static final String TAG = "MapFragment";
-    private static final long CATEGORY_ANIMATION_MS = 180L;
-
     private FragmentMapBinding binding;
     private MapViewModel viewModel;
     private FacilityMapController mapController;
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
-    private boolean categoryMenuExpanded;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
     private boolean locationPromptShown;
 
@@ -75,21 +72,16 @@ public class MapFragment extends BaseFragment {
         if (savedInstanceState != null) {
             String savedCategory = savedInstanceState.getString("selected_category");
             category = savedCategory == null ? null : FacilityCategory.valueOf(savedCategory);
-            categoryMenuExpanded = savedInstanceState.getBoolean("category_menu_expanded", false);
         }
 
         setupCategoryMenu();
         restoreCategorySelection(category);
+        binding.layoutMapBrand.setOnClickListener(
+                v -> requireActivity().findViewById(R.id.nav_home).performClick());
         setupFallbackList();
         setupMapContainer();
         binding.btnMapRetry.setOnClickListener(v -> retryMap());
         observeViewModel();
-
-        if (categoryMenuExpanded) {
-            showCategoryMenu(false);
-        } else {
-            hideCategoryMenu(false);
-        }
 
         viewModel.loadFacilities(category);
     }
@@ -180,8 +172,6 @@ public class MapFragment extends BaseFragment {
     }
 
     private void setupCategoryMenu() {
-        binding.btnCategoryToggle.setOnClickListener(v -> toggleCategoryMenu());
-
         setupCategoryChip(binding.chipAll, null);
         setupCategoryChip(binding.chipHospital, FacilityCategory.HOSPITAL);
         setupCategoryChip(binding.chipPharmacy, FacilityCategory.PHARMACY);
@@ -198,59 +188,7 @@ public class MapFragment extends BaseFragment {
         chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         chip.setOnClickListener(v -> {
             selectCategory(category, chip);
-            hideCategoryMenu(true);
         });
-    }
-
-    private void toggleCategoryMenu() {
-        if (categoryMenuExpanded) {
-            hideCategoryMenu(true);
-        } else {
-            showCategoryMenu(true);
-        }
-    }
-
-    private void showCategoryMenu(boolean animate) {
-        categoryMenuExpanded = true;
-        View menu = binding.layoutCategoryItems;
-        menu.setVisibility(View.VISIBLE);
-
-        if (!animate) {
-            menu.setAlpha(1f);
-            menu.setTranslationY(0f);
-            return;
-        }
-
-        menu.setAlpha(0f);
-        menu.setTranslationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm));
-        menu.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(CATEGORY_ANIMATION_MS)
-                .start();
-    }
-
-    private void hideCategoryMenu(boolean animate) {
-        categoryMenuExpanded = false;
-        View menu = binding.layoutCategoryItems;
-
-        if (!animate || menu.getVisibility() != View.VISIBLE) {
-            menu.setVisibility(View.GONE);
-            menu.setAlpha(1f);
-            menu.setTranslationY(0f);
-            return;
-        }
-
-        menu.animate()
-                .alpha(0f)
-                .translationY(-menu.getResources().getDimensionPixelSize(R.dimen.spacing_sm))
-                .setDuration(CATEGORY_ANIMATION_MS)
-                .withEndAction(() -> {
-                    menu.setVisibility(View.GONE);
-                    menu.setAlpha(1f);
-                    menu.setTranslationY(0f);
-                })
-                .start();
     }
 
     private void selectCategory(@Nullable FacilityCategory category, Chip selectedChip) {
@@ -373,7 +311,6 @@ public class MapFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
         FacilityCategory category = viewModel.getSelectedCategory().getValue();
         outState.putString("selected_category", category == null ? null : category.name());
-        outState.putBoolean("category_menu_expanded", categoryMenuExpanded);
     }
 
     private void handleLocationPermissionResult(Map<String, Boolean> result) {

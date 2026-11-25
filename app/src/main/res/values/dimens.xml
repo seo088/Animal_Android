@@ -56,8 +56,8 @@
     <dimen name="map_category_top_margin">40dp</dimen>
     <dimen name="map_category_button_size">48dp</dimen>
     <dimen name="map_category_menu_width">108dp</dimen>
-    <dimen name="map_category_chip_height">48dp</dimen>
-    <dimen name="map_category_chip_spacing">10dp</dimen>
+    <dimen name="map_category_chip_height">40dp</dimen>
+    <dimen name="map_category_chip_spacing">6dp</dimen>
 
     <!-- Home -->
     <dimen name="home_stat_carousel_height">168dp</dimen>

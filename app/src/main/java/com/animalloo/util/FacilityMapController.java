@@ -55,9 +55,9 @@ public final class FacilityMapController {
         void onMapError(@NonNull Exception error);
     }
 
-    private static final LatLng DEFAULT_SEOUL = LatLng.from(37.5665, 126.9780);
-    private static final int DEFAULT_ZOOM = 11;
-    private static final int MAP_PADDING_PX = 120;
+    // 국립군산대학교 디지털정보관(전북특별자치도 군산시 대학로 558)을 첫 지도 위치로 사용한다.
+    private static final LatLng DEFAULT_INITIAL_LOCATION = LatLng.from(35.9470943, 126.6814341);
+    private static final int DEFAULT_ZOOM = 15;
     private static final int MARKER_SIZE_DP = 36;
     private static final int CLUSTER_SIZE_DP = 40;
     // Grid cell edge in dp; facilities closer than this on screen are grouped.
@@ -170,7 +170,7 @@ public final class FacilityMapController {
             @NonNull
             @Override
             public LatLng getPosition() {
-                return DEFAULT_SEOUL;
+                return DEFAULT_INITIAL_LOCATION;
             }
 
             @Override
@@ -212,19 +212,12 @@ public final class FacilityMapController {
         }
         if (facilities.isEmpty()) {
             clearMarkers();
-            kakaoMap.moveCamera(CameraUpdateFactory.newCenterPosition(DEFAULT_SEOUL, DEFAULT_ZOOM));
+            kakaoMap.moveCamera(CameraUpdateFactory.newCenterPosition(DEFAULT_INITIAL_LOCATION, DEFAULT_ZOOM));
             return;
         }
 
-        List<LatLng> positions = new ArrayList<>();
-        for (Facility facility : facilities) {
-            positions.add(LatLng.from(facility.getLatitude(), facility.getLongitude()));
-        }
-        kakaoMap.moveCamera(CameraUpdateFactory.fitMapPoints(
-                positions.toArray(new LatLng[0]),
-                MAP_PADDING_PX));
-        // fitMapPoints also fires the camera-move-end listener; render now in case
-        // the zoom didn't change (same zoom => listener skips the regroup).
+        // 시설을 불러왔다고 해서 첫 위치 또는 사용자가 탐색 중인 위치를 덮어쓰지 않는다.
+        // 첫 화면은 디지털정보관을 기준으로 시작하고, 이후 이동은 사용자의 지도 조작에 맡긴다.
         renderMarkers(kakaoMap.getZoomLevel());
     }
 
