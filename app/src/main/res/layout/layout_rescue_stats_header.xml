@@ -1,68 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/spacing_md">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingHorizontal="8dp">
     <include layout="@layout/layout_rescue_showcase_header" />
-
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.AnimalLoo.Card.Flat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_sm"
-        app:cardBackgroundColor="@color/color_surface"
-        app:strokeWidth="0dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_md">
-
-        <LinearLayout
-            android:id="@+id/stats_indicator_row"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/view_live_dot"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="@drawable/bg_live_indicator_dot"
-                android:contentDescription="@string/rescue_stats_loading" />
-
-            <TextView
-                android:id="@+id/tv_rescue_stats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_sm"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
-                tools:text="오늘 구조 7건 · 분실 신고 23건" />
-
-        </LinearLayout>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_rescue_filter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_md"
-            android:background="@android:color/transparent"
-            app:tabIndicatorColor="@color/color_primary"
-            app:tabIndicatorFullWidth="false"
-            app:tabMode="fixed"
-            app:tabRippleColor="@color/color_primary_light"
-            app:tabSelectedTextColor="@color/color_primary"
-            app:tabTextColor="@color/color_text_secondary" />
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="8dp" android:orientation="horizontal">
+        <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginEnd="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/color_home_banner" app:cardCornerRadius="16dp" app:strokeWidth="0dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_vertical" android:paddingHorizontal="12dp">
+                <ImageView android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_profile_photo" android:padding="6dp" android:src="@drawable/ic_home" android:tint="@color/color_primary" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="오늘 구조" android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+                    <TextView android:id="@+id/tv_today_rescue_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" android:textColor="@color/color_primary" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="6dp" android:layout_weight="1" app:cardBackgroundColor="@color/color_surface" app:cardCornerRadius="16dp" app:strokeColor="@color/color_outline" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_vertical" android:paddingHorizontal="12dp">
+                <ImageView android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_profile_photo" android:padding="6dp" android:src="@drawable/ic_map_marker" android:tint="@color/color_primary" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="오늘 분실 신고" android:textAppearance="@style/TextAppearance.AnimalLoo.Caption" />
+                    <TextView android:id="@+id/tv_today_lost_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" android:textColor="@color/color_text_primary" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+    <com.google.android.material.tabs.TabLayout android:id="@+id/tab_layout_rescue_filter" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp" android:background="@color/color_surface" app:tabIndicatorColor="@color/color_primary" app:tabIndicatorFullWidth="false" app:tabMode="fixed" app:tabSelectedTextColor="@color/color_primary" app:tabTextColor="@color/color_text_secondary" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputLayout style="@style/Widget.AnimalLoo.ProfileDropdown" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:layout_weight="1" android:hint="품종">
+            <AutoCompleteTextView android:id="@+id/actv_rescue_breed" android:layout_width="match_parent" android:layout_height="48dp" android:focusable="false" android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout style="@style/Widget.AnimalLoo.ProfileDropdown" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:hint="지역">
+            <AutoCompleteTextView android:id="@+id/actv_rescue_region" android:layout_width="match_parent" android:layout_height="48dp" android:focusable="false" android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 </LinearLayout>

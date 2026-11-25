@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,6 @@ public class RescueFragment extends BaseFragment {
     private DetailNavigator detailNavigator;
     private boolean pendingOpenLostReport;
 
-    private Animation livePulseAnimation;
     private Animation statsGlowAnimation;
     private ValueAnimator statsCountAnimator;
     private int displayedRescuedCount = -1;
@@ -80,6 +80,7 @@ public class RescueFragment extends BaseFragment {
                 .setOnClickListener(v -> requireActivity().findViewById(R.id.nav_home).performClick());
         setupTimeline();
         setupFilterTabs();
+        setupDetailFilters();
         setupActionBar();
         setupSwipeRefresh();
         observeViewModels();
@@ -167,6 +168,21 @@ public class RescueFragment extends BaseFragment {
         }
     }
 
+    private void setupDetailFilters() {
+        ArrayAdapter<CharSequence> breedAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.rescued_animal_breeds, android.R.layout.simple_list_item_1);
+        ArrayAdapter<CharSequence> regionAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.regions, android.R.layout.simple_list_item_1);
+        statsHeaderBinding.actvRescueBreed.setAdapter(breedAdapter);
+        statsHeaderBinding.actvRescueRegion.setAdapter(regionAdapter);
+        statsHeaderBinding.actvRescueBreed.setText("전체", false);
+        statsHeaderBinding.actvRescueRegion.setText("전체", false);
+        statsHeaderBinding.actvRescueBreed.setOnItemClickListener((parent, itemView, position, id) ->
+                rescueViewModel.setBreedFilter(String.valueOf(parent.getItemAtPosition(position))));
+        statsHeaderBinding.actvRescueRegion.setOnItemClickListener((parent, itemView, position, id) ->
+                rescueViewModel.setRegionFilter(String.valueOf(parent.getItemAtPosition(position))));
+    }
+
     private void setupActionBar() {
         binding.fabLostReport.setOnClickListener(v -> showLostReportBottomSheet());
     }
@@ -213,7 +229,8 @@ public class RescueFragment extends BaseFragment {
             return;
         }
         if (state == null || !state.isSuccess() || state.getData() == null) {
-            statsHeaderBinding.tvRescueStats.setText(R.string.rescue_stats_loading);
+            statsHeaderBinding.tvTodayRescueCount.setText("-");
+            statsHeaderBinding.tvTodayLostCount.setText("-");
             return;
         }
 
@@ -252,10 +269,8 @@ public class RescueFragment extends BaseFragment {
         if (statsHeaderBinding == null) {
             return;
         }
-        statsHeaderBinding.tvRescueStats.setText(getString(
-                R.string.rescue_stats_format,
-                rescuedCount,
-                lostCount));
+        statsHeaderBinding.tvTodayRescueCount.setText(getString(R.string.rescue_count_format, rescuedCount));
+        statsHeaderBinding.tvTodayLostCount.setText(getString(R.string.rescue_count_format, lostCount));
     }
 
     private void startRealtimeAnimations() {
@@ -263,26 +278,19 @@ public class RescueFragment extends BaseFragment {
             return;
         }
 
-        if (livePulseAnimation == null) {
-            livePulseAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.anim_live_pulse);
-        }
         if (statsGlowAnimation == null) {
             statsGlowAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.anim_stats_realtime_glow);
         }
 
-        statsHeaderBinding.viewLiveDot.clearAnimation();
-        statsHeaderBinding.tvRescueStats.clearAnimation();
-
-        statsHeaderBinding.viewLiveDot.startAnimation(livePulseAnimation);
-        statsHeaderBinding.tvRescueStats.startAnimation(statsGlowAnimation);
+        statsHeaderBinding.tvTodayRescueCount.clearAnimation();
+        statsHeaderBinding.tvTodayRescueCount.startAnimation(statsGlowAnimation);
     }
 
     private void stopRealtimeAnimations() {
         if (statsHeaderBinding == null) {
             return;
         }
-        statsHeaderBinding.viewLiveDot.clearAnimation();
-        statsHeaderBinding.tvRescueStats.clearAnimation();
+        statsHeaderBinding.tvTodayRescueCount.clearAnimation();
         if (statsCountAnimator != null) {
             statsCountAnimator.cancel();
         }
@@ -408,7 +416,6 @@ public class RescueFragment extends BaseFragment {
         stopRealtimeAnimations();
         binding = null;
         statsHeaderBinding = null;
-        livePulseAnimation = null;
         statsGlowAnimation = null;
         super.onDestroyView();
     }

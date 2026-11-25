@@ -29,6 +29,8 @@ public class RescueViewModel extends ViewModel {
     private final MutableLiveData<UiState<List<AlertNotification>>> alertsState = new MutableLiveData<>();
     private final MutableLiveData<RescueTimelineFilter> filterType =
             new MutableLiveData<>(RescueTimelineFilter.ALL);
+    private String breedFilter = "전체";
+    private String regionFilter = "전체";
     private final MediatorLiveData<List<RescueTimelineItem>> timelineItems = new MediatorLiveData<>();
 
     @Nullable
@@ -71,6 +73,16 @@ public class RescueViewModel extends ViewModel {
 
     public void setFilter(RescueTimelineFilter filter) {
         filterType.setValue(filter);
+    }
+
+    public void setBreedFilter(String breed) {
+        breedFilter = breed == null || breed.isEmpty() ? "전체" : breed;
+        rebuildTimeline();
+    }
+
+    public void setRegionFilter(String region) {
+        regionFilter = region == null || region.isEmpty() ? "전체" : region;
+        rebuildTimeline();
     }
 
     public void updateMyReport(@Nullable LostAnimalReport report,
@@ -149,10 +161,12 @@ public class RescueViewModel extends ViewModel {
 
         List<AlertNotification> filtered = new ArrayList<>();
         for (AlertNotification alert : state.getData()) {
-            if (filter == RescueTimelineFilter.ALL
-                    || (filter == RescueTimelineFilter.RESCUE && alert.getType() == AlertType.RESCUE)) {
-                filtered.add(alert);
-            } else if (filter == RescueTimelineFilter.LOST && alert.getType() == AlertType.LOST) {
+            boolean matchesType = filter == RescueTimelineFilter.ALL
+                    || (filter == RescueTimelineFilter.RESCUE && alert.getType() == AlertType.RESCUE)
+                    || (filter == RescueTimelineFilter.LOST && alert.getType() == AlertType.LOST);
+            boolean matchesBreed = "전체".equals(breedFilter) || breedFilter.equals(alert.getAnimalType());
+            boolean matchesRegion = "전체".equals(regionFilter) || regionFilter.equals(alert.getRegion());
+            if (matchesType && matchesBreed && matchesRegion) {
                 filtered.add(alert);
             }
         }
