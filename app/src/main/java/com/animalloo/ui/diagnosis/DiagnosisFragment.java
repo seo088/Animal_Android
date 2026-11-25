@@ -1,6 +1,7 @@
 package com.animalloo.ui.diagnosis;
 
 import android.text.TextUtils;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.animalloo.R;
@@ -27,6 +29,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class DiagnosisFragment extends BaseFragment {
@@ -36,7 +39,8 @@ public class DiagnosisFragment extends BaseFragment {
     private DiagnosisChatAdapter chatAdapter;
     private DetailNavigator detailNavigator;
     private SymptomSelectionAdapter symptomSelectionAdapter;
-    private List<Symptom> displayedSymptoms;
+    private List<Symptom> allSymptoms = new ArrayList<>();
+    private String selectedSymptomCategory;
     private OnBackPressedCallback backPressedCallback;
 
     @Override
@@ -250,8 +254,85 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     private void bindSymptomRows(List<Symptom> symptoms) {
-        displayedSymptoms = symptoms;
-        symptomSelectionAdapter.submit(symptoms, viewModel.getSelectedSymptomIds().getValue());
+        allSymptoms = new ArrayList<>(symptoms);
+        buildCategoryChips();
+        showSelectedCategory();
+    }
+
+    private void buildCategoryChips() {
+        List<String> categories = new ArrayList<>();
+        String[] order = {"눈", "귀", "피부", "소화", "호흡", "움직임", "행동·기타"};
+        for (String category : order) {
+            for (Symptom symptom : allSymptoms) {
+                if (category.equals(symptom.getCategory())) {
+                    categories.add(category);
+                    break;
+                }
+            }
+        }
+        if (categories.isEmpty()) {
+            selectedSymptomCategory = null;
+            binding.chipGroupSymptomCategories.removeAllViews();
+            binding.scrollSymptomCategories.setVisibility(View.GONE);
+            binding.tvSymptomCategoryTitle.setVisibility(View.GONE);
+            symptomSelectionAdapter.submit(allSymptoms, viewModel.getSelectedSymptomIds().getValue());
+            return;
+        }
+        if (!categories.contains(selectedSymptomCategory)) {
+            selectedSymptomCategory = categories.get(0);
+        }
+        binding.chipGroupSymptomCategories.removeAllViews();
+        for (String category : categories) {
+            Chip chip = new Chip(requireContext());
+            chip.setId(View.generateViewId());
+            chip.setText(category);
+            chip.setCheckable(true);
+            chip.setEnsureMinTouchTargetSize(true);
+            chip.setTextAppearance(R.style.TextAppearance_AnimalLoo_Body);
+            boolean selected = category.equals(selectedSymptomCategory);
+            applyCategoryChipState(chip, selected);
+            chip.setChecked(selected);
+            chip.setOnClickListener(v -> {
+                selectedSymptomCategory = category;
+                for (int index = 0; index < binding.chipGroupSymptomCategories.getChildCount(); index++) {
+                    Chip sibling = (Chip) binding.chipGroupSymptomCategories.getChildAt(index);
+                    boolean isSelected = sibling == chip;
+                    sibling.setChecked(isSelected);
+                    applyCategoryChipState(sibling, isSelected);
+                }
+                showSelectedCategory();
+            });
+            binding.chipGroupSymptomCategories.addView(chip);
+        }
+        binding.scrollSymptomCategories.setVisibility(View.VISIBLE);
+        binding.tvSymptomCategoryTitle.setVisibility(View.VISIBLE);
+    }
+
+    private void applyCategoryChipState(Chip chip, boolean selected) {
+        int background = ContextCompat.getColor(requireContext(), selected
+                ? R.color.color_primary : R.color.color_surface);
+        int text = ContextCompat.getColor(requireContext(), selected
+                ? R.color.color_on_primary : R.color.color_text_primary);
+        chip.setChipBackgroundColor(ColorStateList.valueOf(background));
+        chip.setTextColor(text);
+        chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), selected
+                ? R.color.color_primary : R.color.color_outline)));
+        chip.setChipStrokeWidth(1f);
+    }
+
+    private void showSelectedCategory() {
+        if (selectedSymptomCategory == null) {
+            symptomSelectionAdapter.submit(allSymptoms, viewModel.getSelectedSymptomIds().getValue());
+            return;
+        }
+        List<Symptom> filtered = new ArrayList<>();
+        for (Symptom symptom : allSymptoms) {
+            if (selectedSymptomCategory.equals(symptom.getCategory())) {
+                filtered.add(symptom);
+            }
+        }
+        binding.tvSymptomCategoryTitle.setText(selectedSymptomCategory + "에서 보이는 변화");
+        symptomSelectionAdapter.submit(filtered, viewModel.getSelectedSymptomIds().getValue());
     }
 
     private void renderSelectedSymptoms(Set<String> selectedIds) {
@@ -265,13 +346,13 @@ public class DiagnosisFragment extends BaseFragment {
         }
 
         binding.chipGroupSelectedSymptoms.removeAllViews();
-        if (displayedSymptoms == null || selectedIds == null || selectedIds.isEmpty()) {
+        if (allSymptoms == null || selectedIds == null || selectedIds.isEmpty()) {
             binding.scrollSelectedSymptoms.setVisibility(View.GONE);
             return;
         }
 
         LayoutInflater inflater = LayoutInflater.from(requireContext());
-        for (Symptom symptom : displayedSymptoms) {
+        for (Symptom symptom : allSymptoms) {
             if (!selectedIds.contains(symptom.getId())) {
                 continue;
             }

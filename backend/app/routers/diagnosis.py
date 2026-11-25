@@ -14,6 +14,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from app import schemas
 from app.animal_route import animal_route_client
 from app.sparql import DISEASE_NS, SYMPTOM_NS, local_id, select
+from app.symptom_catalog import curate_symptoms
 
 router = APIRouter(tags=["증상 확인"])
 
@@ -53,16 +54,15 @@ def symptoms(all_symptoms: bool = Query(False, alias="all", description="false�
 
 @router.get("/diagnosis/symptoms", response_model=list[schemas.SymptomOut])
 def animal_route_symptoms(species: str = Query(pattern="^(dog|cat)$")):
-    """Return Animal-Route's active, species-specific standard symptom list."""
-    items = animal_route_client.symptoms(species)
+    """Return the reviewed, guardian-facing subset of Animal-Route symptoms."""
+    items = curate_symptoms(animal_route_client.symptoms(species))
     return [
         schemas.SymptomOut(
-            id=str(item.get("code", "")),
+            id=str(item.get("id", "")),
             name=str(item.get("name", "")),
             category=item.get("category"),
         )
-        for item in items
-        if item.get("code") and item.get("name")
+        for item in items if item.get("id") and item.get("name")
     ]
 
 

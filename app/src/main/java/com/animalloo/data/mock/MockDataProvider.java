@@ -421,14 +421,14 @@ public final class MockDataProvider {
 
     private List<Symptom> createSymptoms() {
         List<Symptom> list = new ArrayList<>();
-        list.add(new Symptom("sym_001", "식욕 저하"));
-        list.add(new Symptom("sym_002", "구토"));
-        list.add(new Symptom("sym_003", "설사"));
-        list.add(new Symptom("sym_004", "기침"));
-        list.add(new Symptom("sym_005", "발열"));
-        list.add(new Symptom("sym_006", "피부 발진"));
-        list.add(new Symptom("sym_007", "절뚝거림"));
-        list.add(new Symptom("sym_008", "무기력"));
+        list.add(new Symptom("sym_001", "식욕이 줄었어요", "소화"));
+        list.add(new Symptom("sym_002", "토하거나 게워내요", "소화"));
+        list.add(new Symptom("sym_003", "설사를 해요", "소화"));
+        list.add(new Symptom("sym_004", "기침을 해요", "호흡"));
+        list.add(new Symptom("sym_005", "열이 나는 것 같아요", "행동·기타"));
+        list.add(new Symptom("sym_006", "피부에 붉은 변화가 보여요", "피부"));
+        list.add(new Symptom("sym_007", "절뚝거리거나 비틀거려요", "움직임"));
+        list.add(new Symptom("sym_008", "기운이 없거나 축 처져요", "행동·기타"));
         return list;
     }
 

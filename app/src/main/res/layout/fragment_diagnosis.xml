@@ -49,9 +49,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_sm"
-            android:text="지금 보이는 증상을 골라 주세요. 복수 선택할 수 있어요."
+            android:text="부위를 고른 뒤 지금 보이는 변화를 선택해 주세요. 복수 선택할 수 있어요."
             android:textAppearance="@style/TextAppearance.AnimalLoo.Body"
             android:textColor="@color/color_text_secondary" />
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_symptom_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_sm"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_symptom_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="@dimen/chip_spacing"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tv_symptom_category_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xs"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
+            android:textColor="@color/color_text_primary"
+            tools:text="눈에서 보이는 변화" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_symptom_selection"
