@@ -12,6 +12,10 @@ public interface FacilityRepository {
 
     void getFacilitiesByCategory(FacilityCategory category, RepositoryCallback<List<Facility>> callback);
 
+    /** 지도 카메라 중심을 기준으로 반경 내 시설을 조회한다. */
+    void getFacilitiesNear(FacilityCategory category, double latitude, double longitude,
+                           RepositoryCallback<List<Facility>> callback);
+
     void getPetFriendlyFacilities(PetFriendlyFilter filter, RepositoryCallback<List<Facility>> callback);
 
     void getFacilityById(String id, RepositoryCallback<Facility> callback);

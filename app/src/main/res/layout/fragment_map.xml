@@ -41,4 +41,20 @@
     </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout android:id="@+id/map_state_container" android:layout_width="0dp" android:layout_height="wrap_content" android:elevation="8dp" android:paddingHorizontal="@dimen/spacing_md" android:paddingTop="@dimen/spacing_sm" android:visibility="gone" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/layout_map_category" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_map_my_location"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="@dimen/spacing_md"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:contentDescription="현재 위치로 이동"
+        app:cornerRadius="28dp"
+        app:icon="@drawable/ic_directions"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

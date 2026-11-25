@@ -3,6 +3,8 @@ package com.animalloo.ui.map;
 import android.Manifest;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import com.animalloo.data.model.UiState;
 import com.animalloo.databinding.FragmentMapBinding;
 import com.animalloo.ui.common.BaseFragment;
 import com.animalloo.util.FacilityMapController;
+import com.animalloo.util.DeviceLocationProvider;
 import com.animalloo.util.MapsAvailabilityChecker;
 import com.animalloo.util.PermissionHelper;
 import com.google.android.material.button.MaterialButton;
@@ -38,13 +41,19 @@ import java.util.Map;
 public class MapFragment extends BaseFragment {
 
     private static final String TAG = "MapFragment";
+    private static final long CAMERA_QUERY_DEBOUNCE_MS = 500L;
     private FragmentMapBinding binding;
     private MapViewModel viewModel;
     private FacilityMapController mapController;
     private FacilityListAdapter facilityListAdapter;
     private boolean mapsAvailable;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
-    private boolean locationPromptShown;
+    private final Handler cameraQueryHandler = new Handler(Looper.getMainLooper());
+    private boolean initialFacilitiesLoaded;
+    private boolean locationActionPending;
+    private double currentCenterLatitude = FacilityMapController.DEFAULT_INITIAL_LATITUDE;
+    private double currentCenterLongitude = FacilityMapController.DEFAULT_INITIAL_LONGITUDE;
+    private Runnable pendingCameraQuery;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,9 +90,11 @@ public class MapFragment extends BaseFragment {
         setupFallbackList();
         setupMapContainer();
         binding.btnMapRetry.setOnClickListener(v -> retryMap());
+        binding.btnMapMyLocation.setOnClickListener(v -> showCurrentLocation());
         observeViewModel();
 
-        viewModel.loadFacilities(category);
+        initialFacilitiesLoaded = true;
+        viewModel.loadFacilitiesAt(category, currentCenterLatitude, currentCenterLongitude, true);
     }
 
     @Override
@@ -107,11 +118,12 @@ public class MapFragment extends BaseFragment {
             binding.layoutMapFallback.setVisibility(View.GONE);
             binding.mapContainer.setVisibility(View.VISIBLE);
             binding.layoutMapCategory.setVisibility(View.VISIBLE);
+            binding.btnMapMyLocation.setVisibility(View.VISIBLE);
             mapController = new FacilityMapController(binding.mapContainer);
             mapController.setOnFacilityClickListener(this::showFacilityBottomSheet);
             mapController.setOnMapErrorListener(this::handleMapError);
+            mapController.setOnCameraIdleListener(this::onMapCameraIdle);
             mapController.start();
-            promptLocationPermissionIfNeeded();
         } else {
             showMapFallback(false);
         }
@@ -137,6 +149,7 @@ public class MapFragment extends BaseFragment {
         }
         binding.mapContainer.setVisibility(View.GONE);
         binding.layoutMapCategory.setVisibility(View.GONE);
+        binding.btnMapMyLocation.setVisibility(View.GONE);
         binding.layoutMapFallback.setVisibility(View.VISIBLE);
         binding.tvMapFallbackMessage.setText(mapLoadFailed
                 ? R.string.map_load_failed
@@ -193,7 +206,7 @@ public class MapFragment extends BaseFragment {
 
     private void selectCategory(@Nullable FacilityCategory category, Chip selectedChip) {
         highlightSelectedChip(selectedChip);
-        viewModel.loadFacilities(category);
+        viewModel.loadFacilitiesAt(category, currentCenterLatitude, currentCenterLongitude, true);
     }
 
     private void restoreCategorySelection(@Nullable FacilityCategory category) {
@@ -318,27 +331,26 @@ public class MapFragment extends BaseFragment {
         Boolean coarseGranted = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
         if (Boolean.TRUE.equals(fineGranted) || Boolean.TRUE.equals(coarseGranted)
                 || PermissionHelper.hasLocationPermission(requireContext())) {
-            showLocationEnabledMessage();
+            if (locationActionPending) {
+                locationActionPending = false;
+                moveToCurrentLocation();
+            }
         } else if (binding != null) {
+            locationActionPending = false;
             Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_LONG).show();
         }
     }
 
-    private void promptLocationPermissionIfNeeded() {
+    private void showCurrentLocation() {
         if (!mapsAvailable || binding == null) {
             return;
         }
-
         if (PermissionHelper.hasLocationPermission(requireContext())) {
+            moveToCurrentLocation();
             return;
         }
-
-        if (!locationPromptShown) {
-            locationPromptShown = true;
-            Snackbar.make(binding.getRoot(), R.string.permission_location_rationale, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry, v -> requestLocationPermission())
-                    .show();
-        }
+        locationActionPending = true;
+        requestLocationPermission();
     }
 
     private void requestLocationPermission() {
@@ -348,10 +360,37 @@ public class MapFragment extends BaseFragment {
         });
     }
 
-    private void showLocationEnabledMessage() {
-        if (binding != null) {
+    private void moveToCurrentLocation() {
+        DeviceLocationProvider.getCurrentKoreanLocation(requireContext(), (latitude, longitude) -> {
+            if (binding == null || latitude == null || longitude == null) {
+                if (binding != null) {
+                    Snackbar.make(binding.getRoot(), R.string.map_location_denied, Snackbar.LENGTH_LONG).show();
+                }
+                return;
+            }
+            currentCenterLatitude = latitude;
+            currentCenterLongitude = longitude;
+            FacilityCategory category = viewModel.getSelectedCategory().getValue();
+            viewModel.loadFacilitiesAt(category, latitude, longitude, true);
+            if (mapController != null) {
+                mapController.moveTo(latitude, longitude);
+            }
             Snackbar.make(binding.getRoot(), R.string.map_location_enabled, Snackbar.LENGTH_SHORT).show();
+        });
+    }
+
+    private void onMapCameraIdle(double latitude, double longitude) {
+        currentCenterLatitude = latitude;
+        currentCenterLongitude = longitude;
+        if (!initialFacilitiesLoaded) {
+            return;
         }
+        if (pendingCameraQuery != null) {
+            cameraQueryHandler.removeCallbacks(pendingCameraQuery);
+        }
+        pendingCameraQuery = () -> viewModel.loadFacilitiesAt(
+                viewModel.getSelectedCategory().getValue(), latitude, longitude, false);
+        cameraQueryHandler.postDelayed(pendingCameraQuery, CAMERA_QUERY_DEBOUNCE_MS);
     }
 
     private void showOverlayState(ViewGroup container, int layoutRes, StateViewSetup setup) {
@@ -375,6 +414,9 @@ public class MapFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        if (pendingCameraQuery != null) {
+            cameraQueryHandler.removeCallbacks(pendingCameraQuery);
+        }
         if (mapController != null) {
             mapController.destroy();
             mapController = null;

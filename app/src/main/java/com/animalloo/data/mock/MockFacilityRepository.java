@@ -39,6 +39,16 @@ public class MockFacilityRepository implements FacilityRepository {
     }
 
     @Override
+    public void getFacilitiesNear(FacilityCategory category, double latitude, double longitude,
+                                  RepositoryCallback<List<Facility>> callback) {
+        if (category == null) {
+            getAllFacilities(callback);
+        } else {
+            getFacilitiesByCategory(category, callback);
+        }
+    }
+
+    @Override
     public void getPetFriendlyFacilities(PetFriendlyFilter filter,
                                          RepositoryCallback<List<Facility>> callback) {
         asyncHelper.execute(() -> {

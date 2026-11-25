@@ -27,6 +27,10 @@ public final class DeviceLocationProvider {
         void onLocation(double latitude, double longitude);
     }
 
+    public interface CurrentLocationCallback {
+        void onLocation(Double latitude, Double longitude);
+    }
+
     private DeviceLocationProvider() {
     }
 
@@ -66,6 +70,40 @@ public final class DeviceLocationProvider {
         }
     }
 
+    /** 실제 국내 위치만 돌려준다. 지도 화면에서는 서울 대체 좌표를 사용하지 않는다. */
+    @SuppressLint("MissingPermission")
+    public static void getCurrentKoreanLocation(Context context, CurrentLocationCallback callback) {
+        Context appContext = context.getApplicationContext();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        AtomicBoolean delivered = new AtomicBoolean(false);
+        Runnable fallback = () -> deliverCurrent(delivered, callback, null);
+        if (!PermissionHelper.hasLocationPermission(appContext)) {
+            mainHandler.post(fallback);
+            return;
+        }
+        mainHandler.postDelayed(fallback, TIMEOUT_MS);
+        try {
+            FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(appContext);
+            client.getLastLocation().addOnCompleteListener(task -> {
+                Location location = task.isSuccessful() ? task.getResult() : null;
+                if (location != null) {
+                    mainHandler.removeCallbacks(fallback);
+                    deliverCurrent(delivered, callback, location);
+                    return;
+                }
+                client.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, null)
+                        .addOnCompleteListener(current -> {
+                            mainHandler.removeCallbacks(fallback);
+                            deliverCurrent(delivered, callback,
+                                    current.isSuccessful() ? current.getResult() : null);
+                        });
+            });
+        } catch (RuntimeException exception) {
+            mainHandler.removeCallbacks(fallback);
+            mainHandler.post(fallback);
+        }
+    }
+
     private static void deliver(AtomicBoolean delivered, Callback callback, Location location) {
         if (!delivered.compareAndSet(false, true)) {
             return;
@@ -81,5 +119,15 @@ public final class DeviceLocationProvider {
 
     private static boolean isInKorea(double latitude, double longitude) {
         return latitude >= 33.0 && latitude <= 38.7 && longitude >= 124.5 && longitude <= 131.0;
+    }
+
+    private static void deliverCurrent(AtomicBoolean delivered, CurrentLocationCallback callback,
+                                       Location location) {
+        if (!delivered.compareAndSet(false, true)) return;
+        if (location != null && isInKorea(location.getLatitude(), location.getLongitude())) {
+            callback.onLocation(location.getLatitude(), location.getLongitude());
+        } else {
+            callback.onLocation(null, null);
+        }
     }
 }

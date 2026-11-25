@@ -41,6 +41,14 @@ public class RemoteFacilityRepository implements FacilityRepository {
         getFacilities(category.name(), callback);
     }
 
+    @Override
+    public void getFacilitiesNear(FacilityCategory category, double latitude, double longitude,
+                                  RepositoryCallback<List<Facility>> callback) {
+        String categoryName = category == null ? null : category.name();
+        api.getFacilities(categoryName, latitude, longitude, MAP_RADIUS_KM, MAP_LIMIT)
+                .enqueue(ApiCallbacks.of(callback));
+    }
+
     private void getFacilities(String category, RepositoryCallback<List<Facility>> callback) {
         DeviceLocationProvider.getLocation(appContext, (lat, lng) ->
                 api.getFacilities(category, lat, lng, MAP_RADIUS_KM, MAP_LIMIT)
