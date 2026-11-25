@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context=".ui.diagnosis.DiagnosisFragment">
 
+    <LinearLayout android:id="@+id/layout_diagnosis_brand" android:layout_width="match_parent" android:layout_height="56dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="16dp">
+        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_rescue" android:tint="@color/color_primary" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:layout_weight="1" android:text="골든멍타임  |  증상 안내" android:textAppearance="@style/TextAppearance.AnimalLoo.Title" />
+        <ImageView android:id="@+id/iv_diagnosis_home" android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_profile_photo" android:contentDescription="홈으로 이동" android:padding="9dp" android:src="@drawable/ic_home" android:tint="@color/color_primary" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat"
         android:layout_width="match_parent"
@@ -40,6 +46,15 @@
             app:singleSelection="false" />
 
         <TextView
+            android:id="@+id/tv_selected_symptom_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle"
+            android:textColor="@color/color_primary"
+            tools:text="선택한 증상 3개" />
+
+        <TextView
             android:id="@+id/tv_symptom_validation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:text="@string/diagnosis_chat_confirm_selection" />
+            android:text="참고 정보 확인하기" />
 
     </LinearLayout>
 

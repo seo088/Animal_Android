@@ -216,6 +216,7 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private void bindResultEntry(View entry, DiagnosisResult result) {
             TextView diseaseName = entry.findViewById(R.id.tv_disease_name);
+            TextView summary = entry.findViewById(R.id.tv_result_summary);
             TextView probability = entry.findViewById(R.id.tv_probability);
             TextView relatedSymptoms = entry.findViewById(R.id.tv_related_symptoms);
             TextView description = entry.findViewById(R.id.tv_description);
@@ -224,6 +225,7 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             diseaseName.setText(entry.getContext().getString(
                     R.string.diagnosis_possible_disease, result.getDiseaseName()));
+            summary.setText(result.getDescription());
             probability.setText(R.string.diagnosis_literature_relation);
             relatedSymptoms.setText(result.getDescription());
             description.setText(R.string.diagnosis_relation_not_probability);
@@ -238,6 +240,23 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
             source.setVisibility(TextUtils.isEmpty(sourceText) ? View.GONE : View.VISIBLE);
             source.setMovementMethod(LinkMovementMethod.getInstance());
             caution.setText(result.getCaution());
+            View details = entry.findViewById(R.id.tv_probability);
+            View related = entry.findViewById(R.id.tv_related_symptoms);
+            View explanation = entry.findViewById(R.id.tv_description);
+            View sourceView = entry.findViewById(R.id.tv_source);
+            View cautionView = entry.findViewById(R.id.tv_caution);
+            View divider = entry.findViewById(R.id.view_result_divider);
+            View.OnClickListener toggle = v -> {
+                boolean expanded = details.getVisibility() == View.VISIBLE;
+                int visibility = expanded ? View.GONE : View.VISIBLE;
+                details.setVisibility(visibility); related.setVisibility(visibility);
+                explanation.setVisibility(visibility); sourceView.setVisibility(visibility);
+                cautionView.setVisibility(visibility); divider.setVisibility(visibility);
+            };
+            entry.setOnClickListener(toggle);
+            details.setVisibility(View.GONE); related.setVisibility(View.GONE);
+            explanation.setVisibility(View.GONE); sourceView.setVisibility(View.GONE);
+            cautionView.setVisibility(View.GONE); divider.setVisibility(View.GONE);
         }
     }
 

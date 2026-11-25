@@ -63,6 +63,7 @@ public class DiagnosisFragment extends BaseFragment {
         viewModel = new ViewModelProvider(this).get(DiagnosisViewModel.class);
         setupChat();
         setupSymptomPanel();
+        binding.ivDiagnosisHome.setOnClickListener(v -> requireActivity().findViewById(R.id.nav_home).performClick());
         setupBackNavigation();
         observeViewModel();
         viewModel.initialize();
@@ -131,6 +132,9 @@ public class DiagnosisFragment extends BaseFragment {
         viewModel.getChatPhase().observe(getViewLifecycleOwner(), this::renderChatPhase);
         viewModel.getSymptomsState().observe(getViewLifecycleOwner(), this::renderSymptomsState);
         viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), this::syncChipSelection);
+        viewModel.getSelectedSymptomIds().observe(getViewLifecycleOwner(), selected ->
+                binding.tvSelectedSymptomCount.setText(getString(R.string.diagnosis_selected_count,
+                        selected == null ? 0 : selected.size())));
         viewModel.getSymptomValidationMessage().observe(getViewLifecycleOwner(), message -> {
             if (TextUtils.isEmpty(message)) {
                 binding.tvSymptomValidation.setVisibility(View.GONE);
