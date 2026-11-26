@@ -14,7 +14,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from app import schemas
 from app.animal_route import animal_route_client
 from app.sparql import DISEASE_NS, SYMPTOM_NS, local_id, select
-from app.symptom_catalog import curate_symptoms
+from app.symptom_catalog import curate_symptoms, is_relation_ready
 
 router = APIRouter(tags=["증상 확인"])
 
@@ -55,7 +55,7 @@ def symptoms(all_symptoms: bool = Query(False, alias="all", description="false�
 @router.get("/diagnosis/symptoms", response_model=list[schemas.SymptomOut])
 def animal_route_symptoms(species: str = Query(pattern="^(dog|cat)$")):
     """Return the reviewed, guardian-facing subset of Animal-Route symptoms."""
-    items = curate_symptoms(animal_route_client.symptoms(species))
+    items = curate_symptoms(animal_route_client.symptoms(species), species)
     return [
         schemas.SymptomOut(
             id=str(item.get("id", "")),
@@ -75,6 +75,14 @@ def _required_input_text(value: object) -> str:
 @router.post("/diagnosis/relations", response_model=list[schemas.DiagnosisResultOut])
 def animal_route_relations(body: schemas.AnimalRouteRelationRequest):
     """Proxy approved Animal-Route literature relations without exposing its API key."""
+    unsupported = [code for code in body.symptom_ids
+                   if not is_relation_ready(body.species, code)]
+    if unsupported:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            "현재 선택할 수 없는 증상이 포함되어 있습니다. 증상 목록을 새로고침해 주세요.",
+        )
+
     results: dict[str, schemas.DiagnosisResultOut] = {}
     for symptom_code in dict.fromkeys(body.symptom_ids):
         for item in animal_route_client.relations(body.species, symptom_code):
@@ -99,6 +107,14 @@ def animal_route_relations(body: schemas.AnimalRouteRelationRequest):
                     source_url=str(source.get("url")) if source.get("url") else None,
                 ),
             )
+    if not results:
+        # 빈 결과를 정상 응답으로 돌려주면 앱은 보호자에게 '맞는 결과가 없다'고
+        # 표시한다. 관계 릴리스와 외부 서비스가 일시적으로 어긋난 경우이므로,
+        # 재시도 가능한 서버 상태로 명확히 구분한다.
+        raise HTTPException(
+            status.HTTP_503_SERVICE_UNAVAILABLE,
+            "증상 관계 데이터를 동기화하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+        )
     return list(results.values())
 
 

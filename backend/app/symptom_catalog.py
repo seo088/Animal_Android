@@ -100,7 +100,33 @@ CURATED_SYMPTOMS: dict[str, CuratedSymptom] = {
 }
 
 
-def curate_symptoms(items: list[dict[str, Any]]) -> list[dict[str, str]]:
+# 2026-10-11 문헌 관계 릴리스(v20261011-003)에서 종별로 하나 이상의
+# 승인된 관계가 확인된 코드만 선택 화면에 노출한다. 이 집합은 화면용 명칭을
+# 임의로 관계에 연결한 목록이 아니라, 릴리스의 symptom_code/species_scope를
+# 기준으로 만든 허용 목록이다.
+_RELATION_READY_CODES: dict[str, frozenset[str]] = {
+    "dog": frozenset({
+        "a003", "a005", "c003", "c017", "c033", "c036", "c050", "c055",
+        "d003", "d013", "d022", "d050", "e003", "e062", "g011", "g015",
+        "i002", "i003", "i004", "i008", "i009", "i011", "i012", "i014",
+        "j004", "j005", "j006", "j007", "j009", "j010", "j011", "j014",
+        "j022", "j023", "j044",
+    }),
+    "cat": frozenset({
+        "a003", "a005", "c003", "c017", "c033", "c036", "c049", "c050",
+        "c055", "d003", "d013", "d022", "d050", "e003", "g011", "g015",
+        "i002", "i003", "i004", "i008", "i009", "i011", "i012", "i014",
+        "j004", "j006", "j007", "j022", "j044",
+    }),
+}
+
+
+def is_relation_ready(species: str, symptom_id: str) -> bool:
+    """현재 종에서 문헌 관계가 검증된 증상 코드인지 확인한다."""
+    return symptom_id in _RELATION_READY_CODES.get(species, frozenset())
+
+
+def curate_symptoms(items: list[dict[str, Any]], species: str) -> list[dict[str, str]]:
     """원문 목록에서 검증된 보호자용 선택 항목만 반환한다.
 
     업스트림의 코드가 아직 같더라도 라벨이 달라진 경우를 막기 위해, 아래
@@ -113,7 +139,8 @@ def curate_symptoms(items: list[dict[str, Any]]) -> list[dict[str, str]]:
         symptom_id = str(item.get("code", "")).strip()
         symptom = CURATED_SYMPTOMS.get(symptom_id)
         source_name = str(item.get("name", "")).strip()
-        if not symptom or source_name != symptom.source_name:
+        if (not symptom or source_name != symptom.source_name
+                or not is_relation_ready(species, symptom_id)):
             continue
         key = (symptom.category, symptom.display_name)
         if key in seen_display_names:

@@ -499,14 +499,39 @@ public final class MockDataProvider {
 
     private Map<String, List<String>> createSymptomToDiseaseMap() {
         Map<String, List<String>> map = new HashMap<>();
-        map.put("sym_001", Arrays.asList("diag_001", "diag_002", "diag_007"));
-        map.put("sym_002", Arrays.asList("diag_001", "diag_002", "diag_006"));
-        map.put("sym_003", Arrays.asList("diag_001", "diag_007"));
-        map.put("sym_004", Arrays.asList("diag_003", "diag_008"));
-        map.put("sym_005", Arrays.asList("diag_003", "diag_006", "diag_008"));
-        map.put("sym_006", Arrays.asList("diag_004"));
-        map.put("sym_007", Arrays.asList("diag_005"));
-        map.put("sym_008", Arrays.asList("diag_002", "diag_003", "diag_004", "diag_005", "diag_006", "diag_007", "diag_008"));
+        // Mock 모드도 선택 화면에 보이는 모든 항목을 결과와 연결해야 한다.
+        // 이 연결은 시연용 가상 데이터이며, 실서비스의 문헌 관계는 백엔드에서
+        // 별도로 검증한다. 누락된 키를 조용히 무시하면 '맞는 결과가 없습니다'라는
+        // 오해를 만드는 오류가 재발하므로 그룹별로 명시적으로 완결한다.
+        putAll(map, Arrays.asList("sym_eye_001", "sym_eye_002", "sym_eye_003",
+                "sym_eye_004", "sym_eye_005"), "diag_004");
+        putAll(map, Arrays.asList("sym_ear_001", "sym_ear_002", "sym_ear_003",
+                "sym_ear_004"), "diag_004");
+        putAll(map, Arrays.asList("sym_skin_001", "sym_skin_002", "sym_skin_003",
+                "sym_skin_004", "sym_006"), "diag_004");
+        putAll(map, Arrays.asList("sym_001", "sym_002", "sym_003", "sym_digest_004",
+                "sym_digest_005", "sym_digest_006"), "diag_001", "diag_002", "diag_007");
+        putAll(map, Arrays.asList("sym_004", "sym_breath_002", "sym_breath_003",
+                "sym_breath_004", "sym_breath_005"), "diag_003", "diag_008");
+        putAll(map, Arrays.asList("sym_007", "sym_move_002", "sym_move_003",
+                "sym_move_004", "sym_move_005"), "diag_005");
+        putAll(map, Arrays.asList("sym_005", "sym_008", "sym_behavior_002",
+                "sym_behavior_003", "sym_behavior_004", "sym_behavior_005"),
+                "diag_002", "diag_003", "diag_006", "diag_007", "diag_008");
+
+        for (Symptom symptom : symptoms) {
+            if (!map.containsKey(symptom.getId())) {
+                throw new IllegalStateException("Mock 증상 관계가 누락되었습니다: " + symptom.getId());
+            }
+        }
         return map;
+    }
+
+    private static void putAll(Map<String, List<String>> map, List<String> symptomIds,
+                               String... diagnosisIds) {
+        List<String> mappedResults = Arrays.asList(diagnosisIds);
+        for (String symptomId : symptomIds) {
+            map.put(symptomId, mappedResults);
+        }
     }
 }
