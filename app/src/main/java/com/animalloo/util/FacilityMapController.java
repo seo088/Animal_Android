@@ -59,9 +59,10 @@ public final class FacilityMapController {
         void onCameraIdle(double latitude, double longitude);
     }
 
-    // 국립군산대학교 디지털정보관(전북특별자치도 군산시 대학로 558)을 첫 지도 위치로 사용한다.
-    public static final double DEFAULT_INITIAL_LATITUDE = 35.9470943;
-    public static final double DEFAULT_INITIAL_LONGITUDE = 126.6814341;
+    // 전주 한옥마을 문화시설 권역을 첫 지도 위치로 사용한다. 시설 목록 조회도
+    // 같은 카메라 중심 좌표를 기준으로 수행하므로 지도와 목록이 어긋나지 않는다.
+    public static final double DEFAULT_INITIAL_LATITUDE = 35.8142;
+    public static final double DEFAULT_INITIAL_LONGITUDE = 127.1535;
     private static final LatLng DEFAULT_INITIAL_LOCATION = LatLng.from(
             DEFAULT_INITIAL_LATITUDE, DEFAULT_INITIAL_LONGITUDE);
     private static final int DEFAULT_ZOOM = 15;
@@ -239,7 +240,7 @@ public final class FacilityMapController {
         }
 
         // 시설을 불러왔다고 해서 첫 위치 또는 사용자가 탐색 중인 위치를 덮어쓰지 않는다.
-        // 첫 화면은 디지털정보관을 기준으로 시작하고, 이후 이동은 사용자의 지도 조작에 맡긴다.
+        // 첫 화면은 전주 한옥마을 권역을 기준으로 시작하고, 이후 이동은 사용자의 지도 조작에 맡긴다.
         renderMarkers(kakaoMap.getZoomLevel());
     }
 
