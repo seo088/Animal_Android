@@ -40,9 +40,10 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int VIEW_TYPE_BOT = 0;
     private static final int VIEW_TYPE_USER = 1;
     private static final int VIEW_TYPE_LOADING = 2;
-    private static final int VIEW_TYPE_RESULTS = 3;
-    private static final int VIEW_TYPE_HOSPITALS = 4;
-    private static final int VIEW_TYPE_ACTIONS = 5;
+    private static final int VIEW_TYPE_EMERGENCY = 3;
+    private static final int VIEW_TYPE_RESULTS = 4;
+    private static final int VIEW_TYPE_HOSPITALS = 5;
+    private static final int VIEW_TYPE_ACTIONS = 6;
 
     private final List<ChatMessage> items = new ArrayList<>();
     private OnChatActionListener actionListener;
@@ -73,6 +74,7 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (type == ChatMessageType.BOT_LOADING) {
             return VIEW_TYPE_LOADING;
         }
+        if (type == ChatMessageType.EMERGENCY_NOTICE) return VIEW_TYPE_EMERGENCY;
         if (type == ChatMessageType.RESULT_LIST) {
             return VIEW_TYPE_RESULTS;
         }
@@ -95,6 +97,7 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == VIEW_TYPE_LOADING) {
             return new LoadingViewHolder(inflater.inflate(R.layout.item_chat_loading, parent, false));
         }
+        if (viewType == VIEW_TYPE_EMERGENCY) return new EmergencyViewHolder(inflater.inflate(R.layout.item_chat_emergency, parent, false));
         if (viewType == VIEW_TYPE_RESULTS) {
             return new ResultsViewHolder(inflater.inflate(R.layout.item_chat_results, parent, false));
         }
@@ -123,6 +126,7 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (holder instanceof ActionsViewHolder) {
             ((ActionsViewHolder) holder).bind(actionListener, showBotAvatar);
         }
+        else if (holder instanceof EmergencyViewHolder) ((EmergencyViewHolder) holder).bind(showBotAvatar);
     }
 
     private boolean shouldShowBotAvatar(int position) {
@@ -171,6 +175,12 @@ public class DiagnosisChatAdapter extends RecyclerView.Adapter<RecyclerView.View
         void bind(boolean showBotAvatar) {
             bindBotAvatarVisibility(botAvatar, showBotAvatar);
         }
+    }
+
+    static class EmergencyViewHolder extends RecyclerView.ViewHolder {
+        private final View botAvatar;
+        EmergencyViewHolder(@NonNull View itemView) { super(itemView); botAvatar = itemView.findViewById(R.id.chat_bot_avatar); }
+        void bind(boolean showBotAvatar) { bindBotAvatarVisibility(botAvatar, showBotAvatar); }
     }
 
     static class ResultsViewHolder extends RecyclerView.ViewHolder {

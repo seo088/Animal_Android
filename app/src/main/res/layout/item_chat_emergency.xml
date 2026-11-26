@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:gravity="top" android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/spacing_md" android:paddingVertical="@dimen/spacing_sm">
+    <include android:id="@+id/chat_bot_avatar" layout="@layout/layout_chat_bot_avatar" />
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+        android:layout_marginStart="@dimen/spacing_sm" android:background="@color/color_error_background"
+        android:orientation="vertical" android:padding="@dimen/spacing_md">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="⚠  수의사 상담이 필요한 증상이에요"
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Subtitle" android:textColor="@color/color_error_text" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_sm"
+            android:text="입력한 증상만으로 질환이나 응급 여부를 확정할 수 없어요. 상태가 심하거나 악화된다면 즉시 동물병원에 연락해 주세요."
+            android:textAppearance="@style/TextAppearance.AnimalLoo.Body" android:textColor="@color/color_text_primary" />
+    </LinearLayout>
+</LinearLayout>

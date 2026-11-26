@@ -222,7 +222,7 @@ public class DiagnosisViewModel extends AndroidViewModel {
         if (containsEmergencySignal(symptomIds)) {
             diagnosisState.setValue(null);
             chatPhase.setValue(DiagnosisChatPhase.EMERGENCY);
-            addBotMessage("긴급한 진료가 필요한 증상일 수 있어요. 지금 바로 동물병원에 연락하거나 방문해 주세요. 이 안내는 진단이 아닌 긴급 신호 참고 정보입니다.");
+            addEmergencyNotice();
             addActionButtonsMessage();
             return;
         }
@@ -367,6 +367,12 @@ public class DiagnosisViewModel extends AndroidViewModel {
     private void addResultsMessage(List<DiagnosisResult> results) {
         List<ChatMessage> current = new ArrayList<>(getMessagesSnapshot());
         current.add(ChatMessage.results(results));
+        messages.setValue(current);
+    }
+
+    private void addEmergencyNotice() {
+        List<ChatMessage> current = new ArrayList<>(getMessagesSnapshot());
+        current.add(ChatMessage.emergencyNotice());
         messages.setValue(current);
     }
 

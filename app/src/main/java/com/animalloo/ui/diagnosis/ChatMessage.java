@@ -36,6 +36,10 @@ public class ChatMessage {
         return new ChatMessage(id, ChatMessageType.BOT_LOADING, "", null, null);
     }
 
+    public static ChatMessage emergencyNotice() {
+        return new ChatMessage(UUID.randomUUID().toString(), ChatMessageType.EMERGENCY_NOTICE, "", null, null);
+    }
+
     public static ChatMessage results(List<DiagnosisResult> results) {
         List<DiagnosisResult> safeResults = results == null
                 ? Collections.emptyList()
