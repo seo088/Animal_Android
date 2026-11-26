@@ -55,7 +55,7 @@ def symptoms(all_symptoms: bool = Query(False, alias="all", description="falseë©
 @router.get("/diagnosis/symptoms", response_model=list[schemas.SymptomOut])
 def animal_route_symptoms(species: str = Query(pattern="^(dog|cat)$")):
     """Return the reviewed, guardian-facing subset of Animal-Route symptoms."""
-    items = curate_symptoms(animal_route_client.symptoms(species), species)
+    items = curate_symptoms(species)
     return [
         schemas.SymptomOut(
             id=str(item.get("id", "")),

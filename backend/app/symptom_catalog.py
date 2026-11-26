@@ -126,29 +126,25 @@ def is_relation_ready(species: str, symptom_id: str) -> bool:
     return symptom_id in _RELATION_READY_CODES.get(species, frozenset())
 
 
-def curate_symptoms(items: list[dict[str, Any]], species: str) -> list[dict[str, str]]:
-    """원문 목록에서 검증된 보호자용 선택 항목만 반환한다.
+def curate_symptoms(species: str) -> list[dict[str, str]]:
+    """문헌 관계가 검증된 보호자용 선택 항목을 종별로 반환한다.
 
-    업스트림의 코드가 아직 같더라도 라벨이 달라진 경우를 막기 위해, 아래
-    catalog에 없는 항목은 노출하지 않는다. ID는 추론 API 요청 호환성을 위해
-    절대 변경하지 않는다.
+    외부 원문 목록의 페이지 크기나 정렬 순서에 의존하면 뒤쪽 코드(피부·행동
+    등)가 잘려 선택 화면에서 사라진다. 화면 목록은 검증된 관계 릴리스의
+    종별 코드 집합을 정본으로 사용하고, 원문 라벨은 catalog 작성 시 일대일로
+    대조한 값만 사용한다.
     """
+    category_order = ("눈", "귀", "피부", "소화", "호흡", "움직임", "행동·기타")
+    category_rank = {category: index for index, category in enumerate(category_order)}
     curated: list[dict[str, str]] = []
     seen_display_names: set[tuple[str, str]] = set()
-    for item in items:
-        symptom_id = str(item.get("code", "")).strip()
+    for symptom_id in sorted(_RELATION_READY_CODES.get(species, frozenset())):
         symptom = CURATED_SYMPTOMS.get(symptom_id)
-        source_name = str(item.get("name", "")).strip()
-        if (not symptom or source_name != symptom.source_name
-                or not is_relation_ready(species, symptom_id)):
+        if not symptom:
             continue
         key = (symptom.category, symptom.display_name)
         if key in seen_display_names:
             continue
         seen_display_names.add(key)
-        curated.append({
-            "id": symptom_id,
-            "name": symptom.display_name,
-            "category": symptom.category,
-        })
-    return curated
+        curated.append({"id": symptom_id, "name": symptom.display_name, "category": symptom.category})
+    return sorted(curated, key=lambda item: (category_rank.get(item["category"], 99), item["name"]))
