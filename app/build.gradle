@@ -31,9 +31,6 @@ if (apiBaseUrl.isEmpty()) {
 if (!apiBaseUrl.endsWith('/')) {
     apiBaseUrl += '/'
 }
-// USE_MOCK_API=true runs the app on the in-app mock repositories without a server.
-def useMockApi = resolveSecret(localProperties, 'USE_MOCK_API', dotEnv).equalsIgnoreCase('true')
-
 android {
     namespace 'com.animalloo'
     compileSdk 34
@@ -55,7 +52,9 @@ android {
                 "\"${escapeForBuildConfig(kakaoMapKey)}\""
         buildConfigField "String", "API_BASE_URL",
                 "\"${escapeForBuildConfig(apiBaseUrl)}\""
-        buildConfigField "boolean", "USE_MOCK_API", "${useMockApi}"
+        // 사용자 배포·에뮬레이터 검증 모두 실제 백엔드만 사용한다. 네트워크나
+        // 데이터 준비가 안 된 경우 가상 병원·구조동물·의료 추론으로 대체하지 않는다.
+        buildConfigField "boolean", "USE_MOCK_API", "false"
     }
 
     buildTypes {
