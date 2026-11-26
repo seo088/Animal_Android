@@ -106,7 +106,14 @@ public final class MockDataProvider {
                 R.drawable.ic_profile_placeholder,
                 "몽이",
                 "말티즈",
-                "3살");
+                "3살",
+                "개",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     public Map<String, List<String>> getSymptomToDiseaseMap() {
