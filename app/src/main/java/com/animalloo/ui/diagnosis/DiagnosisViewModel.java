@@ -30,6 +30,8 @@ import java.util.UUID;
 public class DiagnosisViewModel extends AndroidViewModel {
 
     private static final int MAX_SELECTED_SYMPTOMS = 5;
+    private static final Set<String> EMERGENCY_SYMPTOM_IDS = new HashSet<>(java.util.Arrays.asList(
+            "i008", "c041", "e076", "g013"));
 
     private final DiagnosisRepository diagnosisRepository;
     private final HospitalRepository hospitalRepository;
@@ -217,6 +219,13 @@ public class DiagnosisViewModel extends AndroidViewModel {
 
         symptomValidationMessage.setValue(null);
         addUserMessage(buildSelectedSymptomSummary(symptomIds));
+        if (containsEmergencySignal(symptomIds)) {
+            diagnosisState.setValue(null);
+            chatPhase.setValue(DiagnosisChatPhase.EMERGENCY);
+            addBotMessage("긴급한 진료가 필요한 증상일 수 있어요. 지금 바로 동물병원에 연락하거나 방문해 주세요. 이 안내는 진단이 아닌 긴급 신호 참고 정보입니다.");
+            addActionButtonsMessage();
+            return;
+        }
         showLoadingMessage();
         chatPhase.setValue(DiagnosisChatPhase.ANALYZING);
         runDiagnosis(symptomIds);
@@ -419,6 +428,13 @@ public class DiagnosisViewModel extends AndroidViewModel {
             return new HashSet<>();
         }
         return new HashSet<>(current);
+    }
+
+    private boolean containsEmergencySignal(List<String> symptomIds) {
+        for (String symptomId : symptomIds) {
+            if (EMERGENCY_SYMPTOM_IDS.contains(symptomId)) return true;
+        }
+        return false;
     }
 
     private String toAnimalRouteSpecies(String petSpecies) {
