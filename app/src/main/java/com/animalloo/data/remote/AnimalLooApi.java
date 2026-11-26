@@ -137,6 +137,9 @@ public interface AnimalLooApi {
     @POST("lost-reports/matches")
     Call<List<MatchResult>> findMatches(@Body LostReportMatchRequest body);
 
+    @GET("lost-reports/{id}/matches")
+    Call<List<MatchResult>> getSavedReportMatches(@Path("id") String id);
+
     @GET("lost-reports/{id}")
     Call<LostAnimalReport> getLostReport(@Path("id") String id);
 

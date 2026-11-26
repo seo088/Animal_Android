@@ -11,5 +11,7 @@ public interface LostAnimalRepository {
 
     void findMatches(LostAnimalReport report, RepositoryCallback<List<MatchResult>> callback);
 
+    void getSavedReportMatches(String reportId, RepositoryCallback<List<MatchResult>> callback);
+
     void getReportById(String id, RepositoryCallback<LostAnimalReport> callback);
 }

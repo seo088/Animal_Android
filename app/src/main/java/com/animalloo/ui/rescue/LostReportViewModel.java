@@ -1,9 +1,12 @@
 package com.animalloo.ui.rescue;
 
+import android.app.Application;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.AndroidViewModel;
 
 import com.animalloo.R;
 import com.animalloo.data.model.LostAnimalReport;
@@ -18,7 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-public class LostReportViewModel extends ViewModel {
+public class LostReportViewModel extends AndroidViewModel {
 
     public static final class FieldValidationError {
         private final String message;
@@ -46,10 +49,12 @@ public class LostReportViewModel extends ViewModel {
 
     private LostAnimalReport lastSubmittedReport;
     private boolean isSubmitting;
+    private boolean restoredLastReport;
     private int submitRequestGeneration;
     private int matchRequestGeneration;
 
-    public LostReportViewModel() {
+    public LostReportViewModel(@NonNull Application application) {
+        super(application);
         lostAnimalRepository = RepositoryProvider.getInstance().getLostAnimalRepository();
     }
 
@@ -101,6 +106,7 @@ public class LostReportViewModel extends ViewModel {
                 }
                 isSubmitting = false;
                 lastSubmittedReport = savedReport;
+                LastLostReportStore.save(getApplication(), savedReport.getId());
                 submitState.setValue(UiState.success(savedReport));
                 findMatches(savedReport);
             }
@@ -121,7 +127,30 @@ public class LostReportViewModel extends ViewModel {
             matchResultsState.setValue(UiState.error("신고 정보가 없어 매칭을 다시 시도할 수 없습니다."));
             return;
         }
-        findMatches(lastSubmittedReport);
+        loadSavedMatches(lastSubmittedReport);
+    }
+
+    public void restoreLastReport() {
+        if (restoredLastReport) {
+            return;
+        }
+        restoredLastReport = true;
+        String reportId = LastLostReportStore.get(getApplication());
+        if (reportId == null || reportId.trim().isEmpty()) {
+            return;
+        }
+        lostAnimalRepository.getReportById(reportId, new RepositoryCallback<LostAnimalReport>() {
+            @Override
+            public void onSuccess(LostAnimalReport report) {
+                lastSubmittedReport = report;
+                loadSavedMatches(report);
+            }
+
+            @Override
+            public void onError(String message) {
+                LastLostReportStore.clear(getApplication());
+            }
+        });
     }
 
     private void findMatches(LostAnimalReport report) {
@@ -139,6 +168,33 @@ public class LostReportViewModel extends ViewModel {
                 } else {
                     matchResultsState.setValue(UiState.success(data));
                 }
+            }
+
+            @Override
+            public void onError(String message) {
+                if (generation != matchRequestGeneration) {
+                    return;
+                }
+                matchResultsState.setValue(UiState.error(message));
+            }
+        });
+    }
+
+    private void loadSavedMatches(LostAnimalReport report) {
+        if (report == null || report.getId() == null || report.getId().trim().isEmpty()) {
+            findMatches(report);
+            return;
+        }
+        matchResultsState.setValue(UiState.loading());
+        int generation = ++matchRequestGeneration;
+        lostAnimalRepository.getSavedReportMatches(report.getId(), new RepositoryCallback<List<MatchResult>>() {
+            @Override
+            public void onSuccess(List<MatchResult> data) {
+                if (generation != matchRequestGeneration) {
+                    return;
+                }
+                matchResultsState.setValue(data == null || data.isEmpty()
+                        ? UiState.empty() : UiState.success(data));
             }
 
             @Override

@@ -52,6 +52,11 @@ public class RemoteLostAnimalRepository implements LostAnimalRepository {
     }
 
     @Override
+    public void getSavedReportMatches(String reportId, RepositoryCallback<List<MatchResult>> callback) {
+        api.getSavedReportMatches(reportId).enqueue(ApiCallbacks.of(callback));
+    }
+
+    @Override
     public void getReportById(String id, RepositoryCallback<LostAnimalReport> callback) {
         api.getLostReport(id).enqueue(ApiCallbacks.of(callback));
     }

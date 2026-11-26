@@ -36,6 +36,7 @@ public class RescueViewModel extends ViewModel {
     @Nullable
     private LostAnimalReport myReport;
     private int myReportMatchCount;
+    private int highPriorityMatchCount;
 
     public RescueViewModel() {
         RepositoryProvider provider = RepositoryProvider.getInstance();
@@ -89,8 +90,14 @@ public class RescueViewModel extends ViewModel {
                                @Nullable UiState<List<MatchResult>> matchState) {
         myReport = report;
         myReportMatchCount = 0;
+        highPriorityMatchCount = 0;
         if (matchState != null && matchState.isSuccess() && matchState.getData() != null) {
             myReportMatchCount = matchState.getData().size();
+            for (MatchResult result : matchState.getData()) {
+                if (result.getGrade() == com.animalloo.data.model.MatchGrade.A) {
+                    highPriorityMatchCount++;
+                }
+            }
         }
         rebuildTimeline();
     }
@@ -98,6 +105,7 @@ public class RescueViewModel extends ViewModel {
     public void clearMyReport() {
         myReport = null;
         myReportMatchCount = 0;
+        highPriorityMatchCount = 0;
         rebuildTimeline();
     }
 
@@ -138,7 +146,8 @@ public class RescueViewModel extends ViewModel {
     private void rebuildTimeline() {
         List<RescueTimelineItem> items = new ArrayList<>();
         if (myReport != null) {
-            items.add(RescueTimelineItem.myReport(myReport, myReportMatchCount));
+            items.add(RescueTimelineItem.myReport(
+                    myReport, myReportMatchCount, highPriorityMatchCount));
         }
 
         List<AlertNotification> filteredAlerts = getFilteredAlerts();

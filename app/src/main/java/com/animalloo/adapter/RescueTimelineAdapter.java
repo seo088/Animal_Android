@@ -104,8 +104,10 @@ public class RescueTimelineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     report.getBreed()));
             binding.tvMyReportRegion.setText(report.getRegion());
             binding.tvMyReportMatchCount.setText(binding.getRoot().getContext().getString(
-                    R.string.rescue_match_count_format,
-                    item.getMatchCount()));
+                    item.getHighPriorityMatchCount() > 0
+                            ? R.string.rescue_match_priority_format
+                            : R.string.rescue_match_count_format,
+                    item.getMatchCount(), item.getHighPriorityMatchCount()));
 
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) {

@@ -108,6 +108,21 @@ public class MockLostAnimalRepository implements LostAnimalRepository {
     }
 
     @Override
+    public void getSavedReportMatches(String reportId, RepositoryCallback<List<MatchResult>> callback) {
+        getReportById(reportId, new RepositoryCallback<LostAnimalReport>() {
+            @Override
+            public void onSuccess(LostAnimalReport report) {
+                findMatches(report, callback);
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    @Override
     public void getReportById(String id, RepositoryCallback<LostAnimalReport> callback) {
         asyncHelper.execute(() -> {
             LostAnimalReport report = submittedReports.get(id);

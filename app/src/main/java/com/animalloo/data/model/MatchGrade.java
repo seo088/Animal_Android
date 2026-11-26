@@ -1,9 +1,9 @@
 package com.animalloo.data.model;
 
 public enum MatchGrade {
-    A("A 등급", "매우 유사"),
-    B("B 등급", "유사"),
-    C("C 등급", "일부 일치");
+    A("유사도 높음 (A)", "먼저 확인해 보세요"),
+    B("유사도 보통 (B)", "신고 정보와 비교해 보세요"),
+    C("일부 정보 일치 (C)", "사진과 특징을 더 확인해 보세요");
 
     private final String gradeLabel;
     private final String description;

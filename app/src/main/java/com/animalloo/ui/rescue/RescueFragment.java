@@ -84,6 +84,7 @@ public class RescueFragment extends BaseFragment {
         setupActionBar();
         setupSwipeRefresh();
         observeViewModels();
+        lostReportViewModel.restoreLastReport();
 
         if (savedInstanceState != null) {
             pendingOpenLostReport = savedInstanceState.getBoolean("pending_open_lost_report", false);

@@ -11,23 +11,28 @@ public class RescueTimelineItem {
     @Nullable
     private final LostAnimalReport myReport;
     private final int matchCount;
+    private final int highPriorityMatchCount;
     @Nullable
     private final AlertNotification alert;
 
     private RescueTimelineItem(RescueTimelineItemType type, @Nullable LostAnimalReport myReport,
-                               int matchCount, @Nullable AlertNotification alert) {
+                               int matchCount, int highPriorityMatchCount,
+                               @Nullable AlertNotification alert) {
         this.type = type;
         this.myReport = myReport;
         this.matchCount = matchCount;
+        this.highPriorityMatchCount = highPriorityMatchCount;
         this.alert = alert;
     }
 
-    public static RescueTimelineItem myReport(LostAnimalReport report, int matchCount) {
-        return new RescueTimelineItem(RescueTimelineItemType.MY_REPORT, report, matchCount, null);
+    public static RescueTimelineItem myReport(LostAnimalReport report, int matchCount,
+                                               int highPriorityMatchCount) {
+        return new RescueTimelineItem(RescueTimelineItemType.MY_REPORT, report, matchCount,
+                highPriorityMatchCount, null);
     }
 
     public static RescueTimelineItem timelineEvent(AlertNotification alert) {
-        return new RescueTimelineItem(RescueTimelineItemType.TIMELINE_EVENT, null, 0, alert);
+        return new RescueTimelineItem(RescueTimelineItemType.TIMELINE_EVENT, null, 0, 0, alert);
     }
 
     public RescueTimelineItemType getType() {
@@ -41,6 +46,10 @@ public class RescueTimelineItem {
 
     public int getMatchCount() {
         return matchCount;
+    }
+
+    public int getHighPriorityMatchCount() {
+        return highPriorityMatchCount;
     }
 
     @Nullable
