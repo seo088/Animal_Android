@@ -5,7 +5,6 @@ import android.content.Context;
 import com.animalloo.data.model.Hospital;
 import com.animalloo.data.repository.HospitalRepository;
 import com.animalloo.data.repository.RepositoryCallback;
-import com.animalloo.util.DeviceLocationProvider;
 
 import java.util.List;
 
@@ -17,6 +16,10 @@ public class RemoteHospitalRepository implements HospitalRepository {
     // The diagnosis screen keeps only hospitals open now, so fetch a generous pool.
     private static final double NEARBY_RADIUS_KM = 10.0;
     private static final int NEARBY_LIMIT = 50;
+    // GPS 검증 전까지 증상 안내의 병원 추천은 국립군산대학교 디지털정보관을
+    // 기준으로 고정한다. 지도·시설 화면의 현재 위치 동작에는 영향을 주지 않는다.
+    private static final double DIAGNOSIS_HOSPITAL_LATITUDE = 35.9470943;
+    private static final double DIAGNOSIS_HOSPITAL_LONGITUDE = 126.6814341;
 
     private final AnimalLooApi api;
     private final Context appContext;
@@ -28,14 +31,14 @@ public class RemoteHospitalRepository implements HospitalRepository {
 
     @Override
     public void getAllHospitals(RepositoryCallback<List<Hospital>> callback) {
-        DeviceLocationProvider.getLocation(appContext, (lat, lng) ->
-                api.getHospitals(lat, lng, LIST_RADIUS_KM, LIST_LIMIT).enqueue(ApiCallbacks.of(callback)));
+        api.getHospitals(DIAGNOSIS_HOSPITAL_LATITUDE, DIAGNOSIS_HOSPITAL_LONGITUDE,
+                LIST_RADIUS_KM, LIST_LIMIT).enqueue(ApiCallbacks.of(callback));
     }
 
     @Override
     public void getNearbyHospitals(RepositoryCallback<List<Hospital>> callback) {
-        DeviceLocationProvider.getLocation(appContext, (lat, lng) ->
-                api.getNearbyHospitals(lat, lng, NEARBY_RADIUS_KM, NEARBY_LIMIT).enqueue(ApiCallbacks.of(callback)));
+        api.getNearbyHospitals(DIAGNOSIS_HOSPITAL_LATITUDE, DIAGNOSIS_HOSPITAL_LONGITUDE,
+                NEARBY_RADIUS_KM, NEARBY_LIMIT).enqueue(ApiCallbacks.of(callback));
     }
 
     @Override
