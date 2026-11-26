@@ -421,14 +421,42 @@ public final class MockDataProvider {
 
     private List<Symptom> createSymptoms() {
         List<Symptom> list = new ArrayList<>();
+        list.add(new Symptom("sym_eye_001", "눈이 빨개요", "눈"));
+        list.add(new Symptom("sym_eye_002", "눈곱·분비물이 많아요", "눈"));
+        list.add(new Symptom("sym_eye_003", "눈이 부어 보여요", "눈"));
+        list.add(new Symptom("sym_eye_004", "눈이 뿌옇게 보여요", "눈"));
+        list.add(new Symptom("sym_eye_005", "눈물이 많이 나요", "눈"));
+        list.add(new Symptom("sym_ear_001", "귀를 자주 긁어요", "귀"));
+        list.add(new Symptom("sym_ear_002", "귀 분비물·귀밥·냄새가 심해요", "귀"));
+        list.add(new Symptom("sym_ear_003", "소리에 잘 반응하지 않아요", "귀"));
+        list.add(new Symptom("sym_ear_004", "머리를 자주 흔들어요", "귀"));
+        list.add(new Symptom("sym_skin_001", "피부가 빨개요", "피부"));
+        list.add(new Symptom("sym_skin_002", "피부를 자주 긁어요", "피부"));
+        list.add(new Symptom("sym_skin_003", "비듬이 많이 보여요", "피부"));
+        list.add(new Symptom("sym_skin_004", "털이 많이 빠져요", "피부"));
         list.add(new Symptom("sym_001", "식욕이 줄었어요", "소화"));
         list.add(new Symptom("sym_002", "토하거나 게워내요", "소화"));
         list.add(new Symptom("sym_003", "설사를 해요", "소화"));
+        list.add(new Symptom("sym_digest_004", "침을 많이 흘리거나 입에 거품이 나요", "소화"));
+        list.add(new Symptom("sym_digest_005", "배가 부풀어 보여요", "소화"));
+        list.add(new Symptom("sym_digest_006", "변을 보기 어려워해요", "소화"));
         list.add(new Symptom("sym_004", "기침을 해요", "호흡"));
+        list.add(new Symptom("sym_breath_002", "재채기를 해요", "호흡"));
+        list.add(new Symptom("sym_breath_003", "콧물이 나요", "호흡"));
+        list.add(new Symptom("sym_breath_004", "숨이 평소보다 빨라요", "호흡"));
+        list.add(new Symptom("sym_breath_005", "숨쉴 때 이상한 소리가 나요", "호흡"));
         list.add(new Symptom("sym_005", "열이 나는 것 같아요", "행동·기타"));
         list.add(new Symptom("sym_006", "피부에 붉은 변화가 보여요", "피부"));
         list.add(new Symptom("sym_007", "절뚝거리거나 비틀거려요", "움직임"));
+        list.add(new Symptom("sym_move_002", "움직이려 하지 않거나 쉽게 지쳐요", "움직임"));
+        list.add(new Symptom("sym_move_003", "혼자 일어서기 어려워해요", "움직임"));
+        list.add(new Symptom("sym_move_004", "앞다리를 절뚝거려요", "움직임"));
+        list.add(new Symptom("sym_move_005", "뒷다리를 절뚝거려요", "움직임"));
         list.add(new Symptom("sym_008", "기운이 없거나 축 처져요", "행동·기타"));
+        list.add(new Symptom("sym_behavior_002", "몸을 떨어요", "행동·기타"));
+        list.add(new Symptom("sym_behavior_003", "안절부절못해요", "행동·기타"));
+        list.add(new Symptom("sym_behavior_004", "평소와 다르게 헤매요", "행동·기타"));
+        list.add(new Symptom("sym_behavior_005", "같은 자리를 빙글빙글 돌아요", "행동·기타"));
         return list;
     }
 
