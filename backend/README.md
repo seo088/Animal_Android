@@ -14,6 +14,10 @@ enum은 이름 그대로(`HOSPITAL`, `RESCUE`, `A`) 내려가므로 Gson으로 �
 .\backend\start-local.ps1
 ```
 
+8000 포트를 다른 프로그램이 사용하는 PC에서는 `./backend/start-local.ps1 -ApiPort 18000`으로 시작합니다.
+이때 루트 `local.properties`의 `API_BASE_URL`을 `http://10.0.2.2:18000/`으로 맞춘 뒤 앱을 다시 빌드합니다.
+PC를 재시작한 뒤에는 서버도 다시 시작해야 합니다. 기존 DB와 Fuseki 데이터는 재적재하지 않습니다.
+
 - 기존 DB 연결 설정을 유지하며 데이터 초기화·재적재를 하지 않습니다.
 - API는 `127.0.0.1:8000`, Fuseki는 localhost의 `3030`에서 실행합니다. Fuseki의 SPARQL 업데이트 API는 켜지 않습니다.
 - 기존 서비스가 있으면 재사용하고 `/health`의 DB·Fuseki 상태를 확인합니다.

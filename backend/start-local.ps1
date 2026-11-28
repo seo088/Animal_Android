@@ -1,7 +1,8 @@
 param(
     [string]$FusekiJar = (Join-Path $env:USERPROFILE 'Downloads\apache-jena-fuseki-6.1.0\fuseki-server.jar'),
     [string]$Java = 'java',
-    [switch]$EnablePublicSync
+    [switch]$EnablePublicSync,
+    [ValidateRange(1024,65535)][int]$ApiPort = 8000
 )
 
 $ErrorActionPreference = 'Stop'
@@ -53,22 +54,22 @@ try {
     }
     Wait-Ready 'http://127.0.0.1:3030/animalloo/query?query=ASK%20%7B%3Fs%20%3Fp%20%3Fo%7D&format=json' 'fuseki'
 
-    if (-not (Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue)) {
+    if (-not (Get-NetTCPConnection -LocalPort $ApiPort -State Listen -ErrorAction SilentlyContinue)) {
         if (-not $EnablePublicSync) { $env:SYNC_INTERVAL_MINUTES = '0' }
         $process = Start-Process -FilePath $python -ArgumentList @(
-            '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8000'
+            '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', "$ApiPort"
         ) -WorkingDirectory $backendRoot -WindowStyle Hidden -PassThru `
           -RedirectStandardOutput (Join-Path $runtime 'api.stdout.log') `
           -RedirectStandardError (Join-Path $runtime 'api.stderr.log')
         $started += $process
     }
-    Wait-Ready 'http://127.0.0.1:8000/openapi.json' 'api'
-    $health = Invoke-RestMethod 'http://127.0.0.1:8000/health' -TimeoutSec 8
+    Wait-Ready "http://127.0.0.1:$ApiPort/openapi.json" 'api'
+    $health = Invoke-RestMethod "http://127.0.0.1:$ApiPort/health" -TimeoutSec 8
     if ($health.database -ne 'ok' -or $health.fuseki -ne 'ok') {
         throw "Backend dependency check failed: $($health | ConvertTo-Json -Compress)"
     }
-    Write-Output 'AnimalLoo ready: API 127.0.0.1:8000, diagnosis 127.0.0.1:3030.'
-    Write-Output 'Android emulator API_BASE_URL=http://10.0.2.2:8000/; USE_MOCK_API=false.'
+    Write-Output "AnimalLoo ready: API 127.0.0.1:$ApiPort, diagnosis 127.0.0.1:3030."
+    Write-Output "Android emulator API_BASE_URL=http://10.0.2.2:$ApiPort/; USE_MOCK_API=false."
     Write-Output 'Existing DB settings and stored data are retained. Logs: backend/.runtime/'
 } catch {
     # Only stop processes started by this invocation; never stop an existing service.
