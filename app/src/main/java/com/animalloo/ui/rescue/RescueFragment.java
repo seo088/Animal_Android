@@ -120,6 +120,7 @@ public class RescueFragment extends BaseFragment {
 
             @Override
             public void onViewMatchesClick(LostAnimalReport report) {
+                lostReportViewModel.openReportMatches(report);
                 showMatchingBottomSheet();
             }
 
@@ -223,6 +224,7 @@ public class RescueFragment extends BaseFragment {
                 rescueViewModel.updateMyReport(report, matchState);
             }
         });
+        lostReportViewModel.getMyReports().observe(getViewLifecycleOwner(), rescueViewModel::updateMyReports);
     }
 
     private void renderStats(UiState<HomeStats> state) {

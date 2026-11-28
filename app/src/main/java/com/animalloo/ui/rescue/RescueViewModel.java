@@ -34,9 +34,7 @@ public class RescueViewModel extends ViewModel {
     private final MediatorLiveData<List<RescueTimelineItem>> timelineItems = new MediatorLiveData<>();
 
     @Nullable
-    private LostAnimalReport myReport;
-    private int myReportMatchCount;
-    private int highPriorityMatchCount;
+    private final List<LostAnimalReport> myReports = new ArrayList<>();
 
     public RescueViewModel() {
         RepositoryProvider provider = RepositoryProvider.getInstance();
@@ -88,24 +86,20 @@ public class RescueViewModel extends ViewModel {
 
     public void updateMyReport(@Nullable LostAnimalReport report,
                                @Nullable UiState<List<MatchResult>> matchState) {
-        myReport = report;
-        myReportMatchCount = 0;
-        highPriorityMatchCount = 0;
-        if (matchState != null && matchState.isSuccess() && matchState.getData() != null) {
-            myReportMatchCount = matchState.getData().size();
-            for (MatchResult result : matchState.getData()) {
-                if (result.getGrade() == com.animalloo.data.model.MatchGrade.A) {
-                    highPriorityMatchCount++;
-                }
-            }
-        }
+        if (report == null) return;
+        myReports.removeIf(item -> report.getId().equals(item.getId()));
+        myReports.add(0, report);
+        rebuildTimeline();
+    }
+
+    public void updateMyReports(List<LostAnimalReport> reports) {
+        myReports.clear();
+        if (reports != null) myReports.addAll(reports);
         rebuildTimeline();
     }
 
     public void clearMyReport() {
-        myReport = null;
-        myReportMatchCount = 0;
-        highPriorityMatchCount = 0;
+        myReports.clear();
         rebuildTimeline();
     }
 
@@ -145,9 +139,8 @@ public class RescueViewModel extends ViewModel {
 
     private void rebuildTimeline() {
         List<RescueTimelineItem> items = new ArrayList<>();
-        if (myReport != null) {
-            items.add(RescueTimelineItem.myReport(
-                    myReport, myReportMatchCount, highPriorityMatchCount));
+        for (LostAnimalReport report : myReports) {
+            items.add(RescueTimelineItem.myReport(report, 0, 0));
         }
 
         List<AlertNotification> filteredAlerts = getFilteredAlerts();

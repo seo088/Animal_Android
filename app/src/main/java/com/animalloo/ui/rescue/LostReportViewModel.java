@@ -20,6 +20,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class LostReportViewModel extends AndroidViewModel {
 
@@ -46,8 +48,10 @@ public class LostReportViewModel extends AndroidViewModel {
     private final MutableLiveData<UiState<LostAnimalReport>> submitState = new MutableLiveData<>();
     private final MutableLiveData<UiState<List<MatchResult>>> matchResultsState = new MutableLiveData<>();
     private final MutableLiveData<FieldValidationError> validationError = new MutableLiveData<>();
+    private final MutableLiveData<List<LostAnimalReport>> myReports = new MutableLiveData<>();
 
     private LostAnimalReport lastSubmittedReport;
+    private final List<LostAnimalReport> restoredReports = new ArrayList<>();
     private boolean isSubmitting;
     private boolean restoredLastReport;
     private int submitRequestGeneration;
@@ -69,6 +73,7 @@ public class LostReportViewModel extends AndroidViewModel {
     public LiveData<FieldValidationError> getValidationError() {
         return validationError;
     }
+    public LiveData<List<LostAnimalReport>> getMyReports() { return myReports; }
 
     public LostAnimalReport getLastSubmittedReport() {
         return lastSubmittedReport;
@@ -107,6 +112,9 @@ public class LostReportViewModel extends AndroidViewModel {
                 isSubmitting = false;
                 lastSubmittedReport = savedReport;
                 LastLostReportStore.save(getApplication(), savedReport.getId());
+                restoredReports.removeIf(item -> savedReport.getId().equals(item.getId()));
+                restoredReports.add(0, savedReport);
+                myReports.setValue(new ArrayList<>(restoredReports));
                 submitState.setValue(UiState.success(savedReport));
                 findMatches(savedReport);
             }
@@ -135,20 +143,35 @@ public class LostReportViewModel extends AndroidViewModel {
             return;
         }
         restoredLastReport = true;
-        String reportId = LastLostReportStore.get(getApplication());
-        if (reportId == null || reportId.trim().isEmpty()) {
+        List<String> ids = LastLostReportStore.getAll(getApplication());
+        if (ids.isEmpty()) {
             return;
         }
-        lostAnimalRepository.getReportById(reportId, new RepositoryCallback<LostAnimalReport>() {
+        restoreReports(ids, 0);
+    }
+
+    public void openReportMatches(LostAnimalReport report) {
+        lastSubmittedReport = report;
+        loadSavedMatches(report);
+    }
+
+    private void restoreReports(List<String> ids, int index) {
+        if (index >= ids.size()) {
+            Collections.reverse(restoredReports);
+            if (!restoredReports.isEmpty()) lastSubmittedReport = restoredReports.get(0);
+            myReports.setValue(new ArrayList<>(restoredReports));
+            return;
+        }
+        lostAnimalRepository.getReportById(ids.get(index), new RepositoryCallback<LostAnimalReport>() {
             @Override
             public void onSuccess(LostAnimalReport report) {
-                lastSubmittedReport = report;
-                loadSavedMatches(report);
+                restoredReports.add(report);
+                restoreReports(ids, index + 1);
             }
 
             @Override
             public void onError(String message) {
-                LastLostReportStore.clear(getApplication());
+                restoreReports(ids, index + 1);
             }
         });
     }
