@@ -335,9 +335,6 @@ public final class MockDataProvider {
         list.add(createRescued("res_012", "밤톨", "개", "푸들", "수컷", "서울 강남구",
                 today.minusDays(2).toString(), "보호 중", "https://picsum.photos/seed/res012/300/300",
                 "검은색 푸들, 토끼 컷", 37.4980, 127.0420));
-        list.add(createRescued("res_013", "해피", "개", "믹스견", "암컷", "서울 송파구",
-                today.minusDays(1).toString(), "보호 중", "https://picsum.photos/seed/res013/300/300",
-                "갈색 중형견, 꼬리 짧음", 37.5060, 127.1080));
         list.add(createRescued("res_014", "구름", "고양이", "코리안숏헤어", "수컷", "경기 수원시",
                 today.minusDays(1).toString(), "입양 대기", "https://picsum.photos/seed/res014/300/300",
                 "흰색·회색 줄무늬", 37.2850, 127.0480));
